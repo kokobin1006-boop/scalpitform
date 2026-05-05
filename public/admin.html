@@ -362,13 +362,13 @@ async function doLogin() {
   const json = await res.json();
   allData = json.data || [];
   document.getElementById('loginWrap').style.display = 'none';
-  document.getElementById('adminWrap').style.display = '';
+  document.getElementById('adminWrap').style.display = 'block';
   renderStats(); renderTable();
 }
 
 function logout() {
   adminPw = ''; allData = [];
-  document.getElementById('loginWrap').style.display = '';
+  document.getElementById('loginWrap').style.display = 'flex';
   document.getElementById('adminWrap').style.display = 'none';
   document.getElementById('pwInput').value = '';
   document.getElementById('loginErr').classList.remove('show');
