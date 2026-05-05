@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scálpit | 사전 상담 설문지</title>
+  <meta property="og:title" content="Scálpit | 사전 상담 설문지" />
+  <meta property="og:description" content="스칼프잇 방문 전 사전 상담 설문지를 작성해주세요." />
+  <meta property="og:type" content="website" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --burg: #7B1A2B;
+      --burg-light: #9B2840;
+      --burg-dark: #5A1020;
+      --cream: #FAF4EE;
+      --cream-mid: #F0E6DC;
+      --cream-dark: #E8D5C4;
+      --gold: #C4A47C;
+      --white: #FFFFFF;
+      --dark: #1C0E0E;
+      --text: #2D1818;
+      --text-muted: #8B7070;
+      --border: #E2D0C4;
+      --bg-burg: #F5ECEC;
+      --radius: 0px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans KR', 'Montserrat', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── 언어 선택 화면 ── */
+    .lang-screen {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      width: 100%; height: 100%;
+      background: #3A1018;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 200; padding: 24px;
+    }
+    .lang-screen.hidden { display: none; }
+
+    .lang-brand { text-align: center; margin-bottom: 52px; }
+    .lang-brand-logo {
+      height: 52px; width: auto;
+      filter: brightness(0) invert(1);
+      display: block; margin: 0 auto 12px;
+    }
+    .lang-brand-line {
+      width: 32px; height: 1px;
+      background: var(--gold); margin: 14px auto;
+    }
+    .lang-brand-sub {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 8px; letter-spacing: 5px;
+      color: var(--gold); font-weight: 500;
+      text-transform: uppercase;
+    }
+    .lang-prompt {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px; letter-spacing: 3px;
+      color: rgba(255,255,255,0.35);
+      text-transform: uppercase;
+      margin-bottom: 20px; text-align: center;
+    }
+    .lang-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8px; width: 100%; max-width: 260px;
+    }
+    .lang-btn {
+      padding: 20px 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: transparent;
+      cursor: pointer; text-align: center;
+      transition: all 0.25s;
+    }
+    .lang-btn:hover { border-color: var(--gold); background: rgba(196,164,124,0.08); }
+    .lang-btn .lang-code {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px; font-weight: 600; letter-spacing: 3px;
+      color: var(--white); display: block; margin-bottom: 5px;
+    }
+    .lang-btn .lang-native { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+    /* ── 헤더 ── */
+    .header {
+      background: var(--burg);
+      padding: 22px 24px 20px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-inner {
+      max-width: 600px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .header-logo {
+      height: 28px; width: auto;
+      filter: brightness(0) invert(1);
+      display: block;
+    }
+    .header-tagline {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 7px; letter-spacing: 3px;
+      color: rgba(255,255,255,0.5); font-weight: 400;
+      margin-top: 5px; text-transform: uppercase;
+    }
+    .lang-switcher {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px; color: rgba(255,255,255,0.55);
+      cursor: pointer; letter-spacing: 1.5px;
+      padding: 7px 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: transparent; transition: all 0.2s;
+      display: none;
+    }
+    .lang-switcher:hover { border-color: rgba(255,255,255,0.6); color: white; }
+
+    /* ── 컨테이너 ── */
+    .wrap { max-width: 600px; margin: 0 auto; padding: 40px 20px 140px; }
+
+    /* ── 공지 ── */
+    .notice {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--burg);
+      padding: 16px 20px; margin-bottom: 40px;
+      font-size: 13px; color: var(--text); line-height: 1.85;
+    }
+    .notice strong {
+      display: block; margin-bottom: 5px;
+      font-size: 9px; color: var(--burg);
+      font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    }
+
+    /* ── 진행 도트 ── */
+    .progress-wrap { margin-bottom: 44px; }
+    .progress-dots {
+      display: flex; align-items: center;
+      justify-content: center; gap: 0; margin-bottom: 10px;
+    }
+    .pdot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--border); transition: all 0.35s; flex-shrink: 0;
+    }
+    .pdot.active { background: var(--burg); transform: scale(1.4); }
+    .pdot.done { background: var(--burg); opacity: 0.35; }
+    .pline {
+      flex: 1; height: 1px; background: var(--border);
+      max-width: 56px; transition: background 0.35s;
+    }
+    .pline.done { background: var(--burg); opacity: 0.35; }
+    .progress-label {
+      display: flex; justify-content: space-between;
+      font-size: 9px; color: var(--text-muted);
+      font-family: 'Montserrat', sans-serif; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+    .progress-label .pct { color: var(--burg); }
+
+    /* ── 단계 ── */
+    .step { display: none; }
+    .step.active { display: block; animation: fadeUp 0.3s ease; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .step-eyebrow {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 8px; font-weight: 600; color: var(--burg);
+      letter-spacing: 4px; text-transform: uppercase; margin-bottom: 10px;
+    }
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px; font-weight: 400; font-style: italic;
+      color: var(--dark); margin-bottom: 8px; line-height: 1.15;
+    }
+    .step-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 36px; line-height: 1.85; }
+    .step-divider { width: 100%; height: 1px; background: var(--border); margin-bottom: 36px; }
+
+    /* ── 질문 블록 ── */
+    .q-block { margin-bottom: 32px; }
+    .q-label {
+      font-size: 13px; font-weight: 700; color: var(--dark);
+      margin-bottom: 14px; display: flex; align-items: center; gap: 6px;
+    }
+    .q-label .req { color: var(--burg); font-size: 15px; line-height: 1; }
+    .q-hint { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+
+    /* ── 카드 옵션 ── */
+    .card-options { display: flex; flex-direction: column; gap: 7px; }
+    .card-option { position: relative; }
+    .card-option input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .card-option label {
+      display: flex; align-items: center; gap: 14px;
+      padding: 15px 20px;
+      background: var(--white); border: 1px solid var(--border);
+      cursor: pointer; font-size: 13.5px; font-weight: 400;
+      color: var(--text); transition: all 0.2s; user-select: none; line-height: 1.5;
+    }
+    .card-option label:hover { border-color: var(--burg); background: #FFF8F5; }
+    .card-option input:checked + label { border-color: var(--burg); background: var(--bg-burg); color: var(--dark); font-weight: 600; }
+    .dot {
+      width: 16px; height: 16px; border: 1px solid var(--border);
+      border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .card-option input:checked + label .dot { background: var(--burg); border-color: var(--burg); }
+    .card-option input:checked + label .dot::after {
+      content: ''; width: 5px; height: 5px;
+      background: white; border-radius: 50%; display: block;
+    }
+    .card-option.checkbox .dot { border-radius: 2px; }
+    .card-option.checkbox input:checked + label .dot::after {
+      content: '✓'; width: auto; height: auto;
+      background: none; color: white; font-size: 9px; font-weight: 900; border-radius: 0;
+    }
+
+    /* 서비스 카드 */
+    .service-card label {
+      flex-direction: column; align-items: flex-start; gap: 0;
+      padding: 18px 52px 18px 20px; position: relative;
+    }
+    .service-card label .dot { position: absolute; right: 18px; top: 20px; }
+    .service-en {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px; font-weight: 600; font-style: italic;
+      color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 3px;
+    }
+    .service-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .service-sub-tag {
+      display: inline-block; font-size: 11px;
+      color: var(--text-muted); font-weight: 400; margin-bottom: 8px;
+    }
+    .service-desc {
+      font-size: 12px; color: var(--text-muted); line-height: 1.7;
+      font-weight: 400; border-top: 1px solid var(--border);
+      padding-top: 8px; margin-top: 4px; width: 100%;
+    }
+    .service-card input:checked + label .service-en { color: var(--burg); }
+    .service-card input:checked + label .service-desc { border-top-color: #DEC0C0; }
+
+    /* 그리드 */
+    .grid-options { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+    @media (max-width: 400px) { .grid-options { grid-template-columns: 1fr; } }
+
+    /* ── 텍스트 입력 ── */
+    .text-input {
+      width: 100%; padding: 14px 16px;
+      background: var(--white); border: 1px solid var(--border);
+      font-size: 14px; font-family: 'Noto Sans KR', 'Montserrat', sans-serif;
+      color: var(--text); outline: none; transition: border-color 0.2s;
+    }
+    .text-input:focus { border-color: var(--burg); }
+    .text-input::placeholder { color: #C8B8B0; }
+    textarea.text-input { resize: vertical; min-height: 90px; }
+
+    /* ── 버튼 ── */
+    .btn-wrap { display: flex; gap: 10px; margin-top: 44px; }
+    .btn {
+      flex: 1; padding: 16px;
+      font-size: 10px; font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer; border: none;
+      transition: all 0.2s; letter-spacing: 2.5px; text-transform: uppercase;
+    }
+    .btn-prev { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
+    .btn-prev:hover { border-color: var(--burg); color: var(--burg); }
+    .btn-next { background: var(--dark); color: var(--white); }
+    .btn-next:hover { background: var(--burg); }
+    .btn-submit { background: var(--burg); color: var(--white); }
+    .btn-submit:hover { background: var(--burg-dark); transform: translateY(-1px); }
+
+    /* ── 완료 화면 ── */
+    .done-screen { display: none; text-align: center; padding: 80px 20px 60px; animation: fadeUp 0.4s ease; }
+    .done-screen.show { display: block; }
+    .done-mark {
+      width: 60px; height: 60px; border: 1px solid var(--burg);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 28px; font-size: 22px; color: var(--burg);
+    }
+    .done-logo {
+      height: 36px; width: auto; margin-bottom: 8px;
+      filter: brightness(0) saturate(100%) invert(14%) sepia(60%) saturate(800%) hue-rotate(320deg) brightness(70%);
+    }
+    .done-sub {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 8px; letter-spacing: 4px; color: var(--gold);
+      margin-bottom: 32px; text-transform: uppercase;
+    }
+    .done-title { font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
+    .done-desc { font-size: 13px; color: var(--text-muted); line-height: 2; white-space: pre-line; }
+    .done-info {
+      margin: 28px auto 0; background: var(--white);
+      border: 1px solid var(--border); padding: 20px;
+      text-align: left; max-width: 400px;
+    }
+    .done-info-row { display: flex; justify-content: space-between; padding: 9px 0; font-size: 13px; border-bottom: 1px solid var(--border); }
+    .done-info-row:last-child { border-bottom: none; }
+    .done-info-row .key { color: var(--text-muted); }
+    .done-info-row .val { font-weight: 700; color: var(--dark); text-align: right; max-width: 60%; }
+
+    /* ── 에러 ── */
+    .error-msg { font-size: 12px; color: var(--burg); margin-top: 6px; display: none; }
+    .error-msg.show { display: block; }
+
+    /* ── 개인정보 동의 ── */
+    .privacy-box {
+      margin-top: 32px; border: 1px solid var(--border);
+      padding: 20px; background: var(--white);
+    }
+    .privacy-item { margin-bottom: 14px; }
+    .privacy-item:last-child { margin-bottom: 0; }
+    .privacy-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; user-select: none; }
+    .privacy-label input[type="checkbox"] { display: none; }
+    .privacy-check {
+      width: 16px; height: 16px; flex-shrink: 0;
+      border: 1px solid var(--border); border-radius: 2px;
+      margin-top: 2px; display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .privacy-label input:checked ~ .privacy-check { background: var(--burg); border-color: var(--burg); }
+    .privacy-label input:checked ~ .privacy-check::after { content: '✓'; color: #fff; font-size: 10px; font-weight: 900; }
+    .privacy-text { font-size: 13px; font-weight: 600; color: var(--dark); line-height: 1.4; }
+    .required-item .privacy-text::before { content: '[필수] '; color: var(--burg); }
+    .privacy-detail { font-size: 11px; color: var(--text-muted); line-height: 1.6; margin: 6px 0 4px 26px; }
+    .privacy-link { display: inline-block; margin-left: 26px; font-size: 11px; color: var(--burg); text-decoration: underline; }
+
+    /* ── 사업자 정보 ── */
+    .biz-info { margin-top: 16px; font-size: 11px; color: var(--text-muted); line-height: 1.8; text-align: center; }
+  </style>
+</head>
+<body>
+
+<!-- 언어 선택 화면 -->
+<div class="lang-screen" id="langScreen">
+  <div class="lang-brand">
+    <img src="scalpit-logo.png" alt="Scálpit" class="lang-brand-logo" />
+    <div class="lang-brand-line"></div>
+    <div class="lang-brand-sub">Head Spa &amp; Scalp Care</div>
+  </div>
+  <div class="lang-prompt">Select your language</div>
+  <div class="lang-grid">
+    <button class="lang-btn" onclick="selectLang('ko')"><span class="lang-code">KO</span><span class="lang-native">한국어</span></button>
+    <button class="lang-btn" onclick="selectLang('en')"><span class="lang-code">EN</span><span class="lang-native">English</span></button>
+    <button class="lang-btn" onclick="selectLang('zh')"><span class="lang-code">ZH</span><span class="lang-native">中文</span></button>
+    <button class="lang-btn" onclick="selectLang('ja')"><span class="lang-code">JA</span><span class="lang-native">日本語</span></button>
+  </div>
+</div>
+
+<!-- 헤더 -->
+<header class="header" style="display:none" id="mainHeader">
+  <div class="header-inner">
+    <div>
+      <img src="scalpit-logo.png" alt="Scálpit" class="header-logo" />
+      <div class="header-tagline">Head Spa &amp; Scalp Care</div>
+    </div>
+    <button class="lang-switcher" id="langSwitchBtn" onclick="openLangScreen()"></button>
+  </div>
+</header>
+
+<div class="wrap" id="formWrap" style="display:none">
+
+  <div class="notice">
+    <strong id="nTitle">NOTICE</strong>
+    <span id="nBody"></span>
+  </div>
+
+  <!-- 진행 도트 -->
+  <div class="progress-wrap">
+    <div class="progress-dots">
+      <div class="pdot active" id="dot1"></div>
+      <div class="pline" id="line1"></div>
+      <div class="pdot" id="dot2"></div>
+      <div class="pline" id="line2"></div>
+      <div class="pdot" id="dot3"></div>
+      <div class="pline" id="line3"></div>
+      <div class="pdot" id="dot4"></div>
+      <div class="pline" id="line4"></div>
+      <div class="pdot" id="dot5"></div>
+    </div>
+    <div class="progress-label">
+      <span id="stepLabel">STEP 1 / 5</span>
+      <span class="pct" id="stepPct">20%</span>
+    </div>
+  </div>
+
+  <!-- STEP 1: 예약 정보 -->
+  <div class="step active" id="step1">
+    <div class="step-eyebrow" id="s1Eyebrow"></div>
+    <div class="step-title" id="s1Title"></div>
+    <div class="step-desc" id="s1Desc"></div>
+    <div class="step-divider"></div>
+
+    <!-- Q1: 예약 인원 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qRes"></span></div>
+      <div class="card-options">
+        <div class="card-option">
+          <input type="radio" name="reservationType" id="r1" value="">
+          <label for="r1"><span class="dot"></span> <span id="rLabel1"></span></label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="reservationType" id="r2" value="">
+          <label for="r2"><span class="dot"></span> <span id="rLabel2"></span></label>
+        </div>
+      </div>
+      <div class="error-msg" id="err-reservationType"></div>
+    </div>
+
+    <!-- Q2: 상담 유형 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qCons"></span></div>
+      <div class="card-options">
+        <div class="card-option">
+          <input type="radio" name="consultationType" id="c1" value="">
+          <label for="c1"><span class="dot"></span> <span id="cLabel1"></span></label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="consultationType" id="c2" value="">
+          <label for="c2"><span class="dot"></span> <span id="cLabel2"></span></label>
+        </div>
+      </div>
+      <div class="error-msg" id="err-consultationType"></div>
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn btn-next" id="btnNext1" onclick="nextStep(1)"></button>
+    </div>
+  </div>
+
+  <!-- STEP 2: 기본 정보 -->
+  <div class="step" id="step2">
+    <div class="step-eyebrow" id="s2Eyebrow"></div>
+    <div class="step-title" id="s2Title"></div>
+    <div class="step-desc" id="s2Desc"></div>
+    <div class="step-divider"></div>
+
+    <!-- Q3: 이름 / 생년월일 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qNameBirth"></span></div>
+      <input type="text" class="text-input" id="nameBirth" />
+      <div class="error-msg" id="err-nameBirth"></div>
+    </div>
+    <!-- Q4: 연락처 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qPhone"></span></div>
+      <input type="tel" class="text-input" id="phone" />
+      <div class="error-msg" id="err-phone"></div>
+    </div>
+    <!-- Q5: 주소 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qAddr"></span> <span class="q-hint" id="qAddrHint"></span></div>
+      <input type="text" class="text-input" id="address" />
+      <div class="error-msg" id="err-address"></div>
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn btn-prev" id="btnPrev2" onclick="prevStep(2)"></button>
+      <button class="btn btn-next" id="btnNext2" onclick="nextStep(2)"></button>
+    </div>
+  </div>
+
+  <!-- STEP 3: 시술 이력 & 방문 경로 -->
+  <div class="step" id="step3">
+    <div class="step-eyebrow" id="s3Eyebrow"></div>
+    <div class="step-title" id="s3Title"></div>
+    <div class="step-desc" id="s3Desc"></div>
+    <div class="step-divider"></div>
+
+    <!-- Q6: 관리 경험 -->
+    <div class="q-block">
+      <div class="q-label"><span id="qTreat"></span> <span class="q-hint" id="treatHint"></span></div>
+      <div class="card-options">
+        <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th1" value=""><label for="th1"><span class="dot"></span> <span id="thLabel1"></span></label></div>
+        <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th2" value=""><label for="th2"><span class="dot"></span> <span id="thLabel2"></span></label></div>
+        <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th3" value=""><label for="th3"><span class="dot"></span> <span id="thLabel3"></span></label></div>
+        <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th4" value=""><label for="th4"><span class="dot"></span> <span id="thLabel4"></span></label></div>
+        <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th5" value=""><label for="th5"><span class="dot"></span> <span id="thLabel5"></span></label></div>
+        <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th6" value=""><label for="th6"><span class="dot"></span> <span id="thLabel6"></span></label></div>
+      </div>
+    </div>
+
+    <!-- Q7: 방문 경로 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qSrc"></span></div>
+      <div class="card-options">
+        <div class="card-option"><input type="radio" name="visitSource" id="vs1" value="Instagram"><label for="vs1"><span class="dot"></span> Instagram</label></div>
+        <div class="card-option"><input type="radio" name="visitSource" id="vs2" value="YouTube"><label for="vs2"><span class="dot"></span> YouTube</label></div>
+        <div class="card-option"><input type="radio" name="visitSource" id="vs3" value=""><label for="vs3"><span class="dot"></span> <span id="vsLabel3"></span></label></div>
+        <div class="card-option"><input type="radio" name="visitSource" id="vs4" value=""><label for="vs4"><span class="dot"></span> <span id="vsLabel4"></span></label></div>
+        <div class="card-option"><input type="radio" name="visitSource" id="vs5" value=""><label for="vs5"><span class="dot"></span> <span id="vsLabel5"></span></label></div>
+        <div class="card-option"><input type="radio" name="visitSource" id="vs6" value=""><label for="vs6"><span class="dot"></span> <span id="vsLabel6"></span></label></div>
+      </div>
+      <div class="error-msg" id="err-visitSource"></div>
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn btn-prev" id="btnPrev3" onclick="prevStep(3)"></button>
+      <button class="btn btn-next" id="btnNext3" onclick="nextStep(3)"></button>
+    </div>
+  </div>
+
+  <!-- STEP 4: 두피 고민 & 생활 습관 -->
+  <div class="step" id="step4">
+    <div class="step-eyebrow" id="s4Eyebrow"></div>
+    <div class="step-title" id="s4Title"></div>
+    <div class="step-desc" id="s4Desc"></div>
+    <div class="step-divider"></div>
+
+    <!-- Q8: 두피 고민 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qScalp"></span> <span class="q-hint" id="scalpHint"></span></div>
+      <div class="grid-options">
+        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc1" value=""><label for="sc1"><span class="dot"></span> <span id="scLabel1"></span></label></div>
+        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc2" value=""><label for="sc2"><span class="dot"></span> <span id="scLabel2"></span></label></div>
+        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc3" value=""><label for="sc3"><span class="dot"></span> <span id="scLabel3"></span></label></div>
+        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc4" value=""><label for="sc4"><span class="dot"></span> <span id="scLabel4"></span></label></div>
+        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc5" value=""><label for="sc5"><span class="dot"></span> <span id="scLabel5"></span></label></div>
+        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc6" value=""><label for="sc6"><span class="dot"></span> <span id="scLabel6"></span></label></div>
+        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc7" value=""><label for="sc7"><span class="dot"></span> <span id="scLabel7"></span></label></div>
+        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc8" value=""><label for="sc8"><span class="dot"></span> <span id="scLabel8"></span></label></div>
+        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc9" value=""><label for="sc9"><span class="dot"></span> <span id="scLabel9"></span></label></div>
+        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc10" value=""><label for="sc10"><span class="dot"></span> <span id="scLabel10"></span></label></div>
+        <div class="card-option checkbox" style="grid-column:1/-1"><input type="checkbox" name="scalpConcerns" id="sc11" value=""><label for="sc11"><span class="dot"></span> <span id="scLabel11"></span></label></div>
+      </div>
+      <div class="error-msg" id="err-scalpConcerns"></div>
+    </div>
+
+    <!-- Q9: 펌/염색 주기 -->
+    <div class="q-block">
+      <div class="q-label"><span id="qPerm"></span></div>
+      <input type="text" class="text-input" id="permFrequency" />
+    </div>
+
+    <!-- Q10: 샴푸 횟수 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qShampoo"></span></div>
+      <div class="card-options">
+        <div class="card-option"><input type="radio" name="shampooFrequency" id="sf1" value=""><label for="sf1"><span class="dot"></span> <span id="sfLabel1"></span></label></div>
+        <div class="card-option"><input type="radio" name="shampooFrequency" id="sf2" value=""><label for="sf2"><span class="dot"></span> <span id="sfLabel2"></span></label></div>
+        <div class="card-option"><input type="radio" name="shampooFrequency" id="sf3" value=""><label for="sf3"><span class="dot"></span> <span id="sfLabel3"></span></label></div>
+        <div class="card-option"><input type="radio" name="shampooFrequency" id="sf4" value=""><label for="sf4"><span class="dot"></span> <span id="sfLabel4"></span></label></div>
+        <div class="card-option"><input type="radio" name="shampooFrequency" id="sf5" value=""><label for="sf5"><span class="dot"></span> <span id="sfLabel5"></span></label></div>
+      </div>
+      <div class="error-msg" id="err-shampooFrequency"></div>
+    </div>
+
+    <!-- Q11: 탈모 유전력 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qGenetic"></span></div>
+      <div class="card-options">
+        <div class="card-option"><input type="radio" name="hairLossGenetic" id="hg1" value=""><label for="hg1"><span class="dot"></span> <span id="hgLabel1"></span></label></div>
+        <div class="card-option"><input type="radio" name="hairLossGenetic" id="hg2" value=""><label for="hg2"><span class="dot"></span> <span id="hgLabel2"></span></label></div>
+      </div>
+      <div class="error-msg" id="err-hairLossGenetic"></div>
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn btn-prev" id="btnPrev4" onclick="prevStep(4)"></button>
+      <button class="btn btn-next" id="btnNext4" onclick="nextStep(4)"></button>
+    </div>
+  </div>
+
+  <!-- STEP 5: 서비스 선택 & 동의 -->
+  <div class="step" id="step5">
+    <div class="step-eyebrow" id="s5Eyebrow"></div>
+    <div class="step-title" id="s5Title"></div>
+    <div class="step-desc" id="s5Desc"></div>
+    <div class="step-divider"></div>
+
+    <!-- Q12: 관심 서비스 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qServ"></span> <span class="q-hint" id="servHint"></span></div>
+      <div class="card-options">
+        <div class="card-option checkbox service-card">
+          <input type="checkbox" name="desiredServices" id="ds1" value="헤드스파">
+          <label for="ds1">
+            <span class="dot"></span>
+            <div class="service-en">HEAD SPA</div>
+            <div class="service-name" id="dsName1"></div>
+            <div class="service-desc" id="dsDesc1"></div>
+          </label>
+        </div>
+        <div class="card-option checkbox service-card">
+          <input type="checkbox" name="desiredServices" id="ds2" value="탈모관리">
+          <label for="ds2">
+            <span class="dot"></span>
+            <div class="service-en">HAIR LOSS CARE</div>
+            <div class="service-name" id="dsName2"></div>
+            <div class="service-desc" id="dsDesc2"></div>
+          </label>
+        </div>
+        <div class="card-option checkbox service-card">
+          <input type="checkbox" name="desiredServices" id="ds3" value="두피스케일링">
+          <label for="ds3">
+            <span class="dot"></span>
+            <div class="service-en">SCALP SCALING</div>
+            <div class="service-name" id="dsName3"></div>
+            <div class="service-desc" id="dsDesc3"></div>
+          </label>
+        </div>
+        <div class="card-option checkbox service-card">
+          <input type="checkbox" name="desiredServices" id="ds4" value="문제성두피케어">
+          <label for="ds4">
+            <span class="dot"></span>
+            <div class="service-en">PROBLEM SCALP</div>
+            <div class="service-name" id="dsName4"></div>
+            <div class="service-desc" id="dsDesc4"></div>
+          </label>
+        </div>
+      </div>
+      <div class="error-msg" id="err-desiredServices"></div>
+    </div>
+
+    <!-- Q13: 촬영 동의 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qVideo"></span></div>
+      <div class="step-desc" id="videoDesc" style="margin-bottom:14px;font-size:13px;"></div>
+      <div class="card-options">
+        <div class="card-option"><input type="radio" name="videoConsent" id="vc1" value="동의"><label for="vc1"><span class="dot"></span> <span id="vcLabel1"></span></label></div>
+        <div class="card-option"><input type="radio" name="videoConsent" id="vc2" value="비동의"><label for="vc2"><span class="dot"></span> <span id="vcLabel2"></span></label></div>
+      </div>
+      <div class="error-msg" id="err-videoConsent"></div>
+    </div>
+
+    <!-- Q14: 개인정보 동의 -->
+    <div class="privacy-box">
+      <div class="privacy-item required-item">
+        <label class="privacy-label">
+          <input type="checkbox" id="privacyRequired" />
+          <span class="privacy-check"></span>
+          <span class="privacy-text" id="privacyReqText"></span>
+        </label>
+        <div class="privacy-detail" id="privacyReqDetail"></div>
+        <a class="privacy-link" href="scalpit-privacy.html" target="_blank" id="privacyLinkText"></a>
+      </div>
+      <div class="error-msg" id="err-privacy"></div>
+      <div class="privacy-item">
+        <label class="privacy-label">
+          <input type="checkbox" id="privacyMarketing" />
+          <span class="privacy-check"></span>
+          <span class="privacy-text" id="privacyMktText"></span>
+        </label>
+        <div class="privacy-detail" id="privacyMktDetail"></div>
+      </div>
+    </div>
+
+    <div class="biz-info">
+      상호: 스칼프잇 &nbsp;|&nbsp; 사업자번호: 000-00-00000<br>
+      주소: 서울시 강남구 만주로168길 15 세화빌딩 3층
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn btn-prev" id="btnPrev5" onclick="prevStep(5)"></button>
+      <button class="btn btn-submit" id="btnSubmit" onclick="submitForm()"></button>
+    </div>
+  </div>
+
+</div>
+
+<!-- 완료 화면 -->
+<div class="wrap">
+  <div class="done-screen" id="doneScreen">
+    <div class="done-mark">✓</div>
+    <img src="scalpit-logo.png" alt="Scálpit" class="done-logo" />
+    <div class="done-sub">Head Spa &amp; Scalp Care</div>
+    <div class="done-title" id="doneTitle"></div>
+    <div class="done-desc" id="doneDesc"></div>
+    <div class="done-info" id="doneInfo"></div>
+  </div>
+</div>
+
+<script>
+const T = {
+  ko: {
+    notice_title:'NOTICE',
+    notice_body:'2인 이상 예약하신 경우, 일행분께도 해당 링크를 공유하여 모두 작성 부탁드립니다.\n설문지 미작성 시 상담이 제한될 수 있습니다.',
+    step_of:(c,t)=>`STEP ${c} / ${t}`,
+    s1_eyebrow:'STEP 1 OF 5', s1_title:'예약 정보', s1_desc:'예약 인원과 상담 방식을 선택해주세요.',
+    q_res:'예약 인원',
+    r1:'2인 이상 예약입니다. (일행 링크 공유 완료!)', r2:'1인 예약입니다.',
+    err_res:'예약 인원을 선택해주세요.',
+    q_cons:'상담 유형',
+    c1:'힐링 위주, 간단한 상담만 원해요.', c2:'정밀 진단·상담 원해요.',
+    err_cons:'상담 유형을 선택해주세요.',
+    s2_eyebrow:'STEP 2 OF 5', s2_title:'기본 정보', s2_desc:'고객님의 기본 정보를 입력해주세요.',
+    q_name_birth:'이름 / 생년월일', ph_name_birth:'예) 홍길동 / 1995.03.15',
+    q_phone:'연락처', ph_phone:'예) 010-1234-5678',
+    q_addr:'주소', q_addr_hint:'(간단히 동까지만 기재)', ph_addr:'예) 서울 강남구 신사동',
+    err_name:'이름/생년월일을 입력해주세요.', err_phone:'연락처를 입력해주세요.', err_addr:'주소를 입력해주세요.',
+    s3_eyebrow:'STEP 3 OF 5', s3_title:'시술 이력 & 방문 경로', s3_desc:'이전 시술 경험과 저희를 알게 된 경로를 알려주세요.',
+    q_treat:'관리(치료) 경험', treat_hint:'복수 선택 가능',
+    th1:'병원 치료', th2:'전문 두피 관리', th3:'약물 복용',
+    th4:'두피 & 모발 시술 (메조, PRP 등)', th5:'일반 미용실 관리', th6:'홈케어 (두피 샴푸 / 앰플 등)',
+    q_src:'방문 경로',
+    vs3:'네이버 검색', vs4:'네이버 카페 / 블로그', vs5:'지인 소개', vs6:'간판 / 현수막',
+    err_src:'방문 경로를 선택해주세요.',
+    s4_eyebrow:'STEP 4 OF 5', s4_title:'두피 고민 & 생활 습관', s4_desc:'현재 두피 상태와 생활 패턴을 알려주세요.',
+    q_scalp:'주요 두피 고민', scalp_hint:'복수 선택 가능',
+    sc1:'탈모', sc2:'가려움', sc3:'건조', sc4:'지성 / 번들거림', sc5:'비듬',
+    sc6:'홍반 / 발적', sc7:'악취', sc8:'두피 열감', sc9:'뾰루지 & 염증',
+    sc10:'두피 통증 / 따가움', sc11:'기타',
+    err_scalp:'두피 고민을 하나 이상 선택해주세요.',
+    q_perm:'펌 / 염색 횟수 & 주기', ph_perm:'예) 염색 2개월에 한 번, 파마 1년에 한 번',
+    q_shampoo:'샴푸 세정 횟수',
+    sf1:'매일 아침, 저녁 한 번씩', sf2:'매일 아침 한 번', sf3:'매일 저녁 한 번',
+    sf4:'이틀에 한 번', sf5:'기타',
+    err_shampoo:'샴푸 횟수를 선택해주세요.',
+    q_genetic:'탈모 유전력', hg1:'있음', hg2:'없음',
+    err_genetic:'탈모 유전력을 선택해주세요.',
+    s5_eyebrow:'STEP 5 OF 5', s5_title:'서비스 선택 & 동의', s5_desc:'관심 있는 서비스와 동의 사항을 확인해주세요.',
+    q_serv:'관심 서비스', serv_hint:'복수 선택 가능',
+    ds1_name:'헤드스파', ds1_desc:'두피와 모발에 깊은 이완과 영양을 제공하는 힐링 헤드스파입니다.',
+    ds2_name:'탈모 관리', ds2_desc:'두피 환경을 개선하고 모근을 강화하는 전문 탈모 케어 프로그램입니다.',
+    ds3_name:'두피 스케일링', ds3_desc:'쌓인 피지와 각질을 제거하여 두피를 깨끗하게 정화합니다.',
+    ds4_name:'문제성 두피케어', ds4_desc:'지루성, 민감성, 염증성 두피 등 문제성 두피를 집중 케어합니다.',
+    err_serv:'관심 서비스를 선택해주세요.',
+    q_video:'기념 영상 촬영 동의',
+    video_desc:'헤드스파 받으시는 모습을 고객님 휴대폰으로 동영상 & 사진 촬영을 원하시는 경우 \'네\'를 선택해주세요.',
+    vc1:'네, 촬영 원합니다.', vc2:'아니오, 촬영 원하지 않습니다.',
+    err_video:'동의 여부를 선택해주세요.',
+    privacy_req:'개인정보 수집·이용에 동의합니다',
+    privacy_req_detail:'수집 항목: 성명, 생년월일, 연락처, 주소, 두피 상태 정보 | 수집 목적: 두피케어 상담 및 예약 관리 | 보유 기간: 서비스 제공 완료 후 1년',
+    privacy_link:'개인정보처리방침 전문 보기 →',
+    privacy_mkt:'마케팅 정보 수신에 동의합니다 (선택)',
+    privacy_mkt_detail:'이벤트, 프로모션, 신규 서비스 안내 등 마케팅 정보를 수신합니다.',
+    err_privacy:'개인정보 수집·이용에 동의해주세요.',
+    btn_next:'NEXT →', btn_back:'← BACK', btn_submit:'SUBMIT →', btn_ing:'제출 중...',
+    done_title:'설문이 접수되었습니다',
+    done_desc:'소중한 정보 감사합니다.\nScálpit에서 최적의 두피 케어를 준비하겠습니다.\n예약 당일 편안하게 방문해주세요.',
+    done_name:'이름/생년월일', done_phone:'연락처', done_res:'예약 유형', done_serv:'관심 서비스',
+    err_server:'오류가 발생했습니다. 다시 시도해주세요.',
+    err_network:'서버 연결 오류입니다. 잠시 후 다시 시도해주세요.',
+    lang_switch:'언어 변경',
+  },
+  en: {
+    notice_title:'NOTICE',
+    notice_body:"If you reserved for 2 or more people, please share this link with your companions so everyone can complete the form.\nConsultation may be limited if this form is not submitted.",
+    step_of:(c,t)=>`STEP ${c} / ${t}`,
+    s1_eyebrow:'STEP 1 OF 5', s1_title:'Reservation', s1_desc:'Please select the number of guests and consultation type.',
+    q_res:'Number of Guests',
+    r1:'2 or more people (link shared with companions!)', r2:'1 person.',
+    err_res:'Please select the number of guests.',
+    q_cons:'Consultation Type',
+    c1:'Relaxation-focused, light consultation only.', c2:'Detailed diagnosis & consultation.',
+    err_cons:'Please select a consultation type.',
+    s2_eyebrow:'STEP 2 OF 5', s2_title:'Basic Info', s2_desc:'Please enter your basic information.',
+    q_name_birth:'Name / Date of Birth', ph_name_birth:'e.g. Jane Doe / 1995.03.15',
+    q_phone:'Phone Number', ph_phone:'e.g. 010-1234-5678',
+    q_addr:'Address', q_addr_hint:'(Neighborhood level)', ph_addr:'e.g. Sinsa-dong, Gangnam-gu, Seoul',
+    err_name:'Please enter your name and date of birth.', err_phone:'Please enter your phone number.', err_addr:'Please enter your address.',
+    s3_eyebrow:'STEP 3 OF 5', s3_title:'History & Source', s3_desc:'Please share your previous treatment experience and how you found us.',
+    q_treat:'Treatment Experience', treat_hint:'Multiple selections allowed',
+    th1:'Hospital treatment', th2:'Professional scalp care', th3:'Medication',
+    th4:'Scalp & hair procedures (Meso, PRP, etc.)', th5:'General salon care', th6:'Home care (scalp shampoo / ampoule, etc.)',
+    q_src:'How did you find us?',
+    vs3:'Naver Search', vs4:'Naver Cafe / Blog', vs5:'Referral from friend', vs6:'Signage / Banner',
+    err_src:'Please select how you found us.',
+    s4_eyebrow:'STEP 4 OF 5', s4_title:'Scalp Concerns', s4_desc:'Please tell us about your current scalp condition and lifestyle.',
+    q_scalp:'Main Scalp Concerns', scalp_hint:'Multiple selections allowed',
+    sc1:'Hair loss', sc2:'Itchiness', sc3:'Dryness', sc4:'Oily scalp', sc5:'Dandruff',
+    sc6:'Redness / Rash', sc7:'Odor', sc8:'Scalp heat', sc9:'Pimples & inflammation',
+    sc10:'Scalp pain / sensitivity', sc11:'Other',
+    err_scalp:'Please select at least one concern.',
+    q_perm:'Perm / Coloring Frequency', ph_perm:'e.g. Color every 2 months, perm once a year',
+    q_shampoo:'Shampoo Frequency',
+    sf1:'Twice daily (morning & evening)', sf2:'Once daily (morning)', sf3:'Once daily (evening)',
+    sf4:'Every other day', sf5:'Other',
+    err_shampoo:'Please select your shampoo frequency.',
+    q_genetic:'Hair Loss Genetics', hg1:'Yes', hg2:'No',
+    err_genetic:'Please select your hair loss genetics.',
+    s5_eyebrow:'STEP 5 OF 5', s5_title:'Service & Consent', s5_desc:'Please select your service interests and complete the consent.',
+    q_serv:'Service Interest', serv_hint:'Multiple selections allowed',
+    ds1_name:'Head Spa', ds1_desc:'A healing head spa providing deep relaxation and nourishment for scalp and hair.',
+    ds2_name:'Hair Loss Care', ds2_desc:'A professional hair loss care program that improves scalp environment and strengthens follicles.',
+    ds3_name:'Scalp Scaling', ds3_desc:'Thoroughly cleanses accumulated sebum and dead skin to purify the scalp.',
+    ds4_name:'Problem Scalp Care', ds4_desc:'Intensive care for seborrheic, sensitive, or inflammatory scalp conditions.',
+    err_serv:'Please select at least one service.',
+    q_video:'Video Recording Consent',
+    video_desc:"If you'd like us to record your head spa session on your phone, please select 'Yes'.",
+    vc1:"Yes, I'd like to be recorded.", vc2:"No, I don't want to be recorded.",
+    err_video:'Please select your preference.',
+    privacy_req:'I agree to the collection and use of personal information',
+    privacy_req_detail:'Items: Name, DOB, Phone, Address, Scalp info | Purpose: Consultation & booking management | Retention: 1 year after service',
+    privacy_link:'View full privacy policy →',
+    privacy_mkt:'I agree to receive marketing information (optional)',
+    privacy_mkt_detail:'Receive event, promotion, and new service notifications.',
+    err_privacy:'Please agree to the personal information policy.',
+    btn_next:'NEXT →', btn_back:'← BACK', btn_submit:'SUBMIT →', btn_ing:'Submitting...',
+    done_title:'Form Submitted',
+    done_desc:"Thank you for your information.\nScálpit will prepare the best scalp care for you.\nWe look forward to your visit.",
+    done_name:'Name / DOB', done_phone:'Phone', done_res:'Reservation', done_serv:'Services',
+    err_server:'An error occurred. Please try again.',
+    err_network:'Network error. Please try again later.',
+    lang_switch:'Language',
+  },
+  zh: {
+    notice_title:'注意事项',
+    notice_body:'如果您预约了2人或以上，请将此链接分享给同行人员，请所有人填写。\n未填写问卷可能导致咨询受限。',
+    step_of:(c,t)=>`步骤 ${c} / ${t}`,
+    s1_eyebrow:'第 1 步，共 5 步', s1_title:'预约信息', s1_desc:'请选择预约人数和咨询方式。',
+    q_res:'预约人数',
+    r1:'2人或以上（已共享链接给同行！）', r2:'1人预约',
+    err_res:'请选择预约人数。',
+    q_cons:'咨询类型',
+    c1:'以放松为主，只需简单咨询。', c2:'需要精密诊断和详细咨询。',
+    err_cons:'请选择咨询类型。',
+    s2_eyebrow:'第 2 步，共 5 步', s2_title:'基本信息', s2_desc:'请输入您的基本信息。',
+    q_name_birth:'姓名 / 出生日期', ph_name_birth:'例) 张三 / 1995.03.15',
+    q_phone:'联系电话', ph_phone:'例) 010-1234-5678',
+    q_addr:'地址', q_addr_hint:'（至街道级别即可）', ph_addr:'例) 首尔 江南区 新沙洞',
+    err_name:'请输入姓名和出生日期。', err_phone:'请输入联系电话。', err_addr:'请输入地址。',
+    s3_eyebrow:'第 3 步，共 5 步', s3_title:'治疗经历 & 来访途径', s3_desc:'请告知您的以往护理经历及如何了解到我们。',
+    q_treat:'护理（治疗）经历', treat_hint:'可多选',
+    th1:'医院治疗', th2:'专业头皮护理', th3:'药物治疗',
+    th4:'头皮&毛发手术（Meso、PRP等）', th5:'普通美发沙龙护理', th6:'家庭护理（头皮洗发水/安瓶等）',
+    q_src:'来访途径',
+    vs3:'Naver搜索', vs4:'Naver Cafe/博客', vs5:'朋友介绍', vs6:'招牌/横幅',
+    err_src:'请选择来访途径。',
+    s4_eyebrow:'第 4 步，共 5 步', s4_title:'头皮烦恼', s4_desc:'请告知您目前的头皮状况和生活习惯。',
+    q_scalp:'主要头皮烦恼', scalp_hint:'可多选',
+    sc1:'脱发', sc2:'瘙痒', sc3:'干燥', sc4:'油性/油光', sc5:'头皮屑',
+    sc6:'红斑/发红', sc7:'气味', sc8:'头皮燥热', sc9:'粉刺&炎症',
+    sc10:'头皮疼痛/敏感', sc11:'其他',
+    err_scalp:'请至少选择一项头皮烦恼。',
+    q_perm:'烫发/染发频率', ph_perm:'例) 染发每2个月一次，烫发一年一次',
+    q_shampoo:'洗发频率',
+    sf1:'每日早晚各一次', sf2:'每日早晨一次', sf3:'每日晚上一次',
+    sf4:'每两天一次', sf5:'其他',
+    err_shampoo:'请选择洗发频率。',
+    q_genetic:'脱发遗传史', hg1:'有', hg2:'无',
+    err_genetic:'请选择脱发遗传史。',
+    s5_eyebrow:'第 5 步，共 5 步', s5_title:'服务选择 & 同意', s5_desc:'请选择您感兴趣的服务并完成同意事项。',
+    q_serv:'感兴趣的服务', serv_hint:'可多选',
+    ds1_name:'头皮水疗', ds1_desc:'为头皮和毛发提供深度放松和营养的治愈系头皮水疗。',
+    ds2_name:'脱发护理', ds2_desc:'改善头皮环境并强化毛根的专业脱发护理项目。',
+    ds3_name:'头皮去角质', ds3_desc:'彻底清除堆积的皮脂和角质，净化头皮。',
+    ds4_name:'问题头皮护理', ds4_desc:'针对脂溢性、敏感性、炎症性等问题头皮进行集中护理。',
+    err_serv:'请选择感兴趣的服务。',
+    q_video:'拍摄同意',
+    video_desc:"如果您希望用您的手机录制头皮水疗过程，请选择'是'。",
+    vc1:'是，我同意拍摄。', vc2:'否，我不同意拍摄。',
+    err_video:'请选择您的意愿。',
+    privacy_req:'我同意收集和使用个人信息',
+    privacy_req_detail:'收集项目：姓名、出生日期、联系方式、地址、头皮状况 | 收集目的：头皮护理咨询及预约管理 | 保存期限：服务完成后1年',
+    privacy_link:'查看完整隐私政策 →',
+    privacy_mkt:'我同意接收营销信息（可选）',
+    privacy_mkt_detail:'接收活动、促销、新服务等营销信息。',
+    err_privacy:'请同意个人信息收集和使用。',
+    btn_next:'下一步 →', btn_back:'← 上一步', btn_submit:'提交 →', btn_ing:'提交中...',
+    done_title:'问卷已提交',
+    done_desc:'感谢您提供宝贵信息。\nScálpit将为您准备最佳的头皮护理。\n期待您的到来。',
+    done_name:'姓名/出生日期', done_phone:'联系电话', done_res:'预约类型', done_serv:'感兴趣的服务',
+    err_server:'发生错误，请重试。', err_network:'服务器连接错误，请稍后重试。',
+    lang_switch:'语言',
+  },
+  ja: {
+    notice_title:'ご案内',
+    notice_body:'2名以上でご予約の場合は、同行の方にもこのリンクを共有し、全員ご記入ください。\nアンケート未提出の場合、カウンセリングが制限される場合があります。',
+    step_of:(c,t)=>`STEP ${c} / ${t}`,
+    s1_eyebrow:'STEP 1 / 5', s1_title:'予約情報', s1_desc:'予約人数とカウンセリング方法を選択してください。',
+    q_res:'予約人数',
+    r1:'2名以上のご予約（同行者へのリンク共有済み！）', r2:'1名でのご予約',
+    err_res:'予約人数を選択してください。',
+    q_cons:'カウンセリングタイプ',
+    c1:'リラクゼーション重視、簡単なカウンセリングのみ希望。', c2:'精密診断・カウンセリング希望。',
+    err_cons:'カウンセリングタイプを選択してください。',
+    s2_eyebrow:'STEP 2 / 5', s2_title:'基本情報', s2_desc:'お客様の基本情報をご入力ください。',
+    q_name_birth:'お名前 / 生年月日', ph_name_birth:'例) 山田太郎 / 1995.03.15',
+    q_phone:'電話番号', ph_phone:'例) 010-1234-5678',
+    q_addr:'ご住所', q_addr_hint:'（町・丁目レベルで可）', ph_addr:'例) ソウル 江南区 新沙洞',
+    err_name:'お名前と生年月日を入力してください。', err_phone:'電話番号を入力してください。', err_addr:'ご住所を入力してください。',
+    s3_eyebrow:'STEP 3 / 5', s3_title:'施術歴 & 来店経路', s3_desc:'これまでの施術経験と、当店をお知りになった経緯を教えてください。',
+    q_treat:'ケア（治療）経験', treat_hint:'複数選択可',
+    th1:'病院での治療', th2:'専門頭皮ケア', th3:'薬の服用',
+    th4:'頭皮・毛髪施術（メゾ、PRPなど）', th5:'一般美容室でのケア', th6:'ホームケア（頭皮シャンプー/アンプルなど）',
+    q_src:'来店経路',
+    vs3:'Naver検索', vs4:'Naver Cafe / ブログ', vs5:'知人の紹介', vs6:'看板 / バナー',
+    err_src:'来店経路を選択してください。',
+    s4_eyebrow:'STEP 4 / 5', s4_title:'頭皮のお悩み', s4_desc:'現在の頭皮状態と生活習慣を教えてください。',
+    q_scalp:'主な頭皮のお悩み', scalp_hint:'複数選択可',
+    sc1:'抜け毛・薄毛', sc2:'かゆみ', sc3:'乾燥', sc4:'脂性・テカリ', sc5:'フケ',
+    sc6:'赤み・発疹', sc7:'臭い', sc8:'頭皮の熱感', sc9:'ニキビ・炎症',
+    sc10:'頭皮の痛み・刺激感', sc11:'その他',
+    err_scalp:'頭皮のお悩みを一つ以上選択してください。',
+    q_perm:'パーマ / カラーの頻度', ph_perm:'例) カラー2ヶ月に1回、パーマ年1回',
+    q_shampoo:'シャンプーの頻度',
+    sf1:'毎日朝晩1回ずつ', sf2:'毎日朝1回', sf3:'毎日夜1回',
+    sf4:'2日に1回', sf5:'その他',
+    err_shampoo:'シャンプーの頻度を選択してください。',
+    q_genetic:'脱毛の遺伝歴', hg1:'あり', hg2:'なし',
+    err_genetic:'脱毛の遺伝歴を選択してください。',
+    s5_eyebrow:'STEP 5 / 5', s5_title:'サービス選択 & 同意', s5_desc:'ご希望のサービスを選択し、同意事項をご確認ください。',
+    q_serv:'ご興味のあるサービス', serv_hint:'複数選択可',
+    ds1_name:'ヘッドスパ', ds1_desc:'頭皮と髪に深いリラクゼーションと栄養を提供するヒーリングヘッドスパです。',
+    ds2_name:'薄毛・抜け毛ケア', ds2_desc:'頭皮環境を改善し毛根を強化する専門的な薄毛ケアプログラムです。',
+    ds3_name:'頭皮スケーリング', ds3_desc:'蓄積した皮脂と角質を除去し、頭皮を清潔に浄化します。',
+    ds4_name:'問題頭皮ケア', ds4_desc:'脂漏性・敏感性・炎症性などの問題頭皮を集中ケアします。',
+    err_serv:'サービスを選択してください。',
+    q_video:'記念撮影の同意',
+    video_desc:"ヘッドスパ中のお姿をお客様のスマートフォンで動画・写真撮影をご希望の場合は「はい」を選択してください。",
+    vc1:'はい、撮影を希望します。', vc2:'いいえ、撮影を希望しません。',
+    err_video:'ご意向を選択してください。',
+    privacy_req:'個人情報の収集・利用に同意します',
+    privacy_req_detail:'収集項目：氏名、生年月日、連絡先、住所、頭皮状態 | 収集目的：頭皮ケア相談・予約管理 | 保有期間：サービス完了後1年',
+    privacy_link:'個人情報処理方針の全文を見る →',
+    privacy_mkt:'マーケティング情報の受信に同意します（任意）',
+    privacy_mkt_detail:'イベント、プロモーション、新規サービスなどのマーケティング情報を受信します。',
+    err_privacy:'個人情報の収集・利用に同意してください。',
+    btn_next:'次へ →', btn_back:'← 戻る', btn_submit:'送信 →', btn_ing:'送信中...',
+    done_title:'アンケートが受け付けられました',
+    done_desc:'貴重な情報をありがとうございます。\nScálpitで最適な頭皮ケアをご準備いたします。\nご来店をお待ちしております。',
+    done_name:'お名前/生年月日', done_phone:'電話番号', done_res:'予約タイプ', done_serv:'ご希望サービス',
+    err_server:'エラーが発生しました。もう一度お試しください。',
+    err_network:'サーバー接続エラーです。しばらくしてからお試しください。',
+    lang_switch:'言語変更',
+  },
+};
+
+const TOTAL_STEPS = 5;
+let currentStep = 1;
+let lang = 'ko';
+
+function selectLang(l) {
+  lang = l;
+  document.getElementById('langScreen').classList.add('hidden');
+  document.getElementById('mainHeader').style.display = '';
+  document.getElementById('formWrap').style.display = '';
+  document.getElementById('langSwitchBtn').style.display = '';
+  applyLang();
+  updateProgress();
+  window.scrollTo(0, 0);
+}
+function openLangScreen() { document.getElementById('langScreen').classList.remove('hidden'); }
+
+function applyLang() {
+  const t = T[lang];
+  document.getElementById('nTitle').textContent = t.notice_title;
+  document.getElementById('nBody').textContent = t.notice_body;
+  document.getElementById('langSwitchBtn').textContent = t.lang_switch;
+
+  // Step 1
+  document.getElementById('s1Eyebrow').textContent = t.s1_eyebrow;
+  document.getElementById('s1Title').textContent = t.s1_title;
+  document.getElementById('s1Desc').textContent = t.s1_desc;
+  document.getElementById('qRes').textContent = t.q_res;
+  document.getElementById('rLabel1').textContent = t.r1; document.getElementById('r1').value = t.r1;
+  document.getElementById('rLabel2').textContent = t.r2; document.getElementById('r2').value = t.r2;
+  document.getElementById('err-reservationType').textContent = t.err_res;
+  document.getElementById('qCons').textContent = t.q_cons;
+  document.getElementById('cLabel1').textContent = t.c1; document.getElementById('c1').value = t.c1;
+  document.getElementById('cLabel2').textContent = t.c2; document.getElementById('c2').value = t.c2;
+  document.getElementById('err-consultationType').textContent = t.err_cons;
+  document.getElementById('btnNext1').textContent = t.btn_next;
+
+  // Step 2
+  document.getElementById('s2Eyebrow').textContent = t.s2_eyebrow;
+  document.getElementById('s2Title').textContent = t.s2_title;
+  document.getElementById('s2Desc').textContent = t.s2_desc;
+  document.getElementById('qNameBirth').textContent = t.q_name_birth;
+  document.getElementById('nameBirth').placeholder = t.ph_name_birth;
+  document.getElementById('qPhone').textContent = t.q_phone;
+  document.getElementById('phone').placeholder = t.ph_phone;
+  document.getElementById('qAddr').textContent = t.q_addr;
+  document.getElementById('qAddrHint').textContent = t.q_addr_hint;
+  document.getElementById('address').placeholder = t.ph_addr;
+  document.getElementById('err-nameBirth').textContent = t.err_name;
+  document.getElementById('err-phone').textContent = t.err_phone;
+  document.getElementById('err-address').textContent = t.err_addr;
+  document.getElementById('btnPrev2').textContent = t.btn_back;
+  document.getElementById('btnNext2').textContent = t.btn_next;
+
+  // Step 3
+  document.getElementById('s3Eyebrow').textContent = t.s3_eyebrow;
+  document.getElementById('s3Title').textContent = t.s3_title;
+  document.getElementById('s3Desc').textContent = t.s3_desc;
+  document.getElementById('qTreat').textContent = t.q_treat;
+  document.getElementById('treatHint').textContent = t.treat_hint;
+  for (let i = 1; i <= 6; i++) {
+    document.getElementById(`thLabel${i}`).textContent = t[`th${i}`];
+    document.getElementById(`th${i}`).value = t[`th${i}`];
+  }
+  document.getElementById('qSrc').textContent = t.q_src;
+  document.getElementById('vsLabel3').textContent = t.vs3; document.getElementById('vs3').value = t.vs3;
+  document.getElementById('vsLabel4').textContent = t.vs4; document.getElementById('vs4').value = t.vs4;
+  document.getElementById('vsLabel5').textContent = t.vs5; document.getElementById('vs5').value = t.vs5;
+  document.getElementById('vsLabel6').textContent = t.vs6; document.getElementById('vs6').value = t.vs6;
+  document.getElementById('err-visitSource').textContent = t.err_src;
+  document.getElementById('btnPrev3').textContent = t.btn_back;
+  document.getElementById('btnNext3').textContent = t.btn_next;
+
+  // Step 4
+  document.getElementById('s4Eyebrow').textContent = t.s4_eyebrow;
+  document.getElementById('s4Title').textContent = t.s4_title;
+  document.getElementById('s4Desc').textContent = t.s4_desc;
+  document.getElementById('qScalp').textContent = t.q_scalp;
+  document.getElementById('scalpHint').textContent = t.scalp_hint;
+  for (let i = 1; i <= 11; i++) {
+    document.getElementById(`scLabel${i}`).textContent = t[`sc${i}`];
+    document.getElementById(`sc${i}`).value = t[`sc${i}`];
+  }
+  document.getElementById('err-scalpConcerns').textContent = t.err_scalp;
+  document.getElementById('qPerm').textContent = t.q_perm;
+  document.getElementById('permFrequency').placeholder = t.ph_perm;
+  document.getElementById('qShampoo').textContent = t.q_shampoo;
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById(`sfLabel${i}`).textContent = t[`sf${i}`];
+    document.getElementById(`sf${i}`).value = t[`sf${i}`];
+  }
+  document.getElementById('err-shampooFrequency').textContent = t.err_shampoo;
+  document.getElementById('qGenetic').textContent = t.q_genetic;
+  document.getElementById('hgLabel1').textContent = t.hg1; document.getElementById('hg1').value = t.hg1;
+  document.getElementById('hgLabel2').textContent = t.hg2; document.getElementById('hg2').value = t.hg2;
+  document.getElementById('err-hairLossGenetic').textContent = t.err_genetic;
+  document.getElementById('btnPrev4').textContent = t.btn_back;
+  document.getElementById('btnNext4').textContent = t.btn_next;
+
+  // Step 5
+  document.getElementById('s5Eyebrow').textContent = t.s5_eyebrow;
+  document.getElementById('s5Title').textContent = t.s5_title;
+  document.getElementById('s5Desc').textContent = t.s5_desc;
+  document.getElementById('qServ').textContent = t.q_serv;
+  document.getElementById('servHint').textContent = t.serv_hint;
+  document.getElementById('dsName1').textContent = t.ds1_name; document.getElementById('dsDesc1').textContent = t.ds1_desc;
+  document.getElementById('dsName2').textContent = t.ds2_name; document.getElementById('dsDesc2').textContent = t.ds2_desc;
+  document.getElementById('dsName3').textContent = t.ds3_name; document.getElementById('dsDesc3').textContent = t.ds3_desc;
+  document.getElementById('dsName4').textContent = t.ds4_name; document.getElementById('dsDesc4').textContent = t.ds4_desc;
+  document.getElementById('err-desiredServices').textContent = t.err_serv;
+  document.getElementById('qVideo').textContent = t.q_video;
+  document.getElementById('videoDesc').textContent = t.video_desc;
+  document.getElementById('vcLabel1').textContent = t.vc1;
+  document.getElementById('vcLabel2').textContent = t.vc2;
+  document.getElementById('err-videoConsent').textContent = t.err_video;
+  document.getElementById('privacyReqText').textContent = t.privacy_req;
+  document.getElementById('privacyReqDetail').textContent = t.privacy_req_detail;
+  document.getElementById('privacyLinkText').textContent = t.privacy_link;
+  document.getElementById('privacyMktText').textContent = t.privacy_mkt;
+  document.getElementById('privacyMktDetail').textContent = t.privacy_mkt_detail;
+  document.getElementById('err-privacy').textContent = t.err_privacy;
+  document.getElementById('btnPrev5').textContent = t.btn_back;
+  document.getElementById('btnSubmit').textContent = t.btn_submit;
+}
+
+function updateProgress() {
+  const t = T[lang];
+  const pct = Math.round((currentStep / TOTAL_STEPS) * 100);
+  document.getElementById('stepLabel').textContent = t.step_of(currentStep, TOTAL_STEPS);
+  document.getElementById('stepPct').textContent = `${pct}%`;
+  for (let i = 1; i <= TOTAL_STEPS; i++) {
+    const dot = document.getElementById(`dot${i}`);
+    dot.classList.remove('active', 'done');
+    if (i < currentStep) dot.classList.add('done');
+    else if (i === currentStep) dot.classList.add('active');
+    if (i < TOTAL_STEPS) document.getElementById(`line${i}`).classList.toggle('done', i < currentStep);
+  }
+}
+
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById(`step${n}`).classList.add('active');
+  currentStep = n;
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showErr(id, show) {
+  const el = document.getElementById(`err-${id}`);
+  if (el) el.classList.toggle('show', show);
+}
+
+function nextStep(from) {
+  let ok = true;
+  if (from === 1) {
+    if (!document.querySelector('input[name="reservationType"]:checked')) { showErr('reservationType', true); ok = false; } else showErr('reservationType', false);
+    if (!document.querySelector('input[name="consultationType"]:checked')) { showErr('consultationType', true); ok = false; } else showErr('consultationType', false);
+  }
+  if (from === 2) {
+    if (!document.getElementById('nameBirth').value.trim()) { showErr('nameBirth', true); ok = false; } else showErr('nameBirth', false);
+    if (!document.getElementById('phone').value.trim()) { showErr('phone', true); ok = false; } else showErr('phone', false);
+    if (!document.getElementById('address').value.trim()) { showErr('address', true); ok = false; } else showErr('address', false);
+  }
+  if (from === 3) {
+    if (!document.querySelector('input[name="visitSource"]:checked')) { showErr('visitSource', true); ok = false; } else showErr('visitSource', false);
+  }
+  if (from === 4) {
+    if (!document.querySelectorAll('input[name="scalpConcerns"]:checked').length) { showErr('scalpConcerns', true); ok = false; } else showErr('scalpConcerns', false);
+    if (!document.querySelector('input[name="shampooFrequency"]:checked')) { showErr('shampooFrequency', true); ok = false; } else showErr('shampooFrequency', false);
+    if (!document.querySelector('input[name="hairLossGenetic"]:checked')) { showErr('hairLossGenetic', true); ok = false; } else showErr('hairLossGenetic', false);
+  }
+  if (ok) showStep(from + 1);
+}
+
+function prevStep(from) { showStep(from - 1); }
+
+async function submitForm() {
+  const t = T[lang];
+  const ds = [...document.querySelectorAll('input[name="desiredServices"]:checked')].map(x => x.value);
+  if (!ds.length) { showErr('desiredServices', true); return; } else showErr('desiredServices', false);
+  if (!document.querySelector('input[name="videoConsent"]:checked')) { showErr('videoConsent', true); return; } else showErr('videoConsent', false);
+  if (!document.getElementById('privacyRequired').checked) { showErr('privacy', true); return; } else showErr('privacy', false);
+
+  const btn = document.getElementById('btnSubmit');
+  btn.textContent = t.btn_ing; btn.disabled = true;
+
+  const nb = document.getElementById('nameBirth').value.trim();
+  const namePart = nb.split('/')[0].trim();
+
+  const data = {
+    lang,
+    reservationType: document.querySelector('input[name="reservationType"]:checked')?.value || '',
+    consultationType: document.querySelector('input[name="consultationType"]:checked')?.value || '',
+    nameBirth: nb,
+    name: namePart,
+    phone: document.getElementById('phone').value.trim(),
+    address: document.getElementById('address').value.trim(),
+    treatmentHistory: [...document.querySelectorAll('input[name="treatmentHistory"]:checked')].map(x => x.value),
+    visitSource: document.querySelector('input[name="visitSource"]:checked')?.value || '',
+    scalpConcerns: [...document.querySelectorAll('input[name="scalpConcerns"]:checked')].map(x => x.value),
+    permFrequency: document.getElementById('permFrequency').value.trim(),
+    shampooFrequency: document.querySelector('input[name="shampooFrequency"]:checked')?.value || '',
+    hairLossGenetic: document.querySelector('input[name="hairLossGenetic"]:checked')?.value || '',
+    desiredServices: ds,
+    videoConsent: document.querySelector('input[name="videoConsent"]:checked')?.value || '',
+    marketingConsent: document.getElementById('privacyMarketing').checked,
+  };
+
+  try {
+    const res = await fetch('/api/submit', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('server');
+    const json = await res.json();
+    if (!json.success) throw new Error('server');
+
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('doneTitle').textContent = t.done_title;
+    document.getElementById('doneDesc').textContent = t.done_desc;
+    document.getElementById('doneInfo').innerHTML = `
+      <div class="done-info-row"><span class="key">${t.done_name}</span><span class="val">${data.nameBirth}</span></div>
+      <div class="done-info-row"><span class="key">${t.done_phone}</span><span class="val">${data.phone}</span></div>
+      <div class="done-info-row"><span class="key">${t.done_res}</span><span class="val">${data.reservationType}</span></div>
+      <div class="done-info-row"><span class="key">${t.done_serv}</span><span class="val">${data.desiredServices.join(', ')}</span></div>
+    `;
+    document.getElementById('doneScreen').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (e) {
+    btn.textContent = t.btn_submit; btn.disabled = false;
+    alert(e.message === 'server' ? t.err_server : t.err_network);
+  }
+}
+</script>
+</body>
+</html>
