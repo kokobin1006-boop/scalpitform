@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scálpit | 오늘 서비스 어떠셨나요?</title>
+  <meta property="og:title" content="Scálpit | 오늘 서비스 어떠셨나요?" />
+  <meta property="og:description" content="소중한 한마디가 더 나은 서비스를 만들어요." />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --burg: #7B1A2B;
+      --burg-light: #9B2840;
+      --burg-dark: #5A1020;
+      --cream: #FAF4EE;
+      --cream-mid: #F0E6DC;
+      --gold: #C4A47C;
+      --white: #FFFFFF;
+      --dark: #1C0E0E;
+      --text: #2D1818;
+      --text-muted: #8B7070;
+      --border: #E2D0C4;
+      --bg-burg: #F5ECEC;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans KR', 'Montserrat', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* 헤더 */
+    .header {
+      background: var(--burg);
+      padding: 20px 24px;
+      text-align: center;
+    }
+    .header-logo {
+      height: 28px; width: auto;
+      filter: brightness(0) invert(1);
+    }
+    .header-tagline {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 7px; letter-spacing: 3px;
+      color: rgba(255,255,255,0.5); margin-top: 5px;
+      text-transform: uppercase;
+    }
+
+    /* 컨테이너 */
+    .wrap { max-width: 600px; margin: 0 auto; padding: 36px 20px 120px; }
+
+    /* 공지 */
+    .notice {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--burg);
+      padding: 14px 18px; margin-bottom: 36px;
+      font-size: 13px; color: var(--text); line-height: 1.85;
+    }
+    .notice strong {
+      display: block; margin-bottom: 4px;
+      font-size: 9px; color: var(--burg);
+      font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    }
+
+    /* 질문 블록 */
+    .q-block { margin-bottom: 32px; }
+    .q-label {
+      font-size: 13px; font-weight: 700; color: var(--dark);
+      margin-bottom: 14px; display: flex; align-items: center; gap: 6px;
+    }
+    .q-label .req { color: var(--burg); font-size: 15px; line-height: 1; }
+    .q-hint { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+
+    /* 별점 */
+    .star-row {
+      display: flex; gap: 8px; justify-content: center;
+      margin-bottom: 8px;
+    }
+    .star-btn {
+      font-size: 36px; cursor: pointer;
+      transition: transform 0.15s, opacity 0.15s;
+      opacity: 0.2; background: none; border: none;
+      padding: 4px; user-select: none; line-height: 1;
+    }
+    .star-btn.on { opacity: 1; transform: scale(1.1); }
+    .star-btn:hover { opacity: 0.7; }
+    .star-label {
+      text-align: center; font-size: 12px; color: var(--burg);
+      font-weight: 600; min-height: 18px;
+      font-family: 'Montserrat', sans-serif; letter-spacing: 1px;
+    }
+
+    /* 카드 옵션 */
+    .card-options { display: flex; flex-direction: column; gap: 7px; }
+    .card-option { position: relative; }
+    .card-option input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .card-option label {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 18px;
+      background: var(--white); border: 1px solid var(--border);
+      cursor: pointer; font-size: 13.5px; font-weight: 400;
+      color: var(--text); transition: all 0.2s; user-select: none;
+    }
+    .card-option label:hover { border-color: var(--burg); background: var(--bg-burg); }
+    .card-option input:checked + label { border-color: var(--burg); background: var(--bg-burg); font-weight: 600; }
+    .dot {
+      width: 16px; height: 16px; border: 1px solid var(--border);
+      border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .card-option input:checked + label .dot { background: var(--burg); border-color: var(--burg); }
+    .card-option input:checked + label .dot::after {
+      content: ''; width: 5px; height: 5px;
+      background: white; border-radius: 50%; display: block;
+    }
+    .option-emoji { font-size: 18px; }
+
+    /* 텍스트 입력 */
+    .text-input {
+      width: 100%; padding: 14px 16px;
+      background: var(--white); border: 1px solid var(--border);
+      font-size: 14px;
+      font-family: 'Noto Sans KR', 'Montserrat', sans-serif;
+      color: var(--text); outline: none; transition: border-color 0.2s;
+      resize: none;
+    }
+    .text-input:focus { border-color: var(--burg); }
+    .text-input::placeholder { color: #C8B8B0; }
+
+    /* 버튼 */
+    .btn-wrap { margin-top: 40px; }
+    .btn-submit {
+      width: 100%; padding: 16px;
+      background: var(--burg); color: var(--white);
+      border: none; cursor: pointer;
+      font-size: 10px; font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .btn-submit:hover { background: var(--burg-dark); transform: translateY(-1px); }
+    .btn-submit:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+
+    /* 에러 */
+    .error-msg { font-size: 12px; color: var(--burg); margin-top: 6px; display: none; }
+    .error-msg.show { display: block; }
+
+    /* 완료 화면 */
+    .done-screen { display: none; text-align: center; padding: 80px 20px; animation: fadeUp 0.4s ease; }
+    .done-screen.show { display: block; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .done-mark {
+      width: 60px; height: 60px; border: 1px solid var(--burg);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 28px; font-size: 22px; color: var(--burg);
+    }
+    .done-logo {
+      height: 32px; width: auto; margin-bottom: 8px;
+      filter: brightness(0) saturate(100%) invert(14%) sepia(60%) saturate(800%) hue-rotate(320deg) brightness(70%);
+    }
+    .done-sub {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 8px; letter-spacing: 4px; color: var(--gold);
+      margin-bottom: 28px; text-transform: uppercase;
+    }
+    .done-title { font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
+    .done-desc { font-size: 13px; color: var(--text-muted); line-height: 2; }
+
+    #form-section.hide { display: none; }
+
+    .divider { width: 100%; height: 1px; background: var(--border); margin: 8px 0 28px; }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <img src="scalpit-logo.png" alt="Scálpit" class="header-logo" />
+  <div class="header-tagline">Head Spa &amp; Scalp Care</div>
+</header>
+
+<div class="wrap">
+
+  <!-- 완료 화면 -->
+  <div class="done-screen" id="doneScreen">
+    <div class="done-mark">✓</div>
+    <img src="scalpit-logo.png" alt="Scálpit" class="done-logo" />
+    <div class="done-sub">Head Spa &amp; Scalp Care</div>
+    <div class="done-title">감사합니다!</div>
+    <div class="done-desc">소중한 리뷰가 잘 전달되었어요.<br>더 좋은 서비스로 보답하겠습니다.</div>
+  </div>
+
+  <!-- 폼 -->
+  <div id="form-section">
+
+    <div class="notice">
+      <strong>REVIEW</strong>
+      오늘 방문해주신 소감을 솔직하게 남겨주세요. 여러분의 한마디가 Scálpit을 더 좋게 만드는 힘이 됩니다.
+    </div>
+
+    <!-- 전체 만족도 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> 전체적인 만족도</div>
+      <div class="star-row" id="stars-overall">
+        <button class="star-btn" data-group="overall" data-val="1" type="button">⭐</button>
+        <button class="star-btn" data-group="overall" data-val="2" type="button">⭐</button>
+        <button class="star-btn" data-group="overall" data-val="3" type="button">⭐</button>
+        <button class="star-btn" data-group="overall" data-val="4" type="button">⭐</button>
+        <button class="star-btn" data-group="overall" data-val="5" type="button">⭐</button>
+      </div>
+      <div class="star-label" id="label-overall"></div>
+      <div class="error-msg" id="err-overall">전체 만족도를 선택해주세요.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 직원 응대 -->
+    <div class="q-block">
+      <div class="q-label">직원 응대 <span class="q-hint">(선택)</span></div>
+      <div class="star-row" id="stars-staff">
+        <button class="star-btn" data-group="staff" data-val="1" type="button">⭐</button>
+        <button class="star-btn" data-group="staff" data-val="2" type="button">⭐</button>
+        <button class="star-btn" data-group="staff" data-val="3" type="button">⭐</button>
+        <button class="star-btn" data-group="staff" data-val="4" type="button">⭐</button>
+        <button class="star-btn" data-group="staff" data-val="5" type="button">⭐</button>
+      </div>
+      <div class="star-label" id="label-staff"></div>
+    </div>
+
+    <!-- 시술 결과 -->
+    <div class="q-block">
+      <div class="q-label">시술 결과 <span class="q-hint">(선택)</span></div>
+      <div class="star-row" id="stars-result">
+        <button class="star-btn" data-group="result" data-val="1" type="button">⭐</button>
+        <button class="star-btn" data-group="result" data-val="2" type="button">⭐</button>
+        <button class="star-btn" data-group="result" data-val="3" type="button">⭐</button>
+        <button class="star-btn" data-group="result" data-val="4" type="button">⭐</button>
+        <button class="star-btn" data-group="result" data-val="5" type="button">⭐</button>
+      </div>
+      <div class="star-label" id="label-result"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 재방문 의향 -->
+    <div class="q-block">
+      <div class="q-label">다음에 또 방문하실 의향이 있으신가요? <span class="q-hint">(선택)</span></div>
+      <div class="card-options">
+        <div class="card-option">
+          <input type="radio" name="revisit" id="rv1" value="yes" />
+          <label for="rv1"><span class="dot"></span><span class="option-emoji">😍</span> 당연하죠! 또 올게요</label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="revisit" id="rv2" value="maybe" />
+          <label for="rv2"><span class="dot"></span><span class="option-emoji">🤔</span> 고민 중이에요</label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="revisit" id="rv3" value="no" />
+          <label for="rv3"><span class="dot"></span><span class="option-emoji">😔</span> 아마 아닐 것 같아요</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 불편사항 -->
+    <div class="q-block">
+      <div class="q-label">불편하셨던 점이 있으셨나요? <span class="q-hint">(선택)</span></div>
+      <textarea class="text-input" id="improvement" rows="3" placeholder="솔직하게 말씀해 주세요. 바로 개선할게요!&#10;예: 대기 시간이 조금 길었어요"></textarea>
+    </div>
+
+    <!-- 한 줄 후기 -->
+    <div class="q-block">
+      <div class="q-label">한 줄 후기를 남겨주세요 <span class="q-hint">(선택)</span></div>
+      <textarea class="text-input" id="comment" rows="3" placeholder="예: 두피가 시원해지는 느낌이 너무 좋았어요!"></textarea>
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn-submit" id="submit-btn" onclick="submitReview()">SUBMIT →</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const ratings = { overall: 0, staff: 0, result: 0 };
+  const ratingTexts = ['', '아쉬웠어요', '조금 아쉬웠어요', '보통이에요', '좋았어요', '최고였어요'];
+
+  document.querySelectorAll('.star-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.dataset.group;
+      const val = parseInt(btn.dataset.val);
+      ratings[group] = val;
+      document.querySelectorAll(`.star-btn[data-group="${group}"]`).forEach(b => {
+        b.classList.toggle('on', parseInt(b.dataset.val) <= val);
+      });
+      const label = document.getElementById(`label-${group}`);
+      if (label) label.textContent = ratingTexts[val];
+      if (group === 'overall') document.getElementById('err-overall').classList.remove('show');
+    });
+  });
+
+  async function submitReview() {
+    if (!ratings.overall) {
+      document.getElementById('err-overall').classList.add('show');
+      document.getElementById('stars-overall').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true; btn.textContent = '제출 중...';
+
+    const revisitEl = document.querySelector('input[name="revisit"]:checked');
+    const payload = {
+      overallRating: ratings.overall,
+      staffRating: ratings.staff || null,
+      resultRating: ratings.result || null,
+      revisit: revisitEl ? revisitEl.value : '',
+      improvement: document.getElementById('improvement').value.trim(),
+      comment: document.getElementById('comment').value.trim(),
+    };
+
+    try {
+      const res = await fetch('/api/review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById('form-section').classList.add('hide');
+        document.getElementById('doneScreen').classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else throw new Error();
+    } catch {
+      btn.disabled = false;
+      btn.textContent = 'SUBMIT →';
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  }
+</script>
+</body>
+</html>

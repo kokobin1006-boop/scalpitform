@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scálpit | 리뷰 어드민</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --burg: #7B1A2B; --burg-dark: #5A1020;
+      --cream: #FAF4EE; --gold: #C4A47C;
+      --white: #FFFFFF; --dark: #1C0E0E;
+      --text: #2D1818; --text-muted: #8B7070;
+      --border: #E2D0C4; --bg-burg: #F5ECEC;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans KR', 'Montserrat', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+
+    /* 로그인 */
+    .login-wrap {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: #3A1018; padding: 24px;
+    }
+    .login-brand { text-align: center; margin-bottom: 48px; }
+    .login-logo { height: 48px; width: auto; filter: brightness(0) invert(1); display: block; margin: 0 auto 12px; }
+    .login-brand-line { width: 32px; height: 1px; background: var(--gold); margin: 14px auto; }
+    .login-brand-sub { font-family: 'Montserrat', sans-serif; font-size: 8px; letter-spacing: 5px; color: var(--gold); font-weight: 500; text-transform: uppercase; }
+    .login-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); padding: 32px 28px; width: 100%; max-width: 320px; text-align: center; }
+    .login-label { font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 3px; color: rgba(255,255,255,0.35); text-transform: uppercase; margin-bottom: 12px; display: block; }
+    .login-input { width: 100%; padding: 13px 16px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: var(--white); font-size: 14px; outline: none; font-family: 'Montserrat', sans-serif; margin-bottom: 12px; transition: border-color 0.2s; }
+    .login-input:focus { border-color: rgba(255,255,255,0.4); }
+    .login-input::placeholder { color: rgba(255,255,255,0.2); }
+    .login-btn { width: 100%; padding: 14px; background: var(--burg); color: var(--white); border: none; cursor: pointer; font-size: 10px; font-weight: 700; font-family: 'Montserrat', sans-serif; letter-spacing: 3px; text-transform: uppercase; transition: background 0.2s; }
+    .login-btn:hover { background: var(--burg-dark); }
+    .login-err { font-size: 12px; color: #E07070; margin-top: 10px; display: none; }
+    .login-err.show { display: block; }
+
+    /* 관리자 */
+    .admin-wrap { display: none; }
+    .admin-header { background: var(--burg); padding: 20px 24px; position: sticky; top: 0; z-index: 100; }
+    .admin-header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .admin-logo { height: 24px; width: auto; filter: brightness(0) invert(1); }
+    .admin-tagline { font-family: 'Montserrat', sans-serif; font-size: 7px; letter-spacing: 3px; color: rgba(255,255,255,0.45); text-transform: uppercase; margin-top: 4px; }
+    .admin-header-right { display: flex; align-items: center; gap: 10px; }
+    .total-badge { font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.08); padding: 7px 14px; border: 1px solid rgba(255,255,255,0.15); }
+    .logout-btn { font-family: 'Montserrat', sans-serif; font-size: 9px; color: rgba(255,255,255,0.45); cursor: pointer; letter-spacing: 2px; padding: 7px 14px; border: 1px solid rgba(255,255,255,0.15); background: transparent; text-transform: uppercase; transition: all 0.2s; }
+    .logout-btn:hover { border-color: rgba(255,255,255,0.5); color: white; }
+
+    .admin-body { max-width: 900px; margin: 0 auto; padding: 36px 20px 80px; }
+
+    /* 통계 */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 32px; }
+    .stat-card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-left: 2px solid var(--burg); }
+    .stat-label { font-family: 'Montserrat', sans-serif; font-size: 8px; letter-spacing: 3px; color: var(--burg); text-transform: uppercase; margin-bottom: 10px; font-weight: 600; }
+    .stat-val { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 400; color: var(--dark); line-height: 1; }
+    .stat-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+    /* 리뷰 카드 */
+    .reviews-grid { display: flex; flex-direction: column; gap: 12px; }
+    .review-card { background: var(--white); border: 1px solid var(--border); padding: 20px; }
+    .review-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+    .review-date { font-family: 'Montserrat', sans-serif; font-size: 10px; color: var(--text-muted); letter-spacing: 1px; }
+    .stars-display { font-size: 16px; letter-spacing: 2px; }
+    .review-ratings { display: flex; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+    .rating-item { font-size: 11px; color: var(--text-muted); }
+    .rating-item strong { color: var(--dark); font-size: 12px; }
+    .revisit-tag { display: inline-block; font-size: 9px; padding: 3px 10px; font-family: 'Montserrat', sans-serif; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 10px; }
+    .revisit-yes { background: #EDF5EE; color: #1A4A20; }
+    .revisit-maybe { background: var(--bg-burg); color: var(--burg); }
+    .revisit-no { background: #F5F0ED; color: #4A3020; }
+    .review-text { font-size: 13px; color: var(--text); line-height: 1.75; margin-bottom: 6px; }
+    .review-text-label { font-size: 10px; color: var(--text-muted); font-weight: 600; letter-spacing: 1px; margin-bottom: 3px; font-family: 'Montserrat', sans-serif; }
+    .del-btn { background: none; border: 1px solid var(--border); color: var(--text-muted); font-size: 9px; padding: 5px 10px; cursor: pointer; font-family: 'Montserrat', sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: all 0.2s; }
+    .del-btn:hover { background: var(--burg); border-color: var(--burg); color: white; }
+
+    .empty-state { text-align: center; padding: 80px 20px; color: var(--text-muted); background: var(--white); border: 1px solid var(--border); }
+
+    .filter-bar { display: flex; gap: 8px; margin-bottom: 20px; }
+    .export-btn { padding: 11px 18px; background: var(--dark); color: var(--white); border: none; cursor: pointer; font-size: 10px; font-weight: 700; font-family: 'Montserrat', sans-serif; letter-spacing: 2px; text-transform: uppercase; transition: background 0.2s; }
+    .export-btn:hover { background: var(--burg); }
+  </style>
+</head>
+<body>
+
+<!-- 로그인 -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-brand">
+    <img src="scalpit-logo.png" alt="Scálpit" class="login-logo" />
+    <div class="login-brand-line"></div>
+    <div class="login-brand-sub">Review Admin</div>
+  </div>
+  <div class="login-box">
+    <span class="login-label">Password</span>
+    <input type="password" class="login-input" id="pwInput" placeholder="••••••••••" onkeydown="if(event.key==='Enter')doLogin()" />
+    <button class="login-btn" onclick="doLogin()">LOGIN</button>
+    <div class="login-err" id="loginErr">비밀번호가 올바르지 않습니다.</div>
+  </div>
+</div>
+
+<!-- 관리자 -->
+<div class="admin-wrap" id="adminWrap">
+  <header class="admin-header">
+    <div class="admin-header-inner">
+      <div>
+        <img src="scalpit-logo.png" alt="Scálpit" class="admin-logo" />
+        <div class="admin-tagline">Review Admin</div>
+      </div>
+      <div class="admin-header-right">
+        <div class="total-badge" id="totalBadge">TOTAL — 0</div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="admin-body">
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-label">Total</div><div class="stat-val" id="stTotal">0</div><div class="stat-sub">전체 리뷰</div></div>
+      <div class="stat-card"><div class="stat-label">Today</div><div class="stat-val" id="stToday">0</div><div class="stat-sub">오늘 리뷰</div></div>
+      <div class="stat-card"><div class="stat-label">Avg Score</div><div class="stat-val" id="stAvg">-</div><div class="stat-sub">평균 별점</div></div>
+      <div class="stat-card"><div class="stat-label">Revisit</div><div class="stat-val" id="stRevisit">0</div><div class="stat-sub">재방문 의향</div></div>
+    </div>
+
+    <div class="filter-bar">
+      <button class="export-btn" onclick="exportCSV()">CSV 내보내기</button>
+    </div>
+
+    <div class="reviews-grid" id="reviewsGrid"></div>
+    <div class="empty-state" id="emptyState" style="display:none">아직 접수된 리뷰가 없습니다.</div>
+  </div>
+</div>
+
+<script>
+let adminPw = '';
+let allData = [];
+
+async function doLogin() {
+  const pw = document.getElementById('pwInput').value;
+  const res = await fetch('/api/reviews', { headers: { 'x-admin-password': pw } });
+  if (res.status === 401) { document.getElementById('loginErr').classList.add('show'); return; }
+  adminPw = pw;
+  const json = await res.json();
+  allData = json.data || [];
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('adminWrap').style.display = 'block';
+  renderStats(); renderReviews();
+}
+
+function logout() {
+  adminPw = ''; allData = [];
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('adminWrap').style.display = 'none';
+  document.getElementById('pwInput').value = '';
+  document.getElementById('loginErr').classList.remove('show');
+}
+
+function renderStats() {
+  const today = new Date().toLocaleDateString('sv');
+  const total = allData.length;
+  const todayCount = allData.filter(d => (d.submittedAt||'').startsWith(today)).length;
+  const avg = total ? (allData.reduce((s, d) => s + (d.overallRating||0), 0) / total).toFixed(1) : '-';
+  const revisit = allData.filter(d => d.revisit === 'yes').length;
+  document.getElementById('stTotal').textContent = total;
+  document.getElementById('stToday').textContent = todayCount;
+  document.getElementById('stAvg').textContent = avg;
+  document.getElementById('stRevisit').textContent = revisit;
+  document.getElementById('totalBadge').textContent = `TOTAL — ${total}`;
+}
+
+function stars(n) { return n ? '⭐'.repeat(n) + ' ' + n : '-'; }
+
+function renderReviews() {
+  document.getElementById('emptyState').style.display = allData.length ? 'none' : '';
+  const revisitMap = { yes: ['revisit-yes', '재방문 의향 있음'], maybe: ['revisit-maybe', '고민 중'], no: ['revisit-no', '재방문 없음'] };
+  document.getElementById('reviewsGrid').innerHTML = allData.map(d => {
+    const dt = d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '-';
+    const rv = d.revisit ? revisitMap[d.revisit] : null;
+    return `<div class="review-card">
+      <div class="review-card-header">
+        <div>
+          <div class="stars-display">${'⭐'.repeat(d.overallRating||0)}</div>
+          <div class="review-date">${dt}</div>
+        </div>
+        <button class="del-btn" onclick="delEntry(${d.id})">삭제</button>
+      </div>
+      <div class="review-ratings">
+        <div class="rating-item"><strong>전체</strong> ${d.overallRating}점</div>
+        ${d.staffRating ? `<div class="rating-item"><strong>직원 응대</strong> ${d.staffRating}점</div>` : ''}
+        ${d.resultRating ? `<div class="rating-item"><strong>시술 결과</strong> ${d.resultRating}점</div>` : ''}
+      </div>
+      ${rv ? `<div class="revisit-tag ${rv[0]}">${rv[1]}</div>` : ''}
+      ${d.comment ? `<div class="review-text-label">후기</div><div class="review-text">"${d.comment}"</div>` : ''}
+      ${d.improvement ? `<div class="review-text-label" style="margin-top:8px">개선 의견</div><div class="review-text">${d.improvement}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+async function delEntry(id) {
+  if (!confirm('삭제하시겠습니까?')) return;
+  const res = await fetch(`/api/reviews/${id}`, { method: 'DELETE', headers: { 'x-admin-password': adminPw } });
+  if (res.ok) { allData = allData.filter(d => d.id !== id); renderStats(); renderReviews(); }
+}
+
+function exportCSV() {
+  const headers = ['접수일시','전체만족도','직원응대','시술결과','재방문의향','후기','개선의견'];
+  const rows = allData.map(d => [
+    d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '',
+    d.overallRating||'', d.staffRating||'', d.resultRating||'',
+    d.revisit||'', d.comment||'', d.improvement||''
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['﻿'+csv], { type: 'text/csv;charset=utf-8;' }));
+  a.download = `scalpit_reviews_${new Date().toLocaleDateString('sv')}.csv`;
+  a.click();
+}
+</script>
+</body>
+</html>
