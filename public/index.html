@@ -108,6 +108,11 @@
       color: rgba(255,255,255,0.5); font-weight: 400;
       margin-top: 5px; text-transform: uppercase;
     }
+    .header-branch {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 10px; color: rgba(255,255,255,0.8); font-weight: 500;
+      margin-top: 3px; display: none;
+    }
     .lang-switcher {
       font-family: 'Montserrat', sans-serif;
       font-size: 9px; color: rgba(255,255,255,0.55);
@@ -356,6 +361,7 @@
     <div>
       <img src="scalpit-logo.png" alt="Scálpit" class="header-logo" />
       <div class="header-tagline">Head Spa &amp; Scalp Care</div>
+      <div class="header-branch" id="headerBranch"></div>
     </div>
     <button class="lang-switcher" id="langSwitchBtn" onclick="openLangScreen()"></button>
   </div>
@@ -923,6 +929,16 @@ const T = {
 const TOTAL_STEPS = 5;
 let currentStep = 1;
 let lang = 'ko';
+let branchName = '스칼프잇';
+
+fetch('/api/branch').then(r => r.json()).then(b => {
+  branchName = b.name;
+  if (b.slug !== 'root') {
+    const el = document.getElementById('headerBranch');
+    el.textContent = b.name;
+    el.style.display = '';
+  }
+}).catch(() => {});
 
 function selectLang(l) {
   lang = l;

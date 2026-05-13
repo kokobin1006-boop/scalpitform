@@ -257,7 +257,7 @@
     <div class="admin-header-inner">
       <div class="admin-header-left">
         <img src="scalpit-logo.png" alt="Scálpit" class="admin-logo" />
-        <div class="admin-tagline">Admin Console</div>
+        <div class="admin-tagline" id="adminTagline">Admin Console</div>
       </div>
       <div class="admin-header-right">
         <div class="total-badge" id="totalBadge">TOTAL — 0</div>
@@ -353,6 +353,12 @@
 <script>
 let adminPw = '';
 let allData = [];
+
+fetch('/api/branch').then(r => r.json()).then(b => {
+  if (b.slug !== 'root') {
+    document.getElementById('adminTagline').textContent = `Admin Console — ${b.name}`;
+  }
+}).catch(() => {});
 
 async function doLogin() {
   const pw = document.getElementById('pwInput').value;

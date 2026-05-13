@@ -4,7 +4,25 @@ const { Pool } = require('pg');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'scalpit2024';
+
+const BRANCHES = {
+  cheonan: { name: '천안점', password: process.env.CHEONAN_PASSWORD || 'cheonan2024' },
+  dongtan: { name: '동탄점', password: process.env.DONGTAN_PASSWORD || 'dongtan2024' },
+};
+const ROOT_PASSWORD = process.env.ADMIN_PASSWORD || 'scalpit2024';
+
+function getBranch(req) {
+  const host = (req.headers.host || '').split(':')[0];
+  const subdomain = host.split('.')[0];
+  if (!BRANCHES[subdomain]) return null;
+  return { slug: subdomain, ...BRANCHES[subdomain] };
+}
+
+function authPassword(req) {
+  const branch = getBranch(req);
+  const expected = branch ? branch.password : ROOT_PASSWORD;
+  return req.headers['x-admin-password'] === expected;
+}
 
 let pool = null;
 if (process.env.DATABASE_URL) {
@@ -80,24 +98,41 @@ async function deleteSubmission(id) {
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/api/branch', (req, res) => {
+  const branch = getBranch(req);
+  res.json({
+    slug: branch ? branch.slug : 'root',
+    name: branch ? branch.name : '스칼프잇',
+  });
+});
+
 app.post('/api/submit', async (req, res) => {
   const body = req.body;
   if (!body.name && !body.nameBirth) return res.status(400).json({ success: false, message: '필수 항목을 입력해주세요.' });
-  const entry = { id: Date.now(), submittedAt: new Date().toISOString(), ...body };
+  const branch = getBranch(req);
+  const entry = { id: Date.now(), submittedAt: new Date().toISOString(), branch: branch ? branch.name : '본사', ...body };
   await saveSubmission(entry);
   res.json({ success: true });
 });
 
 app.get('/api/submissions', async (req, res) => {
-  if (req.headers['x-admin-password'] !== ADMIN_PASSWORD)
+  if (!authPassword(req))
     return res.status(401).json({ success: false, message: '비밀번호가 올바르지 않습니다.' });
-  const data = await getSubmissions();
+  let data = await getSubmissions();
+  const branch = getBranch(req);
+  if (branch) data = data.filter(d => d.branch === branch.name);
   res.json({ success: true, data, total: data.length });
 });
 
 app.delete('/api/submissions/:id', async (req, res) => {
-  if (req.headers['x-admin-password'] !== ADMIN_PASSWORD)
+  if (!authPassword(req))
     return res.status(401).json({ success: false });
+  const branch = getBranch(req);
+  if (branch) {
+    const all = await getSubmissions();
+    const entry = all.find(s => s.id === Number(req.params.id));
+    if (!entry || entry.branch !== branch.name) return res.status(403).json({ success: false });
+  }
   await deleteSubmission(Number(req.params.id));
   res.json({ success: true });
 });
@@ -106,7 +141,8 @@ app.delete('/api/submissions/:id', async (req, res) => {
 app.post('/api/review', async (req, res) => {
   const body = req.body;
   if (!body.overallRating) return res.status(400).json({ success: false, message: '전체 만족도를 선택해주세요.' });
-  const entry = { id: Date.now(), submittedAt: new Date().toISOString(), ...body };
+  const branch = getBranch(req);
+  const entry = { id: Date.now(), submittedAt: new Date().toISOString(), branch: branch ? branch.name : '본사', ...body };
   if (pool) {
     const { id, submittedAt, ...data } = entry;
     await pool.query('INSERT INTO reviews (id, submitted_at, data) VALUES ($1, $2, $3)', [id, submittedAt, JSON.stringify(data)]);
@@ -117,18 +153,29 @@ app.post('/api/review', async (req, res) => {
 });
 
 app.get('/api/reviews', async (req, res) => {
-  if (req.headers['x-admin-password'] !== ADMIN_PASSWORD)
+  if (!authPassword(req))
     return res.status(401).json({ success: false, message: '비밀번호가 올바르지 않습니다.' });
   let data;
   if (pool) {
     const result = await pool.query('SELECT id, submitted_at as "submittedAt", data FROM reviews ORDER BY id DESC');
     data = result.rows.map(r => ({ id: r.id, submittedAt: r.submittedAt, ...r.data }));
   } else { data = readReviews().reverse(); }
+  const branch = getBranch(req);
+  if (branch) data = data.filter(d => d.branch === branch.name);
   res.json({ success: true, data, total: data.length });
 });
 
 app.delete('/api/reviews/:id', async (req, res) => {
-  if (req.headers['x-admin-password'] !== ADMIN_PASSWORD) return res.status(401).json({ success: false });
+  if (!authPassword(req)) return res.status(401).json({ success: false });
+  const branch = getBranch(req);
+  if (branch) {
+    let data;
+    if (pool) {
+      const result = await pool.query('SELECT id, submitted_at as "submittedAt", data FROM reviews WHERE id=$1', [Number(req.params.id)]);
+      data = result.rows.map(r => ({ id: r.id, submittedAt: r.submittedAt, ...r.data }))[0];
+    } else { data = readReviews().find(r => r.id === Number(req.params.id)); }
+    if (!data || data.branch !== branch.name) return res.status(403).json({ success: false });
+  }
   if (pool) { await pool.query('DELETE FROM reviews WHERE id=$1', [Number(req.params.id)]); }
   else { writeReviews(readReviews().filter(r => r.id !== Number(req.params.id))); }
   res.json({ success: true });
