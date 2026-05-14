@@ -12,10 +12,15 @@ const BRANCHES = {
 const ROOT_PASSWORD = process.env.ADMIN_PASSWORD || 'scalpit2024';
 
 function getBranch(req) {
+  // 1) query param ?b=slug  2) URL path prefix /slug/...  3) subdomain (legacy)
+  const qb = req.query.b;
+  if (qb && BRANCHES[qb]) return { slug: qb, ...BRANCHES[qb] };
+  const pathSlug = req.path.split('/').filter(Boolean)[0];
+  if (pathSlug && BRANCHES[pathSlug]) return { slug: pathSlug, ...BRANCHES[pathSlug] };
   const host = (req.headers.host || '').split(':')[0];
   const subdomain = host.split('.')[0];
-  if (!BRANCHES[subdomain]) return null;
-  return { slug: subdomain, ...BRANCHES[subdomain] };
+  if (BRANCHES[subdomain]) return { slug: subdomain, ...BRANCHES[subdomain] };
+  return null;
 }
 
 function authPassword(req) {
@@ -96,6 +101,15 @@ async function deleteSubmission(id) {
 }
 
 app.use(express.json());
+
+// 매장별 경로 라우팅
+Object.keys(BRANCHES).forEach(slug => {
+  app.get(`/${slug}`, (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
+  app.get(`/${slug}/admin`, (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
+  app.get(`/${slug}/review`, (req, res) => res.sendFile(path.join(__dirname, 'public', 'review.html')));
+  app.get(`/${slug}/review-admin`, (req, res) => res.sendFile(path.join(__dirname, 'public', 'review-admin.html')));
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/branch', (req, res) => {

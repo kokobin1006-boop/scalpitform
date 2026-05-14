@@ -931,7 +931,9 @@ let currentStep = 1;
 let lang = 'ko';
 let branchName = '스칼프잇';
 
-fetch('/api/branch').then(r => r.json()).then(b => {
+const _pathSlug = window.location.pathname.split('/').filter(Boolean)[0] || '';
+const _branchParam = _pathSlug ? `?b=${_pathSlug}` : '';
+fetch('/api/branch' + _branchParam).then(r => r.json()).then(b => {
   branchName = b.name;
   if (b.slug !== 'root') {
     const el = document.getElementById('headerBranch');
@@ -1144,7 +1146,7 @@ async function submitForm() {
   };
 
   try {
-    const res = await fetch('/api/submit', {
+    const res = await fetch('/api/submit' + _branchParam, {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
     });
     if (!res.ok) throw new Error('server');

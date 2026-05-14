@@ -284,6 +284,8 @@
 </div>
 
 <script>
+  const _pathSlug = window.location.pathname.split('/').filter(Boolean)[0] || '';
+  const _branchParam = (_pathSlug && _pathSlug !== 'review') ? `?b=${_pathSlug}` : '';
   const ratings = { overall: 0, staff: 0, result: 0 };
   const ratingTexts = ['', '아쉬웠어요', '조금 아쉬웠어요', '보통이에요', '좋았어요', '최고였어요'];
 
@@ -321,7 +323,7 @@
     };
 
     try {
-      const res = await fetch('/api/review', {
+      const res = await fetch('/api/review' + _branchParam, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

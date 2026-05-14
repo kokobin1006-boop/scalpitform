@@ -134,9 +134,12 @@
 let adminPw = '';
 let allData = [];
 
+const _pathSlug = window.location.pathname.split('/').filter(Boolean)[0] || '';
+const _branchParam = (_pathSlug && _pathSlug !== 'review-admin') ? `?b=${_pathSlug}` : '';
+
 async function doLogin() {
   const pw = document.getElementById('pwInput').value;
-  const res = await fetch('/api/reviews', { headers: { 'x-admin-password': pw } });
+  const res = await fetch('/api/reviews' + _branchParam, { headers: { 'x-admin-password': pw } });
   if (res.status === 401) { document.getElementById('loginErr').classList.add('show'); return; }
   adminPw = pw;
   const json = await res.json();
@@ -197,7 +200,7 @@ function renderReviews() {
 
 async function delEntry(id) {
   if (!confirm('삭제하시겠습니까?')) return;
-  const res = await fetch(`/api/reviews/${id}`, { method: 'DELETE', headers: { 'x-admin-password': adminPw } });
+  const res = await fetch(`/api/reviews/${id}` + _branchParam, { method: 'DELETE', headers: { 'x-admin-password': adminPw } });
   if (res.ok) { allData = allData.filter(d => d.id !== id); renderStats(); renderReviews(); }
 }
 
