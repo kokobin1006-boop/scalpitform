@@ -564,6 +564,17 @@
       <div class="error-msg" id="err-hairLossGenetic"></div>
     </div>
 
+    <!-- Q12: 임신 / 수유 여부 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qPregnant"></span></div>
+      <div class="card-options">
+        <div class="card-option"><input type="radio" name="pregnancyStatus" id="pg1" value=""><label for="pg1"><span class="dot"></span> <span id="pgLabel1"></span></label></div>
+        <div class="card-option"><input type="radio" name="pregnancyStatus" id="pg2" value=""><label for="pg2"><span class="dot"></span> <span id="pgLabel2"></span></label></div>
+        <div class="card-option"><input type="radio" name="pregnancyStatus" id="pg3" value=""><label for="pg3"><span class="dot"></span> <span id="pgLabel3"></span></label></div>
+      </div>
+      <div class="error-msg" id="err-pregnancyStatus"></div>
+    </div>
+
     <div class="btn-wrap">
       <button class="btn btn-prev" id="btnPrev4" onclick="prevStep(4)"></button>
       <button class="btn btn-next" id="btnNext4" onclick="nextStep(4)"></button>
@@ -654,9 +665,9 @@
       </div>
     </div>
 
-    <div class="biz-info">
-      상호: 스칼프잇 &nbsp;|&nbsp; 사업자번호: 000-00-00000<br>
-      주소: 서울시 강남구 만주로168길 15 세화빌딩 3층
+    <div class="biz-info" id="bizInfo">
+      상호: 스칼프잇 &nbsp;|&nbsp; 사업자번호: —<br>
+      주소: —
     </div>
 
     <div class="btn-wrap">
@@ -717,6 +728,8 @@ const T = {
     err_shampoo:'샴푸 횟수를 선택해주세요.',
     q_genetic:'탈모 유전력', hg1:'있음', hg2:'없음',
     err_genetic:'탈모 유전력을 선택해주세요.',
+    q_pregnant:'임신 / 수유 여부', pg1:'임신 중', pg2:'수유 중', pg3:'해당 없음',
+    err_pregnant:'임신/수유 여부를 선택해주세요.',
     s5_eyebrow:'STEP 5 OF 5', s5_title:'서비스 선택 & 동의', s5_desc:'관심 있는 서비스와 동의 사항을 확인해주세요.',
     q_serv:'관심 서비스', serv_hint:'복수 선택 가능',
     ds1_name:'헤드스파', ds1_desc:'두피와 모발에 깊은 이완과 영양을 제공하는 힐링 헤드스파입니다.',
@@ -778,6 +791,8 @@ const T = {
     err_shampoo:'Please select your shampoo frequency.',
     q_genetic:'Hair Loss Genetics', hg1:'Yes', hg2:'No',
     err_genetic:'Please select your hair loss genetics.',
+    q_pregnant:'Pregnancy / Breastfeeding Status', pg1:'Currently pregnant', pg2:'Currently breastfeeding', pg3:'Not applicable',
+    err_pregnant:'Please select your pregnancy/breastfeeding status.',
     s5_eyebrow:'STEP 5 OF 5', s5_title:'Service & Consent', s5_desc:'Please select your service interests and complete the consent.',
     q_serv:'Service Interest', serv_hint:'Multiple selections allowed',
     ds1_name:'Head Spa', ds1_desc:'A healing head spa providing deep relaxation and nourishment for scalp and hair.',
@@ -839,6 +854,8 @@ const T = {
     err_shampoo:'请选择洗发频率。',
     q_genetic:'脱发遗传史', hg1:'有', hg2:'无',
     err_genetic:'请选择脱发遗传史。',
+    q_pregnant:'妊娠 / 哺乳状态', pg1:'妊娠中', pg2:'哺乳中', pg3:'不适用',
+    err_pregnant:'请选择妊娠/哺乳状态。',
     s5_eyebrow:'第 5 步，共 5 步', s5_title:'服务选择 & 同意', s5_desc:'请选择您感兴趣的服务并完成同意事项。',
     q_serv:'感兴趣的服务', serv_hint:'可多选',
     ds1_name:'头皮水疗', ds1_desc:'为头皮和毛发提供深度放松和营养的治愈系头皮水疗。',
@@ -899,6 +916,8 @@ const T = {
     err_shampoo:'シャンプーの頻度を選択してください。',
     q_genetic:'脱毛の遺伝歴', hg1:'あり', hg2:'なし',
     err_genetic:'脱毛の遺伝歴を選択してください。',
+    q_pregnant:'妊娠 / 授乳の有無', pg1:'妊娠中', pg2:'授乳中', pg3:'該当なし',
+    err_pregnant:'妊娠/授乳の有無を選択してください。',
     s5_eyebrow:'STEP 5 / 5', s5_title:'サービス選択 & 同意', s5_desc:'ご希望のサービスを選択し、同意事項をご確認ください。',
     q_serv:'ご興味のあるサービス', serv_hint:'複数選択可',
     ds1_name:'ヘッドスパ', ds1_desc:'頭皮と髪に深いリラクゼーションと栄養を提供するヒーリングヘッドスパです。',
@@ -939,6 +958,10 @@ fetch('/api/branch' + _branchParam).then(r => r.json()).then(b => {
     const el = document.getElementById('headerBranch');
     el.textContent = b.name;
     el.style.display = '';
+  }
+  if (b.bizNo && b.address) {
+    document.getElementById('bizInfo').innerHTML =
+      `상호: 스칼프잇${b.name} &nbsp;|&nbsp; 사업자번호: ${b.bizNo}<br>주소: ${b.address}`;
   }
 }).catch(() => {});
 
@@ -1033,6 +1056,11 @@ function applyLang() {
   document.getElementById('hgLabel1').textContent = t.hg1; document.getElementById('hg1').value = t.hg1;
   document.getElementById('hgLabel2').textContent = t.hg2; document.getElementById('hg2').value = t.hg2;
   document.getElementById('err-hairLossGenetic').textContent = t.err_genetic;
+  document.getElementById('qPregnant').textContent = t.q_pregnant;
+  document.getElementById('pgLabel1').textContent = t.pg1; document.getElementById('pg1').value = t.pg1;
+  document.getElementById('pgLabel2').textContent = t.pg2; document.getElementById('pg2').value = t.pg2;
+  document.getElementById('pgLabel3').textContent = t.pg3; document.getElementById('pg3').value = t.pg3;
+  document.getElementById('err-pregnancyStatus').textContent = t.err_pregnant;
   document.getElementById('btnPrev4').textContent = t.btn_back;
   document.getElementById('btnNext4').textContent = t.btn_next;
 
@@ -1107,6 +1135,7 @@ function nextStep(from) {
     if (!document.querySelectorAll('input[name="scalpConcerns"]:checked').length) { showErr('scalpConcerns', true); ok = false; } else showErr('scalpConcerns', false);
     if (!document.querySelector('input[name="shampooFrequency"]:checked')) { showErr('shampooFrequency', true); ok = false; } else showErr('shampooFrequency', false);
     if (!document.querySelector('input[name="hairLossGenetic"]:checked')) { showErr('hairLossGenetic', true); ok = false; } else showErr('hairLossGenetic', false);
+    if (!document.querySelector('input[name="pregnancyStatus"]:checked')) { showErr('pregnancyStatus', true); ok = false; } else showErr('pregnancyStatus', false);
   }
   if (ok) showStep(from + 1);
 }
@@ -1140,6 +1169,7 @@ async function submitForm() {
     permFrequency: document.getElementById('permFrequency').value.trim(),
     shampooFrequency: document.querySelector('input[name="shampooFrequency"]:checked')?.value || '',
     hairLossGenetic: document.querySelector('input[name="hairLossGenetic"]:checked')?.value || '',
+    pregnancyStatus: document.querySelector('input[name="pregnancyStatus"]:checked')?.value || '',
     desiredServices: ds,
     videoConsent: document.querySelector('input[name="videoConsent"]:checked')?.value || '',
     marketingConsent: document.getElementById('privacyMarketing').checked,

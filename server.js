@@ -6,8 +6,18 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const BRANCHES = {
-  cheonan: { name: '천안점', password: process.env.CHEONAN_PASSWORD || 'cheonan2024' },
-  dongtan: { name: '동탄점', password: process.env.DONGTAN_PASSWORD || 'dongtan2024' },
+  cheonan: {
+    name: '천안점',
+    password: process.env.CHEONAN_PASSWORD || 'cheonan2024',
+    bizNo: '657-01-03945',
+    address: '충청남도 천안시 서북구 불당21로 67-8, 2층 208,209호',
+  },
+  dongtan: {
+    name: '동탄점',
+    password: process.env.DONGTAN_PASSWORD || 'dongtan2024',
+    bizNo: '501-75-00684',
+    address: '경기도 화성시 동탄오산로 86-10, 4층 405호',
+  },
 };
 const ROOT_PASSWORD = process.env.ADMIN_PASSWORD || 'scalpit2024';
 
@@ -117,6 +127,8 @@ app.get('/api/branch', (req, res) => {
   res.json({
     slug: branch ? branch.slug : 'root',
     name: branch ? branch.name : '스칼프잇',
+    bizNo: branch ? branch.bizNo : '',
+    address: branch ? branch.address : '',
   });
 });
 
