@@ -593,6 +593,15 @@
       <div class="q-label"><span class="req">*</span> <span id="qServ"></span> <span class="q-hint" id="servHint"></span></div>
       <div class="card-options">
         <div class="card-option checkbox service-card">
+          <input type="checkbox" name="desiredServices" id="ds0" value="시그니쳐 딥 릴렉싱 아로마 스파 80분">
+          <label for="ds0">
+            <span class="dot"></span>
+            <div class="service-en">SIGNATURE AROMA SPA</div>
+            <div class="service-name" id="dsName0"></div>
+            <div class="service-desc" id="dsDesc0"></div>
+          </label>
+        </div>
+        <div class="card-option checkbox service-card">
           <input type="checkbox" name="desiredServices" id="ds1" value="헤드스파">
           <label for="ds1">
             <span class="dot"></span>
@@ -732,6 +741,7 @@ const T = {
     err_pregnant:'임신/수유 여부를 선택해주세요.',
     s5_eyebrow:'STEP 5 OF 5', s5_title:'서비스 선택 & 동의', s5_desc:'관심 있는 서비스와 동의 사항을 확인해주세요.',
     q_serv:'관심 서비스', serv_hint:'복수 선택 가능',
+    ds0_name:'시그니쳐 딥 릴렉싱 아로마 스파 80분', ds0_desc:'아로마 오일을 활용한 깊은 릴렉싱 두피·두발 스파입니다. 80분간 최상의 힐링 경험을 제공합니다.',
     ds1_name:'헤드스파', ds1_desc:'두피와 모발에 깊은 이완과 영양을 제공하는 힐링 헤드스파입니다.',
     ds2_name:'탈모 관리', ds2_desc:'두피 환경을 개선하고 모근을 강화하는 전문 탈모 케어 프로그램입니다.',
     ds3_name:'두피 스케일링', ds3_desc:'쌓인 피지와 각질을 제거하여 두피를 깨끗하게 정화합니다.',
@@ -795,6 +805,7 @@ const T = {
     err_pregnant:'Please select your pregnancy/breastfeeding status.',
     s5_eyebrow:'STEP 5 OF 5', s5_title:'Service & Consent', s5_desc:'Please select your service interests and complete the consent.',
     q_serv:'Service Interest', serv_hint:'Multiple selections allowed',
+    ds0_name:'Signature Deep Relaxing Aroma Spa 80min', ds0_desc:'An 80-minute aroma oil spa providing deep relaxation and ultimate healing for scalp and hair.',
     ds1_name:'Head Spa', ds1_desc:'A healing head spa providing deep relaxation and nourishment for scalp and hair.',
     ds2_name:'Hair Loss Care', ds2_desc:'A professional hair loss care program that improves scalp environment and strengthens follicles.',
     ds3_name:'Scalp Scaling', ds3_desc:'Thoroughly cleanses accumulated sebum and dead skin to purify the scalp.',
@@ -858,6 +869,7 @@ const T = {
     err_pregnant:'请选择妊娠/哺乳状态。',
     s5_eyebrow:'第 5 步，共 5 步', s5_title:'服务选择 & 同意', s5_desc:'请选择您感兴趣的服务并完成同意事项。',
     q_serv:'感兴趣的服务', serv_hint:'可多选',
+    ds0_name:'招牌深度舒缓芳香水疗 80分钟', ds0_desc:'利用芳香精油进行80分钟深度放松的头皮水疗，带来最佳疗愈体验。',
     ds1_name:'头皮水疗', ds1_desc:'为头皮和毛发提供深度放松和营养的治愈系头皮水疗。',
     ds2_name:'脱发护理', ds2_desc:'改善头皮环境并强化毛根的专业脱发护理项目。',
     ds3_name:'头皮去角质', ds3_desc:'彻底清除堆积的皮脂和角质，净化头皮。',
@@ -920,6 +932,7 @@ const T = {
     err_pregnant:'妊娠/授乳の有無を選択してください。',
     s5_eyebrow:'STEP 5 / 5', s5_title:'サービス選択 & 同意', s5_desc:'ご希望のサービスを選択し、同意事項をご確認ください。',
     q_serv:'ご興味のあるサービス', serv_hint:'複数選択可',
+    ds0_name:'シグネチャー ディープリラクシング アロマスパ 80分', ds0_desc:'アロマオイルを使った80分間の深いリラクゼーション頭皮スパで、最高の癒し体験をお届けします。',
     ds1_name:'ヘッドスパ', ds1_desc:'頭皮と髪に深いリラクゼーションと栄養を提供するヒーリングヘッドスパです。',
     ds2_name:'薄毛・抜け毛ケア', ds2_desc:'頭皮環境を改善し毛根を強化する専門的な薄毛ケアプログラムです。',
     ds3_name:'頭皮スケーリング', ds3_desc:'蓄積した皮脂と角質を除去し、頭皮を清潔に浄化します。',
@@ -1070,6 +1083,7 @@ function applyLang() {
   document.getElementById('s5Desc').textContent = t.s5_desc;
   document.getElementById('qServ').textContent = t.q_serv;
   document.getElementById('servHint').textContent = t.serv_hint;
+  document.getElementById('dsName0').textContent = t.ds0_name; document.getElementById('dsDesc0').textContent = t.ds0_desc;
   document.getElementById('dsName1').textContent = t.ds1_name; document.getElementById('dsDesc1').textContent = t.ds1_desc;
   document.getElementById('dsName2').textContent = t.ds2_name; document.getElementById('dsDesc2').textContent = t.ds2_desc;
   document.getElementById('dsName3').textContent = t.ds3_name; document.getElementById('dsDesc3').textContent = t.ds3_desc;
