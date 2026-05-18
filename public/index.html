@@ -637,6 +637,15 @@
             <div class="service-desc" id="dsDesc4"></div>
           </label>
         </div>
+        <div class="card-option checkbox service-card">
+          <input type="checkbox" name="desiredServices" id="ds5" value="시그니쳐 관리">
+          <label for="ds5">
+            <span class="dot"></span>
+            <div class="service-en">SIGNATURE CARE</div>
+            <div class="service-name" id="dsName5"></div>
+            <div class="service-desc" id="dsDesc5"></div>
+          </label>
+        </div>
       </div>
       <div class="error-msg" id="err-desiredServices"></div>
     </div>
@@ -746,6 +755,7 @@ const T = {
     ds2_name:'탈모 관리', ds2_desc:'두피 환경을 개선하고 모근을 강화하는 전문 탈모 케어 프로그램입니다.',
     ds3_name:'두피 스케일링', ds3_desc:'쌓인 피지와 각질을 제거하여 두피를 깨끗하게 정화합니다.',
     ds4_name:'문제성 두피케어', ds4_desc:'지루성, 민감성, 염증성 두피 등 문제성 두피를 집중 케어합니다.',
+    ds5_name:'시그니쳐 관리', ds5_desc:'스칼프잇만의 프리미엄 시그니쳐 관리 프로그램입니다.',
     err_serv:'관심 서비스를 선택해주세요.',
     q_video:'기념 영상 촬영 동의',
     video_desc:'헤드스파 받으시는 모습을 고객님 휴대폰으로 동영상 & 사진 촬영을 원하시는 경우 \'네\'를 선택해주세요.',
@@ -810,6 +820,7 @@ const T = {
     ds2_name:'Hair Loss Care', ds2_desc:'A professional hair loss care program that improves scalp environment and strengthens follicles.',
     ds3_name:'Scalp Scaling', ds3_desc:'Thoroughly cleanses accumulated sebum and dead skin to purify the scalp.',
     ds4_name:'Problem Scalp Care', ds4_desc:'Intensive care for seborrheic, sensitive, or inflammatory scalp conditions.',
+    ds5_name:'Signature Care', ds5_desc:'Our premium signature care program exclusive to Scálpit.',
     err_serv:'Please select at least one service.',
     q_video:'Video Recording Consent',
     video_desc:"If you'd like us to record your head spa session on your phone, please select 'Yes'.",
@@ -874,6 +885,7 @@ const T = {
     ds2_name:'脱发护理', ds2_desc:'改善头皮环境并强化毛根的专业脱发护理项目。',
     ds3_name:'头皮去角质', ds3_desc:'彻底清除堆积的皮脂和角质，净化头皮。',
     ds4_name:'问题头皮护理', ds4_desc:'针对脂溢性、敏感性、炎症性等问题头皮进行集中护理。',
+    ds5_name:'招牌护理', ds5_desc:'Scálpit专属高级招牌护理程序。',
     err_serv:'请选择感兴趣的服务。',
     q_video:'拍摄同意',
     video_desc:"如果您希望用您的手机录制头皮水疗过程，请选择'是'。",
@@ -937,6 +949,7 @@ const T = {
     ds2_name:'薄毛・抜け毛ケア', ds2_desc:'頭皮環境を改善し毛根を強化する専門的な薄毛ケアプログラムです。',
     ds3_name:'頭皮スケーリング', ds3_desc:'蓄積した皮脂と角質を除去し、頭皮を清潔に浄化します。',
     ds4_name:'問題頭皮ケア', ds4_desc:'脂漏性・敏感性・炎症性などの問題頭皮を集中ケアします。',
+    ds5_name:'シグネチャーケア', ds5_desc:'Scálpit独自のプレミアムシグネチャーケアプログラムです。',
     err_serv:'サービスを選択してください。',
     q_video:'記念撮影の同意',
     video_desc:"ヘッドスパ中のお姿をお客様のスマートフォンで動画・写真撮影をご希望の場合は「はい」を選択してください。",
@@ -1088,6 +1101,7 @@ function applyLang() {
   document.getElementById('dsName2').textContent = t.ds2_name; document.getElementById('dsDesc2').textContent = t.ds2_desc;
   document.getElementById('dsName3').textContent = t.ds3_name; document.getElementById('dsDesc3').textContent = t.ds3_desc;
   document.getElementById('dsName4').textContent = t.ds4_name; document.getElementById('dsDesc4').textContent = t.ds4_desc;
+  document.getElementById('dsName5').textContent = t.ds5_name; document.getElementById('dsDesc5').textContent = t.ds5_desc;
   document.getElementById('err-desiredServices').textContent = t.err_serv;
   document.getElementById('qVideo').textContent = t.q_video;
   document.getElementById('videoDesc').textContent = t.video_desc;

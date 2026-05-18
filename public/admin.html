@@ -456,6 +456,7 @@ function showDetail(id) {
     ${row('펌 / 염색 주기', d.permFrequency)}
     ${row('샴푸 횟수', d.shampooFrequency)}
     ${row('탈모 유전력', d.hairLossGenetic)}
+    ${row('임신 / 수유 여부', d.pregnancyStatus)}
     <div class="detail-section">서비스 & 동의</div>
     ${row('관심 서비스', (d.desiredServices||[]).join(', '))}
     ${row('촬영 동의', d.videoConsent === '동의' ? '✓ 동의' : '✗ 비동의')}
@@ -475,7 +476,7 @@ async function delEntry(id) {
 
 function exportCSV() {
   const filtered = getFiltered().slice().reverse();
-  const headers = ['번호','접수일시','이름/생년월일','연락처','주소','예약유형','상담유형','관리경험','유입경로','두피고민','펌/염색주기','샴푸횟수','탈모유전력','관심서비스','촬영동의','마케팅동의','언어'];
+  const headers = ['번호','접수일시','이름/생년월일','연락처','주소','예약유형','상담유형','관리경험','유입경로','두피고민','펌/염색주기','샴푸횟수','탈모유전력','임신/수유여부','관심서비스','촬영동의','마케팅동의','언어'];
   const rows = filtered.map((d,i) => [
     i+1,
     d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '',
@@ -483,7 +484,7 @@ function exportCSV() {
     d.reservationType||'', d.consultationType||'',
     (d.treatmentHistory||[]).join('/'), d.visitSource||'',
     (d.scalpConcerns||[]).join('/'), d.permFrequency||'',
-    d.shampooFrequency||'', d.hairLossGenetic||'',
+    d.shampooFrequency||'', d.hairLossGenetic||'', d.pregnancyStatus||'',
     (d.desiredServices||[]).join('/'),
     d.videoConsent||'', d.marketingConsent ? 'Y' : 'N', d.lang||'ko'
   ]);
