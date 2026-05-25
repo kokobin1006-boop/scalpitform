@@ -261,6 +261,16 @@
     .text-input:focus { border-color: var(--burg); }
     .text-input::placeholder { color: #C8B8B0; }
     textarea.text-input { resize: vertical; min-height: 90px; }
+    select.text-input {
+      appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C4A47C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 16px center;
+      padding-right: 40px; cursor: pointer;
+    }
+    select.text-input:invalid, select.text-input option[value=""] { color: #C8B8B0; }
+    /* ── 날짜 시간 그리드 ── */
+    .datetime-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 400px) { .datetime-row { grid-template-columns: 1fr; } }
 
     /* ── 버튼 ── */
     .btn-wrap { display: flex; gap: 10px; margin-top: 44px; }
@@ -430,6 +440,43 @@
         </div>
       </div>
       <div class="error-msg" id="err-consultationType"></div>
+    </div>
+
+    <!-- Q3: 예약 날짜 & 시간 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qDateTime"></span></div>
+      <div class="datetime-row">
+        <div>
+          <input type="date" class="text-input" id="visitDate" />
+          <div class="error-msg" id="err-visitDate"></div>
+        </div>
+        <div>
+          <select class="text-input" id="visitTime">
+            <option value="" id="phTime"></option>
+            <option value="10:00">10:00</option>
+            <option value="10:30">10:30</option>
+            <option value="11:00">11:00</option>
+            <option value="11:30">11:30</option>
+            <option value="12:00">12:00</option>
+            <option value="12:30">12:30</option>
+            <option value="13:00">13:00</option>
+            <option value="13:30">13:30</option>
+            <option value="14:00">14:00</option>
+            <option value="14:30">14:30</option>
+            <option value="15:00">15:00</option>
+            <option value="15:30">15:30</option>
+            <option value="16:00">16:00</option>
+            <option value="16:30">16:30</option>
+            <option value="17:00">17:00</option>
+            <option value="17:30">17:30</option>
+            <option value="18:00">18:00</option>
+            <option value="18:30">18:30</option>
+            <option value="19:00">19:00</option>
+            <option value="19:30">19:30</option>
+          </select>
+          <div class="error-msg" id="err-visitTime"></div>
+        </div>
+      </div>
     </div>
 
     <div class="btn-wrap">
@@ -721,6 +768,9 @@ const T = {
     q_cons:'상담 유형',
     c1:'힐링 위주, 간단한 상담만 원해요.', c2:'정밀 진단·상담 원해요.',
     err_cons:'상담 유형을 선택해주세요.',
+    q_datetime:'예약 날짜 & 시간', ph_time:'시간 선택',
+    err_date:'방문 날짜를 선택해주세요.', err_time:'방문 시간을 선택해주세요.',
+    done_datetime:'예약 일시',
     s2_eyebrow:'STEP 2 OF 5', s2_title:'기본 정보', s2_desc:'고객님의 기본 정보를 입력해주세요.',
     q_name_birth:'이름 / 생년월일', ph_name_birth:'예) 홍길동 / 1995.03.15',
     q_phone:'연락처', ph_phone:'예) 010-1234-5678',
@@ -786,6 +836,9 @@ const T = {
     q_cons:'Consultation Type',
     c1:'Relaxation-focused, light consultation only.', c2:'Detailed diagnosis & consultation.',
     err_cons:'Please select a consultation type.',
+    q_datetime:'Visit Date & Time', ph_time:'Select time',
+    err_date:'Please select a visit date.', err_time:'Please select a visit time.',
+    done_datetime:'Appointment',
     s2_eyebrow:'STEP 2 OF 5', s2_title:'Basic Info', s2_desc:'Please enter your basic information.',
     q_name_birth:'Name / Date of Birth', ph_name_birth:'e.g. Jane Doe / 1995.03.15',
     q_phone:'Phone Number', ph_phone:'e.g. 010-1234-5678',
@@ -851,6 +904,9 @@ const T = {
     q_cons:'咨询类型',
     c1:'以放松为主，只需简单咨询。', c2:'需要精密诊断和详细咨询。',
     err_cons:'请选择咨询类型。',
+    q_datetime:'预约日期 & 时间', ph_time:'选择时间',
+    err_date:'请选择到访日期。', err_time:'请选择到访时间。',
+    done_datetime:'预约日时',
     s2_eyebrow:'第 2 步，共 5 步', s2_title:'基本信息', s2_desc:'请输入您的基本信息。',
     q_name_birth:'姓名 / 出生日期', ph_name_birth:'例) 张三 / 1995.03.15',
     q_phone:'联系电话', ph_phone:'例) 010-1234-5678',
@@ -915,6 +971,9 @@ const T = {
     q_cons:'カウンセリングタイプ',
     c1:'リラクゼーション重視、簡単なカウンセリングのみ希望。', c2:'精密診断・カウンセリング希望。',
     err_cons:'カウンセリングタイプを選択してください。',
+    q_datetime:'予約日 & 時間', ph_time:'時間を選択',
+    err_date:'来店日を選択してください。', err_time:'来店時間を選択してください。',
+    done_datetime:'予約日時',
     s2_eyebrow:'STEP 2 / 5', s2_title:'基本情報', s2_desc:'お客様の基本情報をご入力ください。',
     q_name_birth:'お名前 / 生年月日', ph_name_birth:'例) 山田太郎 / 1995.03.15',
     q_phone:'電話番号', ph_phone:'例) 010-1234-5678',
@@ -997,6 +1056,9 @@ function selectLang(l) {
   document.getElementById('mainHeader').style.display = '';
   document.getElementById('formWrap').style.display = '';
   document.getElementById('langSwitchBtn').style.display = '';
+  // 날짜 최솟값을 오늘로 설정
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('visitDate').min = today;
   applyLang();
   updateProgress();
   window.scrollTo(0, 0);
@@ -1021,6 +1083,10 @@ function applyLang() {
   document.getElementById('cLabel1').textContent = t.c1; document.getElementById('c1').value = t.c1;
   document.getElementById('cLabel2').textContent = t.c2; document.getElementById('c2').value = t.c2;
   document.getElementById('err-consultationType').textContent = t.err_cons;
+  document.getElementById('qDateTime').textContent = t.q_datetime;
+  document.getElementById('phTime').textContent = t.ph_time;
+  document.getElementById('err-visitDate').textContent = t.err_date;
+  document.getElementById('err-visitTime').textContent = t.err_time;
   document.getElementById('btnNext1').textContent = t.btn_next;
 
   // Step 2
@@ -1150,6 +1216,8 @@ function nextStep(from) {
   if (from === 1) {
     if (!document.querySelector('input[name="reservationType"]:checked')) { showErr('reservationType', true); ok = false; } else showErr('reservationType', false);
     if (!document.querySelector('input[name="consultationType"]:checked')) { showErr('consultationType', true); ok = false; } else showErr('consultationType', false);
+    if (!document.getElementById('visitDate').value) { showErr('visitDate', true); ok = false; } else showErr('visitDate', false);
+    if (!document.getElementById('visitTime').value) { showErr('visitTime', true); ok = false; } else showErr('visitTime', false);
   }
   if (from === 2) {
     if (!document.getElementById('nameBirth').value.trim()) { showErr('nameBirth', true); ok = false; } else showErr('nameBirth', false);
@@ -1183,10 +1251,15 @@ async function submitForm() {
   const nb = document.getElementById('nameBirth').value.trim();
   const namePart = nb.split('/')[0].trim();
 
+  const visitDate = document.getElementById('visitDate').value;
+  const visitTime = document.getElementById('visitTime').value;
+
   const data = {
     lang,
     reservationType: document.querySelector('input[name="reservationType"]:checked')?.value || '',
     consultationType: document.querySelector('input[name="consultationType"]:checked')?.value || '',
+    visitDate,
+    visitTime,
     nameBirth: nb,
     name: namePart,
     phone: document.getElementById('phone').value.trim(),
@@ -1214,9 +1287,12 @@ async function submitForm() {
     document.getElementById('formWrap').style.display = 'none';
     document.getElementById('doneTitle').textContent = t.done_title;
     document.getElementById('doneDesc').textContent = t.done_desc;
+    // 날짜 포맷: YYYY-MM-DD → YYYY.MM.DD
+    const dateFormatted = visitDate ? visitDate.replace(/-/g, '.') : '';
     document.getElementById('doneInfo').innerHTML = `
       <div class="done-info-row"><span class="key">${t.done_name}</span><span class="val">${data.nameBirth}</span></div>
       <div class="done-info-row"><span class="key">${t.done_phone}</span><span class="val">${data.phone}</span></div>
+      <div class="done-info-row"><span class="key">${t.done_datetime}</span><span class="val">${dateFormatted} ${visitTime}</span></div>
       <div class="done-info-row"><span class="key">${t.done_res}</span><span class="val">${data.reservationType}</span></div>
       <div class="done-info-row"><span class="key">${t.done_serv}</span><span class="val">${data.desiredServices.join(', ')}</span></div>
     `;
