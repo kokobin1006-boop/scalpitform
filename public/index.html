@@ -358,6 +358,39 @@
     .privacy-detail { font-size: 11px; color: var(--text-muted); line-height: 1.6; margin: 6px 0 4px 26px; }
     .privacy-link { display: inline-block; margin-left: 26px; font-size: 11px; color: var(--burg); text-decoration: underline; }
 
+    /* ── 예약 안내 박스 ── */
+    .booking-notice {
+      margin-top: 32px; border: 1px solid var(--border);
+      padding: 22px 20px 16px; background: var(--white);
+    }
+    .booking-notice-header {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 8px; font-weight: 700; color: var(--burg);
+      letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .booking-notice-tips {
+      background: var(--cream); border-left: 2px solid var(--gold);
+      padding: 12px 14px; margin-bottom: 12px;
+      font-size: 13px; color: var(--text); line-height: 1.9;
+    }
+    .booking-notice-ops {
+      font-size: 12px; color: var(--text-muted); line-height: 1.9;
+      margin-bottom: 16px; padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .booking-notice-ops p { margin-bottom: 4px; }
+    .booking-notice-ops p:last-child { margin-bottom: 0; }
+    .booking-notice-agree {
+      display: flex; align-items: center; gap: 10px;
+      cursor: pointer; user-select: none;
+    }
+    .booking-notice-agree input[type="checkbox"] { display: none; }
+    .booking-notice-agree .privacy-check { flex-shrink: 0; }
+    .booking-notice-agree input:checked ~ .privacy-check { background: var(--burg); border-color: var(--burg); }
+    .booking-notice-agree input:checked ~ .privacy-check::after { content: '✓'; color: #fff; font-size: 10px; font-weight: 900; }
+    .booking-notice-agree-text { font-size: 13px; font-weight: 600; color: var(--dark); }
+
     /* ── 사업자 정보 ── */
     .biz-info { margin-top: 16px; font-size: 11px; color: var(--text-muted); line-height: 1.8; text-align: center; }
   </style>
@@ -725,6 +758,19 @@
       <div class="error-msg" id="err-videoConsent"></div>
     </div>
 
+    <!-- 예약 안내 -->
+    <div class="booking-notice">
+      <div class="booking-notice-header" id="bNoticeHeader">예약 전 확인해주세요</div>
+      <div class="booking-notice-tips" id="bNoticeTips"></div>
+      <div class="booking-notice-ops" id="bNoticeOps"></div>
+      <label class="booking-notice-agree">
+        <input type="checkbox" id="bookingNoticeCheck" />
+        <span class="privacy-check"></span>
+        <span class="booking-notice-agree-text" id="bNoticeAgreeText">위 내용을 확인하였습니다</span>
+      </label>
+    </div>
+    <div class="error-msg" id="err-bookingNotice"></div>
+
     <!-- Q14: 개인정보 동의 -->
     <div class="privacy-box">
       <div class="privacy-item required-item">
@@ -834,6 +880,11 @@ const T = {
     privacy_mkt:'마케팅 정보 수신에 동의합니다 (선택)',
     privacy_mkt_detail:'이벤트, 프로모션, 신규 서비스 안내 등 마케팅 정보를 수신합니다.',
     err_privacy:'개인정보 수집·이용에 동의해주세요.',
+    b_notice_header:'예약 전 확인해주세요',
+    b_notice_tips:'★ 당일 샴푸는 하지 않아도 괜찮습니다!\n★ 관리 중 네이프라인(목 뒤) 마사지가 포함되어 있어 목폴라·하이넥 착용 시 안에 나시 또는 가벼운 이너 착용을 추천드립니다 :)',
+    b_notice_ops:['매장 예약, 운영 상황에 따라 2인룸 사용이 어려운 경우 1인룸에서 각각 관리 진행될 수 있으니 참고 부탁드리며 당일 방문시 확인 가능하십니다.','예약 시간에 부득이하게 늦으시는 경우, 다음 고객님과의 스케줄로 인해 관리 시간이 다소 조정될 수 있는 점 깊은 양해 부탁드립니다.'],
+    b_notice_agree:'위 내용을 확인하였습니다',
+    err_booking_notice:'안내 사항을 확인하고 동의해주세요.',
     btn_next:'NEXT →', btn_back:'← BACK', btn_submit:'SUBMIT →', btn_ing:'제출 중...',
     done_title:'설문이 접수되었습니다',
     done_desc:'소중한 정보 감사합니다.\nScálpit에서 최적의 두피 케어를 준비하겠습니다.\n예약 당일 편안하게 방문해주세요.',
@@ -902,6 +953,11 @@ const T = {
     privacy_mkt:'I agree to receive marketing information (optional)',
     privacy_mkt_detail:'Receive event, promotion, and new service notifications.',
     err_privacy:'Please agree to the personal information policy.',
+    b_notice_header:'Before Your Visit',
+    b_notice_tips:"★ No need to wash your hair on the day of your visit!\n★ Our treatment includes a nape-line (back of neck) massage. If wearing a turtleneck or high-neck top, we recommend wearing a tank top or light inner underneath :)",
+    b_notice_ops:["Depending on availability, 2-person rooms may not be available. In that case, guests will be served separately in individual rooms. Please check on the day of your visit.","If you arrive late for your appointment, please note that your treatment time may be adjusted to accommodate the next guest's schedule. We appreciate your understanding."],
+    b_notice_agree:'I have read and understood the above information',
+    err_booking_notice:'Please read and confirm the notice above.',
     btn_next:'NEXT →', btn_back:'← BACK', btn_submit:'SUBMIT →', btn_ing:'Submitting...',
     done_title:'Form Submitted',
     done_desc:"Thank you for your information.\nScálpit will prepare the best scalp care for you.\nWe look forward to your visit.",
@@ -970,6 +1026,11 @@ const T = {
     privacy_mkt:'我同意接收营销信息（可选）',
     privacy_mkt_detail:'接收活动、促销、新服务等营销信息。',
     err_privacy:'请同意个人信息收集和使用。',
+    b_notice_header:'预约前请确认',
+    b_notice_tips:'★ 当天不需要洗发，直接来访即可！\n★ 护理过程中包含颈部（后颈）按摩。穿高领或高领上衣时，建议内搭背心或薄款内衣 :)',
+    b_notice_ops:['根据预约及运营情况，如2人间不可用，将在1人间分别进行护理，请知悉。具体情况可在当日来访时确认。','如因不可抗力导致预约迟到，因下一位顾客的安排，护理时间可能会有所调整，敬请谅解。'],
+    b_notice_agree:'我已阅读并了解以上内容',
+    err_booking_notice:'请确认并同意上述注意事项。',
     btn_next:'下一步 →', btn_back:'← 上一步', btn_submit:'提交 →', btn_ing:'提交中...',
     done_title:'问卷已提交',
     done_desc:'感谢您提供宝贵信息。\nScálpit将为您准备最佳的头皮护理。\n期待您的到来。',
@@ -1037,6 +1098,11 @@ const T = {
     privacy_mkt:'マーケティング情報の受信に同意します（任意）',
     privacy_mkt_detail:'イベント、プロモーション、新規サービスなどのマーケティング情報を受信します。',
     err_privacy:'個人情報の収集・利用に同意してください。',
+    b_notice_header:'ご来店前のご確認',
+    b_notice_tips:'★ 当日のシャンプーはしなくて大丈夫です！\n★ 施術中にネープライン（首の後ろ）マッサージが含まれています。タートルネックやハイネックをお召しの場合は、中にキャミソールや薄手のインナーの着用をお勧めします :)',
+    b_notice_ops:['ご予約・運営状況によっては、2人部屋のご利用が難しい場合があり、その際は1人部屋にて各々施術を行います。当日ご来店時にご確認いただけます。','ご予約時間に遅れが生じた場合、次のお客様のスケジュールの都合上、施術時間が多少調整される場合がございます。何卒ご理解いただけますようお願い申し上げます。'],
+    b_notice_agree:'上記内容を確認しました',
+    err_booking_notice:'案内事項をご確認のうえ、同意してください。',
     btn_next:'次へ →', btn_back:'← 戻る', btn_submit:'送信 →', btn_ing:'送信中...',
     done_title:'アンケートが受け付けられました',
     done_desc:'貴重な情報をありがとうございます。\nScálpitで最適な頭皮ケアをご準備いたします。\nご来店をお待ちしております。',
@@ -1186,6 +1252,12 @@ function applyLang() {
   document.getElementById('dsName4').textContent = t.ds4_name; document.getElementById('dsDesc4').textContent = t.ds4_desc;
   document.getElementById('dsName5').textContent = t.ds5_name; document.getElementById('dsDesc5').textContent = t.ds5_desc;
   document.getElementById('err-desiredServices').textContent = t.err_serv;
+  // 예약 안내 박스
+  document.getElementById('bNoticeHeader').textContent = t.b_notice_header;
+  document.getElementById('bNoticeTips').innerHTML = t.b_notice_tips.split('\n').map(l => `<div>${l}</div>`).join('');
+  document.getElementById('bNoticeOps').innerHTML = t.b_notice_ops.map(p => `<p>• ${p}</p>`).join('');
+  document.getElementById('bNoticeAgreeText').textContent = t.b_notice_agree;
+  document.getElementById('err-bookingNotice').textContent = t.err_booking_notice;
   document.getElementById('qVideo').textContent = t.q_video;
   document.getElementById('videoDesc').textContent = t.video_desc;
   document.getElementById('vcLabel1').textContent = t.vc1;
@@ -1260,6 +1332,7 @@ async function submitForm() {
   const ds = [...document.querySelectorAll('input[name="desiredServices"]:checked')].map(x => x.value);
   if (!ds.length) { showErr('desiredServices', true); return; } else showErr('desiredServices', false);
   if (!document.querySelector('input[name="videoConsent"]:checked')) { showErr('videoConsent', true); return; } else showErr('videoConsent', false);
+  if (!document.getElementById('bookingNoticeCheck').checked) { showErr('bookingNotice', true); return; } else showErr('bookingNotice', false);
   if (!document.getElementById('privacyRequired').checked) { showErr('privacy', true); return; } else showErr('privacy', false);
 
   const btn = document.getElementById('btnSubmit');
