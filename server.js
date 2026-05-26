@@ -120,6 +120,9 @@ Object.keys(BRANCHES).forEach(slug => {
   app.get(`/${slug}/review-admin`, (req, res) => res.sendFile(path.join(__dirname, 'public', 'review-admin.html')));
 });
 
+// 두피 자가진단 페이지
+app.get('/scalp-test', (req, res) => res.sendFile(path.join(__dirname, 'public', 'scalp-test.html')));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/branch', (req, res) => {

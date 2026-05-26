@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Scálpit · 두피 진단</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=Noto+Serif+KR:wght@400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
+
+  :root {
+    --wine: #6D1626;
+    --wine-deep: #3D0B16;
+    --wine-soft: #9B3344;
+    --gold: #B89968;
+    --gold-soft: #D4BA8C;
+    --cream: #FAF5EE;
+    --cream-deep: #F0E6D6;
+    --blush: #E8D2CC;
+    --ink: #1A1010;
+    --ink-soft: #5C4A47;
+    --line: #D9CFC4;
+  }
+
+  html, body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    line-height: 1.55;
+    min-height: 100vh;
+    overscroll-behavior: none;
+    letter-spacing: -0.01em;
+  }
+
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--cream);
+    position: relative;
+  }
+
+  /* ====================== INTRO ====================== */
+  .intro {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--wine-deep);
+    color: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .intro::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 80% 10%, rgba(184,153,104,0.18) 0%, transparent 50%),
+      radial-gradient(circle at 10% 90%, rgba(155,51,68,0.4) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .intro-grain {
+    position: absolute;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  .intro-top {
+    padding: 28px 28px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+  .intro-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: var(--cream);
+  }
+  .intro-issue {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--gold-soft);
+    text-transform: uppercase;
+  }
+
+  .intro-body {
+    flex: 1;
+    padding: 80px 32px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+  .intro-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 6px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .intro-eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .intro-headline {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 44px;
+    line-height: 1.18;
+    font-weight: 700;
+    margin-bottom: 24px;
+    letter-spacing: -0.03em;
+  }
+  .intro-headline em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--gold-soft);
+  }
+
+  .intro-lede {
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(250,245,238,0.75);
+    max-width: 340px;
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+
+  /* 두피 SVG 일러스트 */
+  .scalp-illust {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 32px;
+    opacity: 0.85;
+  }
+
+  .meta-strip {
+    display: flex;
+    gap: 24px;
+    padding: 20px 0;
+    border-top: 1px solid rgba(216,207,196,0.15);
+    border-bottom: 1px solid rgba(216,207,196,0.15);
+    margin-bottom: 36px;
+  }
+  .meta-item .label {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--gold-soft);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .meta-item .value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .meta-item .value span {
+    font-size: 11px;
+    font-family: 'Inter', sans-serif;
+    color: rgba(250,245,238,0.5);
+    margin-left: 4px;
+    font-weight: 300;
+  }
+
+  .intro-start {
+    margin-top: auto;
+    padding: 0 32px 40px;
+    position: relative;
+  }
+  .btn-start {
+    width: 100%;
+    background: var(--cream);
+    color: var(--wine-deep);
+    border: none;
+    padding: 22px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .btn-start:active {
+    background: var(--gold-soft);
+    transform: translateY(1px);
+  }
+  .btn-start .arrow {
+    width: 20px;
+    height: 1px;
+    background: var(--wine-deep);
+    position: relative;
+  }
+  .btn-start .arrow::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -3px;
+    width: 8px;
+    height: 8px;
+    border-top: 1px solid var(--wine-deep);
+    border-right: 1px solid var(--wine-deep);
+    transform: rotate(45deg);
+  }
+
+  /* ====================== TOP BAR (질문/결과 화면) ====================== */
+  .topbar {
+    padding: 24px 28px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--cream);
+  }
+  .topbar-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--wine);
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+  .topbar-step {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+  .topbar-step strong {
+    color: var(--wine);
+    font-weight: 600;
+  }
+
+  .progress-track {
+    margin: 14px 28px 0;
+    height: 1px;
+    background: var(--line);
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--wine);
+    width: 0;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ====================== SCREEN ====================== */
+  .screen {
+    display: none;
+    padding: 56px 32px 140px;
+    animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .screen.active {
+    display: block;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ====================== QUESTION ====================== */
+  .q-number {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .q-num-big {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 88px;
+    line-height: 0.85;
+    color: var(--wine);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .q-num-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+  .q-num-meta strong {
+    display: block;
+    color: var(--wine);
+    font-size: 9px;
+    margin-top: 4px;
+  }
+
+  .q-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 26px;
+    line-height: 1.4;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+  .q-sub {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 40px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* 5단계 옵션 — 가로 그라데이션 스타일 */
+  .scale-poles {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding: 0 6px;
+  }
+  .scale-poles span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--wine);
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .opt-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    padding: 18px 22px;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'Inter', 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: var(--cream);
+    font-weight: 400;
+  }
+  .opt-btn:active {
+    border-color: var(--wine);
+  }
+  .opt-btn.selected {
+    background: var(--wine);
+    color: var(--cream);
+    border-color: var(--wine);
+  }
+  .opt-btn.selected .opt-dot {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+  .opt-btn.selected .opt-mark {
+    color: var(--cream);
+  }
+  .opt-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--wine);
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .opt-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--wine);
+    font-size: 16px;
+    width: 16px;
+  }
+
+  /* === YES/NO === */
+  .yn-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .yn-btn {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    padding: 40px 16px;
+    cursor: pointer;
+    font-family: 'Inter', 'Noto Sans KR', sans-serif;
+    transition: all 0.25s;
+    text-align: center;
+  }
+  .yn-btn:active {
+    border-color: var(--wine);
+  }
+  .yn-btn .yn-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--wine);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .yn-btn .yn-text {
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: 1px;
+  }
+
+  /* ====================== BOTTOM CTA ====================== */
+  .bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    padding: 16px 32px 32px;
+    background: linear-gradient(to top, var(--cream) 70%, transparent);
+    z-index: 100;
+  }
+  .btn-next {
+    width: 100%;
+    background: var(--wine);
+    color: var(--cream);
+    border: none;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .btn-next:active {
+    background: var(--wine-deep);
+  }
+  .btn-next:disabled {
+    background: var(--line);
+    color: var(--ink-soft);
+    cursor: not-allowed;
+  }
+  .btn-next:disabled .next-arrow::after {
+    border-color: var(--ink-soft);
+  }
+  .next-arrow {
+    width: 18px;
+    height: 1px;
+    background: currentColor;
+    position: relative;
+  }
+  .next-arrow::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -3px;
+    width: 7px;
+    height: 7px;
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    transform: rotate(45deg);
+  }
+
+  /* ====================== RESULT ====================== */
+  .result-cover {
+    background: var(--wine-deep);
+    color: var(--cream);
+    padding: 60px 32px 56px;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .result-cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 70% 30%, rgba(184,153,104,0.22) 0%, transparent 55%),
+      radial-gradient(circle at 20% 80%, rgba(155,51,68,0.3) 0%, transparent 60%);
+  }
+
+  .result-cover-grain {
+    position: absolute;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+  }
+
+  .result-top {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--gold-soft);
+    text-transform: uppercase;
+    margin-bottom: 36px;
+    position: relative;
+  }
+
+  .result-tag {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .result-type-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px;
+    line-height: 0.95;
+    font-weight: 400;
+    margin-bottom: 12px;
+    color: var(--cream);
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+  .result-type-en em {
+    font-style: italic;
+    color: var(--gold-soft);
+    font-weight: 300;
+  }
+  .result-type-kr {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 32px;
+    color: rgba(250,245,238,0.7);
+    position: relative;
+  }
+
+  .result-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--cream);
+    padding-left: 16px;
+    border-left: 1px solid var(--gold);
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .result-cover-meta {
+    display: flex;
+    gap: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(216,207,196,0.18);
+    position: relative;
+  }
+  .cover-meta-item {
+    flex: 1;
+  }
+  .cover-meta-item .lbl {
+    font-family: 'Inter', sans-serif;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--gold-soft);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .cover-meta-item .val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--cream);
+    font-weight: 500;
+  }
+
+  /* === RESULT SECTIONS === */
+  .result-section {
+    padding: 48px 32px 0;
+  }
+  .section-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-eyebrow::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--wine);
+    margin-bottom: 28px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .section-title em {
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* 진단 점수 차트 */
+  .score-chart {
+    background: var(--cream);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 24px 0;
+    margin-bottom: 12px;
+  }
+  .score-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 36px;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 0;
+  }
+  .score-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .score-track {
+    height: 4px;
+    background: var(--cream-deep);
+    position: relative;
+    overflow: hidden;
+  }
+  .score-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--wine-soft), var(--wine));
+    width: 0;
+    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .score-bar.high {
+    background: linear-gradient(90deg, var(--wine), var(--wine-deep));
+  }
+  .score-value {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    color: var(--ink-soft);
+    letter-spacing: 1px;
+    text-align: right;
+  }
+
+  /* 인사이트 */
+  .insights {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .insight-row {
+    display: flex;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+  .insight-row:last-child { border-bottom: none; }
+  .insight-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--gold);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 28px;
+    font-weight: 400;
+  }
+
+  /* 추천 메뉴 */
+  .menu-card {
+    background: var(--cream);
+    margin-bottom: 16px;
+    position: relative;
+    border: 1px solid var(--line);
+  }
+  .menu-card.primary {
+    background: var(--wine);
+    color: var(--cream);
+    border-color: var(--wine);
+  }
+  .menu-card-top {
+    padding: 26px 28px 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .menu-card.primary .menu-card-top {
+    border-bottom-color: rgba(216,207,196,0.18);
+  }
+
+  .menu-badge {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid currentColor;
+  }
+  .menu-card.primary .menu-badge {
+    color: var(--gold-soft);
+  }
+  .menu-name-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    line-height: 1.15;
+    font-weight: 500;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .menu-card.primary .menu-name-en {
+    color: var(--cream);
+  }
+  .menu-name-en em {
+    font-style: italic;
+  }
+  .menu-name-kr {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 500;
+  }
+  .menu-card.primary .menu-name-kr {
+    color: rgba(250,245,238,0.65);
+  }
+  .menu-time {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+  .menu-card.primary .menu-time {
+    color: var(--gold-soft);
+  }
+
+  .menu-card-body {
+    padding: 22px 28px 24px;
+  }
+  .menu-desc {
+    font-size: 12px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+  }
+  .menu-card.primary .menu-desc {
+    color: rgba(250,245,238,0.75);
+  }
+
+  .price-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .menu-card.primary .price-row {
+    border-top-color: rgba(216,207,196,0.18);
+  }
+  .price-col {
+    text-align: left;
+  }
+  .price-col .lbl {
+    font-family: 'Inter', sans-serif;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .menu-card.primary .price-col .lbl {
+    color: rgba(212,186,140,0.7);
+  }
+  .price-col .val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    color: var(--ink);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .menu-card.primary .price-col .val {
+    color: var(--cream);
+  }
+  .price-col.struck .val {
+    color: var(--ink-soft);
+    text-decoration: line-through;
+    font-size: 14px;
+  }
+  .menu-card.primary .price-col.struck .val {
+    color: rgba(250,245,238,0.4);
+  }
+  .price-col.highlight .val {
+    color: var(--gold);
+    font-size: 20px;
+  }
+  .menu-card.primary .price-col.highlight .val {
+    color: var(--gold-soft);
+  }
+
+  /* === CTA === */
+  .cta-block {
+    background: var(--blush);
+    color: var(--wine-deep);
+    margin: 32px 32px 0;
+    padding: 36px 28px;
+    position: relative;
+  }
+  .cta-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--wine);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .cta-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.45;
+  }
+  .cta-title em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--wine);
+    font-weight: 400;
+  }
+  .cta-desc {
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+  }
+  .cta-btn {
+    width: 100%;
+    background: var(--wine-deep);
+    color: var(--cream);
+    border: none;
+    padding: 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .cta-btn:active {
+    background: var(--wine);
+  }
+  .cta-code {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--wine);
+    margin-top: 14px;
+    letter-spacing: 1px;
+  }
+  .cta-code strong {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: var(--wine-deep);
+    font-style: normal;
+  }
+
+  .result-footer {
+    padding: 32px 32px 24px;
+    text-align: center;
+    font-size: 10px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .restart-link {
+    display: block;
+    text-align: center;
+    margin: 24px auto 60px;
+    padding: 14px 32px;
+    color: var(--wine);
+    border: 1px solid var(--wine);
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    width: fit-content;
+    transition: all 0.2s;
+  }
+  .restart-link:active {
+    background: var(--wine);
+    color: var(--cream);
+  }
+
+  /* === STAFF FULL SCREEN === */
+  .staff-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--wine-deep);
+    color: var(--cream);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+  }
+  .staff-screen.active { display: flex; }
+  .staff-card {
+    background: var(--cream);
+    color: var(--ink);
+    max-width: 380px;
+    width: 100%;
+    padding: 44px 36px 36px;
+    text-align: center;
+    position: relative;
+  }
+  .staff-top {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .staff-divider {
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+    margin: 0 auto 24px;
+  }
+  .staff-name-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .staff-type-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    line-height: 1;
+    color: var(--wine);
+    margin-bottom: 4px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .staff-type-en em {
+    font-style: italic;
+  }
+  .staff-type-kr {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+  }
+  .staff-menu-block {
+    background: var(--wine);
+    color: var(--cream);
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .staff-menu-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: var(--gold-soft);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .staff-menu-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    line-height: 1.2;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .staff-menu-prices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(216,207,196,0.2);
+  }
+  .staff-price-col .lbl {
+    font-family: 'Inter', sans-serif;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--gold-soft);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .staff-price-col .val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .staff-close {
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    padding: 12px 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ====================== INTRO ====================== -->
+  <div class="screen intro active" id="screen-intro">
+    <div class="intro-grain"></div>
+
+    <div class="intro-top">
+      <div class="intro-logo">Scálpit</div>
+      <div class="intro-issue">No. 01 · Scalp Edition</div>
+    </div>
+
+    <div class="intro-body">
+      <!-- 두피 SVG 일러스트 (모공·모낭 미니멀 라인) -->
+      <svg class="scalp-illust" viewBox="0 0 140 140" fill="none" stroke="#D4BA8C" stroke-width="0.7" stroke-linecap="round">
+        <!-- 두피 곡선 -->
+        <path d="M 20 90 Q 70 30, 120 90" stroke-width="1"/>
+        <path d="M 26 92 Q 70 38, 114 92" opacity="0.5"/>
+        <!-- 모낭 줄기 -->
+        <line x1="40" y1="78" x2="38" y2="60"/>
+        <line x1="55" y1="65" x2="55" y2="40"/>
+        <line x1="70" y1="60" x2="70" y2="32"/>
+        <line x1="85" y1="65" x2="86" y2="40"/>
+        <line x1="100" y1="78" x2="103" y2="60"/>
+        <!-- 모공 도트 -->
+        <circle cx="40" cy="78" r="1.5" fill="#D4BA8C" stroke="none"/>
+        <circle cx="55" cy="65" r="1.5" fill="#D4BA8C" stroke="none"/>
+        <circle cx="70" cy="60" r="1.5" fill="#D4BA8C" stroke="none"/>
+        <circle cx="85" cy="65" r="1.5" fill="#D4BA8C" stroke="none"/>
+        <circle cx="100" cy="78" r="1.5" fill="#D4BA8C" stroke="none"/>
+        <!-- 두피 베이스 라인 -->
+        <line x1="20" y1="95" x2="120" y2="95" stroke-width="0.5" opacity="0.4"/>
+      </svg>
+
+      <div class="intro-eyebrow">Scalp Diagnosis</div>
+
+      <h1 class="intro-headline">두피의 언어로<br/><em>나를 읽다.</em></h1>
+
+      <p class="intro-lede">
+        매일 머리는 감지만, 두피는 한 번도 들여다본 적 없으셨죠.
+        8가지 질문으로 당신만의 두피 타입을 발견하고,
+        Scálpit의 맞춤 케어를 만나보세요.
+      </p>
+
+      <div class="meta-strip">
+        <div class="meta-item">
+          <div class="label">Duration</div>
+          <div class="value">3<span>분</span></div>
+        </div>
+        <div class="meta-item">
+          <div class="label">Questions</div>
+          <div class="value">8<span>문항</span></div>
+        </div>
+        <div class="meta-item">
+          <div class="label">Types</div>
+          <div class="value">6<span>유형</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="intro-start">
+      <button class="btn-start" onclick="startTest()">
+        <span>Begin Diagnosis</span>
+        <span class="arrow"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ====================== QUESTIONS ====================== -->
+  <div id="quiz-area">
+    <div class="topbar">
+      <div class="topbar-logo">Scálpit</div>
+      <div class="topbar-step"><span id="stepText">STEP <strong>1</strong> / 8</span></div>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="screen" id="screen-q1">
+      <div class="q-number">
+        <div class="q-num-big">01</div>
+        <div class="q-num-meta">— 문항<strong>유분감</strong></div>
+      </div>
+      <h2 class="q-title">평소 두피 유분감이<br/>어느 정도이신가요?</h2>
+      <p class="q-sub">샴푸 후 하루 정도 지났을 때, 두피의 기름진 정도를 떠올려보세요.</p>
+      <div class="scale-poles"><span>거의 없음</span><span>매우 눅눅</span></div>
+      <div class="options" data-question="1"></div>
+      <div class="bottom-bar">
+        <button class="btn-next" onclick="nextQuestion()" disabled>Next <span class="next-arrow"></span></button>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="screen" id="screen-q2">
+      <div class="q-number">
+        <div class="q-num-big">02</div>
+        <div class="q-num-meta">— 문항<strong>당김·건조</strong></div>
+      </div>
+      <h2 class="q-title">두피 당김·건조함을<br/>느끼시나요?</h2>
+      <p class="q-sub">샴푸 후 두피가 당기거나 가려운 느낌이 드는지 확인해주세요.</p>
+      <div class="scale-poles"><span>매우 당김</span><span>편안함</span></div>
+      <div class="options" data-question="2"></div>
+      <div class="bottom-bar">
+        <button class="btn-next" onclick="nextQuestion()" disabled>Next <span class="next-arrow"></span></button>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="screen" id="screen-q3">
+      <div class="q-number">
+        <div class="q-num-big">03</div>
+        <div class="q-num-meta">— 문항<strong>탈모·모량</strong></div>
+      </div>
+      <h2 class="q-title">모발이 빠지거나<br/>모량이 줄었나요?</h2>
+      <p class="q-sub">최근 1~3개월간 평소 대비 머리 빠짐 정도를 떠올려보세요.</p>
+      <div class="scale-poles"><span>거의 없음</span><span>심하게 빠짐</span></div>
+      <div class="options" data-question="3"></div>
+      <div class="bottom-bar">
+        <button class="btn-next" onclick="nextQuestion()" disabled>Next <span class="next-arrow"></span></button>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="screen" id="screen-q4">
+      <div class="q-number">
+        <div class="q-num-big">04</div>
+        <div class="q-num-meta">— 문항<strong>모발 굵기</strong></div>
+      </div>
+      <h2 class="q-title">모발이 얇아진<br/>느낌이 있으신가요?</h2>
+      <p class="q-sub">예전보다 한 가닥 한 가닥이 얇아진 것 같다면 탈모 신호일 수 있어요.</p>
+      <div class="scale-poles"><span>튼튼함</span><span>매우 얇음</span></div>
+      <div class="options" data-question="4"></div>
+      <div class="bottom-bar">
+        <button class="btn-next" onclick="nextQuestion()" disabled>Next <span class="next-arrow"></span></button>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="screen" id="screen-q5">
+      <div class="q-number">
+        <div class="q-num-big">05</div>
+        <div class="q-num-meta">— 문항<strong>각질·비듬</strong></div>
+      </div>
+      <h2 class="q-title">두피에 각질이나<br/>비듬이 있나요?</h2>
+      <p class="q-sub">하얗게 떨어지는 각질·비듬, 두피 결의 거칠어짐을 체크해주세요.</p>
+      <div class="scale-poles"><span>깨끗함</span><span>많이 떨어짐</span></div>
+      <div class="options" data-question="5"></div>
+      <div class="bottom-bar">
+        <button class="btn-next" onclick="nextQuestion()" disabled>Next <span class="next-arrow"></span></button>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="screen" id="screen-q6">
+      <div class="q-number">
+        <div class="q-num-big">06</div>
+        <div class="q-num-meta">— 문항<strong>민감·트러블</strong></div>
+      </div>
+      <h2 class="q-title">두피가 붉어지거나<br/>간지러우신가요?</h2>
+      <p class="q-sub">두피 트러블·붉은기·가려움이 자주 발생하는지 확인해주세요.</p>
+      <div class="scale-poles"><span>전혀 없음</span><span>항상 민감</span></div>
+      <div class="options" data-question="6"></div>
+      <div class="bottom-bar">
+        <button class="btn-next" onclick="nextQuestion()" disabled>Next <span class="next-arrow"></span></button>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="screen" id="screen-q7">
+      <div class="q-number">
+        <div class="q-num-big">07</div>
+        <div class="q-num-meta">— 문항<strong>스트레스</strong></div>
+      </div>
+      <h2 class="q-title">스트레스·수면 상태가<br/>어떠신가요?</h2>
+      <p class="q-sub">최근 스트레스, 수면 부족, 피로가 두피에도 영향을 줍니다.</p>
+      <div class="scale-poles"><span>매우 양호</span><span>매우 나쁨</span></div>
+      <div class="options" data-question="7"></div>
+      <div class="bottom-bar">
+        <button class="btn-next" onclick="nextQuestion()" disabled>Next <span class="next-arrow"></span></button>
+      </div>
+    </div>
+
+    <!-- Q8 임산부 -->
+    <div class="screen" id="screen-q8">
+      <div class="q-number">
+        <div class="q-num-big">08</div>
+        <div class="q-num-meta">— 문항<strong>임신·수유</strong></div>
+      </div>
+      <h2 class="q-title">현재 임신 또는<br/>수유 중이신가요?</h2>
+      <p class="q-sub">임산부 전용 안전 케어 메뉴가 별도로 준비되어 있습니다.</p>
+      <div class="yn-grid">
+        <button class="yn-btn" onclick="selectPregnancy(true)">
+          <span class="yn-label">Yes</span>
+          <span class="yn-text">해당돼요</span>
+        </button>
+        <button class="yn-btn" onclick="selectPregnancy(false)">
+          <span class="yn-label">No</span>
+          <span class="yn-text">아니요</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================== RESULT ====================== -->
+  <div class="screen" id="screen-result">
+    <div class="result-cover">
+      <div class="result-cover-grain"></div>
+      <div class="result-top">
+        <span>Scálpit · No. 01</span>
+        <span id="resultIssue">Edition Personnelle</span>
+      </div>
+      <div class="result-tag">Your Scalp Profile</div>
+      <h1 class="result-type-en" id="resultTypeEn"></h1>
+      <div class="result-type-kr" id="resultTypeKr"></div>
+      <div class="result-quote" id="resultQuote"></div>
+      <div class="result-cover-meta">
+        <div class="cover-meta-item">
+          <div class="lbl">Diagnosis</div>
+          <div class="val" id="diagDate">—</div>
+        </div>
+        <div class="cover-meta-item">
+          <div class="lbl">Code</div>
+          <div class="val" id="diagCode">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 진단 점수 -->
+    <div class="result-section">
+      <div class="section-eyebrow">Diagnostic Score</div>
+      <h3 class="section-title"><em>당신의</em> 두피 데이터</h3>
+      <div class="score-chart" id="scoreChart"></div>
+    </div>
+
+    <!-- 인사이트 -->
+    <div class="result-section">
+      <div class="section-eyebrow">Insight</div>
+      <h3 class="section-title">두피 상태 <em>분석</em></h3>
+      <div class="insights" id="insights"></div>
+    </div>
+
+    <!-- 추천 메뉴 -->
+    <div class="result-section">
+      <div class="section-eyebrow">Recommended Ritual</div>
+      <h3 class="section-title">맞춤 <em>케어 추천</em></h3>
+      <div id="menus"></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-block">
+      <div class="cta-eyebrow">Next Step</div>
+      <h3 class="cta-title">진단을 <em>현실로.</em></h3>
+      <p class="cta-desc">진단 결과를 매장 직원에게 보여주시면<br/>전문 상담과 첫방문 가격으로 만나보실 수 있습니다.</p>
+      <button class="cta-btn" onclick="showStaff()">매장 직원에게 보여주기</button>
+      <div class="cta-code">Diagnosis Code &nbsp;<strong id="staffCode2">—</strong></div>
+    </div>
+
+    <div class="result-footer">
+      * 본 진단은 참고용이며 의학적 진단을 대체하지 않습니다.<br/>
+      정확한 두피 상태는 매장 전문가 진단을 권해드립니다.
+    </div>
+
+    <button class="restart-link" onclick="restart()">Restart Diagnosis</button>
+  </div>
+
+  <!-- === STAFF FULLSCREEN === -->
+  <div class="staff-screen" id="staffScreen">
+    <div class="staff-card">
+      <div class="staff-top">Scálpit · Diagnosis</div>
+      <div class="staff-divider"></div>
+      <div class="staff-name-label">Your Scalp Type</div>
+      <h2 class="staff-type-en" id="staffTypeEn"></h2>
+      <div class="staff-type-kr" id="staffTypeKr"></div>
+
+      <div class="staff-menu-block">
+        <div class="staff-menu-label">Recommended Program</div>
+        <div class="staff-menu-name" id="staffMenuName"></div>
+        <div class="staff-menu-prices">
+          <div class="staff-price-col">
+            <div class="lbl">First Visit</div>
+            <div class="val" id="staffPriceFirst"></div>
+          </div>
+          <div class="staff-price-col">
+            <div class="lbl">Member</div>
+            <div class="val" id="staffPriceMember"></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="staff-close" onclick="closeStaff()">Close</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const TOTAL = 8;
+let cur = 0;
+let answers = {};
+let pregnancy = false;
+
+const scaleLabels = {
+  1: ['거의 기름지지 않아요', '약간 기름져요', '보통이에요', '꽤 기름져요', '많이 눅눅해요'],
+  2: ['매우 당기고 건조해요', '조금 당겨요', '보통이에요', '편안한 편이에요', '전혀 안 당겨요'],
+  3: ['거의 안 빠져요', '조금 빠져요', '평소 정도예요', '많이 빠져요', '심하게 빠져요'],
+  4: ['튼튼해요', '평소 정도예요', '조금 얇아졌어요', '많이 얇아졌어요', '매우 얇아요'],
+  5: ['깨끗해요', '약간 있어요', '보통이에요', '꽤 있어요', '많이 떨어져요'],
+  6: ['전혀 없어요', '가끔 있어요', '보통이에요', '자주 있어요', '항상 민감해요'],
+  7: ['매우 양호해요', '괜찮은 편이에요', '보통이에요', '조금 피곤해요', '매우 안 좋아요']
+};
+const numerals = ['i', 'ii', 'iii', 'iv', 'v'];
+
+function renderOptions() {
+  for (let q = 1; q <= 7; q++) {
+    const container = document.querySelector(`[data-question="${q}"]`);
+    if (!container) continue;
+    container.innerHTML = scaleLabels[q].map((text, i) => `
+      <button class="opt-btn" data-value="${i+1}" onclick="selectOpt(this, ${q}, ${i+1})">
+        <span class="opt-mark">${numerals[i]}</span>
+        <span class="opt-dot"></span>
+        ${text}
+      </button>
+    `).join('');
+  }
+}
+renderOptions();
+
+function selectOpt(btn, q, value) {
+  const screen = btn.closest('.screen');
+  screen.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[q] = value;
+  screen.querySelector('.btn-next').disabled = false;
+}
+
+function startTest() {
+  document.getElementById('screen-intro').classList.remove('active');
+  goTo('q1');
+}
+
+function nextQuestion() {
+  if (cur < 7) {
+    cur++;
+    goTo('q' + (cur + 1));
+  }
+}
+
+function selectPregnancy(isYes) {
+  pregnancy = isYes;
+  calculate();
+  goTo('result');
+  updateProgress(100);
+  document.getElementById('stepText').innerHTML = 'RESULT';
+}
+
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  if (id.startsWith('q')) {
+    cur = parseInt(id.substring(1)) - 1;
+    updateProgress((cur + 1) / TOTAL * 100);
+    document.getElementById('stepText').innerHTML = `STEP <strong>${cur + 1}</strong> / ${TOTAL}`;
+  }
+  window.scrollTo(0, 0);
+}
+
+function updateProgress(pct) {
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+// === 결과 계산 ===
+function calculate() {
+  if (pregnancy) return show('PREGNANCY');
+
+  const oily = answers[1] || 0;
+  const dry = 6 - (answers[2] || 3);
+  const hairLoss = (answers[3] || 0) + (answers[4] || 0);
+  const problem = (answers[5] || 0) + (answers[6] || 0);
+
+  if (hairLoss >= 7) return show('HAIR_LOSS');
+  if (problem >= 7) return show('PROBLEM');
+  if (oily >= 4) return show('OILY');
+  if (dry >= 4) return show('DRY');
+  return show('BALANCED');
+}
+
+const RESULTS = {
+  OILY: {
+    en: 'Oily<br/><em>Equilibrium</em>',
+    kr: '지성 두피 · 균형이 필요한 상태',
+    issue: 'Sebum Edition',
+    quote: '"두피의 피지 분비가 많은 상태입니다. 모공이 막히면 트러블·냄새·탈모로 이어질 수 있어요. 정기적인 딥 클렌징과 두피 균형 케어가 필요합니다."',
+    scores: { '유분': 85, '수분': 50, '탈모': 30, '트러블': 45, '균형': 30 },
+    insights: [
+      '피지 분비량이 평균보다 많아 모공이 막히기 쉬워요.',
+      '하루만 지나도 두피가 답답하고 떡진 느낌이 들 수 있어요.',
+      '주 1회 이상 딥 클렌징·스케일링이 효과적입니다.',
+      '두피 환경 리셋을 위한 정기 케어를 권해드려요.'
+    ],
+    primary: {
+      en: 'Brain Detox <em>Head Spa</em>',
+      kr: '브레인디톡스 헤드스파',
+      time: '80 MIN',
+      desc: '두피 스케일링과 디톡스를 강화한 시그니처 프로그램. 노폐물·각질·잉여 피지를 깊이 있게 클렌징하여 두피 환경을 리셋합니다.',
+      regular: 170000, first: 120000, member: 140000
+    },
+    secondary: {
+      en: 'Signature Deep <em>Relaxing</em>',
+      kr: '시그니처 딥릴렉싱 아로마스파',
+      time: '80 MIN',
+      desc: '아로마 + 온열 방짜 수기 테라피 결합. 두피 디톡스와 깊은 이완을 동시에.',
+      regular: 210000, first: 145000, member: 175000
+    }
+  },
+  DRY: {
+    en: 'Dry &<br/><em>Sensitive</em>',
+    kr: '건성·민감 두피 · 회복이 필요한 상태',
+    issue: 'Moisture Edition',
+    quote: '"두피 수분 부족과 당김 현상이 있는 상태입니다. 무리한 세정보다는 보습·진정 중심의 부드러운 케어가 필요해요."',
+    scores: { '유분': 25, '수분': 80, '탈모': 30, '트러블': 50, '균형': 40 },
+    insights: [
+      '두피 수분 밸런스가 무너져 있는 상태입니다.',
+      '강한 세정 성분에 자극받기 쉬워요.',
+      '겨울철·환절기에 더 민감해질 수 있어요.',
+      '저자극 클렌징과 보습·진정 케어가 핵심입니다.'
+    ],
+    primary: {
+      en: 'Signature Deep <em>Relaxing</em>',
+      kr: '시그니처 딥릴렉싱 아로마스파',
+      time: '80 MIN',
+      desc: '아로마와 온열 방짜 수기 테라피로 건조한 두피에 깊은 수분과 영양을 공급. 진정과 이완에 효과적인 프로그램.',
+      regular: 210000, first: 145000, member: 175000
+    },
+    secondary: {
+      en: 'Brain Detox <em>Head Spa</em>',
+      kr: '브레인디톡스 헤드스파',
+      time: '60 MIN',
+      desc: '부드러운 디톡스와 워터테라피로 두피 컨디션 회복.',
+      regular: 130000, first: 90000, member: 110000
+    }
+  },
+  HAIR_LOSS: {
+    en: 'Hair Loss<br/><em>Alert</em>',
+    kr: '탈모 신호 두피 · 골든타임이 필요한 상태',
+    issue: 'Root Edition',
+    quote: '"모발 빠짐·얇아짐 신호가 감지된 상태입니다. 초기 관리가 가장 중요한 시기. 모근 강화와 두피 환경 개선이 동시에 필요합니다."',
+    scores: { '유분': 50, '수분': 50, '탈모': 90, '트러블': 50, '균형': 30 },
+    insights: [
+      '모발의 굵기와 밀도가 감소하고 있어요.',
+      '모근의 영양 부족 가능성이 있습니다.',
+      '지금이 가장 좋은 케어 시작 시점이에요.',
+      'MTS 도구와 앰플로 모근 자극·영양 공급이 필수입니다.'
+    ],
+    primary: {
+      en: 'Premium <em>Hair Loss Solution</em>',
+      kr: '프리미엄 탈모 솔루션',
+      time: '70 MIN',
+      desc: '시그니처 헤드스파 + MTS + 탈모 전용 앰플과 토닉으로 모근 강화. 탈모 초기 관리에 최적화된 프로그램입니다.',
+      regular: 150000, first: 105000, member: 125000
+    },
+    secondary: {
+      en: 'Signature Deep <em>Relaxing</em>',
+      kr: '시그니처 딥릴렉싱 아로마스파',
+      time: '80 MIN',
+      desc: '두피 혈행 개선과 스트레스 완화로 탈모 환경 개선을 보조합니다.',
+      regular: 210000, first: 145000, member: 175000
+    }
+  },
+  PROBLEM: {
+    en: 'Problematic<br/><em>Scalp</em>',
+    kr: '문제성 두피 · 진정이 필요한 상태',
+    issue: 'Calming Edition',
+    quote: '"각질·비듬·트러블·민감성이 감지된 상태입니다. 자극을 최소화하면서 두피 진정과 밸런스 회복이 필요합니다."',
+    scores: { '유분': 55, '수분': 40, '탈모': 35, '트러블': 85, '균형': 25 },
+    insights: [
+      '두피 트러블과 각질이 평균보다 많은 상태입니다.',
+      '두피 보호막이 약해진 상태일 수 있어요.',
+      '리프레싱·리파이닝·더마 카밍 솔루션이 효과적입니다.',
+      '두피 타입별 맞춤 진단으로 정밀하게 케어해요.'
+    ],
+    primary: {
+      en: 'Problematic <em>Scalp Care</em>',
+      kr: '문제성 두피 케어 솔루션',
+      time: '60 MIN',
+      desc: '알로에 수딩겔과 앰플, LED 진정 케어, 문제성 전용 스케일링제와 샴푸로 두피 환경 정상화.',
+      regular: 130000, first: 90000, member: 110000
+    },
+    secondary: {
+      en: 'Signature Deep <em>Relaxing</em>',
+      kr: '시그니처 딥릴렉싱 아로마스파',
+      time: '80 MIN',
+      desc: '문제성 두피 진정 후 시그니처로 케어를 지속하세요.',
+      regular: 210000, first: 145000, member: 175000
+    }
+  },
+  BALANCED: {
+    en: 'Balanced<br/><em>Equilibrium</em>',
+    kr: '균형 두피 · 유지가 필요한 상태',
+    issue: 'Maintenance Edition',
+    quote: '"두피 상태가 비교적 균형 잡혀 있습니다. 좋은 컨디션을 유지하기 위한 정기 케어와 예방적 관리가 추천됩니다."',
+    scores: { '유분': 50, '수분': 60, '탈모': 30, '트러블': 30, '균형': 80 },
+    insights: [
+      '두피 컨디션이 양호한 상태입니다.',
+      '예방적 정기 케어가 가장 중요한 시기.',
+      '월 2회 시그니처 케어로 컨디션을 유지하세요.',
+      '스트레스·계절 변화에 미리 대비하시는 것이 좋아요.'
+    ],
+    primary: {
+      en: 'Signature Deep <em>Relaxing</em>',
+      kr: '시그니처 딥릴렉싱 아로마스파',
+      time: '80 MIN',
+      desc: '아로마와 온열 방짜, 수기 테라피의 종합 헤드스파. 두피 컨디션 유지와 깊은 이완에 가장 추천됩니다.',
+      regular: 210000, first: 145000, member: 175000
+    },
+    secondary: {
+      en: 'Brain Detox <em>Head Spa</em>',
+      kr: '브레인디톡스 헤드스파',
+      time: '80 MIN',
+      desc: '정기 디톡스로 두피 환경 리셋. 균형 유지에 최적입니다.',
+      regular: 170000, first: 120000, member: 140000
+    }
+  },
+  PREGNANCY: {
+    en: 'Pregnancy<br/><em>Care</em>',
+    kr: '임산부 두피 · 안전한 케어가 필요한 상태',
+    issue: 'Maternity Edition',
+    quote: '"임신·수유 중에도 안전하게 받으실 수 있는 전용 케어가 준비되어 있습니다. 기기 자극 없이 100% 핸드 테크닉으로 진행됩니다."',
+    scores: { '유분': 50, '수분': 50, '탈모': 40, '트러블': 40, '안전': 95 },
+    insights: [
+      '임신 중 사용 가능한 성분만 사용합니다.',
+      '기기 관리는 제외하고 핸드 케어로만 진행해요.',
+      '아로마 블렌드 향도 임산부 전용으로 구성됩니다.',
+      '몸과 마음의 휴식을 동시에 챙겨드려요.'
+    ],
+    primary: {
+      en: 'Pregnancy <em>Head Spa</em>',
+      kr: '임산부 헤드스파',
+      time: '60 MIN',
+      desc: '임산부 전용 안전 성분과 100% 핸드 테크닉. 두피 순환 개선과 이완 중심의 릴렉싱 프로그램.',
+      regular: 150000, first: 105000, member: 125000
+    },
+    secondary: null
+  }
+};
+
+function show(type) {
+  const r = RESULTS[type];
+
+  document.getElementById('resultTypeEn').innerHTML = r.en;
+  document.getElementById('resultTypeKr').textContent = r.kr;
+  document.getElementById('resultIssue').textContent = r.issue;
+  document.getElementById('resultQuote').textContent = r.quote;
+
+  // 날짜·코드
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
+  const code = String(Math.floor(1000 + Math.random() * 9000));
+  document.getElementById('diagDate').textContent = dateStr;
+  document.getElementById('diagCode').textContent = code;
+  document.getElementById('staffCode2').textContent = code;
+
+  // 점수 차트
+  const chart = document.getElementById('scoreChart');
+  chart.innerHTML = Object.entries(r.scores).map(([k, v]) => `
+    <div class="score-row">
+      <div class="score-label">${k}</div>
+      <div class="score-track">
+        <div class="score-bar ${v >= 70 ? 'high' : ''}" style="width:${v}%"></div>
+      </div>
+      <div class="score-value">${v}</div>
+    </div>
+  `).join('');
+
+  // 인사이트
+  const insights = document.getElementById('insights');
+  insights.innerHTML = r.insights.map((t, i) => `
+    <div class="insight-row">
+      <div class="insight-num">${String(i+1).padStart(2,'0')}</div>
+      <div>${t}</div>
+    </div>
+  `).join('');
+
+  // 메뉴
+  const menus = document.getElementById('menus');
+  let html = renderMenu(r.primary, true);
+  if (r.secondary) html += renderMenu(r.secondary, false);
+  menus.innerHTML = html;
+
+  // staff
+  document.getElementById('staffTypeEn').innerHTML = r.en;
+  document.getElementById('staffTypeKr').textContent = r.kr.split(' · ')[0];
+  document.getElementById('staffMenuName').textContent = r.primary.kr;
+  document.getElementById('staffPriceFirst').textContent = (r.primary.first/1000).toFixed(0) + 'K';
+  document.getElementById('staffPriceMember').textContent = (r.primary.member/1000).toFixed(0) + 'K';
+}
+
+function renderMenu(m, isPrimary) {
+  return `
+    <article class="menu-card ${isPrimary ? 'primary' : ''}">
+      <div class="menu-card-top">
+        <div class="menu-badge">${isPrimary ? 'Primary Recommendation' : 'Alternative'}</div>
+        <h3 class="menu-name-en">${m.en}</h3>
+        <div class="menu-name-kr">${m.kr}</div>
+        <div class="menu-time">${m.time}</div>
+      </div>
+      <div class="menu-card-body">
+        <p class="menu-desc">${m.desc}</p>
+        <div class="price-row">
+          <div class="price-col struck">
+            <div class="lbl">Regular</div>
+            <div class="val">${m.regular.toLocaleString()}</div>
+          </div>
+          <div class="price-col highlight">
+            <div class="lbl">First Visit</div>
+            <div class="val">${m.first.toLocaleString()}</div>
+          </div>
+          <div class="price-col">
+            <div class="lbl">Member</div>
+            <div class="val">${m.member.toLocaleString()}</div>
+          </div>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function showStaff() {
+  document.getElementById('staffScreen').classList.add('active');
+}
+function closeStaff() {
+  document.getElementById('staffScreen').classList.remove('active');
+}
+
+function restart() {
+  cur = 0;
+  answers = {};
+  pregnancy = false;
+  document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.btn-next').forEach(b => b.disabled = true);
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-intro').classList.add('active');
+  updateProgress(0);
+  document.getElementById('stepText').innerHTML = 'STEP <strong>1</strong> / 8';
+}
+</script>
+
+</body>
+</html>
