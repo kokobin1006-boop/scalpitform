@@ -357,6 +357,29 @@
     .required-item .privacy-text::before { content: '[필수] '; color: var(--burg); }
     .privacy-detail { font-size: 11px; color: var(--text-muted); line-height: 1.6; margin: 6px 0 4px 26px; }
     .privacy-link { display: inline-block; margin-left: 26px; font-size: 11px; color: var(--burg); text-decoration: underline; }
+    .mkt-discount-banner {
+      background: #FFFBF3;
+      border: 1.5px solid var(--gold);
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .mkt-discount-badge {
+      background: var(--burg);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 8px 10px;
+      flex-shrink: 0;
+      text-align: center;
+      line-height: 1.2;
+      letter-spacing: 0.5px;
+    }
+    .mkt-discount-copy { font-size: 12.5px; color: var(--text); line-height: 1.7; }
+    .mkt-discount-copy strong { color: var(--burg); font-size: 14px; font-weight: 700; }
 
     /* ── 예약 안내 박스 ── */
     .booking-notice {
@@ -784,6 +807,10 @@
       </div>
       <div class="error-msg" id="err-privacy"></div>
       <div class="privacy-item">
+        <div class="mkt-discount-banner">
+          <div class="mkt-discount-badge">30%<br>OFF</div>
+          <div class="mkt-discount-copy" id="mktDiscountCopy"></div>
+        </div>
         <label class="privacy-label">
           <input type="checkbox" id="privacyMarketing" />
           <span class="privacy-check"></span>
@@ -879,6 +906,7 @@ const T = {
     privacy_link:'개인정보처리방침 전문 보기 →',
     privacy_mkt:'마케팅 정보 수신에 동의합니다 (선택)',
     privacy_mkt_detail:'이벤트, 프로모션, 신규 서비스 안내 등 마케팅 정보를 수신합니다.',
+    mkt_discount:'마케팅 정보 수신에 동의하시면<br><strong>첫 방문 30% 할인</strong>이 적용됩니다!',
     err_privacy:'개인정보 수집·이용에 동의해주세요.',
     b_notice_header:'예약 전 확인해주세요',
     b_notice_tips:'★ 당일 샴푸는 하지 않아도 괜찮습니다!\n★ 관리 중 네이프라인(목 뒤) 마사지가 포함되어 있어 목폴라·하이넥 착용 시 안에 나시 또는 가벼운 이너 착용을 추천드립니다 :)',
@@ -952,6 +980,7 @@ const T = {
     privacy_link:'View full privacy policy →',
     privacy_mkt:'I agree to receive marketing information (optional)',
     privacy_mkt_detail:'Receive event, promotion, and new service notifications.',
+    mkt_discount:'Agree to receive marketing info and get<br><strong>30% off your first visit!</strong>',
     err_privacy:'Please agree to the personal information policy.',
     b_notice_header:'Before Your Visit',
     b_notice_tips:"★ No need to wash your hair on the day of your visit!\n★ Our treatment includes a nape-line (back of neck) massage. If wearing a turtleneck or high-neck top, we recommend wearing a tank top or light inner underneath :)",
@@ -1025,6 +1054,7 @@ const T = {
     privacy_link:'查看完整隐私政策 →',
     privacy_mkt:'我同意接收营销信息（可选）',
     privacy_mkt_detail:'接收活动、促销、新服务等营销信息。',
+    mkt_discount:'同意接收营销信息即可享受<br><strong>首次到访 30% 折扣！</strong>',
     err_privacy:'请同意个人信息收集和使用。',
     b_notice_header:'预约前请确认',
     b_notice_tips:'★ 当天不需要洗发，直接来访即可！\n★ 护理过程中包含颈部（后颈）按摩。穿高领或高领上衣时，建议内搭背心或薄款内衣 :)',
@@ -1097,6 +1127,7 @@ const T = {
     privacy_link:'個人情報処理方針の全文を見る →',
     privacy_mkt:'マーケティング情報の受信に同意します（任意）',
     privacy_mkt_detail:'イベント、プロモーション、新規サービスなどのマーケティング情報を受信します。',
+    mkt_discount:'マーケティング情報の受信に同意すると<br><strong>初回 30% 割引</strong>が適用されます！',
     err_privacy:'個人情報の収集・利用に同意してください。',
     b_notice_header:'ご来店前のご確認',
     b_notice_tips:'★ 当日のシャンプーはしなくて大丈夫です！\n★ 施術中にネープライン（首の後ろ）マッサージが含まれています。タートルネックやハイネックをお召しの場合は、中にキャミソールや薄手のインナーの着用をお勧めします :)',
@@ -1266,6 +1297,7 @@ function applyLang() {
   document.getElementById('privacyReqText').textContent = t.privacy_req;
   document.getElementById('privacyReqDetail').textContent = t.privacy_req_detail;
   document.getElementById('privacyLinkText').textContent = t.privacy_link;
+  document.getElementById('mktDiscountCopy').innerHTML = t.mkt_discount;
   document.getElementById('privacyMktText').textContent = t.privacy_mkt;
   document.getElementById('privacyMktDetail').textContent = t.privacy_mkt_detail;
   document.getElementById('err-privacy').textContent = t.err_privacy;
