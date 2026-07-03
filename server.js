@@ -21,14 +21,14 @@ const BRANCHES = {
   gwanggyo: {
     name: '광교점',
     password: process.env.GWANGGYO_PASSWORD || 'gwanggyo2024',
-    bizNo: '',
-    address: '',
+    bizNo: '213-35-98664',
+    address: '경기도 수원시 영통구 법조로 25(하동) 1114~1116호',
   },
   apgujeong: {
     name: '압구정로데오점',
     password: process.env.APGUJEONG_PASSWORD || 'apgujeong2024',
-    bizNo: '',
-    address: '',
+    bizNo: '407-11-65011',
+    address: '서울특별시 강남구 신사동 644-3 세화빌딩 3층 (CU건물 3층)',
   },
 };
 const ROOT_PASSWORD = process.env.ADMIN_PASSWORD || 'scalpit2024';
