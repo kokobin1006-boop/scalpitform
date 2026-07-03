@@ -18,6 +18,18 @@ const BRANCHES = {
     bizNo: '501-75-00684',
     address: '경기도 화성시 동탄오산로 86-10, 4층 405호',
   },
+  gwanggyo: {
+    name: '광교점',
+    password: process.env.GWANGGYO_PASSWORD || 'gwanggyo2024',
+    bizNo: '',
+    address: '',
+  },
+  apgujeong: {
+    name: '압구정로데오점',
+    password: process.env.APGUJEONG_PASSWORD || 'apgujeong2024',
+    bizNo: '',
+    address: '',
+  },
 };
 const ROOT_PASSWORD = process.env.ADMIN_PASSWORD || 'scalpit2024';
 
