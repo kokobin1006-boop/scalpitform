@@ -9,9 +9,14 @@
 <meta property="og:description" content="Complimentary head spa for creators visiting Korea.">
 <meta property="og:type" content="website">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/apply/styles.css">
 <style>
-  html, body { background: var(--burg); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #7B1A2B;
+    color: #FAF4EE;
+    font-family: 'Montserrat', 'Noto Sans KR', -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
   .select-page {
     min-height: 100vh;
     min-height: 100dvh;
@@ -19,8 +24,7 @@
     align-items: center;
     justify-content: center;
     padding: 48px 24px;
-    color: var(--cream);
-    background: linear-gradient(180deg, var(--burg) 0%, var(--burg-dark) 100%);
+    background: linear-gradient(180deg, #7B1A2B 0%, #5A1020 100%);
     position: relative;
   }
   .select-page::before {
@@ -38,7 +42,7 @@
     z-index: 1;
   }
   .select-logo {
-    width: 240px;
+    width: 220px;
     max-width: 60vw;
     display: block;
     margin: 0 auto 8px;
@@ -53,18 +57,18 @@
     margin: 20px auto 20px;
   }
   .select-tag {
-    font-family: var(--sans);
+    font-family: 'Montserrat', sans-serif;
     font-size: 12px;
     letter-spacing: 8px;
-    color: rgba(250,244,238,0.7);
+    color: rgba(250,244,238,0.75);
     text-transform: uppercase;
     margin-bottom: 72px;
   }
   .select-label {
-    font-family: var(--sans);
+    font-family: 'Montserrat', sans-serif;
     font-size: 11px;
     letter-spacing: 5px;
-    color: var(--gold);
+    color: #D4B896;
     text-transform: uppercase;
     margin-bottom: 28px;
   }
@@ -75,12 +79,12 @@
   }
   .lang-card {
     padding: 32px 20px;
-    border: 1px solid rgba(250,244,238,0.15);
+    border: 1px solid rgba(250,244,238,0.18);
     border-radius: 4px;
     text-align: center;
     text-decoration: none;
-    color: var(--cream);
-    background: rgba(0,0,0,0.15);
+    color: #FAF4EE;
+    background: rgba(0,0,0,0.20);
     transition: all 0.25s ease;
     cursor: pointer;
     display: flex;
@@ -89,20 +93,20 @@
     gap: 10px;
   }
   .lang-card:hover {
-    border-color: var(--gold);
-    background: rgba(196,164,124,0.08);
+    border-color: #C4A47C;
+    background: rgba(196,164,124,0.10);
     transform: translateY(-2px);
   }
   .lang-code {
-    font-family: var(--sans);
+    font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 4px;
-    color: var(--gold);
+    color: #C4A47C;
   }
   .lang-name {
     font-size: 15px;
-    color: var(--cream);
+    color: #FAF4EE;
     letter-spacing: 0.5px;
   }
   .lang-card.ja .lang-name { font-family: 'Noto Sans JP', sans-serif; }
@@ -116,7 +120,7 @@
     text-transform: uppercase;
   }
   @media (max-width: 480px) {
-    .select-logo { width: 180px; }
+    .select-logo { width: 170px; }
     .select-tag { font-size: 11px; letter-spacing: 6px; margin-bottom: 56px; }
     .select-label { font-size: 10px; margin-bottom: 24px; }
     .lang-card { padding: 26px 16px; }
