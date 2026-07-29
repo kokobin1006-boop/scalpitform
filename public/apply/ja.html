@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>韓国式ヘッドスパ無料招待 — SCALPIT</title>
+<meta name="description" content="韓国を訪れる海外クリエイター様への無料ヘッドスパ体験ご招待。">
+<meta property="og:title" content="韓国式ヘッドスパ無料招待 — SCALPIT">
+<meta property="og:description" content="韓国を訪れる海外クリエイター様への無料ヘッドスパ体験ご招待。">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/apply/styles.css">
+<style>
+  :root { --serif: 'Cormorant Garamond', 'Noto Serif JP', serif; --sans: 'Montserrat', 'Noto Sans JP', -apple-system, sans-serif; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner"><img class="hero-logo" src="/scalpit-logo.png" alt="SCALPIT">
+    <h1 class="title">
+      <span class="line1">韓国式</span>
+      <span class="line2">ヘッドスパ</span>
+    </h1>
+    <div class="tagline">海外クリエイター様への無料招待</div>
+  </div>
+  <div class="hero-scroll">↓ お申込み</div>
+</div>
+
+<main class="form-wrap">
+
+  <section class="intro">
+    <p class="lead">
+      SCALPITは、韓国を訪れる海外クリエイター様に
+      <em>プレミアムヘッドスパ体験</em>を無料でご招待します。
+      ご来店の模様をコンテンツでシェアいただければ、トリートメントは当店が承ります。
+    </p>
+    <ul class="perks">
+      <li><span>01</span> プレミアムヘッドスパ 60分 無料ご招待</li>
+      <li><span>02</span> 店舗: 狎鴎亭・光教・東灘・天安</li>
+      <li><span>03</span> 営業日基準 3日以内にご返信</li>
+    </ul>
+  </section>
+
+  <section class="video-section">
+    <div class="video-label">— 12時間のフライトで受ける、その体験 —</div>
+    <div class="video-card">
+      <video id="intro-video" autoplay muted loop playsinline preload="metadata">
+        <source src="/apply/assets/intro-video.mp4" type="video/mp4">
+      </video>
+      <button type="button" class="video-sound" id="video-sound" aria-label="音声切替">
+        <span class="sound-icon" data-state="muted">🔇</span>
+      </button>
+    </div>
+  </section>
+
+  <form id="apply-form" class="apply-form" novalidate>
+
+    <div class="field">
+      <label for="instagram">Instagram / TikTok ID <span class="req">*</span></label>
+      <p class="desc">プロフィールリンクを貼付してください。<br>
+        <span class="ex">例) https://www.instagram.com/scalpit_official/</span>
+      </p>
+      <input type="text" id="instagram" name="instagram" required placeholder="ご回答">
+    </div>
+
+    <div class="field">
+      <label for="followers">フォロワー数 <span class="req">*</span></label>
+      <p class="desc">メインでご活動のプラットフォーム基準の総フォロワー数。</p>
+      <input type="text" id="followers" name="followers" required placeholder="ご回答">
+    </div>
+
+    <div class="field">
+      <label>ギフト協業にご協力いただけますか？ <span class="req">*</span></label>
+      <p class="desc">サービスご提供 → コンテンツ投稿の形の協業です。</p>
+      <div class="radio-group">
+        <label class="radio"><input type="radio" name="gifted" value="Yes" required><span>可能</span></label>
+        <label class="radio"><input type="radio" name="gifted" value="No"><span>不可</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="visit-date">韓国訪問予定日 <span class="req">*</span></label>
+      <p class="desc">ご希望の日付を選択してください。</p>
+      <input type="date" id="visit-date" name="visitDate" required>
+    </div>
+
+    <div class="field">
+      <label for="contact">ご連絡先 (Email または LINE ID) <span class="req">*</span></label>
+      <p class="desc">ご予約確定のご連絡に使用いたします。</p>
+      <input type="text" id="contact" name="contact" required placeholder="ご回答">
+    </div>
+
+    <div class="field">
+      <label>主なコンテンツカテゴリ <span class="req">*</span></label>
+      <p class="desc">該当項目すべて選択。</p>
+      <div class="check-group">
+        <label class="check"><input type="checkbox" name="category" value="Beauty"><span>ビューティー</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Travel"><span>旅行</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Lifestyle"><span>ライフスタイル</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Wellness"><span>ウェルネス</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Fashion"><span>ファッション</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Food &amp; Cafe"><span>グルメ・カフェ</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Culture &amp; Experiences"><span>文化・体験</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="country">ご居住国 <span class="req">*</span></label>
+      <p class="desc"><span class="ex">例) 日本、東京</span></p>
+      <input type="text" id="country" name="country" required placeholder="ご回答">
+    </div>
+
+    <div class="field">
+      <label>ご来店後にリール/TikTokの投稿は可能ですか？ <span class="req">*</span></label>
+      <div class="radio-group">
+        <label class="radio"><input type="radio" name="upload" value="Yes" required><span>可能</span></label>
+        <label class="radio"><input type="radio" name="upload" value="No"><span>不可</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>SCALPIT公式アカウントでのリポスト転載を許可しますか？ <span class="req">*</span></label>
+      <div class="radio-group">
+        <label class="radio"><input type="radio" name="repost" value="Yes" required><span>許可</span></label>
+        <label class="radio"><input type="radio" name="repost" value="No"><span>不許可</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="health">頭皮の状態や健康上の特記事項はございますか？</label>
+      <p class="desc">任意項目。施術ご準備の参考になります。</p>
+      <textarea id="health" name="health" rows="3" placeholder="ご回答 (任意)"></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submit-btn">
+      <span class="btn-text">申込む</span>
+      <span class="btn-loading" hidden>送信中…</span>
+    </button>
+
+    <p class="privacy">
+      ご送信をもって、SCALPITからの関連ご案内の受信にご同意いただいたものとみなされます。
+      個人情報は第三者と共有されません。
+    </p>
+  </form>
+
+  <div id="success-panel" class="success-panel" hidden>
+    <div class="success-inner">
+      <div class="success-mark">✓</div>
+      <h2>ありがとうございました</h2>
+      <p>お申込みを承りました。<br>営業日基準 3日以内にご返信いたします。</p>
+      <div class="signature">— SCALPIT</div>
+    </div>
+  </div>
+
+  <div id="error-panel" class="error-panel" hidden>
+    <p>送信中に問題が発生しました。再度お試しください。</p>
+    <button type="button" id="retry-btn">再試行</button>
+  </div>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-brand">SCALPIT</div>
+  <div class="foot-sub">Premium Korean Head Spa · Seoul</div>
+  <div class="foot-locations">狎鴎亭 · 光教 · 東灘 · 天安</div>
+</footer>
+
+<script src="/apply/script.js"></script>
+</body>
+</html>

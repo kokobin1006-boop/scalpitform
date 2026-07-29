@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>韓國頭皮SPA免費體驗 — SCALPIT</title>
+<meta name="description" content="邀請國際創作者體驗韓國頭皮SPA,免費招待。">
+<meta property="og:title" content="韓國頭皮SPA免費體驗 — SCALPIT">
+<meta property="og:description" content="邀請國際創作者體驗韓國頭皮SPA,免費招待。">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/apply/styles.css">
+<style>
+  :root { --serif: 'Cormorant Garamond', 'Noto Serif TC', serif; --sans: 'Montserrat', 'Noto Sans TC', -apple-system, sans-serif; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner"><img class="hero-logo" src="/scalpit-logo.png" alt="SCALPIT">
+    <h1 class="title">
+      <span class="line1">韓國</span>
+      <span class="line2">頭皮SPA</span>
+    </h1>
+    <div class="tagline">邀請國際創作者 · 免費體驗</div>
+  </div>
+  <div class="hero-scroll">↓ 立即申請</div>
+</div>
+
+<main class="form-wrap">
+
+  <section class="intro">
+    <p class="lead">
+      SCALPIT 誠摯邀請國際創作者體驗
+      <em>韓國頂級頭皮SPA</em>,免費招待。
+      將您的體驗透過內容分享給您的粉絲,療程由我們招待。
+    </p>
+    <ul class="perks">
+      <li><span>01</span> 頂級頭皮SPA 60分鐘 免費體驗</li>
+      <li><span>02</span> 據點: 狎鷗亭・光教・東灘・天安</li>
+      <li><span>03</span> 3個工作日內回覆</li>
+    </ul>
+  </section>
+
+  <section class="video-section">
+    <div class="video-label">— 值得飛越12小時的體驗 —</div>
+    <div class="video-card">
+      <video id="intro-video" autoplay muted loop playsinline preload="metadata">
+        <source src="/apply/assets/intro-video.mp4" type="video/mp4">
+      </video>
+      <button type="button" class="video-sound" id="video-sound" aria-label="切換音效">
+        <span class="sound-icon" data-state="muted">🔇</span>
+      </button>
+    </div>
+  </section>
+
+  <form id="apply-form" class="apply-form" novalidate>
+
+    <div class="field">
+      <label for="instagram">Instagram / TikTok 帳號 <span class="req">*</span></label>
+      <p class="desc">請貼上您的 Instagram 或 TikTok 個人檔案連結。<br>
+        <span class="ex">例) https://www.instagram.com/scalpit_official/</span>
+      </p>
+      <input type="text" id="instagram" name="instagram" required placeholder="您的回覆">
+    </div>
+
+    <div class="field">
+      <label for="followers">粉絲數 <span class="req">*</span></label>
+      <p class="desc">主要活動平台的總粉絲數。</p>
+      <input type="text" id="followers" name="followers" required placeholder="您的回覆">
+    </div>
+
+    <div class="field">
+      <label>是否接受贊助合作? <span class="req">*</span></label>
+      <p class="desc">提供服務 → 內容產出 的贊助合作形式。</p>
+      <div class="radio-group">
+        <label class="radio"><input type="radio" name="gifted" value="Yes" required><span>可以</span></label>
+        <label class="radio"><input type="radio" name="gifted" value="No"><span>不可</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="visit-date">預計訪韓日期 <span class="req">*</span></label>
+      <p class="desc">請選擇預計抵達日期。</p>
+      <input type="date" id="visit-date" name="visitDate" required>
+    </div>
+
+    <div class="field">
+      <label for="contact">聯絡方式 (Email 或 LINE ID) <span class="req">*</span></label>
+      <p class="desc">用於確認預約的聯絡資訊。</p>
+      <input type="text" id="contact" name="contact" required placeholder="您的回覆">
+    </div>
+
+    <div class="field">
+      <label>主要內容類別 <span class="req">*</span></label>
+      <p class="desc">可複選。</p>
+      <div class="check-group">
+        <label class="check"><input type="checkbox" name="category" value="Beauty"><span>美妝</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Travel"><span>旅遊</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Lifestyle"><span>生活風格</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Wellness"><span>健康</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Fashion"><span>時尚</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Food &amp; Cafe"><span>美食・咖啡</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Culture &amp; Experiences"><span>文化・體驗</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="country">居住地 <span class="req">*</span></label>
+      <p class="desc"><span class="ex">例) 台北、台中、高雄</span></p>
+      <input type="text" id="country" name="country" required placeholder="您的回覆">
+    </div>
+
+    <div class="field">
+      <label>體驗後可上傳 Reels/TikTok 嗎? <span class="req">*</span></label>
+      <div class="radio-group">
+        <label class="radio"><input type="radio" name="upload" value="Yes" required><span>可以</span></label>
+        <label class="radio"><input type="radio" name="upload" value="No"><span>不可</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>是否同意 SCALPIT 官方帳號轉發您的內容? <span class="req">*</span></label>
+      <div class="radio-group">
+        <label class="radio"><input type="radio" name="repost" value="Yes" required><span>同意</span></label>
+        <label class="radio"><input type="radio" name="repost" value="No"><span>不同意</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="health">頭皮狀況或健康相關注意事項?</label>
+      <p class="desc">選填。有助於我們為您準備療程。</p>
+      <textarea id="health" name="health" rows="3" placeholder="您的回覆 (選填)"></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submit-btn">
+      <span class="btn-text">送出申請</span>
+      <span class="btn-loading" hidden>傳送中…</span>
+    </button>
+
+    <p class="privacy">
+      送出申請即代表同意接收 SCALPIT 相關通知。
+      我們絕不將您的個人資料與第三方共享。
+    </p>
+  </form>
+
+  <div id="success-panel" class="success-panel" hidden>
+    <div class="success-inner">
+      <div class="success-mark">✓</div>
+      <h2>感謝您的申請</h2>
+      <p>我們已收到您的申請。<br>3個工作日內將與您聯繫。</p>
+      <div class="signature">— SCALPIT</div>
+    </div>
+  </div>
+
+  <div id="error-panel" class="error-panel" hidden>
+    <p>傳送過程中發生問題,請再試一次。</p>
+    <button type="button" id="retry-btn">重試</button>
+  </div>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-brand">SCALPIT</div>
+  <div class="foot-sub">Premium Korean Head Spa · Seoul</div>
+  <div class="foot-locations">狎鷗亭 · 光教 · 東灘 · 天安</div>
+</footer>
+
+<script src="/apply/script.js"></script>
+</body>
+</html>

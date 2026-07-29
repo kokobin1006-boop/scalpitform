@@ -135,9 +135,12 @@ Object.keys(BRANCHES).forEach(slug => {
 // 두피 자가진단 페이지
 app.get('/scalp-test', (req, res) => res.sendFile(path.join(__dirname, 'public', 'scalp-test.html')));
 
-// 외국인 크리에이터 신청 랜딩
-app.get('/apply', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/index.html')));
+// 크리에이터 체험단 신청 랜딩 (다국어)
+app.get('/apply', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/select.html')));
+app.get('/apply/en', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/en.html')));
 app.get('/apply/ko', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/ko.html')));
+app.get('/apply/ja', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/ja.html')));
+app.get('/apply/zh', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/zh.html')));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
