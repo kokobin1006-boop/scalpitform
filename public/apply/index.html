@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>FREE KOREAN HEAD SPA — SCALPIT</title>
+<meta name="description" content="Complimentary head spa experience for international creators visiting Seoul.">
+<meta property="og:title" content="FREE KOREAN HEAD SPA — SCALPIT">
+<meta property="og:description" content="Complimentary head spa experience for international creators visiting Seoul.">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="brand">SCALPIT</div>
+    <h1 class="title">
+      <span class="line1">FREE KOREAN</span>
+      <span class="line2">HEAD SPA</span>
+    </h1>
+    <div class="tagline">for international creators in Seoul</div>
+  </div>
+  <div class="hero-scroll">↓ apply</div>
+</div>
+
+<main class="form-wrap">
+
+  <section class="intro">
+    <p class="lead">
+      SCALPIT invites international creators to experience Korea's most talked-about
+      head spa — <em>complimentary</em>. Share your visit with your audience,
+      we take care of the treatment.
+    </p>
+    <ul class="perks">
+      <li><span>01</span> Complimentary premium head spa (60 min)</li>
+      <li><span>02</span> Locations: Apgujeong · Gwanggyo · Dongtan · Cheonan</li>
+      <li><span>03</span> Response within 3 business days</li>
+    </ul>
+  </section>
+
+  <section class="video-section">
+    <div class="video-label">— an experience worth flying for —</div>
+    <div class="video-card">
+      <video
+        id="intro-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster=""
+      >
+        <source src="/assets/intro-video.mp4" type="video/mp4">
+      </video>
+      <button type="button" class="video-sound" id="video-sound" aria-label="Toggle sound">
+        <span class="sound-icon" data-state="muted">🔇</span>
+      </button>
+    </div>
+  </section>
+
+  <form id="apply-form" class="apply-form" novalidate>
+
+    <div class="field">
+      <label for="instagram">Instagram / TikTok ID <span class="req">*</span></label>
+      <p class="desc">Paste your Instagram or TikTok profile link.<br>
+        <span class="ex">ex) https://www.instagram.com/scalpit_official/</span>
+      </p>
+      <input type="text" id="instagram" name="instagram" required placeholder="Your answer">
+    </div>
+
+    <div class="field">
+      <label for="followers">Follower Count <span class="req">*</span></label>
+      <p class="desc">Total followers on your main platform.</p>
+      <input type="text" id="followers" name="followers" required placeholder="Your answer">
+    </div>
+
+    <div class="field">
+      <label>Open to Gifted Collaboration? <span class="req">*</span></label>
+      <p class="desc">Can we provide the service in exchange for content?</p>
+      <div class="radio-group">
+        <label class="radio"><input type="radio" name="gifted" value="Yes" required><span>Yes</span></label>
+        <label class="radio"><input type="radio" name="gifted" value="No"><span>No</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="visit-date">Planned Date of Visit to Korea <span class="req">*</span></label>
+      <p class="desc">Select your expected arrival date.</p>
+      <input type="date" id="visit-date" name="visitDate" required>
+    </div>
+
+    <div class="field">
+      <label for="contact">Contact Information (Email or WhatsApp) <span class="req">*</span></label>
+      <p class="desc">We'll reach out here to confirm your booking.</p>
+      <input type="text" id="contact" name="contact" required placeholder="Your answer">
+    </div>
+
+    <div class="field">
+      <label>Primary Content Category <span class="req">*</span></label>
+      <p class="desc">Select as many as apply.</p>
+      <div class="check-group">
+        <label class="check"><input type="checkbox" name="category" value="Beauty"><span>Beauty</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Travel"><span>Travel</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Lifestyle"><span>Lifestyle</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Wellness"><span>Wellness</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Fashion"><span>Fashion</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Food &amp; Cafe"><span>Food &amp; Cafe</span></label>
+        <label class="check"><input type="checkbox" name="category" value="Culture &amp; Experiences"><span>Culture &amp; Experiences</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="country">Country of Residence <span class="req">*</span></label>
+      <p class="desc"><span class="ex">ex) United States, Japan, Singapore</span></p>
+      <input type="text" id="country" name="country" required placeholder="Your answer">
+    </div>
+
+    <div class="field">
+      <label>Can you upload a Reel/TikTok after the visit? <span class="req">*</span></label>
+      <div class="radio-group">
+        <label class="radio"><input type="radio" name="upload" value="Yes" required><span>Yes</span></label>
+        <label class="radio"><input type="radio" name="upload" value="No"><span>No</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Can SCALPIT repost your content? <span class="req">*</span></label>
+      <div class="radio-group">
+        <label class="radio"><input type="radio" name="repost" value="Yes" required><span>Yes</span></label>
+        <label class="radio"><input type="radio" name="repost" value="No"><span>No</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="health">Any scalp concerns or health conditions?</label>
+      <p class="desc">Optional. Helps us prepare your session accordingly.</p>
+      <textarea id="health" name="health" rows="3" placeholder="Your answer (optional)"></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submit-btn">
+      <span class="btn-text">Submit Application</span>
+      <span class="btn-loading" hidden>Sending…</span>
+    </button>
+
+    <p class="privacy">
+      By submitting, you consent to SCALPIT contacting you regarding this program.
+      We do not share your information with third parties.
+    </p>
+  </form>
+
+  <div id="success-panel" class="success-panel" hidden>
+    <div class="success-inner">
+      <div class="success-mark">✓</div>
+      <h2>Thank You</h2>
+      <p>We've received your application.<br>
+      Our team will reach out within 3 business days.</p>
+      <div class="signature">— SCALPIT</div>
+    </div>
+  </div>
+
+  <div id="error-panel" class="error-panel" hidden>
+    <p>Something went wrong. Please try again or contact us directly.</p>
+    <button type="button" id="retry-btn">Retry</button>
+  </div>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-brand">SCALPIT</div>
+  <div class="foot-sub">Premium Korean Head Spa · Seoul</div>
+  <div class="foot-locations">Apgujeong · Gwanggyo · Dongtan · Cheonan</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

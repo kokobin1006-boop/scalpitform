@@ -135,6 +135,10 @@ Object.keys(BRANCHES).forEach(slug => {
 // 두피 자가진단 페이지
 app.get('/scalp-test', (req, res) => res.sendFile(path.join(__dirname, 'public', 'scalp-test.html')));
 
+// 외국인 크리에이터 신청 랜딩
+app.get('/apply', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/index.html')));
+app.get('/apply/ko', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/ko.html')));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/branch', (req, res) => {
@@ -176,6 +180,72 @@ app.delete('/api/submissions/:id', async (req, res) => {
   }
   await deleteSubmission(Number(req.params.id));
   res.json({ success: true });
+});
+
+// 크리에이터 신청 API (Notion DB 저장)
+const NOTION_APPLY_DS_ID = process.env.NOTION_APPLY_DS_ID || 'b475231c-18c2-4787-ae33-941fef157e95';
+let notionClient = null;
+if (process.env.NOTION_TOKEN) {
+  try {
+    const { Client } = require('@notionhq/client');
+    notionClient = new Client({ auth: process.env.NOTION_TOKEN, notionVersion: '2025-09-03' });
+  } catch (e) {
+    console.error('Notion client init failed:', e.message);
+  }
+}
+
+app.post('/api/apply/submit', async (req, res) => {
+  const body = req.body || {};
+  const { instagram, followers, gifted, visitDate, contact, category, country, upload, repost, health } = body;
+  const missing = [];
+  if (!instagram) missing.push('instagram');
+  if (!followers) missing.push('followers');
+  if (!gifted) missing.push('gifted');
+  if (!visitDate) missing.push('visitDate');
+  if (!contact) missing.push('contact');
+  if (!Array.isArray(category) || !category.length) missing.push('category');
+  if (!country) missing.push('country');
+  if (!upload) missing.push('upload');
+  if (!repost) missing.push('repost');
+  if (missing.length) return res.status(400).json({ message: 'Missing: ' + missing.join(', ') });
+
+  // Notion 저장 시도
+  if (notionClient) {
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+      const properties = {
+        'Instagram / TikTok ID': { title: [{ text: { content: String(instagram).slice(0, 2000) } }] },
+        'Follower Count': { rich_text: [{ text: { content: String(followers).slice(0, 2000) } }] },
+        'Open to Gifted Collaboration': { select: { name: gifted === 'Yes' ? 'Yes' : 'No' } },
+        'Planned Date of Visit': { rich_text: [{ text: { content: String(visitDate).slice(0, 2000) } }] },
+        'Contact Information': { rich_text: [{ text: { content: String(contact).slice(0, 2000) } }] },
+        'Primary Content Category': { multi_select: category.slice(0, 10).map((c) => ({ name: String(c) })) },
+        'Country of Residence': { rich_text: [{ text: { content: String(country).slice(0, 2000) } }] },
+        'Can Upload Reels/TikTok': { select: { name: upload === 'Yes' ? 'Yes' : 'No' } },
+        'Can SCALPIT Repost': { select: { name: repost === 'Yes' ? 'Yes' : 'No' } },
+        'Submitted At': { date: { start: today } },
+      };
+      if (health && String(health).trim()) {
+        properties['Health Condition'] = { rich_text: [{ text: { content: String(health).slice(0, 2000) } }] };
+      }
+      await notionClient.pages.create({
+        parent: { type: 'data_source_id', data_source_id: NOTION_APPLY_DS_ID },
+        properties,
+      });
+    } catch (err) {
+      console.error('Notion save failed, falling back to local:', err.message);
+    }
+  }
+
+  // 로컬 fallback 저장 (Notion 실패 or NOTION_TOKEN 미설정 시)
+  try {
+    const entry = { id: Date.now(), submittedAt: new Date().toISOString(), branch: 'apply', ...body };
+    await saveSubmission(entry);
+  } catch (e) {
+    console.error('Local fallback save failed:', e.message);
+  }
+
+  res.status(200).json({ ok: true });
 });
 
 // 리뷰 API
