@@ -1,24 +1,29 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0a0a0a;
-  --bg-card: #131313;
-  --bg-elevated: #1a1a1a;
-  --line: #2a2a2a;
-  --line-strong: #3a3a3a;
-  --text: #f5f0e8;
-  --text-mute: #9a9590;
-  --text-faint: #6a6560;
-  --gold: #B8985A;
-  --gold-soft: #d4b878;
-  --error: #d4574a;
-  --success: #7fa85f;
+  /* SCALPIT brand palette (scalpitform.com aligned) */
+  --burg: #7B1A2B;
+  --burg-light: #9B2840;
+  --burg-dark: #5A1020;
+  --burg-deeper: #3A1018;
+  --cream: #FAF4EE;
+  --cream-mid: #F0E6DC;
+  --cream-dark: #E8D5C4;
+  --gold: #C4A47C;
+  --gold-soft: #D4B896;
+  --dark: #1C0E0E;
+  --text: #2D1818;
+  --text-mute: #8B7070;
+  --text-faint: #C8B8B0;
+  --border: #E2D0C4;
+  --error: #B33A2E;
+  --success: #7B9F5F;
   --serif: 'Cormorant Garamond', 'Noto Serif KR', serif;
-  --sans: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  --sans: 'Montserrat', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 html, body {
-  background: var(--bg);
+  background: var(--cream);
   color: var(--text);
   font-family: var(--sans);
   font-size: 16px;
@@ -37,12 +42,29 @@ html, body {
   align-items: center;
   padding: max(60px, env(safe-area-inset-top)) 24px max(60px, env(safe-area-inset-bottom));
   position: relative;
-  background: radial-gradient(circle at 50% 30%, #1a1a1a 0%, #0a0a0a 70%);
-  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--burg) 0%, var(--burg-dark) 100%);
+  color: var(--cream);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, rgba(196,164,124,0.12) 0%, transparent 60%);
+  pointer-events: none;
 }
 .hero-inner {
   text-align: center;
   max-width: 720px;
+  position: relative;
+  z-index: 1;
+}
+.hero-logo {
+  display: block;
+  width: 200px;
+  max-width: 55vw;
+  margin: 0 auto 32px;
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
 }
 .brand {
   font-family: var(--sans);
@@ -50,28 +72,28 @@ html, body {
   font-weight: 500;
   letter-spacing: 6px;
   color: var(--gold);
-  margin-bottom: 40px;
+  margin-bottom: 32px;
   text-transform: uppercase;
 }
 .title {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(52px, 10vw, 96px);
-  line-height: 1.0;
+  font-size: clamp(48px, 9vw, 88px);
+  line-height: 1.05;
   letter-spacing: -0.01em;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
+  color: var(--cream);
 }
-.title .line1, .title .line2 {
-  display: block;
-}
-.title .line1 { font-weight: 300; color: var(--text); }
+.title .line1, .title .line2 { display: block; }
+.title .line1 { font-weight: 300; color: var(--cream); }
 .title .line2 { font-weight: 500; font-style: italic; color: var(--gold-soft); }
 .tagline {
   font-family: var(--serif);
   font-style: italic;
   font-size: clamp(16px, 2.4vw, 22px);
-  color: var(--text-mute);
+  color: var(--cream-mid);
   letter-spacing: 0.5px;
+  opacity: 0.9;
 }
 .hero-scroll {
   position: absolute;
@@ -80,13 +102,14 @@ html, body {
   transform: translateX(-50%);
   font-size: 11px;
   letter-spacing: 4px;
-  color: var(--text-faint);
+  color: var(--gold);
   text-transform: uppercase;
   animation: pulse 2.4s ease-in-out infinite;
+  z-index: 1;
 }
 @keyframes pulse {
-  0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
-  50%      { opacity: 0.9; transform: translateX(-50%) translateY(4px); }
+  0%, 100% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
+  50%      { opacity: 1; transform: translateX(-50%) translateY(4px); }
 }
 
 /* === FORM WRAP === */
@@ -94,13 +117,14 @@ html, body {
   max-width: 640px;
   margin: 0 auto;
   padding: 80px 24px 60px;
+  background: var(--cream);
 }
 
 /* === INTRO === */
 .intro {
   padding-bottom: 60px;
   margin-bottom: 60px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--border);
 }
 .lead {
   font-family: var(--serif);
@@ -113,7 +137,8 @@ html, body {
 }
 .lead em {
   font-style: italic;
-  color: var(--gold-soft);
+  color: var(--burg);
+  font-weight: 500;
 }
 .perks {
   list-style: none;
@@ -123,19 +148,19 @@ html, body {
 }
 .perks li {
   font-size: 15px;
-  color: var(--text-mute);
+  color: var(--text);
   display: flex;
   align-items: baseline;
   gap: 18px;
   padding-bottom: 14px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--border);
 }
 .perks li:last-child { border-bottom: none; padding-bottom: 0; }
 .perks li span {
   font-family: var(--serif);
-  color: var(--gold);
+  color: var(--burg);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 2px;
   min-width: 24px;
 }
@@ -144,12 +169,12 @@ html, body {
 .video-section {
   margin-bottom: 60px;
   padding-bottom: 60px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--border);
 }
 .video-label {
   font-family: var(--serif);
   font-style: italic;
-  color: var(--text-mute);
+  color: var(--burg);
   font-size: 15px;
   letter-spacing: 1px;
   text-align: center;
@@ -160,10 +185,10 @@ html, body {
   width: 100%;
   max-width: 420px;
   margin: 0 auto;
-  background: #000;
+  background: var(--dark);
   overflow: hidden;
   border-radius: 4px;
-  box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+  box-shadow: 0 12px 40px rgba(58,16,24,0.25);
 }
 .video-card video {
   width: 100%;
@@ -178,8 +203,8 @@ html, body {
   right: 16px;
   width: 44px;
   height: 44px;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(58,16,24,0.7);
   backdrop-filter: blur(6px);
   border-radius: 50%;
   cursor: pointer;
@@ -187,12 +212,12 @@ html, body {
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  color: var(--text);
+  color: var(--cream);
   transition: all 0.2s ease;
   padding: 0;
 }
 .video-sound:hover {
-  background: rgba(0,0,0,0.85);
+  background: rgba(58,16,24,0.9);
   border-color: var(--gold);
 }
 
@@ -209,15 +234,15 @@ html, body {
 }
 .field label {
   font-family: var(--sans);
-  font-size: 17px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
   color: var(--text);
   letter-spacing: 0.2px;
   line-height: 1.4;
 }
 .req {
-  color: var(--gold);
-  font-weight: 400;
+  color: var(--burg);
+  font-weight: 500;
   margin-left: 4px;
 }
 .desc {
@@ -225,9 +250,10 @@ html, body {
   color: var(--text-mute);
   line-height: 1.55;
   margin-bottom: 6px;
+  font-weight: 400;
 }
 .desc .ex {
-  color: var(--text-faint);
+  color: var(--gold);
   font-style: italic;
 }
 
@@ -235,52 +261,43 @@ html, body {
 .field input[type="text"],
 .field input[type="date"],
 .field textarea {
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid var(--line-strong);
+  background: var(--cream-mid);
+  border: 1px solid var(--border);
+  border-radius: 4px;
   color: var(--text);
   font-family: var(--sans);
   font-size: 16px;
-  padding: 12px 0;
+  padding: 14px 16px;
   width: 100%;
-  transition: border-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 .field input[type="text"]::placeholder,
 .field textarea::placeholder {
   color: var(--text-faint);
   font-style: italic;
+  font-weight: 300;
 }
 .field input[type="text"]:focus,
 .field input[type="date"]:focus,
 .field textarea:focus {
   outline: none;
-  border-bottom-color: var(--gold);
+  border-color: var(--burg);
+  background: var(--white, #ffffff);
+  box-shadow: 0 0 0 3px rgba(123,26,43,0.08);
 }
-/* Date picker styling (Chrome/Safari) */
 .field input[type="date"] {
-  color-scheme: dark;
   min-height: 48px;
   cursor: pointer;
 }
 .field input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(0.7) sepia(1) saturate(3) hue-rotate(15deg);
   cursor: pointer;
-  opacity: 0.7;
+  opacity: 0.6;
+  filter: sepia(1) hue-rotate(-40deg) saturate(3);
 }
-.field input[type="date"]::-webkit-calendar-picker-indicator:hover {
-  opacity: 1;
-}
-.field input[type="date"]::-webkit-datetime-edit-year-field,
-.field input[type="date"]::-webkit-datetime-edit-month-field,
-.field input[type="date"]::-webkit-datetime-edit-day-field {
-  color: var(--text);
-}
-.field input[type="date"]:invalid::-webkit-datetime-edit {
-  color: var(--text-faint);
-}
+.field input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 .field textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 84px;
   line-height: 1.6;
 }
 
@@ -288,7 +305,7 @@ html, body {
 .radio-group, .check-group {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 4px;
   margin-top: 4px;
 }
 .radio, .check {
@@ -297,34 +314,35 @@ html, body {
   gap: 12px;
   cursor: pointer;
   font-size: 15px;
-  color: var(--text-mute);
-  padding: 6px 0;
-  transition: color 0.15s ease;
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 4px;
+  transition: background 0.15s ease;
 }
-.radio:hover, .check:hover { color: var(--text); }
+.radio:hover, .check:hover { background: var(--cream-mid); }
 .radio input, .check input {
   appearance: none;
   -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  border: 1px solid var(--line-strong);
-  background: transparent;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--cream);
   cursor: pointer;
   transition: all 0.15s ease;
   flex-shrink: 0;
   position: relative;
 }
 .radio input { border-radius: 50%; }
-.check input { border-radius: 2px; }
+.check input { border-radius: 3px; }
 .radio input:checked, .check input:checked {
-  border-color: var(--gold);
-  background: transparent;
+  border-color: var(--burg);
+  background: var(--cream);
 }
 .radio input:checked::after {
   content: '';
-  width: 8px;
-  height: 8px;
-  background: var(--gold);
+  width: 10px;
+  height: 10px;
+  background: var(--burg);
   border-radius: 50%;
   position: absolute;
   top: 50%;
@@ -333,7 +351,7 @@ html, body {
 }
 .check input:checked::after {
   content: '✓';
-  color: var(--gold);
+  color: var(--burg);
   font-size: 14px;
   font-weight: 700;
   position: absolute;
@@ -343,38 +361,42 @@ html, body {
 }
 .radio input:checked ~ span,
 .check input:checked ~ span {
-  color: var(--text);
+  color: var(--burg);
+  font-weight: 600;
 }
 
 /* Submit button */
 .submit-btn {
-  background: var(--text);
-  color: var(--bg);
+  background: var(--burg);
+  color: var(--cream);
   border: none;
   padding: 20px 24px;
   font-family: var(--sans);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
   cursor: pointer;
   margin-top: 20px;
+  border-radius: 4px;
   transition: all 0.25s ease;
+  box-shadow: 0 8px 24px rgba(123,26,43,0.15);
 }
 .submit-btn:hover {
-  background: var(--gold-soft);
+  background: var(--burg-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 32px rgba(123,26,43,0.25);
 }
 .submit-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
-.submit-btn .btn-loading {
-  display: inline-block;
-}
+.submit-btn .btn-loading { display: inline-block; }
 
 .privacy {
   font-size: 11px;
-  color: var(--text-faint);
+  color: var(--text-mute);
   line-height: 1.6;
   text-align: center;
   margin-top: 8px;
@@ -394,23 +416,25 @@ html, body {
   max-width: 480px;
 }
 .success-mark {
-  width: 64px;
-  height: 64px;
-  border: 1px solid var(--gold);
+  width: 72px;
+  height: 72px;
+  border: 1.5px solid var(--burg);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gold);
-  font-size: 28px;
+  color: var(--burg);
+  font-size: 32px;
   margin: 0 auto 32px;
+  background: var(--cream);
 }
 .success-panel h2 {
   font-family: var(--serif);
   font-size: 44px;
-  font-weight: 400;
+  font-weight: 500;
   margin-bottom: 16px;
   letter-spacing: -0.01em;
+  color: var(--burg);
 }
 .success-panel p {
   color: var(--text-mute);
@@ -421,8 +445,8 @@ html, body {
 .signature {
   font-family: var(--serif);
   font-style: italic;
-  color: var(--gold-soft);
-  font-size: 18px;
+  color: var(--gold);
+  font-size: 20px;
   letter-spacing: 2px;
 }
 
@@ -430,8 +454,10 @@ html, body {
 .error-panel {
   padding: 40px;
   border: 1px solid var(--error);
+  border-radius: 4px;
   text-align: center;
   margin-top: 40px;
+  background: rgba(179,58,46,0.05);
 }
 .error-panel p {
   color: var(--error);
@@ -439,32 +465,35 @@ html, body {
 }
 .error-panel button {
   background: transparent;
-  color: var(--text);
-  border: 1px solid var(--line-strong);
+  color: var(--burg);
+  border: 1px solid var(--burg);
   padding: 12px 24px;
   cursor: pointer;
   font-family: var(--sans);
   font-size: 13px;
   letter-spacing: 2px;
   text-transform: uppercase;
+  font-weight: 600;
+  border-radius: 4px;
 }
 .error-panel button:hover {
-  border-color: var(--gold);
-  color: var(--gold);
+  background: var(--burg);
+  color: var(--cream);
 }
 
 /* Footer */
 .foot {
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--border);
   padding: 60px 24px 80px;
   text-align: center;
+  background: var(--cream-mid);
 }
 .foot-brand {
   font-family: var(--sans);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 6px;
-  color: var(--gold);
+  color: var(--burg);
   margin-bottom: 8px;
 }
 .foot-sub {
@@ -477,40 +506,43 @@ html, body {
 .foot-locations {
   font-size: 11px;
   letter-spacing: 3px;
-  color: var(--text-faint);
+  color: var(--gold);
   text-transform: uppercase;
+  font-weight: 600;
 }
 
 /* Field error state */
 .field.has-error input[type="text"],
+.field.has-error input[type="date"],
 .field.has-error textarea {
-  border-bottom-color: var(--error);
+  border-color: var(--error);
+  background: rgba(179,58,46,0.05);
 }
-.field.has-error label {
-  color: var(--error);
-}
+.field.has-error label { color: var(--error); }
 .field.has-error .radio-group,
 .field.has-error .check-group {
   padding: 8px;
   border: 1px solid var(--error);
+  border-radius: 4px;
 }
 
 /* Mobile */
 @media (max-width: 640px) {
   .form-wrap { padding: 56px 20px 40px; }
   .apply-form { gap: 32px; }
-  .field label { font-size: 16px; line-height: 1.4; }
+  .field label { font-size: 15px; line-height: 1.4; }
   .hero { min-height: 88vh; min-height: 88dvh; padding: 40px 20px; }
-  .brand { margin-bottom: 24px; letter-spacing: 5px; }
+  .hero-logo { width: 160px; margin-bottom: 24px; }
+  .brand { margin-bottom: 20px; letter-spacing: 5px; }
   .intro { padding-bottom: 48px; margin-bottom: 48px; }
   .lead { font-size: 20px; margin-bottom: 32px; }
   .perks li { font-size: 14px; gap: 14px; }
   .video-section { margin-bottom: 48px; padding-bottom: 48px; }
   .video-card { max-width: 100%; }
   .radio, .check {
-    padding: 12px 0;
+    padding: 12px;
     min-height: 44px;
-    font-size: 16px;
+    font-size: 15px;
   }
   .radio input, .check input {
     width: 22px;
@@ -525,9 +557,8 @@ html, body {
   .foot { padding: 48px 20px 60px; }
 }
 
-/* Extra small phones */
 @media (max-width: 380px) {
   .form-wrap { padding: 48px 16px 32px; }
   .hero { padding: 32px 16px; }
-  .title { font-size: 44px !important; }
+  .title { font-size: 42px !important; }
 }
