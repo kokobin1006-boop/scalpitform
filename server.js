@@ -141,6 +141,7 @@ app.get('/apply/en', (req, res) => res.sendFile(path.join(__dirname, 'public/app
 app.get('/apply/ko', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/ko.html')));
 app.get('/apply/ja', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/ja.html')));
 app.get('/apply/zh', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/zh.html')));
+app.get('/apply/admin', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/admin.html')));
 
 app.use(express.static(path.join(__dirname, 'public')));
 

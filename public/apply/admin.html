@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCALPIT 체험단 어드민</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --burg: #7B1A2B;
+    --burg-dark: #5A1020;
+    --cream: #FAF4EE;
+    --cream-mid: #F0E6DC;
+    --cream-dark: #E8D5C4;
+    --gold: #C4A47C;
+    --text: #2D1818;
+    --text-mute: #8B7070;
+    --border: #E2D0C4;
+  }
+  html, body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'Montserrat', 'Noto Sans KR', -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Login screen */
+  .login-wrap {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: linear-gradient(180deg, var(--burg) 0%, var(--burg-dark) 100%);
+  }
+  .login-card {
+    background: var(--cream);
+    border-radius: 6px;
+    padding: 48px 40px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .login-logo {
+    width: 140px;
+    margin: 0 auto 16px;
+    display: block;
+  }
+  .login-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--burg);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .login-sub {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .login-card input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--cream-mid);
+    margin-bottom: 16px;
+  }
+  .login-card input:focus {
+    outline: none;
+    border-color: var(--burg);
+    background: #fff;
+  }
+  .login-card button {
+    width: 100%;
+    padding: 14px;
+    background: var(--burg);
+    color: var(--cream);
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .login-card button:hover { background: var(--burg-dark); }
+  .login-error {
+    color: #B33A2E;
+    font-size: 12px;
+    margin-top: 12px;
+  }
+
+  /* App */
+  .app { display: none; }
+  .app.active { display: block; }
+  .topbar {
+    background: var(--burg);
+    color: var(--cream);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  .topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .topbar-logo { height: 26px; filter: brightness(0) invert(1); }
+  .topbar-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .topbar-actions { display: flex; gap: 8px; }
+  .btn {
+    padding: 8px 14px;
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid rgba(250,244,238,0.35);
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .btn:hover { background: rgba(250,244,238,0.1); border-color: var(--gold); color: var(--gold); }
+  .btn.primary { background: var(--gold); border-color: var(--gold); color: var(--burg-dark); }
+  .btn.primary:hover { background: #D4B896; color: var(--burg-dark); }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px 20px;
+  }
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--burg);
+    line-height: 1;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    padding: 14px;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  .toolbar input, .toolbar select {
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: inherit;
+    background: var(--cream);
+    color: var(--text);
+  }
+  .toolbar input { flex: 1; min-width: 180px; }
+  .toolbar input:focus, .toolbar select:focus {
+    outline: none;
+    border-color: var(--burg);
+    background: #fff;
+  }
+  .toolbar .count {
+    font-size: 12px;
+    color: var(--text-mute);
+    letter-spacing: 1px;
+  }
+
+  .table-wrap {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th, td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--cream-mid);
+    vertical-align: top;
+  }
+  th {
+    background: var(--cream-mid);
+    font-weight: 600;
+    color: var(--burg);
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    font-size: 11px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  td { color: var(--text); }
+  tr:hover td { background: #fdf9f4; }
+  .tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    margin: 1px 2px 1px 0;
+    background: var(--cream-mid);
+    color: var(--burg);
+    border: 1px solid var(--border);
+  }
+  .tag.yes { background: rgba(123,159,95,0.14); color: #4d6633; border-color: rgba(123,159,95,0.3); }
+  .tag.no { background: rgba(179,58,46,0.12); color: #8a2c22; border-color: rgba(179,58,46,0.3); }
+  .link { color: var(--burg); text-decoration: none; word-break: break-all; }
+  .link:hover { color: var(--burg-dark); text-decoration: underline; }
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-mute);
+    font-style: italic;
+  }
+  .date-col { color: var(--text-mute); font-size: 12px; white-space: nowrap; }
+  .id-col { color: var(--text-mute); font-size: 11px; font-family: 'Courier New', monospace; }
+
+  @media (max-width: 640px) {
+    .topbar { padding: 12px 16px; }
+    .topbar-title { font-size: 15px; }
+    .container { padding: 16px; }
+    .btn { padding: 7px 10px; font-size: 11px; }
+    th, td { padding: 10px 8px; font-size: 12px; }
+    .stat-value { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Login -->
+<div id="login" class="login-wrap">
+  <div class="login-card">
+    <img class="login-logo" src="/scalpit-logo.png" alt="SCALPIT">
+    <div class="login-title">체험단 어드민</div>
+    <div class="login-sub">Creator Applications</div>
+    <form id="login-form">
+      <input type="password" id="password" placeholder="비밀번호" required autofocus>
+      <button type="submit">Sign in</button>
+      <div id="login-error" class="login-error" hidden></div>
+    </form>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app" class="app">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <img class="topbar-logo" src="/scalpit-logo.png" alt="SCALPIT">
+      <div class="topbar-title">체험단 어드민 · Creator Applications</div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn" id="refresh-btn">↻ 새로고침</button>
+      <button class="btn primary" id="csv-btn">CSV 다운로드</button>
+      <button class="btn" id="logout-btn">로그아웃</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-label">전체 신청</div>
+        <div class="stat-value" id="stat-total">–</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">오늘</div>
+        <div class="stat-value" id="stat-today">–</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">이번 주</div>
+        <div class="stat-value" id="stat-week">–</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">협업 가능</div>
+        <div class="stat-value" id="stat-gifted">–</div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input type="text" id="search" placeholder="인스타·연락처·국가·팔로워 검색…">
+      <select id="filter-country">
+        <option value="">국가 전체</option>
+      </select>
+      <select id="filter-gifted">
+        <option value="">협업 전체</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+      <div class="count" id="count">–</div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>접수일시</th>
+            <th>Instagram / TikTok</th>
+            <th>Followers</th>
+            <th>Gifted</th>
+            <th>Visit Date</th>
+            <th>Contact</th>
+            <th>Category</th>
+            <th>Country</th>
+            <th>Upload</th>
+            <th>Repost</th>
+            <th>Health</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr><td colspan="11" class="empty">불러오는 중…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const loginEl = document.getElementById('login');
+  const appEl = document.getElementById('app');
+  const loginForm = document.getElementById('login-form');
+  const pwInput = document.getElementById('password');
+  const loginError = document.getElementById('login-error');
+
+  let allData = [];
+  let password = sessionStorage.getItem('scalpit_admin_pw') || '';
+
+  async function fetchData(pw) {
+    const res = await fetch('/api/submissions', {
+      headers: { 'x-admin-password': pw }
+    });
+    if (!res.ok) throw new Error('auth_fail');
+    const j = await res.json();
+    // apply branch만 필터
+    return (j.data || []).filter(x => x.branch === 'apply');
+  }
+
+  function fmtDate(iso) {
+    const d = new Date(iso);
+    const m = d.getMonth() + 1;
+    const day = d.getDate();
+    const hh = String(d.getHours()).padStart(2, '0');
+    const mm = String(d.getMinutes()).padStart(2, '0');
+    return `${d.getFullYear()}.${String(m).padStart(2,'0')}.${String(day).padStart(2,'0')} ${hh}:${mm}`;
+  }
+
+  function isToday(iso) {
+    const d = new Date(iso);
+    const n = new Date();
+    return d.toDateString() === n.toDateString();
+  }
+  function isThisWeek(iso) {
+    const d = new Date(iso);
+    const n = new Date();
+    const diff = (n - d) / (1000 * 60 * 60 * 24);
+    return diff < 7 && diff >= 0;
+  }
+
+  function renderStats(data) {
+    document.getElementById('stat-total').textContent = data.length;
+    document.getElementById('stat-today').textContent = data.filter(x => isToday(x.submittedAt)).length;
+    document.getElementById('stat-week').textContent = data.filter(x => isThisWeek(x.submittedAt)).length;
+    document.getElementById('stat-gifted').textContent = data.filter(x => x.gifted === 'Yes').length;
+  }
+
+  function renderCountryFilter(data) {
+    const sel = document.getElementById('filter-country');
+    const current = sel.value;
+    const countries = [...new Set(data.map(x => x.country).filter(Boolean))].sort();
+    sel.innerHTML = '<option value="">국가 전체</option>' +
+      countries.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+    sel.value = current;
+  }
+
+  function escapeHtml(s) {
+    return String(s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  function renderTable(data) {
+    const tbody = document.getElementById('tbody');
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="11" class="empty">일치하는 신청이 없습니다.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.map(x => {
+      const cats = Array.isArray(x.category) ? x.category : [];
+      const igLink = /^https?:\/\//.test(x.instagram || '')
+        ? `<a class="link" href="${escapeHtml(x.instagram)}" target="_blank" rel="noopener">${escapeHtml(x.instagram)}</a>`
+        : escapeHtml(x.instagram || '');
+      return `<tr>
+        <td class="date-col">${escapeHtml(fmtDate(x.submittedAt))}</td>
+        <td>${igLink}</td>
+        <td>${escapeHtml(x.followers || '')}</td>
+        <td><span class="tag ${x.gifted === 'Yes' ? 'yes' : 'no'}">${escapeHtml(x.gifted || '-')}</span></td>
+        <td>${escapeHtml(x.visitDate || '')}</td>
+        <td>${escapeHtml(x.contact || '')}</td>
+        <td>${cats.map(c => `<span class="tag">${escapeHtml(c)}</span>`).join('')}</td>
+        <td>${escapeHtml(x.country || '')}</td>
+        <td><span class="tag ${x.upload === 'Yes' ? 'yes' : 'no'}">${escapeHtml(x.upload || '-')}</span></td>
+        <td><span class="tag ${x.repost === 'Yes' ? 'yes' : 'no'}">${escapeHtml(x.repost || '-')}</span></td>
+        <td>${escapeHtml(x.health || '')}</td>
+      </tr>`;
+    }).join('');
+    document.getElementById('count').textContent = `${data.length}건`;
+  }
+
+  function applyFilters() {
+    const q = document.getElementById('search').value.trim().toLowerCase();
+    const country = document.getElementById('filter-country').value;
+    const gifted = document.getElementById('filter-gifted').value;
+    const filtered = allData.filter(x => {
+      if (country && x.country !== country) return false;
+      if (gifted && x.gifted !== gifted) return false;
+      if (q) {
+        const hay = [x.instagram, x.contact, x.country, x.followers, ...(x.category || [])]
+          .filter(Boolean).join(' ').toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+    renderTable(filtered.sort((a, b) => (b.id || 0) - (a.id || 0)));
+  }
+
+  async function load() {
+    if (!password) { showLogin(); return; }
+    try {
+      const data = await fetchData(password);
+      allData = data;
+      renderStats(data);
+      renderCountryFilter(data);
+      applyFilters();
+    } catch (e) {
+      sessionStorage.removeItem('scalpit_admin_pw');
+      password = '';
+      showLogin('비밀번호가 올바르지 않습니다');
+    }
+  }
+
+  function showLogin(err) {
+    loginEl.style.display = 'flex';
+    appEl.classList.remove('active');
+    if (err) {
+      loginError.textContent = err;
+      loginError.hidden = false;
+    }
+  }
+  function showApp() {
+    loginEl.style.display = 'none';
+    appEl.classList.add('active');
+    loginError.hidden = true;
+  }
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const pw = pwInput.value.trim();
+    if (!pw) return;
+    try {
+      const data = await fetchData(pw);
+      password = pw;
+      sessionStorage.setItem('scalpit_admin_pw', pw);
+      allData = data;
+      showApp();
+      renderStats(data);
+      renderCountryFilter(data);
+      applyFilters();
+    } catch (err) {
+      loginError.textContent = '비밀번호가 올바르지 않습니다';
+      loginError.hidden = false;
+    }
+  });
+
+  document.getElementById('search').addEventListener('input', applyFilters);
+  document.getElementById('filter-country').addEventListener('change', applyFilters);
+  document.getElementById('filter-gifted').addEventListener('change', applyFilters);
+  document.getElementById('refresh-btn').addEventListener('click', load);
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    sessionStorage.removeItem('scalpit_admin_pw');
+    password = '';
+    pwInput.value = '';
+    showLogin();
+  });
+
+  document.getElementById('csv-btn').addEventListener('click', () => {
+    const rows = allData.slice().sort((a, b) => (b.id || 0) - (a.id || 0));
+    const cols = ['submittedAt', 'instagram', 'followers', 'gifted', 'visitDate', 'contact', 'category', 'country', 'upload', 'repost', 'health'];
+    const csvEscape = (v) => {
+      if (v == null) return '';
+      const s = Array.isArray(v) ? v.join('; ') : String(v);
+      if (/[",\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+      return s;
+    };
+    const csv = [cols.join(',')].concat(
+      rows.map(r => cols.map(c => csvEscape(r[c])).join(','))
+    ).join('\n');
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `scalpit-applications-${new Date().toISOString().slice(0,10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  if (password) {
+    load().then(() => {
+      if (allData.length || sessionStorage.getItem('scalpit_admin_pw')) showApp();
+    });
+  } else {
+    showLogin();
+  }
+})();
+</script>
+</body>
+</html>
