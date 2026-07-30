@@ -66,7 +66,11 @@
     e.preventDefault();
 
     const fd = new FormData(form);
+    // 현재 페이지 URL로 언어 감지 (/apply/en → 'en')
+    const pathMatch = window.location.pathname.match(/\/apply\/(en|ko|ja|zh)/);
+    const lang = pathMatch ? pathMatch[1] : (document.documentElement.lang || 'en').split('-')[0];
     const data = {
+      lang,
       instagram: fd.get('instagram'),
       followers: fd.get('followers'),
       gifted: fd.get('gifted'),

@@ -200,7 +200,8 @@ if (process.env.NOTION_TOKEN) {
 
 app.post('/api/apply/submit', async (req, res) => {
   const body = req.body || {};
-  const { instagram, followers, gifted, visitDate, contact, category, country, upload, repost, health } = body;
+  const { instagram, followers, gifted, visitDate, contact, category, country, upload, repost, health, lang } = body;
+  const langCode = ['en', 'ko', 'ja', 'zh'].includes(lang) ? lang : 'unknown';
   const missing = [];
   if (!instagram) missing.push('instagram');
   if (!followers) missing.push('followers');
@@ -243,7 +244,7 @@ app.post('/api/apply/submit', async (req, res) => {
 
   // 로컬 fallback 저장 (Notion 실패 or NOTION_TOKEN 미설정 시)
   try {
-    const entry = { id: Date.now(), submittedAt: new Date().toISOString(), branch: 'apply', ...body };
+    const entry = { id: Date.now(), submittedAt: new Date().toISOString(), branch: 'apply', lang: langCode, ...body };
     await saveSubmission(entry);
   } catch (e) {
     console.error('Local fallback save failed:', e.message);
