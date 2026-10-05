@@ -12,7 +12,7 @@ const BRANCHES = {
     name: '천안점',
     passwordEnv: 'CHEONAN_PASSWORD',
     // 비밀번호 원문은 저장소에 두지 않고 scrypt 해시만 보관 (환경변수가 있으면 환경변수 우선)
-    passwordHash: 'scrypt$5ed0d166803a77ce1eeb0fa5c549cf82$798bcad4e87b18cd4de214e05e9cace948652110781fd4b2259363a81ab20354',
+    passwordHash: 'scrypt$f72a4740164f016b801d045841919860$d5924b2b6a5b93a504e73464eca888420bc45faf94c3431edab4c9b07e8cfa39',
     bizNo: '657-01-03945',
     address: '충청남도 천안시 서북구 불당21로 67-8, 2층 208,209호',
   },
@@ -20,7 +20,7 @@ const BRANCHES = {
     name: '동탄점',
     passwordEnv: 'DONGTAN_PASSWORD',
     // 비밀번호 원문은 저장소에 두지 않고 scrypt 해시만 보관 (환경변수가 있으면 환경변수 우선)
-    passwordHash: 'scrypt$60bf9351f5767150e5934cbeac00cc18$41410dc2a6259bdcf7b42a24b7898c70a022d856935ff9d53794e1bd6e0a9af7',
+    passwordHash: 'scrypt$36c6c18d6693f6b66ceb1bde61013355$5a2b3dcbe5244cf13d2274f38b81643efff41b232ca2d183974062e912ae5f49',
     bizNo: '501-75-00684',
     address: '경기도 화성시 동탄오산로 86-10, 4층 405호',
   },
@@ -28,7 +28,7 @@ const BRANCHES = {
     name: '광교점',
     passwordEnv: 'GWANGGYO_PASSWORD',
     // 비밀번호 원문은 저장소에 두지 않고 scrypt 해시만 보관 (환경변수가 있으면 환경변수 우선)
-    passwordHash: 'scrypt$11085be7533202b4a5f90bc639edb2fe$4d28cd49c71be1291cf404856abf3cd69e6de7968b81d373467eb3e6230075c8',
+    passwordHash: 'scrypt$adaf958f51f1f6935561994a568b89a4$68553de157b9630b41d409d7e727d05cb227abcd9f9298dc3f28595c841a6317',
     bizNo: '213-35-98664',
     address: '경기도 수원시 영통구 법조로 25(하동) 1114~1116호',
   },
@@ -36,7 +36,7 @@ const BRANCHES = {
     name: '압구정로데오점',
     passwordEnv: 'APGUJEONG_PASSWORD',
     // 비밀번호 원문은 저장소에 두지 않고 scrypt 해시만 보관 (환경변수가 있으면 환경변수 우선)
-    passwordHash: 'scrypt$40e4d4179442fb405ae44adf7d4ac235$83798c49722b6d70f064289a3e902ae2dff3d45a9d42cfe0a4b88a18e71d9a90',
+    passwordHash: 'scrypt$984371ab84d61fb1a479e16a46dd4c3b$b073ec5d1c3bdb14a203118aeec4235a2c6e29bb2875d3f1cf7ebe6aaec51d63',
     bizNo: '407-11-65011',
     address: '서울특별시 강남구 신사동 644-3 세화빌딩 3층 (CU건물 3층)',
   },
