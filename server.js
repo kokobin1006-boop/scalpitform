@@ -40,14 +40,6 @@ const BRANCHES = {
     bizNo: '407-11-65011',
     address: '서울특별시 강남구 신사동 644-3 세화빌딩 3층 (CU건물 3층)',
   },
-  cheongju: {
-    name: '청주점',
-    passwordEnv: 'CHEONGJU_PASSWORD',
-    // 비밀번호 원문은 저장소에 두지 않고 scrypt 해시만 보관 (환경변수가 있으면 환경변수 우선)
-    passwordHash: 'scrypt$f29c39c48919b5ad8712066619cb08e1$583a38f7120e04e92c83b26d708cc1ebf0718ebdd3de47f76a7efa36f8f39b80',
-    bizNo: '', // 오픈 후 입력
-    address: '',
-  },
 };
 // 본사 관리자 비밀번호는 환경변수로만 설정 (미설정 시 본사 관리자 로그인 불가)
 const ROOT_PASSWORD = process.env.ADMIN_PASSWORD || '';
