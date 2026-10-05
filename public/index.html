@@ -2,883 +2,497 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#3A1018" />
+  <meta name="color-scheme" content="light" />
   <title>Scálpit | 사전 상담 설문지</title>
+  <meta name="description" content="스칼프잇 헤드스파 & 두피케어 방문 전 사전 상담 설문지입니다. 약 3분이면 작성할 수 있어요." />
   <meta property="og:title" content="Scálpit | 사전 상담 설문지" />
-  <meta property="og:description" content="스칼프잇 방문 전 사전 상담 설문지를 작성해주세요." />
+  <meta property="og:description" content="방문 전 3분, 나에게 맞는 두피 케어를 위한 사전 설문을 작성해주세요." />
   <meta property="og:type" content="website" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <meta property="og:url" content="https://scalpitform.com/" />
+  <meta property="og:image" content="https://scalpitform.com/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/favicon.png" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
   <style>
     :root {
       --burg: #7B1A2B;
-      --burg-light: #9B2840;
-      --burg-dark: #5A1020;
-      --cream: #FAF4EE;
-      --cream-mid: #F0E6DC;
-      --cream-dark: #E8D5C4;
-      --gold: #C4A47C;
-      --white: #FFFFFF;
-      --dark: #1C0E0E;
-      --text: #2D1818;
-      --text-muted: #8B7070;
-      --border: #E2D0C4;
-      --bg-burg: #F5ECEC;
-      --radius: 0px;
+      --burg-deep: #3A1018;
+      --burg-ink: #5A1020;
+      --burg-tint: #FBF3F2;
+      --burg-line: #E8C9CC;
+      --cream: #FAF6F1;
+      --cream-2: #F3EBE2;
+      --card: #FFFFFF;
+      --gold: #B08D62;
+      --gold-soft: #D9C3A2;
+      --ink: #1E1214;
+      --text: #3A2A2B;
+      --muted: #7D6C6B;
+      --faint: #A99B98;
+      --line: #EBE1D8;
+      --line-strong: #DCCDC1;
+      --danger: #B4232F;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --shadow: 0 1px 2px rgba(58,16,24,.04), 0 4px 16px rgba(58,16,24,.04);
+      --ease: cubic-bezier(.2,.7,.2,1);
+      --sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      --serif: 'Cormorant Garamond', 'Times New Roman', serif;
+      --bar-h: 84px;
     }
+    html[lang="ja"] { --sans: 'Pretendard Variable', 'Noto Sans JP', 'Hiragino Sans', sans-serif; }
+    html[lang="zh"] { --sans: 'Pretendard Variable', 'Noto Sans SC', 'PingFang SC', sans-serif; }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { -webkit-text-size-adjust: 100%; }
     body {
-      font-family: 'Noto Sans KR', 'Montserrat', sans-serif;
+      font-family: var(--sans);
       background: var(--cream);
       color: var(--text);
       min-height: 100vh;
+      line-height: 1.6;
+      letter-spacing: -0.01em;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
     }
+    button, input, textarea { font: inherit; color: inherit; letter-spacing: inherit; }
+    button { cursor: pointer; background: none; border: none; }
+    [hidden] { display: none !important; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    :focus-visible { outline: 2px solid var(--burg); outline-offset: 2px; }
 
-    /* ── 언어 선택 화면 ── */
-    .lang-screen {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      width: 100%; height: 100%;
-      background: #3A1018;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      z-index: 200; padding: 24px;
+    /* ── 인트로 / 언어 선택 ── */
+    .intro {
+      position: fixed; inset: 0; z-index: 200;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 32px 24px calc(32px + env(safe-area-inset-bottom));
+      color: #fff; overflow-y: auto;
+      background:
+        radial-gradient(120% 70% at 50% 0%, #6A1A2A 0%, rgba(106,26,42,0) 60%),
+        radial-gradient(90% 60% at 50% 110%, #2A0A12 0%, rgba(42,10,18,0) 70%),
+        var(--burg-deep);
+      transition: opacity .45s var(--ease), visibility .45s;
     }
-    .lang-screen.hidden { display: none; }
-
-    .lang-brand { text-align: center; margin-bottom: 52px; }
-    .lang-brand-logo {
-      height: 52px; width: auto;
-      filter: brightness(0) invert(1);
-      display: block; margin: 0 auto 12px;
+    .intro.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .intro-inner { width: 100%; max-width: 340px; text-align: center; animation: rise .8s var(--ease) both; }
+    .intro-logo { width: 168px; height: auto; display: block; margin: 0 auto; filter: brightness(0) invert(1); }
+    .intro-sub {
+      font-family: var(--serif); font-style: italic; font-size: 17px;
+      color: var(--gold-soft); margin-top: 14px; letter-spacing: .02em;
     }
-    .lang-brand-line {
-      width: 32px; height: 1px;
-      background: var(--gold); margin: 14px auto;
-    }
-    .lang-brand-sub {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 8px; letter-spacing: 5px;
-      color: var(--gold); font-weight: 500;
-      text-transform: uppercase;
-    }
-    .lang-prompt {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 9px; letter-spacing: 3px;
-      color: rgba(255,255,255,0.35);
-      text-transform: uppercase;
-      margin-bottom: 20px; text-align: center;
-    }
-    .lang-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 8px; width: 100%; max-width: 260px;
-    }
+    .intro-rule { width: 28px; height: 1px; background: var(--gold); margin: 28px auto; opacity: .7; }
+    .intro-headline { font-size: 15px; font-weight: 500; color: rgba(255,255,255,.92); line-height: 1.7; }
+    .intro-meta { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 6px; letter-spacing: .02em; }
+    .lang-list { margin-top: 36px; display: grid; gap: 8px; }
     .lang-btn {
-      padding: 20px 12px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: transparent;
-      cursor: pointer; text-align: center;
-      transition: all 0.25s;
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; padding: 16px 20px; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.03);
+      color: #fff; text-align: left;
+      transition: background .2s, border-color .2s, transform .2s var(--ease);
     }
-    .lang-btn:hover { border-color: var(--gold); background: rgba(196,164,124,0.08); }
-    .lang-btn .lang-code {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 10px; font-weight: 600; letter-spacing: 3px;
-      color: var(--white); display: block; margin-bottom: 5px;
-    }
-    .lang-btn .lang-native { font-size: 12px; color: rgba(255,255,255,0.4); }
+    .lang-btn:hover, .lang-btn:focus-visible { border-color: var(--gold-soft); background: rgba(217,195,162,.08); }
+    .lang-btn:active { transform: scale(.985); }
+    .lang-btn.recent { border-color: rgba(217,195,162,.5); }
+    .lang-native { font-size: 16px; font-weight: 600; }
+    .lang-code { font-size: 11px; letter-spacing: .18em; color: rgba(255,255,255,.45); display: flex; align-items: center; gap: 10px; }
+    .lang-code svg { opacity: .55; }
+    .intro-foot { margin-top: 36px; font-size: 11px; color: rgba(255,255,255,.35); letter-spacing: .14em; text-transform: uppercase; }
 
     /* ── 헤더 ── */
     .header {
-      background: var(--burg);
-      padding: 22px 24px 20px;
       position: sticky; top: 0; z-index: 100;
+      background: rgba(250,246,241,.86);
+      -webkit-backdrop-filter: saturate(1.4) blur(14px); backdrop-filter: saturate(1.4) blur(14px);
+      border-bottom: 1px solid var(--line);
     }
     .header-inner {
-      max-width: 600px; margin: 0 auto;
+      max-width: 600px; margin: 0 auto; height: 58px; padding: 0 20px;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .header-logo {
-      height: 28px; width: auto;
-      filter: brightness(0) invert(1);
-      display: block;
+    .header-logo { height: 20px; width: auto; display: block; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .step-count { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .step-count b { color: var(--burg); font-weight: 600; }
+    .lang-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600; letter-spacing: .06em; color: var(--text);
+      padding: 6px 11px; border: 1px solid var(--line-strong); border-radius: 999px;
+      background: var(--card); transition: border-color .2s;
     }
-    .header-tagline {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 7px; letter-spacing: 3px;
-      color: rgba(255,255,255,0.5); font-weight: 400;
-      margin-top: 5px; text-transform: uppercase;
-    }
-    .header-branch {
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 10px; color: rgba(255,255,255,0.8); font-weight: 500;
-      margin-top: 3px; display: none;
-    }
-    .lang-switcher {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 9px; color: rgba(255,255,255,0.55);
-      cursor: pointer; letter-spacing: 1.5px;
-      padding: 7px 12px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: transparent; transition: all 0.2s;
-      display: none;
-    }
-    .lang-switcher:hover { border-color: rgba(255,255,255,0.6); color: white; }
+    .lang-pill:hover { border-color: var(--burg); }
+    .progress { height: 2px; background: var(--line); }
+    .progress-fill { height: 100%; width: 20%; background: linear-gradient(90deg, var(--burg), #A0334A); transition: width .5s var(--ease); }
 
-    /* ── 컨테이너 ── */
-    .wrap { max-width: 600px; margin: 0 auto; padding: 40px 20px 140px; }
+    /* ── 레이아웃 ── */
+    .wrap { max-width: 600px; margin: 0 auto; padding: 32px 20px calc(var(--bar-h) + 48px + env(safe-area-inset-bottom)); }
 
-    /* ── 공지 ── */
     .notice {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-left: 2px solid var(--burg);
-      padding: 16px 20px; margin-bottom: 40px;
-      font-size: 13px; color: var(--text); line-height: 1.85;
+      display: flex; gap: 12px; align-items: flex-start;
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 16px 18px; margin-bottom: 32px; box-shadow: var(--shadow);
     }
-    .notice strong {
-      display: block; margin-bottom: 5px;
-      font-size: 9px; color: var(--burg);
-      font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    .notice-icon {
+      flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+      background: var(--burg-tint); color: var(--burg);
+      display: grid; place-items: center;
     }
-
-    /* ── 진행 도트 ── */
-    .progress-wrap { margin-bottom: 44px; }
-    .progress-dots {
-      display: flex; align-items: center;
-      justify-content: center; gap: 0; margin-bottom: 10px;
-    }
-    .pdot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: var(--border); transition: all 0.35s; flex-shrink: 0;
-    }
-    .pdot.active { background: var(--burg); transform: scale(1.4); }
-    .pdot.done { background: var(--burg); opacity: 0.35; }
-    .pline {
-      flex: 1; height: 1px; background: var(--border);
-      max-width: 56px; transition: background 0.35s;
-    }
-    .pline.done { background: var(--burg); opacity: 0.35; }
-    .progress-label {
-      display: flex; justify-content: space-between;
-      font-size: 9px; color: var(--text-muted);
-      font-family: 'Montserrat', sans-serif; font-weight: 600;
-      letter-spacing: 2px; text-transform: uppercase;
-    }
-    .progress-label .pct { color: var(--burg); }
+    .notice-title { font-size: 13px; font-weight: 700; color: var(--burg); margin-bottom: 2px; }
+    .notice-body { font-size: 13.5px; color: var(--text); line-height: 1.7; white-space: pre-line; }
 
     /* ── 단계 ── */
     .step { display: none; }
-    .step.active { display: block; animation: fadeUp 0.3s ease; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .step.active { display: block; animation: rise .45s var(--ease) both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
-    .step-eyebrow {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 8px; font-weight: 600; color: var(--burg);
-      letter-spacing: 4px; text-transform: uppercase; margin-bottom: 10px;
-    }
-    .step-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 30px; font-weight: 400; font-style: italic;
-      color: var(--dark); margin-bottom: 8px; line-height: 1.15;
-    }
-    .step-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 36px; line-height: 1.85; }
-    .step-divider { width: 100%; height: 1px; background: var(--border); margin-bottom: 36px; }
+    .step-head { margin-bottom: 28px; }
+    .step-kicker { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+    .step-num { font-family: var(--serif); font-size: 15px; color: var(--burg); font-weight: 500; letter-spacing: .04em; }
+    .step-en { font-family: var(--serif); font-style: italic; font-size: 15px; color: var(--gold); }
+    .step-title { font-size: 25px; font-weight: 700; color: var(--ink); line-height: 1.35; letter-spacing: -0.025em; outline: none; }
+    .step-desc { font-size: 14.5px; color: var(--muted); margin-top: 8px; line-height: 1.7; }
 
-    /* ── 질문 블록 ── */
-    .q-block { margin-bottom: 32px; }
-    .q-label {
-      font-size: 13px; font-weight: 700; color: var(--dark);
-      margin-bottom: 14px; display: flex; align-items: center; gap: 6px;
+    /* ── 질문 ── */
+    .q-block { margin-bottom: 36px; scroll-margin-top: 90px; }
+    .q-head { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 8px; margin-bottom: 12px; }
+    .q-label { font-size: 15.5px; font-weight: 650; color: var(--ink); letter-spacing: -0.015em; }
+    .q-req { color: var(--burg); margin-left: 2px; }
+    .q-chip {
+      font-size: 11.5px; font-weight: 500; color: var(--muted);
+      background: var(--cream-2); border-radius: 999px; padding: 2px 9px;
     }
-    .q-label .req { color: var(--burg); font-size: 15px; line-height: 1; }
-    .q-hint { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+    .q-help { font-size: 13.5px; color: var(--muted); margin: -4px 0 14px; line-height: 1.7; }
 
-    /* ── 카드 옵션 ── */
-    .card-options { display: flex; flex-direction: column; gap: 7px; }
-    .card-option { position: relative; }
-    .card-option input { position: absolute; opacity: 0; width: 0; height: 0; }
-    .card-option label {
-      display: flex; align-items: center; gap: 14px;
-      padding: 15px 20px;
-      background: var(--white); border: 1px solid var(--border);
-      cursor: pointer; font-size: 13.5px; font-weight: 400;
-      color: var(--text); transition: all 0.2s; user-select: none; line-height: 1.5;
+    /* 옵션 카드 */
+    .opts { display: grid; gap: 8px; }
+    .opts.grid { grid-template-columns: 1fr 1fr; }
+    .opt { position: relative; }
+    .opt input { position: absolute; opacity: 0; pointer-events: none; }
+    .opt label {
+      display: flex; align-items: center; gap: 12px;
+      min-height: 54px; padding: 14px 16px;
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-sm);
+      font-size: 15px; line-height: 1.45; color: var(--text);
+      cursor: pointer; user-select: none;
+      transition: border-color .18s, background .18s, box-shadow .18s, transform .18s var(--ease);
     }
-    .card-option label:hover { border-color: var(--burg); background: #FFF8F5; }
-    .card-option input:checked + label { border-color: var(--burg); background: var(--bg-burg); color: var(--dark); font-weight: 600; }
-    .dot {
-      width: 16px; height: 16px; border: 1px solid var(--border);
-      border-radius: 50%; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s;
+    .opt label:hover { border-color: var(--line-strong); }
+    .opt label:active { transform: scale(.99); }
+    .opt input:focus-visible + label { outline: 2px solid var(--burg); outline-offset: 2px; }
+    .opt input:checked + label {
+      border-color: var(--burg); background: var(--burg-tint); color: var(--ink); font-weight: 600;
+      box-shadow: 0 0 0 1px var(--burg) inset;
     }
-    .card-option input:checked + label .dot { background: var(--burg); border-color: var(--burg); }
-    .card-option input:checked + label .dot::after {
-      content: ''; width: 5px; height: 5px;
-      background: white; border-radius: 50%; display: block;
+    .mark {
+      flex-shrink: 0; width: 20px; height: 20px;
+      border: 1.5px solid var(--line-strong); border-radius: 50%;
+      display: grid; place-items: center; background: #fff;
+      transition: background .18s, border-color .18s;
     }
-    .card-option.checkbox .dot { border-radius: 2px; }
-    .card-option.checkbox input:checked + label .dot::after {
-      content: '✓'; width: auto; height: auto;
-      background: none; color: white; font-size: 9px; font-weight: 900; border-radius: 0;
-    }
+    .opt.multi .mark { border-radius: 6px; }
+    .mark svg { width: 12px; height: 12px; opacity: 0; transform: scale(.6); transition: opacity .18s, transform .22s var(--ease); }
+    .opt input:checked + label .mark { background: var(--burg); border-color: var(--burg); }
+    .opt input:checked + label .mark svg { opacity: 1; transform: none; }
+    .opt.wide { grid-column: 1 / -1; }
 
     /* 서비스 카드 */
-    .service-card label {
-      flex-direction: column; align-items: flex-start; gap: 0;
-      padding: 18px 52px 18px 20px; position: relative;
-    }
-    .service-card label .dot { position: absolute; right: 18px; top: 20px; }
-    .service-en {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 14px; font-weight: 600; font-style: italic;
-      color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 3px;
-    }
-    .service-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-    .service-sub-tag {
-      display: inline-block; font-size: 11px;
-      color: var(--text-muted); font-weight: 400; margin-bottom: 8px;
-    }
-    .service-desc {
-      font-size: 12px; color: var(--text-muted); line-height: 1.7;
-      font-weight: 400; border-top: 1px solid var(--border);
-      padding-top: 8px; margin-top: 4px; width: 100%;
-    }
-    .service-card input:checked + label .service-en { color: var(--burg); }
-    .service-card input:checked + label .service-desc { border-top-color: #DEC0C0; }
+    .svc label { align-items: flex-start; padding: 18px; gap: 14px; }
+    .svc .mark { margin-top: 2px; }
+    .svc-body { flex: 1; min-width: 0; }
+    .svc-en { font-family: var(--serif); font-style: italic; font-size: 15px; color: var(--gold); line-height: 1.2; }
+    .svc-name { font-size: 16px; font-weight: 700; color: var(--ink); margin-top: 2px; }
+    .svc-desc { font-size: 13.5px; font-weight: 400; color: var(--muted); line-height: 1.65; margin-top: 6px; }
+    .svc input:checked + label .svc-en { color: var(--burg); }
 
-    /* 그리드 */
-    .grid-options { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
-    @media (max-width: 400px) { .grid-options { grid-template-columns: 1fr; } }
-
-    /* ── 텍스트 입력 ── */
-    .text-input {
-      width: 100%; padding: 14px 16px;
-      background: var(--white); border: 1px solid var(--border);
-      font-size: 14px; font-family: 'Noto Sans KR', 'Montserrat', sans-serif;
-      color: var(--text); outline: none; transition: border-color 0.2s;
-    }
-    .text-input:focus { border-color: var(--burg); }
-    .text-input::placeholder { color: #C8B8B0; }
-    textarea.text-input { resize: vertical; min-height: 90px; }
-    select.text-input {
-      appearance: none; -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C4A47C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 16px center;
-      padding-right: 40px; cursor: pointer;
-    }
-    select.text-input:invalid, select.text-input option[value=""] { color: #C8B8B0; }
-    /* iOS date input 스타일 통일 */
-    input[type="date"].text-input {
+    /* 입력 */
+    .field { display: block; }
+    .input {
+      width: 100%; height: 54px; padding: 0 16px;
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-sm);
+      font-size: 16px; color: var(--ink); outline: none;
+      transition: border-color .18s, box-shadow .18s;
       -webkit-appearance: none; appearance: none;
-      min-height: 50px; line-height: 1.3;
-      display: block; cursor: pointer;
     }
-    input[type="date"].text-input::-webkit-calendar-picker-indicator {
-      opacity: 0.5; cursor: pointer;
-    }
-    /* ── 날짜 시간 그리드 ── */
-    .datetime-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    @media (max-width: 400px) { .datetime-row { grid-template-columns: 1fr; } }
-    /* 날짜/시간 라벨 */
-    .datetime-sublabel {
-      font-size: 10px; letter-spacing: 1.5px; color: var(--text-muted);
-      font-family: 'Montserrat', sans-serif; font-weight: 500;
-      text-transform: uppercase; margin-bottom: 6px;
-    }
+    .input:hover { border-color: var(--line-strong); }
+    .input:focus { border-color: var(--burg); box-shadow: 0 0 0 3px rgba(123,26,43,.10); }
+    .input::placeholder { color: var(--faint); }
+    .other-input { margin-top: 8px; display: none; }
+    .other-input.show { display: block; animation: rise .3s var(--ease) both; }
 
-    /* ── 버튼 ── */
-    .btn-wrap { display: flex; gap: 10px; margin-top: 44px; }
+    .q-block.invalid .input,
+    .q-block.invalid .opt label { border-color: rgba(180,35,47,.45); }
+    .err {
+      display: none; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--danger); margin-top: 8px;
+    }
+    .q-block.invalid .err { display: flex; }
+
+    /* 일행 공유 */
+    .share {
+      display: none; margin-top: 10px; padding: 14px 16px;
+      border: 1px dashed var(--burg-line); border-radius: var(--radius-sm); background: #fff;
+      align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .share.show { display: flex; animation: rise .3s var(--ease) both; }
+    .share-text { font-size: 13.5px; color: var(--text); line-height: 1.5; }
+    .share-btn {
+      flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 600; color: #fff; background: var(--burg);
+      padding: 9px 14px; border-radius: 999px; transition: background .2s;
+    }
+    .share-btn:hover { background: var(--burg-ink); }
+
+    /* 동의 */
+    .consent { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+    .consent-all { padding: 16px 18px; background: var(--cream-2); border-bottom: 1px solid var(--line); }
+    .consent-item { padding: 16px 18px; border-bottom: 1px solid var(--line); }
+    .consent-item:last-child { border-bottom: none; }
+    .check { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; user-select: none; }
+    .check input { position: absolute; opacity: 0; pointer-events: none; }
+    .check .mark { border-radius: 6px; margin-top: 1px; }
+    .check input:checked + .mark { background: var(--burg); border-color: var(--burg); }
+    .check input:checked + .mark svg { opacity: 1; transform: none; }
+    .check input:focus-visible + .mark { outline: 2px solid var(--burg); outline-offset: 2px; }
+    .check-text { font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.45; }
+    .consent-all .check-text { font-weight: 700; }
+    .tag-req, .tag-opt { font-size: 12px; font-weight: 600; margin-right: 4px; }
+    .tag-req { color: var(--burg); }
+    .tag-opt { color: var(--muted); }
+    .consent-detail { font-size: 12.5px; color: var(--muted); line-height: 1.7; margin: 8px 0 0 32px; }
+    .consent-detail dt { font-weight: 600; color: var(--text); display: inline; }
+    .consent-detail dd { display: inline; }
+    .consent-detail dd::after { content: ''; display: block; }
+    .consent-link { display: inline-flex; margin: 8px 0 0 32px; font-size: 12.5px; font-weight: 600; color: var(--burg); text-decoration: underline; text-underline-offset: 3px; }
+    #q-privacy .err { margin-left: 32px; }
+
+    .biz { margin-top: 32px; font-size: 11.5px; color: var(--faint); line-height: 1.8; text-align: center; }
+
+    /* 지점 표시 */
+    .intro-branch {
+      display: inline-block; margin-top: 18px; padding: 5px 14px; border-radius: 999px;
+      border: 1px solid rgba(217,195,162,.45); color: var(--gold-soft); font-size: 13px; font-weight: 600; letter-spacing: .02em;
+    }
+    .header-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .header-branch { font-size: 12.5px; font-weight: 600; color: var(--burg); padding-left: 10px; border-left: 1px solid var(--line-strong); white-space: nowrap; }
+
+    /* 날짜 & 시간 */
+    .sub-label { font-size: 13px; font-weight: 600; color: var(--muted); margin: 0 0 8px; }
+    .sub-label + .input { margin-bottom: 18px; }
+    input[type="date"].input { line-height: 54px; }
+    input[type="date"].input::-webkit-date-and-time-value { text-align: left; }
+    .opts.times { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .opts.times label { min-height: 46px; padding: 10px 4px; justify-content: center; font-size: 14.5px; font-variant-numeric: tabular-nums; }
+    .opts.times .mark { display: none; }
+
+    /* 서비스 가격 */
+    .svc-price { display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 700; color: var(--burg); background: var(--burg-tint); padding: 3px 9px; border-radius: 6px; }
+    .svc input:checked + label .svc-price { background: #fff; }
+
+    /* 방문 전 안내 */
+    .visit-notice { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+    .visit-notice-head { padding: 14px 18px; background: var(--burg); color: #fff; font-size: 14.5px; font-weight: 700; }
+    .visit-notice-body { padding: 16px 18px 4px; }
+    .tip { display: flex; gap: 10px; font-size: 14px; color: var(--ink); line-height: 1.65; margin-bottom: 10px; }
+    .tip::before { content: '★'; color: var(--gold); flex-shrink: 0; }
+    .ops { list-style: none; border-top: 1px solid var(--line); padding-top: 12px; margin-top: 4px; }
+    .ops li { position: relative; padding-left: 14px; font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 8px; }
+    .ops li::before { content: ''; position: absolute; left: 2px; top: .75em; width: 4px; height: 4px; border-radius: 50%; background: var(--faint); }
+    .visit-notice-agree { padding: 14px 18px; border-top: 1px solid var(--line); background: var(--cream-2); }
+    #q-bookingNotice .err { margin: 8px 0 0; }
+
+    /* 마케팅 할인 배너 */
+    .promo {
+      display: flex; align-items: center; gap: 14px; margin: 0 0 14px;
+      padding: 14px 16px; border-radius: 12px; color: #fff;
+      background: linear-gradient(135deg, var(--burg) 0%, #9C2B44 100%);
+    }
+    .promo-badge {
+      flex-shrink: 0; width: 58px; height: 58px; border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,.55); display: grid; place-content: center; text-align: center;
+      font-weight: 800; font-size: 17px; line-height: 1.05; letter-spacing: -.02em;
+    }
+    .promo-badge small { display: block; font-size: 10px; font-weight: 600; letter-spacing: .08em; }
+    .promo-copy { font-size: 13px; line-height: 1.55; color: rgba(255,255,255,.85); }
+    .promo-copy strong { display: block; color: #fff; font-size: 15.5px; font-weight: 700; }
+
+    /* ── 하단 액션 바 ── */
+    .actionbar {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+      padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+      background: linear-gradient(to top, var(--cream) 70%, rgba(250,246,241,0));
+    }
+    .actionbar-inner { max-width: 560px; margin: 0 auto; display: flex; gap: 8px; }
     .btn {
-      flex: 1; padding: 16px;
-      font-size: 10px; font-weight: 700;
-      font-family: 'Montserrat', sans-serif;
-      cursor: pointer; border: none;
-      transition: all 0.2s; letter-spacing: 2.5px; text-transform: uppercase;
+      height: 56px; border-radius: 14px; font-size: 16px; font-weight: 650;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      transition: background .2s, transform .15s var(--ease), opacity .2s, box-shadow .2s;
     }
-    .btn-prev { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
-    .btn-prev:hover { border-color: var(--burg); color: var(--burg); }
-    .btn-next { background: var(--dark); color: var(--white); }
-    .btn-next:hover { background: var(--burg); }
-    .btn-submit { background: var(--burg); color: var(--white); }
-    .btn-submit:hover { background: var(--burg-dark); transform: translateY(-1px); }
+    .btn:active { transform: scale(.985); }
+    .btn-back { width: 56px; flex-shrink: 0; background: var(--card); border: 1px solid var(--line-strong); color: var(--text); }
+    .btn-back:hover { border-color: var(--burg); color: var(--burg); }
+    .btn-back[hidden] { display: none; }
+    .btn-next { flex: 1; background: var(--burg); color: #fff; box-shadow: 0 6px 20px rgba(123,26,43,.22); }
+    .btn-next:hover { background: var(--burg-ink); }
+    .btn-next:disabled { opacity: .6; cursor: progress; }
+    .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; border-radius: 50%; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── 완료 화면 ── */
-    .done-screen { display: none; text-align: center; padding: 80px 20px 60px; animation: fadeUp 0.4s ease; }
-    .done-screen.show { display: block; }
+    /* ── 완료 ── */
+    .done { display: none; max-width: 480px; margin: 0 auto; padding: 64px 20px 80px; text-align: center; }
+    .done.show { display: block; animation: rise .6s var(--ease) both; }
     .done-mark {
-      width: 60px; height: 60px; border: 1px solid var(--burg);
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 28px; font-size: 22px; color: var(--burg);
+      width: 72px; height: 72px; margin: 0 auto 28px; border-radius: 50%;
+      background: var(--burg); color: #fff; display: grid; place-items: center;
+      box-shadow: 0 0 0 10px var(--burg-tint);
     }
-    .done-logo {
-      height: 36px; width: auto; margin-bottom: 8px;
-      filter: brightness(0) saturate(100%) invert(14%) sepia(60%) saturate(800%) hue-rotate(320deg) brightness(70%);
+    .done-mark path { stroke-dasharray: 30; stroke-dashoffset: 30; animation: draw .5s .25s var(--ease) forwards; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    .done-en { font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--gold); }
+    .done-title { font-size: 24px; font-weight: 700; color: var(--ink); margin-top: 6px; letter-spacing: -0.025em; }
+    .done-desc { font-size: 15px; color: var(--muted); margin-top: 12px; line-height: 1.8; white-space: pre-line; }
+    .summary {
+      margin-top: 32px; text-align: left;
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 6px 20px; box-shadow: var(--shadow);
     }
-    .done-sub {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 8px; letter-spacing: 4px; color: var(--gold);
-      margin-bottom: 32px; text-transform: uppercase;
-    }
-    .done-title { font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
-    .done-desc { font-size: 13px; color: var(--text-muted); line-height: 2; white-space: pre-line; }
-    .done-info {
-      margin: 28px auto 0; background: var(--white);
-      border: 1px solid var(--border); padding: 20px;
-      text-align: left; max-width: 400px;
-    }
-    .done-info-row { display: flex; justify-content: space-between; padding: 9px 0; font-size: 13px; border-bottom: 1px solid var(--border); }
-    .done-info-row:last-child { border-bottom: none; }
-    .done-info-row .key { color: var(--text-muted); }
-    .done-info-row .val { font-weight: 700; color: var(--dark); text-align: right; max-width: 60%; }
+    .summary-row { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-key { color: var(--muted); flex-shrink: 0; }
+    .summary-val { font-weight: 600; color: var(--ink); text-align: right; word-break: keep-all; }
+    .done-logo { width: 96px; margin: 40px auto 0; display: block; opacity: .85; }
 
-    /* ── 에러 ── */
-    .error-msg { font-size: 12px; color: var(--burg); margin-top: 6px; display: none; }
-    .error-msg.show { display: block; }
+    /* ── 토스트 ── */
+    .toast {
+      position: fixed; left: 50%; bottom: calc(var(--bar-h) + 20px + env(safe-area-inset-bottom)); z-index: 300;
+      transform: translate(-50%, 12px); opacity: 0; pointer-events: none;
+      background: var(--ink); color: #fff; font-size: 14px; padding: 12px 18px; border-radius: 12px;
+      max-width: calc(100% - 40px); text-align: center;
+      transition: opacity .25s, transform .25s var(--ease);
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-    /* ── 개인정보 동의 ── */
-    .privacy-box {
-      margin-top: 32px; border: 1px solid var(--border);
-      padding: 20px; background: var(--white);
+    @media (max-width: 380px) {
+      .opts.grid { grid-template-columns: 1fr; }
+      .step-title { font-size: 23px; }
     }
-    .privacy-item { margin-bottom: 14px; }
-    .privacy-item:last-child { margin-bottom: 0; }
-    .privacy-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; user-select: none; }
-    .privacy-label input[type="checkbox"] { display: none; }
-    .privacy-check {
-      width: 16px; height: 16px; flex-shrink: 0;
-      border: 1px solid var(--border); border-radius: 2px;
-      margin-top: 2px; display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s;
+    @media (min-width: 640px) {
+      .wrap { padding-top: 48px; }
+      .step-title { font-size: 28px; }
     }
-    .privacy-label input:checked ~ .privacy-check { background: var(--burg); border-color: var(--burg); }
-    .privacy-label input:checked ~ .privacy-check::after { content: '✓'; color: #fff; font-size: 10px; font-weight: 900; }
-    .privacy-text { font-size: 13px; font-weight: 600; color: var(--dark); line-height: 1.4; }
-    .required-item .privacy-text::before { content: '[필수] '; color: var(--burg); }
-    .privacy-detail { font-size: 11px; color: var(--text-muted); line-height: 1.6; margin: 6px 0 4px 26px; }
-    .privacy-link { display: inline-block; margin-left: 26px; font-size: 11px; color: var(--burg); text-decoration: underline; }
-    .mkt-discount-banner {
-      background: #FFFBF3;
-      border: 1.5px solid var(--gold);
-      padding: 12px 14px;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
     }
-    .mkt-discount-badge {
-      background: var(--burg);
-      color: #fff;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 13px;
-      font-weight: 800;
-      padding: 8px 10px;
-      flex-shrink: 0;
-      text-align: center;
-      line-height: 1.2;
-      letter-spacing: 0.5px;
-    }
-    .mkt-discount-copy { font-size: 12.5px; color: var(--text); line-height: 1.7; }
-    .mkt-discount-copy strong { color: var(--burg); font-size: 14px; font-weight: 700; }
-
-    /* ── 예약 안내 박스 ── */
-    .booking-notice {
-      margin-top: 32px; border: 1px solid var(--border);
-      padding: 22px 20px 16px; background: var(--white);
-    }
-    .booking-notice-header {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 8px; font-weight: 700; color: var(--burg);
-      letter-spacing: 3px; text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-    .booking-notice-tips {
-      background: var(--cream); border-left: 2px solid var(--gold);
-      padding: 12px 14px; margin-bottom: 12px;
-      font-size: 13px; color: var(--text); line-height: 1.9;
-    }
-    .booking-notice-ops {
-      font-size: 12px; color: var(--text-muted); line-height: 1.9;
-      margin-bottom: 16px; padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-    }
-    .booking-notice-ops p { margin-bottom: 4px; }
-    .booking-notice-ops p:last-child { margin-bottom: 0; }
-    .booking-notice-agree {
-      display: flex; align-items: center; gap: 10px;
-      cursor: pointer; user-select: none;
-    }
-    .booking-notice-agree input[type="checkbox"] { display: none; }
-    .booking-notice-agree .privacy-check { flex-shrink: 0; }
-    .booking-notice-agree input:checked ~ .privacy-check { background: var(--burg); border-color: var(--burg); }
-    .booking-notice-agree input:checked ~ .privacy-check::after { content: '✓'; color: #fff; font-size: 10px; font-weight: 900; }
-    .booking-notice-agree-text { font-size: 13px; font-weight: 600; color: var(--dark); }
-
-    /* ── 사업자 정보 ── */
-    .biz-info { margin-top: 16px; font-size: 11px; color: var(--text-muted); line-height: 1.8; text-align: center; }
   </style>
 </head>
 <body>
 
-<!-- 언어 선택 화면 -->
-<div class="lang-screen" id="langScreen">
-  <div class="lang-brand">
-    <img src="scalpit-logo.png" alt="Scálpit" class="lang-brand-logo" />
-    <div class="lang-brand-line"></div>
-    <div class="lang-brand-sub">Head Spa &amp; Scalp Care</div>
+<!-- 인트로 / 언어 선택 -->
+<section class="intro" id="intro" aria-labelledby="introHeadline">
+  <div class="intro-inner">
+    <img src="/scalpit-logo.png" alt="Scálpit" class="intro-logo" />
+    <div class="intro-sub">Head Spa &amp; Scalp Care</div>
+    <div class="intro-rule"></div>
+    <p class="intro-headline" id="introHeadline">방문 전, 나에게 꼭 맞는 케어를 위한<br>사전 상담 설문지</p>
+    <p class="intro-meta">Pre-visit consultation · approx. 3 min</p>
+    <div class="intro-branch" id="introBranch" hidden></div>
+    <div class="lang-list" role="group" aria-label="Select your language">
+      <button class="lang-btn" data-lang="ko"><span class="lang-native">한국어</span><span class="lang-code">KO<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></span></button>
+      <button class="lang-btn" data-lang="en"><span class="lang-native">English</span><span class="lang-code">EN<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></span></button>
+      <button class="lang-btn" data-lang="zh"><span class="lang-native">中文</span><span class="lang-code">ZH<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></span></button>
+      <button class="lang-btn" data-lang="ja"><span class="lang-native">日本語</span><span class="lang-code">JA<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></span></button>
+    </div>
+    <div class="intro-foot">Select your language</div>
   </div>
-  <div class="lang-prompt">Select your language</div>
-  <div class="lang-grid">
-    <button class="lang-btn" onclick="selectLang('ko')"><span class="lang-code">KO</span><span class="lang-native">한국어</span></button>
-    <button class="lang-btn" onclick="selectLang('en')"><span class="lang-code">EN</span><span class="lang-native">English</span></button>
-    <button class="lang-btn" onclick="selectLang('zh')"><span class="lang-code">ZH</span><span class="lang-native">中文</span></button>
-    <button class="lang-btn" onclick="selectLang('ja')"><span class="lang-code">JA</span><span class="lang-native">日本語</span></button>
-  </div>
-</div>
+</section>
 
 <!-- 헤더 -->
-<header class="header" style="display:none" id="mainHeader">
+<header class="header" id="header" hidden>
   <div class="header-inner">
-    <div>
-      <img src="scalpit-logo.png" alt="Scálpit" class="header-logo" />
-      <div class="header-tagline">Head Spa &amp; Scalp Care</div>
-      <div class="header-branch" id="headerBranch"></div>
+    <div class="header-brand"><img src="/scalpit-logo.png" alt="Scálpit" class="header-logo" /><span class="header-branch" id="headerBranch" hidden></span></div>
+    <div class="header-right">
+      <span class="step-count" id="stepCount" aria-live="polite"></span>
+      <button class="lang-pill" id="langPill" type="button" aria-label="Language">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>
+        <span id="langPillText">KO</span>
+      </button>
     </div>
-    <button class="lang-switcher" id="langSwitchBtn" onclick="openLangScreen()"></button>
   </div>
+  <div class="progress" role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" id="progress"><div class="progress-fill" id="progressFill"></div></div>
 </header>
 
-<div class="wrap" id="formWrap" style="display:none">
-
-  <div class="notice">
-    <strong id="nTitle">NOTICE</strong>
-    <span id="nBody"></span>
+<main class="wrap" id="form" hidden>
+  <div class="notice" id="notice">
+    <div class="notice-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg></div>
+    <div><div class="notice-title" data-t="notice_title"></div><div class="notice-body" data-t="notice_body"></div></div>
   </div>
+  <div id="steps"></div>
+  <p class="biz" id="biz" hidden></p>
+</main>
 
-  <!-- 진행 도트 -->
-  <div class="progress-wrap">
-    <div class="progress-dots">
-      <div class="pdot active" id="dot1"></div>
-      <div class="pline" id="line1"></div>
-      <div class="pdot" id="dot2"></div>
-      <div class="pline" id="line2"></div>
-      <div class="pdot" id="dot3"></div>
-      <div class="pline" id="line3"></div>
-      <div class="pdot" id="dot4"></div>
-      <div class="pline" id="line4"></div>
-      <div class="pdot" id="dot5"></div>
-    </div>
-    <div class="progress-label">
-      <span id="stepLabel">STEP 1 / 5</span>
-      <span class="pct" id="stepPct">20%</span>
-    </div>
+<nav class="actionbar" id="actionbar" hidden>
+  <div class="actionbar-inner">
+    <button class="btn btn-back" id="btnBack" type="button" hidden>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
+      <span class="sr-only" data-t="btn_back"></span>
+    </button>
+    <button class="btn btn-next" id="btnNext" type="button"></button>
   </div>
+</nav>
 
-  <!-- STEP 1: 예약 정보 -->
-  <div class="step active" id="step1">
-    <div class="step-eyebrow" id="s1Eyebrow"></div>
-    <div class="step-title" id="s1Title"></div>
-    <div class="step-desc" id="s1Desc"></div>
-    <div class="step-divider"></div>
+<section class="done" id="done" aria-live="polite">
+  <div class="done-mark"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+  <div class="done-en">Thank you</div>
+  <h1 class="done-title" data-t="done_title"></h1>
+  <p class="done-desc" data-t="done_desc"></p>
+  <div class="summary" id="summary"></div>
+  <img src="/scalpit-logo.png" alt="Scálpit" class="done-logo" />
+</section>
 
-    <!-- Q1: 예약 인원 -->
-    <div class="q-block">
-      <div class="q-label"><span class="req">*</span> <span id="qRes"></span></div>
-      <div class="card-options">
-        <div class="card-option">
-          <input type="radio" name="reservationType" id="r1" value="">
-          <label for="r1"><span class="dot"></span> <span id="rLabel1"></span></label>
-        </div>
-        <div class="card-option">
-          <input type="radio" name="reservationType" id="r2" value="">
-          <label for="r2"><span class="dot"></span> <span id="rLabel2"></span></label>
-        </div>
-      </div>
-      <div class="error-msg" id="err-reservationType"></div>
-    </div>
-
-    <!-- Q2: 상담 유형 -->
-    <div class="q-block">
-      <div class="q-label"><span class="req">*</span> <span id="qCons"></span></div>
-      <div class="card-options">
-        <div class="card-option">
-          <input type="radio" name="consultationType" id="c1" value="">
-          <label for="c1"><span class="dot"></span> <span id="cLabel1"></span></label>
-        </div>
-        <div class="card-option">
-          <input type="radio" name="consultationType" id="c2" value="">
-          <label for="c2"><span class="dot"></span> <span id="cLabel2"></span></label>
-        </div>
-      </div>
-      <div class="error-msg" id="err-consultationType"></div>
-    </div>
-
-    <!-- Q3: 예약 날짜 & 시간 -->
-    <div class="q-block">
-      <div class="q-label"><span class="req">*</span> <span id="qDateTime"></span></div>
-      <div class="datetime-row">
-        <div>
-          <div class="datetime-sublabel" id="lblDate">DATE</div>
-          <input type="date" class="text-input" id="visitDate" />
-          <div class="error-msg" id="err-visitDate"></div>
-        </div>
-        <div>
-          <div class="datetime-sublabel" id="lblTime">TIME</div>
-          <select class="text-input" id="visitTime">
-            <option value="" id="phTime"></option>
-            <option value="10:00">10:00</option>
-            <option value="10:30">10:30</option>
-            <option value="11:00">11:00</option>
-            <option value="11:30">11:30</option>
-            <option value="12:00">12:00</option>
-            <option value="12:30">12:30</option>
-            <option value="13:00">13:00</option>
-            <option value="13:30">13:30</option>
-            <option value="14:00">14:00</option>
-            <option value="14:30">14:30</option>
-            <option value="15:00">15:00</option>
-            <option value="15:30">15:30</option>
-            <option value="16:00">16:00</option>
-            <option value="16:30">16:30</option>
-            <option value="17:00">17:00</option>
-            <option value="17:30">17:30</option>
-            <option value="18:00">18:00</option>
-            <option value="18:30">18:30</option>
-            <option value="19:00">19:00</option>
-            <option value="19:30">19:30</option>
-          </select>
-          <div class="error-msg" id="err-visitTime"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="btn-wrap">
-      <button class="btn btn-next" id="btnNext1" onclick="nextStep(1)"></button>
-    </div>
-  </div>
-
-  <!-- STEP 2: 기본 정보 -->
-  <div class="step" id="step2">
-    <div class="step-eyebrow" id="s2Eyebrow"></div>
-    <div class="step-title" id="s2Title"></div>
-    <div class="step-desc" id="s2Desc"></div>
-    <div class="step-divider"></div>
-
-    <!-- Q3: 이름 / 생년월일 -->
-    <div class="q-block">
-      <div class="q-label"><span class="req">*</span> <span id="qNameBirth"></span></div>
-      <input type="text" class="text-input" id="nameBirth" />
-      <div class="error-msg" id="err-nameBirth"></div>
-    </div>
-    <!-- Q4: 연락처 -->
-    <div class="q-block">
-      <div class="q-label"><span class="req">*</span> <span id="qPhone"></span></div>
-      <input type="tel" class="text-input" id="phone" />
-      <div class="error-msg" id="err-phone"></div>
-    </div>
-    <!-- Q5: 주소 -->
-    <div class="q-block">
-      <div class="q-label"><span class="req">*</span> <span id="qAddr"></span> <span class="q-hint" id="qAddrHint"></span></div>
-      <input type="text" class="text-input" id="address" />
-      <div class="error-msg" id="err-address"></div>
-    </div>
-
-    <div class="btn-wrap">
-      <button class="btn btn-prev" id="btnPrev2" onclick="prevStep(2)"></button>
-      <button class="btn btn-next" id="btnNext2" onclick="nextStep(2)"></button>
-    </div>
-  </div>
-
-  <!-- STEP 3: 시술 이력 & 방문 경로 -->
-  <div class="step" id="step3">
-    <div class="step-eyebrow" id="s3Eyebrow"></div>
-    <div class="step-title" id="s3Title"></div>
-    <div class="step-desc" id="s3Desc"></div>
-    <div class="step-divider"></div>
-
-    <!-- Q6: 관리 경험 -->
-    <div class="q-block">
-      <div class="q-label"><span id="qTreat"></span> <span class="q-hint" id="treatHint"></span></div>
-      <div class="card-options">
-        <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th1" value=""><label for="th1"><span class="dot"></span> <span id="thLabel1"></span></label></div>
-        <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th2" value=""><label for="th2"><span class="dot"></span> <span id="thLabel2"></span></label></div>
-        <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th3" value=""><label for="th3"><span class="dot"></span> <span id="thLabel3"></span></label></div>
-        <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th4" value=""><label for="th4"><span class="dot"></span> <span id="thLabel4"></span></label></div>
-        <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th5" value=""><label for="th5"><span class="dot"></span> <span id="thLabel5"></span></label></div>
-        <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th6" value=""><label for="th6"><span class="dot"></span> <span id="thLabel6"></span></label></div>
-      </div>
-    </div>
-
-    <!-- Q7: 방문 경로 -->
-    <div class="q-block">
-      <div class="q-label"><span class="req">*</span> <span id="qSrc"></span></div>
-      <div class="card-options">
-        <div class="card-option"><input type="radio" name="visitSource" id="vs1" value="Instagram"><label for="vs1"><span class="dot"></span> Instagram</label></div>
-        <div class="card-option"><input type="radio" name="visitSource" id="vs2" value="YouTube"><label for="vs2"><span class="dot"></span> YouTube</label></div>
-        <div class="card-option"><input type="radio" name="visitSource" id="vs3" value=""><label for="vs3"><span class="dot"></span> <span id="vsLabel3"></span></label></div>
-        <div class="card-option"><input type="radio" name="visitSource" id="vs4" value=""><label for="vs4"><span class="dot"></span> <span id="vsLabel4"></span></label></div>
-        <div class="card-option"><input type="radio" name="visitSource" id="vs5" value=""><label for="vs5"><span class="dot"></span> <span id="vsLabel5"></span></label></div>
-        <div class="card-option"><input type="radio" name="visitSource" id="vs6" value=""><label for="vs6"><span class="dot"></span> <span id="vsLabel6"></span></label></div>
-      </div>
-      <div class="error-msg" id="err-visitSource"></div>
-    </div>
-
-    <div class="btn-wrap">
-      <button class="btn btn-prev" id="btnPrev3" onclick="prevStep(3)"></button>
-      <button class="btn btn-next" id="btnNext3" onclick="nextStep(3)"></button>
-    </div>
-  </div>
-
-  <!-- STEP 4: 두피 고민 & 생활 습관 -->
-  <div class="step" id="step4">
-    <div class="step-eyebrow" id="s4Eyebrow"></div>
-    <div class="step-title" id="s4Title"></div>
-    <div class="step-desc" id="s4Desc"></div>
-    <div class="step-divider"></div>
-
-    <!-- Q8: 두피 고민 -->
-    <div class="q-block">
-      <div class="q-label"><span class="req">*</span> <span id="qScalp"></span> <span class="q-hint" id="scalpHint"></span></div>
-      <div class="grid-options">
-        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc1" value=""><label for="sc1"><span class="dot"></span> <span id="scLabel1"></span></label></div>
-        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc2" value=""><label for="sc2"><span class="dot"></span> <span id="scLabel2"></span></label></div>
-        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc3" value=""><label for="sc3"><span class="dot"></span> <span id="scLabel3"></span></label></div>
-        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc4" value=""><label for="sc4"><span class="dot"></span> <span id="scLabel4"></span></label></div>
-        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc5" value=""><label for="sc5"><span class="dot"></span> <span id="scLabel5"></span></label></div>
-        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc6" value=""><label for="sc6"><span class="dot"></span> <span id="scLabel6"></span></label></div>
-        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc7" value=""><label for="sc7"><span class="dot"></span> <span id="scLabel7"></span></label></div>
-        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc8" value=""><label for="sc8"><span class="dot"></span> <span id="scLabel8"></span></label></div>
-        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc9" value=""><label for="sc9"><span class="dot"></span> <span id="scLabel9"></span></label></div>
-        <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc10" value=""><label for="sc10"><span class="dot"></span> <span id="scLabel10"></span></label></div>
-        <div class="card-option checkbox" style="grid-column:1/-1"><input type="checkbox" name="scalpConcerns" id="sc11" value=""><label for="sc11"><span class="dot"></span> <span id="scLabel11"></span></label></div>
-      </div>
-      <div class="error-msg" id="err-scalpConcerns"></div>
-    </div>
-
-    <!-- Q9: 펌/염색 주기 -->
-    <div class="q-block">
-      <div class="q-label"><span id="qPerm"></span></div>
-      <input type="text" class="text-input" id="permFrequency" />
-    </div>
-
-    <!-- Q10: 샴푸 횟수 -->
-    <div class="q-block">
-      <div class="q-label"><span class="req">*</span> <span id="qShampoo"></span></div>
-      <div class="card-options">
-        <div class="card-option"><input type="radio" name="shampooFrequency" id="sf1" value=""><label for="sf1"><span class="dot"></span> <span id="sfLabel1"></span></label></div>
-        <div class="card-option"><input type="radio" name="shampooFrequency" id="sf2" value=""><label for="sf2"><span class="dot"></span> <span id="sfLabel2"></span></label></div>
-        <div class="card-option"><input type="radio" name="shampooFrequency" id="sf3" value=""><label for="sf3"><span class="dot"></span> <span id="sfLabel3"></span></label></div>
-        <div class="card-option"><input type="radio" name="shampooFrequency" id="sf4" value=""><label for="sf4"><span class="dot"></span> <span id="sfLabel4"></span></label></div>
-        <div class="card-option"><input type="radio" name="shampooFrequency" id="sf5" value=""><label for="sf5"><span class="dot"></span> <span id="sfLabel5"></span></label></div>
-      </div>
-      <div class="error-msg" id="err-shampooFrequency"></div>
-    </div>
-
-    <!-- Q11: 탈모 유전력 -->
-    <div class="q-block">
-      <div class="q-label"><span class="req">*</span> <span id="qGenetic"></span></div>
-      <div class="card-options">
-        <div class="card-option"><input type="radio" name="hairLossGenetic" id="hg1" value=""><label for="hg1"><span class="dot"></span> <span id="hgLabel1"></span></label></div>
-        <div class="card-option"><input type="radio" name="hairLossGenetic" id="hg2" value=""><label for="hg2"><span class="dot"></span> <span id="hgLabel2"></span></label></div>
-      </div>
-      <div class="error-msg" id="err-hairLossGenetic"></div>
-    </div>
-
-    <!-- Q12: 임신 / 수유 여부 -->
-    <div class="q-block">
-      <div class="q-label"><span class="req">*</span> <span id="qPregnant"></span></div>
-      <div class="card-options">
-        <div class="card-option"><input type="radio" name="pregnancyStatus" id="pg1" value=""><label for="pg1"><span class="dot"></span> <span id="pgLabel1"></span></label></div>
-        <div class="card-option"><input type="radio" name="pregnancyStatus" id="pg2" value=""><label for="pg2"><span class="dot"></span> <span id="pgLabel2"></span></label></div>
-        <div class="card-option"><input type="radio" name="pregnancyStatus" id="pg3" value=""><label for="pg3"><span class="dot"></span> <span id="pgLabel3"></span></label></div>
-      </div>
-      <div class="error-msg" id="err-pregnancyStatus"></div>
-    </div>
-
-    <div class="btn-wrap">
-      <button class="btn btn-prev" id="btnPrev4" onclick="prevStep(4)"></button>
-      <button class="btn btn-next" id="btnNext4" onclick="nextStep(4)"></button>
-    </div>
-  </div>
-
-  <!-- STEP 5: 서비스 선택 & 동의 -->
-  <div class="step" id="step5">
-    <div class="step-eyebrow" id="s5Eyebrow"></div>
-    <div class="step-title" id="s5Title"></div>
-    <div class="step-desc" id="s5Desc"></div>
-    <div class="step-divider"></div>
-
-    <!-- Q12: 관심 서비스 -->
-    <div class="q-block">
-      <div class="q-label"><span class="req">*</span> <span id="qServ"></span> <span class="q-hint" id="servHint"></span></div>
-      <div class="card-options">
-        <div class="card-option checkbox service-card">
-          <input type="checkbox" name="desiredServices" id="ds0" value="시그니쳐 딥 릴렉싱 아로마스파 80분">
-          <label for="ds0">
-            <span class="dot"></span>
-            <div class="service-en">SIGNATURE DEEP RELAXING AROMA SPA</div>
-            <div class="service-name" id="dsName0"></div>
-            <div class="service-desc" id="dsDesc0"></div>
-          </label>
-        </div>
-        <div class="card-option checkbox service-card">
-          <input type="checkbox" name="desiredServices" id="ds1" value="브레인디톡스 헤드스파 60분">
-          <label for="ds1">
-            <span class="dot"></span>
-            <div class="service-en">BRAIN DETOX HEAD SPA · 60min</div>
-            <div class="service-name" id="dsName1"></div>
-            <div class="service-desc" id="dsDesc1"></div>
-          </label>
-        </div>
-        <div class="card-option checkbox service-card">
-          <input type="checkbox" name="desiredServices" id="ds2" value="브레인디톡스 헤드스파 80분">
-          <label for="ds2">
-            <span class="dot"></span>
-            <div class="service-en">BRAIN DETOX HEAD SPA · 80min</div>
-            <div class="service-name" id="dsName2"></div>
-            <div class="service-desc" id="dsDesc2"></div>
-          </label>
-        </div>
-        <div class="card-option checkbox service-card">
-          <input type="checkbox" name="desiredServices" id="ds3" value="프리미엄 탈모 솔루션 70분">
-          <label for="ds3">
-            <span class="dot"></span>
-            <div class="service-en">PREMIUM HAIR LOSS SOLUTION</div>
-            <div class="service-name" id="dsName3"></div>
-            <div class="service-desc" id="dsDesc3"></div>
-          </label>
-        </div>
-        <div class="card-option checkbox service-card">
-          <input type="checkbox" name="desiredServices" id="ds4" value="문제성 두피 케어 솔루션 60분">
-          <label for="ds4">
-            <span class="dot"></span>
-            <div class="service-en">PROBLEMATIC SCALP CARE</div>
-            <div class="service-name" id="dsName4"></div>
-            <div class="service-desc" id="dsDesc4"></div>
-          </label>
-        </div>
-        <div class="card-option checkbox service-card">
-          <input type="checkbox" name="desiredServices" id="ds5" value="임산부 헤드스파 60분">
-          <label for="ds5">
-            <span class="dot"></span>
-            <div class="service-en">PREGNANCY HEAD SPA</div>
-            <div class="service-name" id="dsName5"></div>
-            <div class="service-desc" id="dsDesc5"></div>
-          </label>
-        </div>
-      </div>
-      <div class="error-msg" id="err-desiredServices"></div>
-    </div>
-
-    <!-- Q13: 촬영 동의 -->
-    <div class="q-block">
-      <div class="q-label"><span class="req">*</span> <span id="qVideo"></span></div>
-      <div class="step-desc" id="videoDesc" style="margin-bottom:14px;font-size:13px;"></div>
-      <div class="card-options">
-        <div class="card-option"><input type="radio" name="videoConsent" id="vc1" value="동의"><label for="vc1"><span class="dot"></span> <span id="vcLabel1"></span></label></div>
-        <div class="card-option"><input type="radio" name="videoConsent" id="vc2" value="비동의"><label for="vc2"><span class="dot"></span> <span id="vcLabel2"></span></label></div>
-      </div>
-      <div class="error-msg" id="err-videoConsent"></div>
-    </div>
-
-    <!-- 예약 안내 -->
-    <div class="booking-notice">
-      <div class="booking-notice-header" id="bNoticeHeader">예약 전 확인해주세요</div>
-      <div class="booking-notice-tips" id="bNoticeTips"></div>
-      <div class="booking-notice-ops" id="bNoticeOps"></div>
-      <label class="booking-notice-agree">
-        <input type="checkbox" id="bookingNoticeCheck" />
-        <span class="privacy-check"></span>
-        <span class="booking-notice-agree-text" id="bNoticeAgreeText">위 내용을 확인하였습니다</span>
-      </label>
-    </div>
-    <div class="error-msg" id="err-bookingNotice"></div>
-
-    <!-- Q14: 개인정보 동의 -->
-    <div class="privacy-box">
-      <div class="privacy-item required-item">
-        <label class="privacy-label">
-          <input type="checkbox" id="privacyRequired" />
-          <span class="privacy-check"></span>
-          <span class="privacy-text" id="privacyReqText"></span>
-        </label>
-        <div class="privacy-detail" id="privacyReqDetail"></div>
-        <a class="privacy-link" href="scalpit-privacy.html" target="_blank" id="privacyLinkText"></a>
-      </div>
-      <div class="error-msg" id="err-privacy"></div>
-      <div class="privacy-item">
-        <div class="mkt-discount-banner">
-          <div class="mkt-discount-badge">30%<br>OFF</div>
-          <div class="mkt-discount-copy" id="mktDiscountCopy"></div>
-        </div>
-        <label class="privacy-label">
-          <input type="checkbox" id="privacyMarketing" />
-          <span class="privacy-check"></span>
-          <span class="privacy-text" id="privacyMktText"></span>
-        </label>
-        <div class="privacy-detail" id="privacyMktDetail"></div>
-      </div>
-    </div>
-
-    <div class="biz-info" id="bizInfo">
-      상호: 스칼프잇 &nbsp;|&nbsp; 사업자번호: —<br>
-      주소: —
-    </div>
-
-    <div class="btn-wrap">
-      <button class="btn btn-prev" id="btnPrev5" onclick="prevStep(5)"></button>
-      <button class="btn btn-submit" id="btnSubmit" onclick="submitForm()"></button>
-    </div>
-  </div>
-
-</div>
-
-<!-- 완료 화면 -->
-<div class="wrap">
-  <div class="done-screen" id="doneScreen">
-    <div class="done-mark">✓</div>
-    <img src="scalpit-logo.png" alt="Scálpit" class="done-logo" />
-    <div class="done-sub">Head Spa &amp; Scalp Care</div>
-    <div class="done-title" id="doneTitle"></div>
-    <div class="done-desc" id="doneDesc"></div>
-    <div class="done-info" id="doneInfo"></div>
-  </div>
-</div>
+<div class="toast" id="toast" role="status"></div>
 
 <script>
 const T = {
   ko: {
-    notice_title:'NOTICE',
-    notice_body:'2인 이상 예약하신 경우, 일행분께도 해당 링크를 공유하여 모두 작성 부탁드립니다.\n설문지 미작성 시 상담이 제한될 수 있습니다.',
-    step_of:(c,t)=>`STEP ${c} / ${t}`,
-    s1_eyebrow:'STEP 1 OF 5', s1_title:'예약 정보', s1_desc:'예약 인원과 상담 방식을 선택해주세요.',
+    notice_title:'안내',
+    notice_body:'2인 이상 예약하신 경우, 일행분께도 이 링크를 공유해 모두 작성 부탁드립니다.\n설문지 미작성 시 상담이 제한될 수 있습니다.',
+    s1_title:'예약 정보', s1_desc:'예약 인원, 상담 방식과 방문 일시를 알려주세요.',
     q_res:'예약 인원',
     r1:'2인 이상 예약입니다. (일행 링크 공유 완료!)', r2:'1인 예약입니다.',
     err_res:'예약 인원을 선택해주세요.',
+    share_text:'일행분께 설문 링크를 보내주세요.', share_btn:'링크 공유', share_copied:'링크가 복사되었습니다.',
     q_cons:'상담 유형',
     c1:'힐링 위주, 간단한 상담만 원해요.', c2:'정밀 진단·상담 원해요.',
     err_cons:'상담 유형을 선택해주세요.',
-    q_datetime:'예약 날짜 & 시간', ph_time:'시간 선택',
-    err_date:'방문 날짜를 선택해주세요.', err_time:'방문 시간을 선택해주세요.',
-    done_datetime:'예약 일시',
-    s2_eyebrow:'STEP 2 OF 5', s2_title:'기본 정보', s2_desc:'고객님의 기본 정보를 입력해주세요.',
-    q_name_birth:'이름 / 생년월일', ph_name_birth:'예) 홍길동 / 1995.03.15',
-    q_phone:'연락처', ph_phone:'예) 010-1234-5678',
-    q_addr:'주소', q_addr_hint:'(간단히 동까지만 기재)', ph_addr:'예) 서울 강남구 신사동',
-    err_name:'이름/생년월일을 입력해주세요.', err_phone:'연락처를 입력해주세요.', err_addr:'주소를 입력해주세요.',
-    s3_eyebrow:'STEP 3 OF 5', s3_title:'시술 이력 & 방문 경로', s3_desc:'이전 시술 경험과 저희를 알게 된 경로를 알려주세요.',
-    q_treat:'관리(치료) 경험', treat_hint:'복수 선택 가능',
+    q_date:'방문 날짜', err_date:'방문 날짜를 선택해주세요.',
+    q_time:'방문 시간', err_time:'방문 시간을 선택해주세요.',
+    s2_title:'기본 정보', s2_desc:'예약 확인과 상담을 위해 필요한 정보예요.',
+    q_name:'이름', ph_name:'홍길동', err_name:'이름을 입력해주세요.',
+    q_birth:'생년월일', ph_birth:'1995.03.15', err_birth:'생년월일 8자리를 정확히 입력해주세요.',
+    q_phone:'연락처', ph_phone:'010-1234-5678', err_phone:'연락처를 정확히 입력해주세요.',
+    q_addr:'주소', q_addr_hint:'동까지만', ph_addr:'예) 천안시 불당동', err_addr:'주소를 입력해주세요.',
+    s3_title:'시술 이력 & 방문 경로', s3_desc:'이전 관리 경험과 스칼프잇을 알게 된 경로를 알려주세요.',
+    q_treat:'관리(치료) 경험', multi:'복수 선택', optional:'선택',
     th1:'병원 치료', th2:'전문 두피 관리', th3:'약물 복용',
     th4:'두피 & 모발 시술 (메조, PRP 등)', th5:'일반 미용실 관리', th6:'홈케어 (두피 샴푸 / 앰플 등)',
     q_src:'방문 경로',
-    vs3:'네이버 검색', vs4:'네이버 카페 / 블로그', vs5:'지인 소개', vs6:'간판 / 현수막',
+    vs1:'Instagram', vs2:'YouTube', vs3:'네이버 검색', vs4:'네이버 카페 / 블로그', vs5:'지인 소개', vs6:'간판 / 현수막',
     err_src:'방문 경로를 선택해주세요.',
-    s4_eyebrow:'STEP 4 OF 5', s4_title:'두피 고민 & 생활 습관', s4_desc:'현재 두피 상태와 생활 패턴을 알려주세요.',
-    q_scalp:'주요 두피 고민', scalp_hint:'복수 선택 가능',
+    s4_title:'두피 고민 & 생활 습관', s4_desc:'현재 두피 상태와 생활 패턴을 알려주세요.',
+    q_scalp:'주요 두피 고민',
     sc1:'탈모', sc2:'가려움', sc3:'건조', sc4:'지성 / 번들거림', sc5:'비듬',
     sc6:'홍반 / 발적', sc7:'악취', sc8:'두피 열감', sc9:'뾰루지 & 염증',
     sc10:'두피 통증 / 따가움', sc11:'기타',
     err_scalp:'두피 고민을 하나 이상 선택해주세요.',
+    ph_other:'직접 입력해주세요',
     q_perm:'펌 / 염색 횟수 & 주기', ph_perm:'예) 염색 2개월에 한 번, 파마 1년에 한 번',
     q_shampoo:'샴푸 세정 횟수',
     sf1:'매일 아침, 저녁 한 번씩', sf2:'매일 아침 한 번', sf3:'매일 저녁 한 번',
@@ -888,145 +502,155 @@ const T = {
     err_genetic:'탈모 유전력을 선택해주세요.',
     q_pregnant:'임신 / 수유 여부', pg1:'임신 중', pg2:'수유 중', pg3:'해당 없음',
     err_pregnant:'임신/수유 여부를 선택해주세요.',
-    s5_eyebrow:'STEP 5 OF 5', s5_title:'서비스 선택 & 동의', s5_desc:'관심 있는 서비스와 동의 사항을 확인해주세요.',
-    q_serv:'관심 서비스', serv_hint:'복수 선택 가능',
-    ds0_name:'시그니쳐 딥 릴렉싱 아로마스파 · 80분', ds0_desc:'아로마 오일을 활용한 깊은 릴렉싱 두피·두발 스파 | 첫방문 150,000원',
-    ds1_name:'브레인디톡스 헤드스파 · 60분', ds1_desc:'뇌 피로 해소에 특화된 두피 힐링 헤드스파 | 첫방문 90,000원',
-    ds2_name:'브레인디톡스 헤드스파 · 80분', ds2_desc:'뇌 피로 해소에 특화된 두피 힐링 헤드스파 (프리미엄) | 첫방문 120,000원',
-    ds3_name:'프리미엄 탈모 솔루션 · 70분', ds3_desc:'두피 환경을 개선하고 모근을 강화하는 전문 탈모 케어 | 첫방문 105,000원',
-    ds4_name:'문제성 두피 케어 솔루션 · 60분', ds4_desc:'지루성·민감성·염증성 두피 등 문제성 두피 집중 케어 | 첫방문 90,000원',
-    ds5_name:'임산부 헤드스파 · 60분', ds5_desc:'임산부를 위한 안전하고 부드러운 두피 케어 프로그램 | 첫방문 105,000원',
-    err_serv:'관심 서비스를 선택해주세요.',
-    q_video:'기념 영상 촬영 동의',
-    video_desc:'헤드스파 받으시는 모습을 고객님 휴대폰으로 동영상 & 사진 촬영을 원하시는 경우 \'네\'를 선택해주세요.',
+    s5_title:'서비스 선택 & 동의', s5_desc:'관심 있는 서비스와 방문 전 안내, 동의 사항을 확인해주세요.',
+    q_serv:'관심 서비스',
+    ds0:'시그니쳐 딥 릴렉싱 아로마스파 · 80분', ds0_desc:'아로마 오일을 활용한 깊은 릴렉싱 두피·두발 스파', ds0_price:'첫 방문 150,000원',
+    ds1:'브레인디톡스 헤드스파 · 60분', ds1_desc:'뇌 피로 해소에 특화된 두피 힐링 헤드스파', ds1_price:'첫 방문 90,000원',
+    ds2:'브레인디톡스 헤드스파 · 80분', ds2_desc:'뇌 피로 해소에 특화된 두피 힐링 헤드스파 (프리미엄)', ds2_price:'첫 방문 120,000원',
+    ds3:'프리미엄 탈모 솔루션 · 70분', ds3_desc:'두피 환경을 개선하고 모근을 강화하는 전문 탈모 케어', ds3_price:'첫 방문 105,000원',
+    ds4:'문제성 두피 케어 솔루션 · 60분', ds4_desc:'지루성·민감성·염증성 두피 등 문제성 두피 집중 케어', ds4_price:'첫 방문 90,000원',
+    ds5:'임산부 헤드스파 · 60분', ds5_desc:'임산부를 위한 안전하고 부드러운 두피 케어 프로그램', ds5_price:'첫 방문 105,000원',
+    err_serv:'관심 서비스를 하나 이상 선택해주세요.',
+    q_video:'기념 영상 촬영',
+    video_desc:'헤드스파 받으시는 모습을 고객님 휴대폰으로 동영상·사진 촬영해드려요. 원하시면 \'네\'를 선택해주세요.',
     vc1:'네, 촬영 원합니다.', vc2:'아니오, 촬영 원하지 않습니다.',
-    err_video:'동의 여부를 선택해주세요.',
-    privacy_req:'개인정보 수집·이용에 동의합니다',
-    privacy_req_detail:'수집 항목: 성명, 생년월일, 연락처, 주소, 두피 상태 정보 | 수집 목적: 두피케어 상담 및 예약 관리 | 보유 기간: 서비스 제공 완료 후 1년',
-    privacy_link:'개인정보처리방침 전문 보기 →',
-    privacy_mkt:'마케팅 정보 수신에 동의합니다 (선택)',
-    privacy_mkt_detail:'이벤트, 프로모션, 신규 서비스 안내 등 마케팅 정보를 수신합니다.',
-    mkt_discount:'마케팅 정보 수신에 동의하시면<br><strong>첫 방문 30% 할인</strong>이 적용됩니다!',
+    err_video:'촬영 희망 여부를 선택해주세요.',
+    vn_head:'방문 전 확인해주세요',
+    vn_tips:['당일 샴푸는 하지 않아도 괜찮습니다!','관리 중 네이프라인(목 뒤) 마사지가 포함되어 있어 목폴라·하이넥 착용 시 안에 나시 또는 가벼운 이너 착용을 추천드립니다 :)'],
+    vn_ops:['매장 예약, 운영 상황에 따라 2인룸 사용이 어려운 경우 1인룸에서 각각 관리 진행될 수 있으니 참고 부탁드리며 당일 방문시 확인 가능하십니다.','예약 시간에 부득이하게 늦으시는 경우, 다음 고객님과의 스케줄로 인해 관리 시간이 다소 조정될 수 있는 점 깊은 양해 부탁드립니다.'],
+    vn_agree:'위 내용을 확인하였습니다',
+    err_vn:'안내 사항을 확인하고 체크해주세요.',
+    consent_all:'약관 전체 동의',
+    tag_req:'[필수]', tag_opt:'[선택]',
+    privacy_req:'개인정보 수집·이용 동의',
+    pv_items_k:'수집 항목', pv_items:'성명, 생년월일, 연락처, 주소, 두피 상태 정보',
+    pv_purpose_k:'수집 목적', pv_purpose:'두피케어 상담 및 예약 관리',
+    pv_period_k:'보유 기간', pv_period:'서비스 제공 완료 후 1년',
+    privacy_link:'개인정보처리방침 전문 보기',
+    privacy_mkt:'마케팅 정보 수신 동의',
+    privacy_mkt_detail:'이벤트, 프로모션, 신규 서비스 안내를 받아보실 수 있어요.',
+    promo_title:'첫 방문 30% 할인', promo_body:'마케팅 정보 수신에 동의하시면 바로 적용돼요!',
     err_privacy:'개인정보 수집·이용에 동의해주세요.',
-    b_notice_header:'예약 전 확인해주세요',
-    b_notice_tips:'★ 당일 샴푸는 하지 않아도 괜찮습니다!\n★ 관리 중 네이프라인(목 뒤) 마사지가 포함되어 있어 목폴라·하이넥 착용 시 안에 나시 또는 가벼운 이너 착용을 추천드립니다 :)',
-    b_notice_ops:['매장 예약, 운영 상황에 따라 2인룸 사용이 어려운 경우 1인룸에서 각각 관리 진행될 수 있으니 참고 부탁드리며 당일 방문시 확인 가능하십니다.','예약 시간에 부득이하게 늦으시는 경우, 다음 고객님과의 스케줄로 인해 관리 시간이 다소 조정될 수 있는 점 깊은 양해 부탁드립니다.'],
-    b_notice_agree:'위 내용을 확인하였습니다',
-    err_booking_notice:'안내 사항을 확인하고 동의해주세요.',
-    btn_next:'NEXT →', btn_back:'← BACK', btn_submit:'SUBMIT →', btn_ing:'제출 중...',
+    btn_next:'다음', btn_back:'이전', btn_submit:'제출하기', btn_ing:'제출 중',
     done_title:'설문이 접수되었습니다',
-    done_desc:'소중한 정보 감사합니다.\nScálpit에서 최적의 두피 케어를 준비하겠습니다.\n예약 당일 편안하게 방문해주세요.',
-    done_name:'이름/생년월일', done_phone:'연락처', done_res:'예약 유형', done_serv:'관심 서비스',
+    done_desc:'소중한 정보 감사합니다.\n스칼프잇에서 최적의 두피 케어를 준비하겠습니다.\n예약 당일 편안하게 방문해주세요.',
+    done_name:'이름', done_phone:'연락처', done_when:'방문 일시', done_branch:'지점', done_serv:'관심 서비스',
     err_server:'오류가 발생했습니다. 다시 시도해주세요.',
     err_network:'서버 연결 오류입니다. 잠시 후 다시 시도해주세요.',
-    lang_switch:'언어 변경',
+    err_rate:'요청이 너무 많습니다. 잠시 후 다시 시도해주세요.',
+    step_of:(c,t)=>`<b>${c}</b> / ${t}`,
   },
   en: {
-    notice_title:'NOTICE',
-    notice_body:"If you reserved for 2 or more people, please share this link with your companions so everyone can complete the form.\nConsultation may be limited if this form is not submitted.",
-    step_of:(c,t)=>`STEP ${c} / ${t}`,
-    s1_eyebrow:'STEP 1 OF 5', s1_title:'Reservation', s1_desc:'Please select the number of guests and consultation type.',
+    notice_title:'Notice',
+    notice_body:"If you booked for 2 or more people, please share this link with your companions so everyone can complete the form.\nConsultation may be limited if the form is not submitted.",
+    s1_title:'Reservation', s1_desc:'Tell us the number of guests, consultation type and your visit time.',
     q_res:'Number of Guests',
-    r1:'2 or more people (link shared with companions!)', r2:'1 person.',
+    r1:'2 or more people (link shared with companions!)', r2:'Just me (1 person)',
     err_res:'Please select the number of guests.',
+    share_text:'Send the form link to your companions.', share_btn:'Share link', share_copied:'Link copied.',
     q_cons:'Consultation Type',
     c1:'Relaxation-focused, light consultation only.', c2:'Detailed diagnosis & consultation.',
     err_cons:'Please select a consultation type.',
-    q_datetime:'Visit Date & Time', ph_time:'Select time',
-    err_date:'Please select a visit date.', err_time:'Please select a visit time.',
-    done_datetime:'Appointment',
-    s2_eyebrow:'STEP 2 OF 5', s2_title:'Basic Info', s2_desc:'Please enter your basic information.',
-    q_name_birth:'Name / Date of Birth', ph_name_birth:'e.g. Jane Doe / 1995.03.15',
-    q_phone:'Phone Number', ph_phone:'e.g. 010-1234-5678',
-    q_addr:'Address', q_addr_hint:'(Neighborhood level)', ph_addr:'e.g. Sinsa-dong, Gangnam-gu, Seoul',
-    err_name:'Please enter your name and date of birth.', err_phone:'Please enter your phone number.', err_addr:'Please enter your address.',
-    s3_eyebrow:'STEP 3 OF 5', s3_title:'History & Source', s3_desc:'Please share your previous treatment experience and how you found us.',
-    q_treat:'Treatment Experience', treat_hint:'Multiple selections allowed',
+    q_date:'Visit Date', err_date:'Please select a visit date.',
+    q_time:'Visit Time', err_time:'Please select a visit time.',
+    s2_title:'About You', s2_desc:'We need this to confirm your booking and prepare your consultation.',
+    q_name:'Name', ph_name:'Jane Doe', err_name:'Please enter your name.',
+    q_birth:'Date of Birth', ph_birth:'1995.03.15', err_birth:'Please enter a valid date (YYYY.MM.DD).',
+    q_phone:'Phone Number', ph_phone:'010-1234-5678', err_phone:'Please enter a valid phone number.',
+    q_addr:'Address', q_addr_hint:'Neighborhood only', ph_addr:'e.g. Buldang-dong, Cheonan', err_addr:'Please enter your address.',
+    s3_title:'History & Source', s3_desc:'Tell us about previous treatments and how you found us.',
+    q_treat:'Treatment Experience', multi:'Multiple', optional:'Optional',
     th1:'Hospital treatment', th2:'Professional scalp care', th3:'Medication',
     th4:'Scalp & hair procedures (Meso, PRP, etc.)', th5:'General salon care', th6:'Home care (scalp shampoo / ampoule, etc.)',
     q_src:'How did you find us?',
-    vs3:'Naver Search', vs4:'Naver Cafe / Blog', vs5:'Referral from friend', vs6:'Signage / Banner',
+    vs1:'Instagram', vs2:'YouTube', vs3:'Naver Search', vs4:'Naver Cafe / Blog', vs5:'Referral from a friend', vs6:'Signage / Banner',
     err_src:'Please select how you found us.',
-    s4_eyebrow:'STEP 4 OF 5', s4_title:'Scalp Concerns', s4_desc:'Please tell us about your current scalp condition and lifestyle.',
-    q_scalp:'Main Scalp Concerns', scalp_hint:'Multiple selections allowed',
+    s4_title:'Scalp & Lifestyle', s4_desc:'Tell us about your current scalp condition and routine.',
+    q_scalp:'Main Scalp Concerns',
     sc1:'Hair loss', sc2:'Itchiness', sc3:'Dryness', sc4:'Oily scalp', sc5:'Dandruff',
     sc6:'Redness / Rash', sc7:'Odor', sc8:'Scalp heat', sc9:'Pimples & inflammation',
     sc10:'Scalp pain / sensitivity', sc11:'Other',
     err_scalp:'Please select at least one concern.',
+    ph_other:'Please describe',
     q_perm:'Perm / Coloring Frequency', ph_perm:'e.g. Color every 2 months, perm once a year',
     q_shampoo:'Shampoo Frequency',
     sf1:'Twice daily (morning & evening)', sf2:'Once daily (morning)', sf3:'Once daily (evening)',
     sf4:'Every other day', sf5:'Other',
     err_shampoo:'Please select your shampoo frequency.',
-    q_genetic:'Hair Loss Genetics', hg1:'Yes', hg2:'No',
-    err_genetic:'Please select your hair loss genetics.',
-    q_pregnant:'Pregnancy / Breastfeeding Status', pg1:'Currently pregnant', pg2:'Currently breastfeeding', pg3:'Not applicable',
-    err_pregnant:'Please select your pregnancy/breastfeeding status.',
-    s5_eyebrow:'STEP 5 OF 5', s5_title:'Service & Consent', s5_desc:'Please select your service interests and complete the consent.',
-    q_serv:'Service Interest', serv_hint:'Multiple selections allowed',
-    ds0_name:'Signature Deep Relaxing Aroma Spa · 80min', ds0_desc:'Deep aroma oil scalp spa for ultimate relaxation | First visit ₩150,000',
-    ds1_name:'Brain Detox Head Spa · 60min', ds1_desc:'Healing head spa specialized for brain fatigue relief | First visit ₩90,000',
-    ds2_name:'Brain Detox Head Spa · 80min', ds2_desc:'Premium brain fatigue relief head spa | First visit ₩120,000',
-    ds3_name:'Premium Hair Loss Solution · 70min', ds3_desc:'Professional hair loss care to strengthen follicles | First visit ₩105,000',
-    ds4_name:'Problematic Scalp Care · 60min', ds4_desc:'Intensive care for seborrheic, sensitive, or inflammatory scalp | First visit ₩90,000',
-    ds5_name:'Pregnancy Head Spa · 60min', ds5_desc:'Gentle and safe scalp care program for expecting mothers | First visit ₩105,000',
+    q_genetic:'Family History of Hair Loss', hg1:'Yes', hg2:'No',
+    err_genetic:'Please select an option.',
+    q_pregnant:'Pregnancy / Breastfeeding', pg1:'Currently pregnant', pg2:'Currently breastfeeding', pg3:'Not applicable',
+    err_pregnant:'Please select an option.',
+    s5_title:'Services & Consent', s5_desc:'Choose your services and review the visit notes and consent.',
+    q_serv:'Services of Interest',
+    ds0:'Signature Deep Relaxing Aroma Spa · 80min', ds0_desc:'Deep aroma oil scalp spa for ultimate relaxation', ds0_price:'First visit ₩150,000',
+    ds1:'Brain Detox Head Spa · 60min', ds1_desc:'Healing head spa specialized for brain fatigue relief', ds1_price:'First visit ₩90,000',
+    ds2:'Brain Detox Head Spa · 80min', ds2_desc:'Premium head spa for brain fatigue relief', ds2_price:'First visit ₩120,000',
+    ds3:'Premium Hair Loss Solution · 70min', ds3_desc:'Professional hair loss care to strengthen follicles', ds3_price:'First visit ₩105,000',
+    ds4:'Problematic Scalp Care · 60min', ds4_desc:'Intensive care for seborrheic, sensitive or inflamed scalps', ds4_price:'First visit ₩90,000',
+    ds5:'Pregnancy Head Spa · 60min', ds5_desc:'Gentle and safe scalp care for expecting mothers', ds5_price:'First visit ₩105,000',
     err_serv:'Please select at least one service.',
-    q_video:'Video Recording Consent',
-    video_desc:"If you'd like us to record your head spa session on your phone, please select 'Yes'.",
-    vc1:"Yes, I'd like to be recorded.", vc2:"No, I don't want to be recorded.",
+    q_video:'Souvenir Video',
+    video_desc:"We can record photos & video of your head spa on your phone. Select 'Yes' if you'd like that.",
+    vc1:'Yes, please record.', vc2:'No, thank you.',
     err_video:'Please select your preference.',
-    privacy_req:'I agree to the collection and use of personal information',
-    privacy_req_detail:'Items: Name, DOB, Phone, Address, Scalp info | Purpose: Consultation & booking management | Retention: 1 year after service',
-    privacy_link:'View full privacy policy →',
-    privacy_mkt:'I agree to receive marketing information (optional)',
-    privacy_mkt_detail:'Receive event, promotion, and new service notifications.',
-    mkt_discount:'Agree to receive marketing info and get<br><strong>30% off your first visit!</strong>',
-    err_privacy:'Please agree to the personal information policy.',
-    b_notice_header:'Before Your Visit',
-    b_notice_tips:"★ No need to wash your hair on the day of your visit!\n★ Our treatment includes a nape-line (back of neck) massage. If wearing a turtleneck or high-neck top, we recommend wearing a tank top or light inner underneath :)",
-    b_notice_ops:["Depending on availability, 2-person rooms may not be available. In that case, guests will be served separately in individual rooms. Please check on the day of your visit.","If you arrive late for your appointment, please note that your treatment time may be adjusted to accommodate the next guest's schedule. We appreciate your understanding."],
-    b_notice_agree:'I have read and understood the above information',
-    err_booking_notice:'Please read and confirm the notice above.',
-    btn_next:'NEXT →', btn_back:'← BACK', btn_submit:'SUBMIT →', btn_ing:'Submitting...',
-    done_title:'Form Submitted',
-    done_desc:"Thank you for your information.\nScálpit will prepare the best scalp care for you.\nWe look forward to your visit.",
-    done_name:'Name / DOB', done_phone:'Phone', done_res:'Reservation', done_serv:'Services',
+    vn_head:'Before Your Visit',
+    vn_tips:['No need to wash your hair on the day of your visit!','Our treatment includes a nape-line (back of neck) massage. If wearing a turtleneck or high-neck top, we recommend a tank top or light inner layer underneath :)'],
+    vn_ops:['Depending on availability, 2-person rooms may not be available. In that case, guests will be served separately in individual rooms. You can check on the day of your visit.','If you arrive late, your treatment time may be adjusted to accommodate the next guest. We appreciate your understanding.'],
+    vn_agree:'I have read and understood the above',
+    err_vn:'Please read and confirm the notes above.',
+    consent_all:'Agree to all',
+    tag_req:'[Required]', tag_opt:'[Optional]',
+    privacy_req:'Collection & use of personal information',
+    pv_items_k:'Items', pv_items:'Name, date of birth, phone, address, scalp condition',
+    pv_purpose_k:'Purpose', pv_purpose:'Scalp care consultation & booking management',
+    pv_period_k:'Retention', pv_period:'1 year after service',
+    privacy_link:'View full privacy policy',
+    privacy_mkt:'Receive marketing information',
+    privacy_mkt_detail:'Get notified about events, promotions and new services.',
+    promo_title:'30% off your first visit', promo_body:'Applied when you agree to receive marketing info!',
+    err_privacy:'Please agree to the collection and use of personal information.',
+    btn_next:'Next', btn_back:'Back', btn_submit:'Submit', btn_ing:'Submitting',
+    done_title:'Your form has been submitted',
+    done_desc:"Thank you for sharing.\nWe'll prepare the best scalp care for you.\nWe look forward to your visit.",
+    done_name:'Name', done_phone:'Phone', done_when:'Appointment', done_branch:'Branch', done_serv:'Services',
     err_server:'An error occurred. Please try again.',
     err_network:'Network error. Please try again later.',
-    lang_switch:'Language',
+    err_rate:'Too many requests. Please try again shortly.',
+    step_of:(c,t)=>`<b>${c}</b> / ${t}`,
   },
   zh: {
     notice_title:'注意事项',
     notice_body:'如果您预约了2人或以上，请将此链接分享给同行人员，请所有人填写。\n未填写问卷可能导致咨询受限。',
-    step_of:(c,t)=>`步骤 ${c} / ${t}`,
-    s1_eyebrow:'第 1 步，共 5 步', s1_title:'预约信息', s1_desc:'请选择预约人数和咨询方式。',
+    s1_title:'预约信息', s1_desc:'请选择预约人数、咨询方式和到访时间。',
     q_res:'预约人数',
     r1:'2人或以上（已共享链接给同行！）', r2:'1人预约',
     err_res:'请选择预约人数。',
+    share_text:'请将问卷链接发送给同行人员。', share_btn:'分享链接', share_copied:'链接已复制。',
     q_cons:'咨询类型',
     c1:'以放松为主，只需简单咨询。', c2:'需要精密诊断和详细咨询。',
     err_cons:'请选择咨询类型。',
-    q_datetime:'预约日期 & 时间', ph_time:'选择时间',
-    err_date:'请选择到访日期。', err_time:'请选择到访时间。',
-    done_datetime:'预约日时',
-    s2_eyebrow:'第 2 步，共 5 步', s2_title:'基本信息', s2_desc:'请输入您的基本信息。',
-    q_name_birth:'姓名 / 出生日期', ph_name_birth:'例) 张三 / 1995.03.15',
-    q_phone:'联系电话', ph_phone:'例) 010-1234-5678',
-    q_addr:'地址', q_addr_hint:'（至街道级别即可）', ph_addr:'例) 首尔 江南区 新沙洞',
-    err_name:'请输入姓名和出生日期。', err_phone:'请输入联系电话。', err_addr:'请输入地址。',
-    s3_eyebrow:'第 3 步，共 5 步', s3_title:'治疗经历 & 来访途径', s3_desc:'请告知您的以往护理经历及如何了解到我们。',
-    q_treat:'护理（治疗）经历', treat_hint:'可多选',
+    q_date:'到访日期', err_date:'请选择到访日期。',
+    q_time:'到访时间', err_time:'请选择到访时间。',
+    s2_title:'基本信息', s2_desc:'用于确认预约及准备咨询。',
+    q_name:'姓名', ph_name:'张三', err_name:'请输入姓名。',
+    q_birth:'出生日期', ph_birth:'1995.03.15', err_birth:'请正确输入出生日期（8位数字）。',
+    q_phone:'联系电话', ph_phone:'010-1234-5678', err_phone:'请正确输入联系电话。',
+    q_addr:'地址', q_addr_hint:'至街道即可', ph_addr:'例) 天安市 不当洞', err_addr:'请输入地址。',
+    s3_title:'护理经历 & 来访途径', s3_desc:'请告知您的以往护理经历及如何了解到我们。',
+    q_treat:'护理（治疗）经历', multi:'可多选', optional:'选填',
     th1:'医院治疗', th2:'专业头皮护理', th3:'药物治疗',
     th4:'头皮&毛发手术（Meso、PRP等）', th5:'普通美发沙龙护理', th6:'家庭护理（头皮洗发水/安瓶等）',
     q_src:'来访途径',
-    vs3:'Naver搜索', vs4:'Naver Cafe/博客', vs5:'朋友介绍', vs6:'招牌/横幅',
+    vs1:'Instagram', vs2:'YouTube', vs3:'Naver搜索', vs4:'Naver Cafe/博客', vs5:'朋友介绍', vs6:'招牌/横幅',
     err_src:'请选择来访途径。',
-    s4_eyebrow:'第 4 步，共 5 步', s4_title:'头皮烦恼', s4_desc:'请告知您目前的头皮状况和生活习惯。',
-    q_scalp:'主要头皮烦恼', scalp_hint:'可多选',
+    s4_title:'头皮烦恼 & 生活习惯', s4_desc:'请告知您目前的头皮状况和生活习惯。',
+    q_scalp:'主要头皮烦恼',
     sc1:'脱发', sc2:'瘙痒', sc3:'干燥', sc4:'油性/油光', sc5:'头皮屑',
     sc6:'红斑/发红', sc7:'气味', sc8:'头皮燥热', sc9:'粉刺&炎症',
     sc10:'头皮疼痛/敏感', sc11:'其他',
     err_scalp:'请至少选择一项头皮烦恼。',
+    ph_other:'请直接输入',
     q_perm:'烫发/染发频率', ph_perm:'例) 染发每2个月一次，烫发一年一次',
     q_shampoo:'洗发频率',
     sf1:'每日早晚各一次', sf2:'每日早晨一次', sf3:'每日晚上一次',
@@ -1036,70 +660,75 @@ const T = {
     err_genetic:'请选择脱发遗传史。',
     q_pregnant:'妊娠 / 哺乳状态', pg1:'妊娠中', pg2:'哺乳中', pg3:'不适用',
     err_pregnant:'请选择妊娠/哺乳状态。',
-    s5_eyebrow:'第 5 步，共 5 步', s5_title:'服务选择 & 同意', s5_desc:'请选择您感兴趣的服务并完成同意事项。',
-    q_serv:'感兴趣的服务', serv_hint:'可多选',
-    ds0_name:'招牌深度舒缓芳香水疗 · 80分钟', ds0_desc:'芳香精油深度放松头皮水疗 | 首次到访 150,000韩元',
-    ds1_name:'脑排毒头皮水疗 · 60分钟', ds1_desc:'专注缓解脑疲劳的治愈系头皮水疗 | 首次到访 90,000韩元',
-    ds2_name:'脑排毒头皮水疗 · 80分钟', ds2_desc:'专注缓解脑疲劳的高级头皮水疗 | 首次到访 120,000韩元',
-    ds3_name:'高级脱发解决方案 · 70分钟', ds3_desc:'改善头皮环境并强化毛根的专业脱发护理 | 首次到访 105,000韩元',
-    ds4_name:'问题头皮护理方案 · 60分钟', ds4_desc:'针对脂溢性、敏感性、炎症性头皮的集中护理 | 首次到访 90,000韩元',
-    ds5_name:'孕妇头皮水疗 · 60分钟', ds5_desc:'专为孕妇设计的安全温和头皮护理 | 首次到访 105,000韩元',
-    err_serv:'请选择感兴趣的服务。',
-    q_video:'拍摄同意',
-    video_desc:"如果您希望用您的手机录制头皮水疗过程，请选择'是'。",
-    vc1:'是，我同意拍摄。', vc2:'否，我不同意拍摄。',
+    s5_title:'服务选择 & 同意', s5_desc:'请选择感兴趣的服务，并确认到访须知和同意事项。',
+    q_serv:'感兴趣的服务',
+    ds0:'招牌深度舒缓芳香水疗 · 80分钟', ds0_desc:'芳香精油深度放松头皮水疗', ds0_price:'首次到访 150,000韩元',
+    ds1:'脑排毒头皮水疗 · 60分钟', ds1_desc:'专注缓解脑疲劳的治愈系头皮水疗', ds1_price:'首次到访 90,000韩元',
+    ds2:'脑排毒头皮水疗 · 80分钟', ds2_desc:'专注缓解脑疲劳的高级头皮水疗', ds2_price:'首次到访 120,000韩元',
+    ds3:'高级脱发解决方案 · 70分钟', ds3_desc:'改善头皮环境并强化毛根的专业脱发护理', ds3_price:'首次到访 105,000韩元',
+    ds4:'问题头皮护理方案 · 60分钟', ds4_desc:'针对脂溢性、敏感性、炎症性头皮的集中护理', ds4_price:'首次到访 90,000韩元',
+    ds5:'孕妇头皮水疗 · 60分钟', ds5_desc:'专为孕妇设计的安全温和头皮护理', ds5_price:'首次到访 105,000韩元',
+    err_serv:'请至少选择一项服务。',
+    q_video:'纪念视频拍摄',
+    video_desc:"可用您的手机为您拍摄头皮水疗过程的视频和照片。如需要，请选择'是'。",
+    vc1:'是，我希望拍摄。', vc2:'否，不需要拍摄。',
     err_video:'请选择您的意愿。',
-    privacy_req:'我同意收集和使用个人信息',
-    privacy_req_detail:'收集项目：姓名、出生日期、联系方式、地址、头皮状况 | 收集目的：头皮护理咨询及预约管理 | 保存期限：服务完成后1年',
-    privacy_link:'查看完整隐私政策 →',
-    privacy_mkt:'我同意接收营销信息（可选）',
-    privacy_mkt_detail:'接收活动、促销、新服务等营销信息。',
-    mkt_discount:'同意接收营销信息即可享受<br><strong>首次到访 30% 折扣！</strong>',
+    vn_head:'到访前请确认',
+    vn_tips:['当天不需要洗发，直接来访即可！','护理过程中包含后颈部按摩。穿高领上衣时，建议内搭背心或薄款内衣 :)'],
+    vn_ops:['根据预约及运营情况，如2人间不可用，将在1人间分别进行护理，请知悉。具体情况可在当日来访时确认。','如预约迟到，因下一位顾客的安排，护理时间可能会有所调整，敬请谅解。'],
+    vn_agree:'我已阅读并了解以上内容',
+    err_vn:'请确认并勾选上述注意事项。',
+    consent_all:'全部同意',
+    tag_req:'[必选]', tag_opt:'[可选]',
+    privacy_req:'同意收集和使用个人信息',
+    pv_items_k:'收集项目', pv_items:'姓名、出生日期、联系方式、地址、头皮状况',
+    pv_purpose_k:'收集目的', pv_purpose:'头皮护理咨询及预约管理',
+    pv_period_k:'保存期限', pv_period:'服务完成后1年',
+    privacy_link:'查看完整隐私政策',
+    privacy_mkt:'同意接收营销信息',
+    privacy_mkt_detail:'接收活动、促销、新服务等信息。',
+    promo_title:'首次到访 30% 折扣', promo_body:'同意接收营销信息即可享受！',
     err_privacy:'请同意个人信息收集和使用。',
-    b_notice_header:'预约前请确认',
-    b_notice_tips:'★ 当天不需要洗发，直接来访即可！\n★ 护理过程中包含颈部（后颈）按摩。穿高领或高领上衣时，建议内搭背心或薄款内衣 :)',
-    b_notice_ops:['根据预约及运营情况，如2人间不可用，将在1人间分别进行护理，请知悉。具体情况可在当日来访时确认。','如因不可抗力导致预约迟到，因下一位顾客的安排，护理时间可能会有所调整，敬请谅解。'],
-    b_notice_agree:'我已阅读并了解以上内容',
-    err_booking_notice:'请确认并同意上述注意事项。',
-    btn_next:'下一步 →', btn_back:'← 上一步', btn_submit:'提交 →', btn_ing:'提交中...',
+    btn_next:'下一步', btn_back:'上一步', btn_submit:'提交', btn_ing:'提交中',
     done_title:'问卷已提交',
     done_desc:'感谢您提供宝贵信息。\nScálpit将为您准备最佳的头皮护理。\n期待您的到来。',
-    done_name:'姓名/出生日期', done_phone:'联系电话', done_res:'预约类型', done_serv:'感兴趣的服务',
+    done_name:'姓名', done_phone:'联系电话', done_when:'预约时间', done_branch:'门店', done_serv:'感兴趣的服务',
     err_server:'发生错误，请重试。', err_network:'服务器连接错误，请稍后重试。',
-    lang_switch:'语言',
+    err_rate:'请求过多，请稍后再试。',
+    step_of:(c,t)=>`<b>${c}</b> / ${t}`,
   },
   ja: {
     notice_title:'ご案内',
     notice_body:'2名以上でご予約の場合は、同行の方にもこのリンクを共有し、全員ご記入ください。\nアンケート未提出の場合、カウンセリングが制限される場合があります。',
-    step_of:(c,t)=>`STEP ${c} / ${t}`,
-    s1_eyebrow:'STEP 1 / 5', s1_title:'予約情報', s1_desc:'予約人数とカウンセリング方法を選択してください。',
+    s1_title:'予約情報', s1_desc:'予約人数、カウンセリング方法、ご来店日時を教えてください。',
     q_res:'予約人数',
     r1:'2名以上のご予約（同行者へのリンク共有済み！）', r2:'1名でのご予約',
     err_res:'予約人数を選択してください。',
+    share_text:'同行の方にアンケートのリンクを送ってください。', share_btn:'リンク共有', share_copied:'リンクをコピーしました。',
     q_cons:'カウンセリングタイプ',
     c1:'リラクゼーション重視、簡単なカウンセリングのみ希望。', c2:'精密診断・カウンセリング希望。',
     err_cons:'カウンセリングタイプを選択してください。',
-    q_datetime:'予約日 & 時間', ph_time:'時間を選択',
-    err_date:'来店日を選択してください。', err_time:'来店時間を選択してください。',
-    done_datetime:'予約日時',
-    s2_eyebrow:'STEP 2 / 5', s2_title:'基本情報', s2_desc:'お客様の基本情報をご入力ください。',
-    q_name_birth:'お名前 / 生年月日', ph_name_birth:'例) 山田太郎 / 1995.03.15',
-    q_phone:'電話番号', ph_phone:'例) 010-1234-5678',
-    q_addr:'ご住所', q_addr_hint:'（町・丁目レベルで可）', ph_addr:'例) ソウル 江南区 新沙洞',
-    err_name:'お名前と生年月日を入力してください。', err_phone:'電話番号を入力してください。', err_addr:'ご住所を入力してください。',
-    s3_eyebrow:'STEP 3 / 5', s3_title:'施術歴 & 来店経路', s3_desc:'これまでの施術経験と、当店をお知りになった経緯を教えてください。',
-    q_treat:'ケア（治療）経験', treat_hint:'複数選択可',
+    q_date:'ご来店日', err_date:'ご来店日を選択してください。',
+    q_time:'ご来店時間', err_time:'ご来店時間を選択してください。',
+    s2_title:'基本情報', s2_desc:'ご予約の確認とカウンセリングの準備に使用します。',
+    q_name:'お名前', ph_name:'山田花子', err_name:'お名前を入力してください。',
+    q_birth:'生年月日', ph_birth:'1995.03.15', err_birth:'生年月日を正しく入力してください（8桁）。',
+    q_phone:'電話番号', ph_phone:'010-1234-5678', err_phone:'電話番号を正しく入力してください。',
+    q_addr:'ご住所', q_addr_hint:'町名まで', ph_addr:'例) 天安市 不当洞', err_addr:'ご住所を入力してください。',
+    s3_title:'施術歴 & 来店経路', s3_desc:'これまでのケア経験と、当店をお知りになった経緯を教えてください。',
+    q_treat:'ケア（治療）経験', multi:'複数選択可', optional:'任意',
     th1:'病院での治療', th2:'専門頭皮ケア', th3:'薬の服用',
-    th4:'頭皮・毛髪施術（メゾ、PRPなど）', th5:'一般美容室でのケア', th6:'ホームケア（頭皮シャンプー/アンプルなど）',
+    th4:'頭皮・毛髪施術（メソ、PRPなど）', th5:'一般美容室でのケア', th6:'ホームケア（頭皮シャンプー/アンプルなど）',
     q_src:'来店経路',
-    vs3:'Naver検索', vs4:'Naver Cafe / ブログ', vs5:'知人の紹介', vs6:'看板 / バナー',
+    vs1:'Instagram', vs2:'YouTube', vs3:'Naver検索', vs4:'Naver Cafe / ブログ', vs5:'知人の紹介', vs6:'看板 / バナー',
     err_src:'来店経路を選択してください。',
-    s4_eyebrow:'STEP 4 / 5', s4_title:'頭皮のお悩み', s4_desc:'現在の頭皮状態と生活習慣を教えてください。',
-    q_scalp:'主な頭皮のお悩み', scalp_hint:'複数選択可',
+    s4_title:'頭皮のお悩み & 生活習慣', s4_desc:'現在の頭皮状態と生活習慣を教えてください。',
+    q_scalp:'主な頭皮のお悩み',
     sc1:'抜け毛・薄毛', sc2:'かゆみ', sc3:'乾燥', sc4:'脂性・テカリ', sc5:'フケ',
     sc6:'赤み・発疹', sc7:'臭い', sc8:'頭皮の熱感', sc9:'ニキビ・炎症',
     sc10:'頭皮の痛み・刺激感', sc11:'その他',
     err_scalp:'頭皮のお悩みを一つ以上選択してください。',
+    ph_other:'直接ご入力ください',
     q_perm:'パーマ / カラーの頻度', ph_perm:'例) カラー2ヶ月に1回、パーマ年1回',
     q_shampoo:'シャンプーの頻度',
     sf1:'毎日朝晩1回ずつ', sf2:'毎日朝1回', sf3:'毎日夜1回',
@@ -1109,322 +738,483 @@ const T = {
     err_genetic:'脱毛の遺伝歴を選択してください。',
     q_pregnant:'妊娠 / 授乳の有無', pg1:'妊娠中', pg2:'授乳中', pg3:'該当なし',
     err_pregnant:'妊娠/授乳の有無を選択してください。',
-    s5_eyebrow:'STEP 5 / 5', s5_title:'サービス選択 & 同意', s5_desc:'ご希望のサービスを選択し、同意事項をご確認ください。',
-    q_serv:'ご興味のあるサービス', serv_hint:'複数選択可',
-    ds0_name:'シグネチャー ディープリラクシング アロマスパ · 80分', ds0_desc:'アロマオイルで深くリラックスする頭皮スパ | 初回 150,000ウォン',
-    ds1_name:'ブレインデトックス ヘッドスパ · 60分', ds1_desc:'脳疲労解消に特化したヒーリングヘッドスパ | 初回 90,000ウォン',
-    ds2_name:'ブレインデトックス ヘッドスパ · 80分', ds2_desc:'脳疲労解消に特化したプレミアムヘッドスパ | 初回 120,000ウォン',
-    ds3_name:'プレミアム 薄毛ソリューション · 70分', ds3_desc:'頭皮環境を改善し毛根を強化する専門的な薄毛ケア | 初回 105,000ウォン',
-    ds4_name:'問題頭皮ケアソリューション · 60分', ds4_desc:'脂漏性・敏感性・炎症性頭皮の集中ケア | 初回 90,000ウォン',
-    ds5_name:'マタニティ ヘッドスパ · 60分', ds5_desc:'妊婦様のための安全で優しい頭皮ケアプログラム | 初回 105,000ウォン',
-    err_serv:'サービスを選択してください。',
-    q_video:'記念撮影の同意',
-    video_desc:"ヘッドスパ中のお姿をお客様のスマートフォンで動画・写真撮影をご希望の場合は「はい」を選択してください。",
-    vc1:'はい、撮影を希望します。', vc2:'いいえ、撮影を希望しません。',
+    s5_title:'サービス選択 & 同意', s5_desc:'ご希望のサービスを選び、ご来店前のご案内と同意事項をご確認ください。',
+    q_serv:'ご興味のあるサービス',
+    ds0:'シグネチャー ディープリラクシング アロマスパ · 80分', ds0_desc:'アロマオイルで深くリラックスする頭皮スパ', ds0_price:'初回 150,000ウォン',
+    ds1:'ブレインデトックス ヘッドスパ · 60分', ds1_desc:'脳疲労解消に特化したヒーリングヘッドスパ', ds1_price:'初回 90,000ウォン',
+    ds2:'ブレインデトックス ヘッドスパ · 80分', ds2_desc:'脳疲労解消に特化したプレミアムヘッドスパ', ds2_price:'初回 120,000ウォン',
+    ds3:'プレミアム 薄毛ソリューション · 70分', ds3_desc:'頭皮環境を改善し毛根を強化する専門的な薄毛ケア', ds3_price:'初回 105,000ウォン',
+    ds4:'問題頭皮ケアソリューション · 60分', ds4_desc:'脂漏性・敏感性・炎症性頭皮の集中ケア', ds4_price:'初回 90,000ウォン',
+    ds5:'マタニティ ヘッドスパ · 60分', ds5_desc:'妊婦様のための安全で優しい頭皮ケアプログラム', ds5_price:'初回 105,000ウォン',
+    err_serv:'サービスを一つ以上選択してください。',
+    q_video:'記念撮影',
+    video_desc:'ヘッドスパ中のお姿をお客様のスマートフォンで動画・写真撮影いたします。ご希望の場合は「はい」を選択してください。',
+    vc1:'はい、撮影を希望します。', vc2:'いいえ、希望しません。',
     err_video:'ご意向を選択してください。',
-    privacy_req:'個人情報の収集・利用に同意します',
-    privacy_req_detail:'収集項目：氏名、生年月日、連絡先、住所、頭皮状態 | 収集目的：頭皮ケア相談・予約管理 | 保有期間：サービス完了後1年',
-    privacy_link:'個人情報処理方針の全文を見る →',
-    privacy_mkt:'マーケティング情報の受信に同意します（任意）',
-    privacy_mkt_detail:'イベント、プロモーション、新規サービスなどのマーケティング情報を受信します。',
-    mkt_discount:'マーケティング情報の受信に同意すると<br><strong>初回 30% 割引</strong>が適用されます！',
+    vn_head:'ご来店前のご確認',
+    vn_tips:['当日のシャンプーはしなくて大丈夫です！','施術中にネープライン（首の後ろ）マッサージが含まれています。タートルネックやハイネックをお召しの場合は、中にキャミソールや薄手のインナーの着用をお勧めします :)'],
+    vn_ops:['ご予約・運営状況によっては2人部屋のご利用が難しい場合があり、その際は1人部屋にて各々施術を行います。当日ご来店時にご確認いただけます。','ご予約時間に遅れた場合、次のお客様のスケジュールの都合上、施術時間が多少調整される場合がございます。何卒ご理解ください。'],
+    vn_agree:'上記内容を確認しました',
+    err_vn:'ご案内をご確認のうえ、チェックしてください。',
+    consent_all:'すべてに同意する',
+    tag_req:'[必須]', tag_opt:'[任意]',
+    privacy_req:'個人情報の収集・利用への同意',
+    pv_items_k:'収集項目', pv_items:'氏名、生年月日、連絡先、住所、頭皮状態',
+    pv_purpose_k:'収集目的', pv_purpose:'頭皮ケア相談・予約管理',
+    pv_period_k:'保有期間', pv_period:'サービス完了後1年',
+    privacy_link:'個人情報処理方針の全文を見る',
+    privacy_mkt:'マーケティング情報の受信への同意',
+    privacy_mkt_detail:'イベント、プロモーション、新サービスのご案内をお届けします。',
+    promo_title:'初回 30% 割引', promo_body:'マーケティング情報の受信に同意すると適用されます！',
     err_privacy:'個人情報の収集・利用に同意してください。',
-    b_notice_header:'ご来店前のご確認',
-    b_notice_tips:'★ 当日のシャンプーはしなくて大丈夫です！\n★ 施術中にネープライン（首の後ろ）マッサージが含まれています。タートルネックやハイネックをお召しの場合は、中にキャミソールや薄手のインナーの着用をお勧めします :)',
-    b_notice_ops:['ご予約・運営状況によっては、2人部屋のご利用が難しい場合があり、その際は1人部屋にて各々施術を行います。当日ご来店時にご確認いただけます。','ご予約時間に遅れが生じた場合、次のお客様のスケジュールの都合上、施術時間が多少調整される場合がございます。何卒ご理解いただけますようお願い申し上げます。'],
-    b_notice_agree:'上記内容を確認しました',
-    err_booking_notice:'案内事項をご確認のうえ、同意してください。',
-    btn_next:'次へ →', btn_back:'← 戻る', btn_submit:'送信 →', btn_ing:'送信中...',
-    done_title:'アンケートが受け付けられました',
+    btn_next:'次へ', btn_back:'戻る', btn_submit:'送信する', btn_ing:'送信中',
+    done_title:'アンケートを受け付けました',
     done_desc:'貴重な情報をありがとうございます。\nScálpitで最適な頭皮ケアをご準備いたします。\nご来店をお待ちしております。',
-    done_name:'お名前/生年月日', done_phone:'電話番号', done_res:'予約タイプ', done_serv:'ご希望サービス',
+    done_name:'お名前', done_phone:'電話番号', done_when:'ご予約日時', done_branch:'店舗', done_serv:'ご希望サービス',
     err_server:'エラーが発生しました。もう一度お試しください。',
     err_network:'サーバー接続エラーです。しばらくしてからお試しください。',
-    lang_switch:'言語変更',
+    err_rate:'リクエストが多すぎます。しばらくしてからお試しください。',
+    step_of:(c,t)=>`<b>${c}</b> / ${t}`,
   },
 };
 
-const TOTAL_STEPS = 5;
-let currentStep = 1;
+// 관리자 화면 통계·필터가 언어와 무관하게 동작하도록, 저장값은 항상 한국어로 고정
+const STORED = {
+  ds0:'시그니쳐 딥 릴렉싱 아로마스파 80분', ds1:'브레인디톡스 헤드스파 60분', ds2:'브레인디톡스 헤드스파 80분',
+  ds3:'프리미엄 탈모 솔루션 70분', ds4:'문제성 두피 케어 솔루션 60분', ds5:'임산부 헤드스파 60분',
+  vc1:'동의', vc2:'비동의',
+};
+const storedValue = key => STORED[key] || T.ko[key] || key;
+
+const TIMES = [];
+for (let hh = 10; hh < 20; hh++) TIMES.push(`${hh}:00`, `${hh}:30`);
+
+// ── 설문 스키마 ──
+const STEPS = [
+  { en:'Reservation', title:'s1_title', desc:'s1_desc', qs:[
+    { name:'reservationType', type:'radio', label:'q_res', req:true, err:'err_res', opts:['r1','r2'], share:'r1' },
+    { name:'consultationType', type:'radio', label:'q_cons', req:true, err:'err_cons', opts:['c1','c2'] },
+    { name:'visitDate', type:'date', label:'q_date', req:true, err:'err_date' },
+    { name:'visitTime', type:'times', label:'q_time', req:true, err:'err_time' },
+  ]},
+  { en:'About You', title:'s2_title', desc:'s2_desc', qs:[
+    { name:'name', type:'text', label:'q_name', req:true, err:'err_name', ph:'ph_name', autocomplete:'name', maxlength:40 },
+    { name:'birth', type:'text', label:'q_birth', req:true, err:'err_birth', ph:'ph_birth', inputmode:'numeric', autocomplete:'bday', maxlength:10, format:'date' },
+    { name:'phone', type:'tel', label:'q_phone', req:true, err:'err_phone', ph:'ph_phone', inputmode:'tel', autocomplete:'tel', maxlength:20, format:'phone' },
+    { name:'address', type:'text', label:'q_addr', chip:'q_addr_hint', req:true, err:'err_addr', ph:'ph_addr', maxlength:100 },
+  ]},
+  { en:'History', title:'s3_title', desc:'s3_desc', qs:[
+    { name:'treatmentHistory', type:'checkbox', label:'q_treat', chip:'multi', chip2:'optional', opts:['th1','th2','th3','th4','th5','th6'] },
+    { name:'visitSource', type:'radio', label:'q_src', req:true, err:'err_src', grid:true, opts:['vs1','vs2','vs3','vs4','vs5','vs6'] },
+  ]},
+  { en:'Scalp & Lifestyle', title:'s4_title', desc:'s4_desc', qs:[
+    { name:'scalpConcerns', type:'checkbox', label:'q_scalp', chip:'multi', req:true, err:'err_scalp', grid:true,
+      opts:['sc1','sc2','sc3','sc4','sc5','sc6','sc7','sc8','sc9','sc10','sc11'], wide:['sc11'], other:'sc11' },
+    { name:'shampooFrequency', type:'radio', label:'q_shampoo', req:true, err:'err_shampoo', opts:['sf1','sf2','sf3','sf4','sf5'], other:'sf5' },
+    { name:'hairLossGenetic', type:'radio', label:'q_genetic', req:true, err:'err_genetic', grid:true, opts:['hg1','hg2'] },
+    { name:'pregnancyStatus', type:'radio', label:'q_pregnant', req:true, err:'err_pregnant', opts:['pg3','pg1','pg2'] },
+    { name:'permFrequency', type:'text', label:'q_perm', chip:'optional', ph:'ph_perm', maxlength:200 },
+  ]},
+  { en:'Services & Consent', title:'s5_title', desc:'s5_desc', qs:[
+    { name:'desiredServices', type:'service', label:'q_serv', chip:'multi', req:true, err:'err_serv',
+      opts:[['ds0','SIGNATURE AROMA SPA'],['ds1','BRAIN DETOX HEAD SPA'],['ds2','BRAIN DETOX HEAD SPA · PREMIUM'],
+            ['ds3','PREMIUM HAIR LOSS SOLUTION'],['ds4','PROBLEMATIC SCALP CARE'],['ds5','PREGNANCY HEAD SPA']] },
+    { name:'videoConsent', type:'radio', label:'q_video', help:'video_desc', req:true, err:'err_video', opts:['vc1','vc2'] },
+    { name:'bookingNotice', type:'notice', err:'err_vn' },
+    { name:'privacy', type:'consent', err:'err_privacy' },
+  ]},
+];
+
+const ICON_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const ICON_ERR = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>';
+const ICON_SHARE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M7 8l5-5 5 5M5 14v5a2 2 0 002 2h10a2 2 0 002-2v-5"/></svg>';
+const ICON_ARROW = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const h = (tag, attrs = {}, html = '') => { const e = document.createElement(tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (html) e.innerHTML = html; return e; };
+const todayStr = () => new Date().toLocaleDateString('sv');
+
+// 지점: /cheonan → ?b=cheonan
+const branchSlug = location.pathname.split('/').filter(Boolean)[0] || '';
+const branchParam = branchSlug ? `?b=${encodeURIComponent(branchSlug)}` : '';
+let branch = { slug:'root', name:'' };
+
 let lang = 'ko';
-let branchName = '스칼프잇';
+let current = 0;
+let submitting = false;
+let dirty = false;
 
-const _pathSlug = window.location.pathname.split('/').filter(Boolean)[0] || '';
-const _branchParam = _pathSlug ? `?b=${_pathSlug}` : '';
-fetch('/api/branch' + _branchParam).then(r => r.json()).then(b => {
-  branchName = b.name;
-  if (b.slug !== 'root') {
-    const el = document.getElementById('headerBranch');
-    el.textContent = b.name;
-    el.style.display = '';
-  }
-  if (b.bizNo && b.address) {
-    document.getElementById('bizInfo').innerHTML =
-      `상호: 스칼프잇${b.name} &nbsp;|&nbsp; 사업자번호: ${b.bizNo}<br>주소: ${b.address}`;
-  }
-}).catch(() => {});
-
-function selectLang(l) {
-  lang = l;
-  document.getElementById('langScreen').classList.add('hidden');
-  document.getElementById('mainHeader').style.display = '';
-  document.getElementById('formWrap').style.display = '';
-  document.getElementById('langSwitchBtn').style.display = '';
-  // 날짜 최솟값을 오늘로 설정
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('visitDate').min = today;
-  applyLang();
-  updateProgress();
-  window.scrollTo(0, 0);
+function buildForm() {
+  const root = $('#steps');
+  STEPS.forEach((step, i) => {
+    const sec = h('section', { class:'step', id:`step${i+1}`, 'aria-labelledby':`stitle${i+1}` });
+    sec.innerHTML = `
+      <div class="step-head">
+        <div class="step-kicker"><span class="step-num">0${i+1}</span><span class="step-en">${step.en}</span></div>
+        <h1 class="step-title" id="stitle${i+1}" tabindex="-1" data-t="${step.title}"></h1>
+        <p class="step-desc" data-t="${step.desc}"></p>
+      </div>`;
+    step.qs.forEach(q => sec.appendChild(buildQuestion(q)));
+    root.appendChild(sec);
+  });
 }
-function openLangScreen() { document.getElementById('langScreen').classList.remove('hidden'); }
+
+function buildQuestion(q) {
+  const block = h('div', { class:'q-block', id:`q-${q.name}` });
+  if (q.type === 'consent') { block.innerHTML = consentHTML(); return block; }
+  if (q.type === 'notice') { block.innerHTML = noticeHTML(); return withEvents(block); }
+
+  const labelId = `lbl-${q.name}`;
+  let head = `<div class="q-head"><span class="q-label" id="${labelId}" data-t="${q.label}"></span>${q.req ? '<span class="q-req" aria-hidden="true">*</span>' : ''}`;
+  if (q.chip) head += `<span class="q-chip" data-t="${q.chip}"></span>`;
+  if (q.chip2) head += `<span class="q-chip" data-t="${q.chip2}"></span>`;
+  head += '</div>';
+  if (q.help) head += `<p class="q-help" data-t="${q.help}"></p>`;
+  block.innerHTML = head;
+
+  if (q.type === 'text' || q.type === 'tel' || q.type === 'date') {
+    const input = h('input', {
+      class:'input', type:q.type, id:q.name, name:q.name, 'aria-labelledby':labelId,
+      autocomplete:q.autocomplete || 'off',
+    });
+    if (q.ph) input.setAttribute('data-tph', q.ph);
+    if (q.maxlength) input.setAttribute('maxlength', q.maxlength);
+    if (q.type === 'date') input.min = todayStr();
+    if (q.inputmode) input.setAttribute('inputmode', q.inputmode);
+    if (q.req) input.setAttribute('aria-required', 'true');
+    if (q.format) input.addEventListener('input', () => formatInput(input, q.format));
+    block.appendChild(input);
+  } else {
+    const multi = q.type === 'checkbox' || q.type === 'service';
+    const times = q.type === 'times';
+    const opts = h('div', { class:`opts${q.grid ? ' grid' : ''}${times ? ' times' : ''}`, role: multi ? 'group' : 'radiogroup', 'aria-labelledby':labelId });
+    (times ? TIMES : q.opts).forEach(o => {
+      const [key, en] = Array.isArray(o) ? o : [o];
+      const id = `${q.name}-${key.replace(':', '')}`;
+      const wrap = h('div', { class:`opt${multi ? ' multi' : ''}${q.type === 'service' ? ' svc' : ''}${q.wide?.includes(key) ? ' wide' : ''}` });
+      const input = h('input', { type: multi ? 'checkbox' : 'radio', name:q.name, id, value: times ? key : storedValue(key), 'data-key':key });
+      const label = h('label', { for:id });
+      if (q.type === 'service') {
+        label.innerHTML = `<span class="mark">${ICON_CHECK}</span><span class="svc-body"><span class="svc-en">${en}</span><span class="svc-name" data-t="${key}" style="display:block"></span><span class="svc-desc" data-t="${key}_desc" style="display:block"></span><span class="svc-price" data-t="${key}_price"></span></span>`;
+      } else if (times) {
+        label.innerHTML = `<span class="mark">${ICON_CHECK}</span><span>${key}</span>`;
+      } else {
+        label.innerHTML = `<span class="mark">${ICON_CHECK}</span><span data-t="${key}"></span>`;
+      }
+      wrap.append(input, label);
+      opts.appendChild(wrap);
+    });
+    block.appendChild(opts);
+
+    if (q.other) {
+      const other = h('input', { class:'input other-input', type:'text', id:`${q.name}-other`, 'data-tph':'ph_other', maxlength:100, 'aria-label':'other' });
+      block.appendChild(other);
+      opts.addEventListener('change', () => {
+        const on = $(`#${q.name}-${q.other}`).checked;
+        other.classList.toggle('show', on);
+        if (on && document.activeElement?.id === `${q.name}-${q.other}`) setTimeout(() => other.focus(), 50);
+      });
+    }
+    if (q.share) {
+      const share = h('div', { class:'share', id:'shareBox' });
+      share.innerHTML = `<span class="share-text" data-t="share_text"></span><button type="button" class="share-btn">${ICON_SHARE}<span data-t="share_btn"></span></button>`;
+      $('button', share).addEventListener('click', shareLink);
+      block.appendChild(share);
+      opts.addEventListener('change', () => share.classList.toggle('show', $(`#${q.name}-${q.share}`).checked));
+    }
+  }
+
+  if (q.err) block.appendChild(h('div', { class:'err', role:'alert' }, `${ICON_ERR}<span data-t="${q.err}"></span>`));
+  return withEvents(block);
+}
+
+function withEvents(block) {
+  block.addEventListener('input', () => { dirty = true; block.classList.remove('invalid'); });
+  block.addEventListener('change', () => { dirty = true; block.classList.remove('invalid'); });
+  return block;
+}
+
+function noticeHTML() {
+  return `
+    <div class="visit-notice">
+      <div class="visit-notice-head" data-t="vn_head"></div>
+      <div class="visit-notice-body"><div id="vnTips"></div><ul class="ops" id="vnOps"></ul></div>
+      <div class="visit-notice-agree">
+        <label class="check"><input type="checkbox" id="bookingNoticeCheck" /><span class="mark">${ICON_CHECK}</span><span class="check-text" data-t="vn_agree"></span></label>
+      </div>
+    </div>
+    <div class="err" role="alert">${ICON_ERR}<span data-t="err_vn"></span></div>`;
+}
+
+function consentHTML() {
+  return `
+    <div class="consent">
+      <div class="consent-all">
+        <label class="check"><input type="checkbox" id="consentAll" /><span class="mark">${ICON_CHECK}</span><span class="check-text" data-t="consent_all"></span></label>
+      </div>
+      <div class="consent-item">
+        <label class="check"><input type="checkbox" id="privacyRequired" /><span class="mark">${ICON_CHECK}</span>
+          <span class="check-text"><span class="tag-req" data-t="tag_req"></span><span data-t="privacy_req"></span></span></label>
+        <dl class="consent-detail">
+          <dt data-t="pv_items_k"></dt> · <dd data-t="pv_items"></dd>
+          <dt data-t="pv_purpose_k"></dt> · <dd data-t="pv_purpose"></dd>
+          <dt data-t="pv_period_k"></dt> · <dd data-t="pv_period"></dd>
+        </dl>
+        <a class="consent-link" href="/scalpit-privacy.html" target="_blank" rel="noopener" data-t="privacy_link"></a>
+        <div class="err" role="alert">${ICON_ERR}<span data-t="err_privacy"></span></div>
+      </div>
+      <div class="consent-item">
+        <div class="promo">
+          <div class="promo-badge">30%<small>OFF</small></div>
+          <div class="promo-copy"><strong data-t="promo_title"></strong><span data-t="promo_body"></span></div>
+        </div>
+        <label class="check"><input type="checkbox" id="privacyMarketing" /><span class="mark">${ICON_CHECK}</span>
+          <span class="check-text"><span class="tag-opt" data-t="tag_opt"></span><span data-t="privacy_mkt"></span></span></label>
+        <p class="consent-detail" data-t="privacy_mkt_detail"></p>
+      </div>
+    </div>`;
+}
+
+function wireConsent() {
+  const all = $('#consentAll'), req = $('#privacyRequired'), mkt = $('#privacyMarketing');
+  all.addEventListener('change', () => { req.checked = mkt.checked = all.checked; $('#q-privacy').classList.remove('invalid'); });
+  [req, mkt].forEach(c => c.addEventListener('change', () => { all.checked = req.checked && mkt.checked; $('#q-privacy').classList.remove('invalid'); }));
+}
+
+// ── 입력 포맷 ──
+function formatInput(input, kind) {
+  const d = input.value.replace(/\D/g, '');
+  if (kind === 'date') {
+    const s = d.slice(0, 8);
+    input.value = s.length > 6 ? `${s.slice(0,4)}.${s.slice(4,6)}.${s.slice(6)}` : s.length > 4 ? `${s.slice(0,4)}.${s.slice(4)}` : s;
+  }
+  if (kind === 'phone' && /^01/.test(d) && !/[+]/.test(input.value)) {
+    const s = d.slice(0, 11);
+    input.value = s.length > 7 ? `${s.slice(0,3)}-${s.slice(3, s.length - 4)}-${s.slice(-4)}`
+      : s.length > 3 ? `${s.slice(0,3)}-${s.slice(3)}` : s;
+  }
+}
+
+function validBirth(v) {
+  const m = v.match(/^(\d{4})\.(\d{2})\.(\d{2})$/);
+  if (!m) return false;
+  const [y, mo, d] = [+m[1], +m[2], +m[3]];
+  const dt = new Date(y, mo - 1, d);
+  return y >= 1920 && dt <= new Date() && dt.getMonth() === mo - 1 && dt.getDate() === d;
+}
+
+// ── 언어 ──
+function loadFontFor(l) {
+  const fam = { ja:'Noto+Sans+JP', zh:'Noto+Sans+SC' }[l];
+  if (!fam || document.getElementById(`font-${l}`)) return;
+  document.head.appendChild(h('link', { id:`font-${l}`, rel:'stylesheet', href:`https://fonts.googleapis.com/css2?family=${fam}:wght@400;500;700&display=swap` }));
+}
 
 function applyLang() {
   const t = T[lang];
-  document.getElementById('nTitle').textContent = t.notice_title;
-  document.getElementById('nBody').textContent = t.notice_body;
-  document.getElementById('langSwitchBtn').textContent = t.lang_switch;
-
-  // Step 1
-  document.getElementById('s1Eyebrow').textContent = t.s1_eyebrow;
-  document.getElementById('s1Title').textContent = t.s1_title;
-  document.getElementById('s1Desc').textContent = t.s1_desc;
-  document.getElementById('qRes').textContent = t.q_res;
-  document.getElementById('rLabel1').textContent = t.r1; document.getElementById('r1').value = t.r1;
-  document.getElementById('rLabel2').textContent = t.r2; document.getElementById('r2').value = t.r2;
-  document.getElementById('err-reservationType').textContent = t.err_res;
-  document.getElementById('qCons').textContent = t.q_cons;
-  document.getElementById('cLabel1').textContent = t.c1; document.getElementById('c1').value = t.c1;
-  document.getElementById('cLabel2').textContent = t.c2; document.getElementById('c2').value = t.c2;
-  document.getElementById('err-consultationType').textContent = t.err_cons;
-  document.getElementById('qDateTime').textContent = t.q_datetime;
-  document.getElementById('phTime').textContent = t.ph_time;
-  document.getElementById('err-visitDate').textContent = t.err_date;
-  document.getElementById('err-visitTime').textContent = t.err_time;
-  document.getElementById('btnNext1').textContent = t.btn_next;
-
-  // Step 2
-  document.getElementById('s2Eyebrow').textContent = t.s2_eyebrow;
-  document.getElementById('s2Title').textContent = t.s2_title;
-  document.getElementById('s2Desc').textContent = t.s2_desc;
-  document.getElementById('qNameBirth').textContent = t.q_name_birth;
-  document.getElementById('nameBirth').placeholder = t.ph_name_birth;
-  document.getElementById('qPhone').textContent = t.q_phone;
-  document.getElementById('phone').placeholder = t.ph_phone;
-  document.getElementById('qAddr').textContent = t.q_addr;
-  document.getElementById('qAddrHint').textContent = t.q_addr_hint;
-  document.getElementById('address').placeholder = t.ph_addr;
-  document.getElementById('err-nameBirth').textContent = t.err_name;
-  document.getElementById('err-phone').textContent = t.err_phone;
-  document.getElementById('err-address').textContent = t.err_addr;
-  document.getElementById('btnPrev2').textContent = t.btn_back;
-  document.getElementById('btnNext2').textContent = t.btn_next;
-
-  // Step 3
-  document.getElementById('s3Eyebrow').textContent = t.s3_eyebrow;
-  document.getElementById('s3Title').textContent = t.s3_title;
-  document.getElementById('s3Desc').textContent = t.s3_desc;
-  document.getElementById('qTreat').textContent = t.q_treat;
-  document.getElementById('treatHint').textContent = t.treat_hint;
-  for (let i = 1; i <= 6; i++) {
-    document.getElementById(`thLabel${i}`).textContent = t[`th${i}`];
-    document.getElementById(`th${i}`).value = t[`th${i}`];
-  }
-  document.getElementById('qSrc').textContent = t.q_src;
-  document.getElementById('vsLabel3').textContent = t.vs3; document.getElementById('vs3').value = t.vs3;
-  document.getElementById('vsLabel4').textContent = t.vs4; document.getElementById('vs4').value = t.vs4;
-  document.getElementById('vsLabel5').textContent = t.vs5; document.getElementById('vs5').value = t.vs5;
-  document.getElementById('vsLabel6').textContent = t.vs6; document.getElementById('vs6').value = t.vs6;
-  document.getElementById('err-visitSource').textContent = t.err_src;
-  document.getElementById('btnPrev3').textContent = t.btn_back;
-  document.getElementById('btnNext3').textContent = t.btn_next;
-
-  // Step 4
-  document.getElementById('s4Eyebrow').textContent = t.s4_eyebrow;
-  document.getElementById('s4Title').textContent = t.s4_title;
-  document.getElementById('s4Desc').textContent = t.s4_desc;
-  document.getElementById('qScalp').textContent = t.q_scalp;
-  document.getElementById('scalpHint').textContent = t.scalp_hint;
-  for (let i = 1; i <= 11; i++) {
-    document.getElementById(`scLabel${i}`).textContent = t[`sc${i}`];
-    document.getElementById(`sc${i}`).value = t[`sc${i}`];
-  }
-  document.getElementById('err-scalpConcerns').textContent = t.err_scalp;
-  document.getElementById('qPerm').textContent = t.q_perm;
-  document.getElementById('permFrequency').placeholder = t.ph_perm;
-  document.getElementById('qShampoo').textContent = t.q_shampoo;
-  for (let i = 1; i <= 5; i++) {
-    document.getElementById(`sfLabel${i}`).textContent = t[`sf${i}`];
-    document.getElementById(`sf${i}`).value = t[`sf${i}`];
-  }
-  document.getElementById('err-shampooFrequency').textContent = t.err_shampoo;
-  document.getElementById('qGenetic').textContent = t.q_genetic;
-  document.getElementById('hgLabel1').textContent = t.hg1; document.getElementById('hg1').value = t.hg1;
-  document.getElementById('hgLabel2').textContent = t.hg2; document.getElementById('hg2').value = t.hg2;
-  document.getElementById('err-hairLossGenetic').textContent = t.err_genetic;
-  document.getElementById('qPregnant').textContent = t.q_pregnant;
-  document.getElementById('pgLabel1').textContent = t.pg1; document.getElementById('pg1').value = t.pg1;
-  document.getElementById('pgLabel2').textContent = t.pg2; document.getElementById('pg2').value = t.pg2;
-  document.getElementById('pgLabel3').textContent = t.pg3; document.getElementById('pg3').value = t.pg3;
-  document.getElementById('err-pregnancyStatus').textContent = t.err_pregnant;
-  document.getElementById('btnPrev4').textContent = t.btn_back;
-  document.getElementById('btnNext4').textContent = t.btn_next;
-
-  // Step 5
-  document.getElementById('s5Eyebrow').textContent = t.s5_eyebrow;
-  document.getElementById('s5Title').textContent = t.s5_title;
-  document.getElementById('s5Desc').textContent = t.s5_desc;
-  document.getElementById('qServ').textContent = t.q_serv;
-  document.getElementById('servHint').textContent = t.serv_hint;
-  document.getElementById('dsName0').textContent = t.ds0_name; document.getElementById('dsDesc0').textContent = t.ds0_desc;
-  document.getElementById('dsName1').textContent = t.ds1_name; document.getElementById('dsDesc1').textContent = t.ds1_desc;
-  document.getElementById('dsName2').textContent = t.ds2_name; document.getElementById('dsDesc2').textContent = t.ds2_desc;
-  document.getElementById('dsName3').textContent = t.ds3_name; document.getElementById('dsDesc3').textContent = t.ds3_desc;
-  document.getElementById('dsName4').textContent = t.ds4_name; document.getElementById('dsDesc4').textContent = t.ds4_desc;
-  document.getElementById('dsName5').textContent = t.ds5_name; document.getElementById('dsDesc5').textContent = t.ds5_desc;
-  document.getElementById('err-desiredServices').textContent = t.err_serv;
-  // 예약 안내 박스
-  document.getElementById('bNoticeHeader').textContent = t.b_notice_header;
-  document.getElementById('bNoticeTips').innerHTML = t.b_notice_tips.split('\n').map(l => `<div>${l}</div>`).join('');
-  document.getElementById('bNoticeOps').innerHTML = t.b_notice_ops.map(p => `<p>• ${p}</p>`).join('');
-  document.getElementById('bNoticeAgreeText').textContent = t.b_notice_agree;
-  document.getElementById('err-bookingNotice').textContent = t.err_booking_notice;
-  document.getElementById('qVideo').textContent = t.q_video;
-  document.getElementById('videoDesc').textContent = t.video_desc;
-  document.getElementById('vcLabel1').textContent = t.vc1;
-  document.getElementById('vcLabel2').textContent = t.vc2;
-  document.getElementById('err-videoConsent').textContent = t.err_video;
-  document.getElementById('privacyReqText').textContent = t.privacy_req;
-  document.getElementById('privacyReqDetail').textContent = t.privacy_req_detail;
-  document.getElementById('privacyLinkText').textContent = t.privacy_link;
-  document.getElementById('mktDiscountCopy').innerHTML = t.mkt_discount;
-  document.getElementById('privacyMktText').textContent = t.privacy_mkt;
-  document.getElementById('privacyMktDetail').textContent = t.privacy_mkt_detail;
-  document.getElementById('err-privacy').textContent = t.err_privacy;
-  document.getElementById('btnPrev5').textContent = t.btn_back;
-  document.getElementById('btnSubmit').textContent = t.btn_submit;
+  document.documentElement.lang = lang;
+  $$('[data-t]').forEach(el => { const v = t[el.dataset.t]; if (typeof v === 'string') el.textContent = v; });
+  $$('[data-tph]').forEach(el => { el.placeholder = t[el.dataset.tph] || ''; });
+  const tips = $('#vnTips'), ops = $('#vnOps');
+  tips.replaceChildren(...t.vn_tips.map(s => { const p = h('p', { class:'tip' }); p.textContent = s; return p; }));
+  ops.replaceChildren(...t.vn_ops.map(s => { const li = h('li'); li.textContent = s; return li; }));
+  $('#langPillText').textContent = lang.toUpperCase();
+  updateNav();
 }
 
-function updateProgress() {
+function selectLang(l) {
+  lang = l;
+  try { localStorage.setItem('scalpit-lang', l); } catch {}
+  loadFontFor(l);
+  applyLang();
+  $('#intro').classList.add('hidden');
+  ['#header', '#form', '#actionbar'].forEach(s => $(s).hidden = false);
+  if (!$('.step.active')) showStep(0, false);
+}
+
+// ── 지점 정보 ──
+function loadBranch() {
+  fetch('/api/branch' + branchParam).then(r => r.json()).then(b => {
+    branch = b;
+    if (b.slug !== 'root') {
+      $('#introBranch').textContent = b.name; $('#introBranch').hidden = false;
+      $('#headerBranch').textContent = b.name; $('#headerBranch').hidden = false;
+      document.title = `Scálpit ${b.name} | 사전 상담 설문지`;
+    }
+    if (b.bizNo && b.address) {
+      const biz = $('#biz');
+      biz.replaceChildren(`상호: 스칼프잇 ${b.name}  |  사업자번호: ${b.bizNo}`, h('br'), `주소: ${b.address}`);
+      biz.hidden = false;
+    }
+  }).catch(() => {});
+}
+
+// ── 단계 이동 ──
+function updateNav() {
   const t = T[lang];
-  const pct = Math.round((currentStep / TOTAL_STEPS) * 100);
-  document.getElementById('stepLabel').textContent = t.step_of(currentStep, TOTAL_STEPS);
-  document.getElementById('stepPct').textContent = `${pct}%`;
-  for (let i = 1; i <= TOTAL_STEPS; i++) {
-    const dot = document.getElementById(`dot${i}`);
-    dot.classList.remove('active', 'done');
-    if (i < currentStep) dot.classList.add('done');
-    else if (i === currentStep) dot.classList.add('active');
-    if (i < TOTAL_STEPS) document.getElementById(`line${i}`).classList.toggle('done', i < currentStep);
-  }
+  const last = current === STEPS.length - 1;
+  $('#btnNext').innerHTML = submitting
+    ? `<span class="spinner"></span><span>${t.btn_ing}</span>`
+    : `<span>${last ? t.btn_submit : t.btn_next}</span>${last ? '' : ICON_ARROW}`;
+  $('#btnBack').hidden = current === 0;
+  $('#stepCount').innerHTML = t.step_of(current + 1, STEPS.length);
+  $('#progressFill').style.width = `${((current + 1) / STEPS.length) * 100}%`;
+  $('#progress').setAttribute('aria-valuenow', current + 1);
 }
 
-function showStep(n) {
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.getElementById(`step${n}`).classList.add('active');
-  currentStep = n;
-  updateProgress();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function showStep(n, focus = true) {
+  $$('.step').forEach(s => s.classList.remove('active'));
+  $(`#step${n + 1}`).classList.add('active');
+  $('#notice').hidden = n !== 0;
+  current = n;
+  updateNav();
+  window.scrollTo({ top: 0, behavior: focus ? 'smooth' : 'auto' });
+  if (focus) $(`#stitle${n + 1}`).focus({ preventScroll: true });
 }
 
-function showErr(id, show) {
-  const el = document.getElementById(`err-${id}`);
-  if (el) el.classList.toggle('show', show);
+function checked(name) { return $$(`input[name="${name}"]:checked`); }
+
+function validateStep(i) {
+  const bad = [];
+  STEPS[i].qs.forEach(q => {
+    let ok = true;
+    if (q.type === 'consent') ok = $('#privacyRequired').checked;
+    else if (q.type === 'notice') ok = $('#bookingNoticeCheck').checked;
+    else if (!q.req) ok = true;
+    else if (q.type === 'date') { const v = $(`#${q.name}`).value; ok = !!v && v >= todayStr(); }
+    else if (q.type === 'text' || q.type === 'tel') {
+      const v = $(`#${q.name}`).value.trim();
+      if (q.format === 'date') ok = validBirth(v);
+      else if (q.format === 'phone') ok = v.replace(/\D/g, '').length >= 9;
+      else ok = v.length > 0;
+    } else ok = checked(q.name).length > 0;
+    $(`#q-${q.name}`).classList.toggle('invalid', !ok);
+    if (!ok) bad.push($(`#q-${q.name}`));
+  });
+  if (bad.length) {
+    bad[0].scrollIntoView({ behavior:'smooth', block:'center' });
+    const focusable = $('input', bad[0]);
+    if (focusable && !['radio', 'checkbox', 'date'].includes(focusable.type)) setTimeout(() => focusable.focus({ preventScroll:true }), 300);
+  }
+  return !bad.length;
 }
 
-function nextStep(from) {
-  let ok = true;
-  if (from === 1) {
-    if (!document.querySelector('input[name="reservationType"]:checked')) { showErr('reservationType', true); ok = false; } else showErr('reservationType', false);
-    if (!document.querySelector('input[name="consultationType"]:checked')) { showErr('consultationType', true); ok = false; } else showErr('consultationType', false);
-    if (!document.getElementById('visitDate').value) { showErr('visitDate', true); ok = false; } else showErr('visitDate', false);
-    if (!document.getElementById('visitTime').value) { showErr('visitTime', true); ok = false; } else showErr('visitTime', false);
-  }
-  if (from === 2) {
-    if (!document.getElementById('nameBirth').value.trim()) { showErr('nameBirth', true); ok = false; } else showErr('nameBirth', false);
-    if (!document.getElementById('phone').value.trim()) { showErr('phone', true); ok = false; } else showErr('phone', false);
-    if (!document.getElementById('address').value.trim()) { showErr('address', true); ok = false; } else showErr('address', false);
-  }
-  if (from === 3) {
-    if (!document.querySelector('input[name="visitSource"]:checked')) { showErr('visitSource', true); ok = false; } else showErr('visitSource', false);
-  }
-  if (from === 4) {
-    if (!document.querySelectorAll('input[name="scalpConcerns"]:checked').length) { showErr('scalpConcerns', true); ok = false; } else showErr('scalpConcerns', false);
-    if (!document.querySelector('input[name="shampooFrequency"]:checked')) { showErr('shampooFrequency', true); ok = false; } else showErr('shampooFrequency', false);
-    if (!document.querySelector('input[name="hairLossGenetic"]:checked')) { showErr('hairLossGenetic', true); ok = false; } else showErr('hairLossGenetic', false);
-    if (!document.querySelector('input[name="pregnancyStatus"]:checked')) { showErr('pregnancyStatus', true); ok = false; } else showErr('pregnancyStatus', false);
-  }
-  if (ok) showStep(from + 1);
+function onNext() {
+  if (submitting) return;
+  if (!validateStep(current)) return;
+  if (current < STEPS.length - 1) showStep(current + 1);
+  else submitForm();
 }
 
-function prevStep(from) { showStep(from - 1); }
+// ── 공유 ──
+async function shareLink() {
+  const url = location.origin + location.pathname;
+  if (navigator.share) {
+    try { await navigator.share({ title: document.title, url }); return; } catch (e) { if (e.name === 'AbortError') return; }
+  }
+  try { await navigator.clipboard.writeText(url); toast(T[lang].share_copied); }
+  catch { prompt('', url); }
+}
+
+let toastTimer;
+function toast(msg) {
+  const el = $('#toast');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+// ── 제출 ──
+function withOther(name, otherKey) {
+  const otherText = $(`#${name}-other`)?.value.trim();
+  return checked(name).map(x => x.dataset.key === otherKey && otherText ? `${x.value} (${otherText})` : x.value);
+}
 
 async function submitForm() {
   const t = T[lang];
-  const ds = [...document.querySelectorAll('input[name="desiredServices"]:checked')].map(x => x.value);
-  if (!ds.length) { showErr('desiredServices', true); return; } else showErr('desiredServices', false);
-  if (!document.querySelector('input[name="videoConsent"]:checked')) { showErr('videoConsent', true); return; } else showErr('videoConsent', false);
-  if (!document.getElementById('bookingNoticeCheck').checked) { showErr('bookingNotice', true); return; } else showErr('bookingNotice', false);
-  if (!document.getElementById('privacyRequired').checked) { showErr('privacy', true); return; } else showErr('privacy', false);
-
-  const btn = document.getElementById('btnSubmit');
-  btn.textContent = t.btn_ing; btn.disabled = true;
-
-  const nb = document.getElementById('nameBirth').value.trim();
-  const namePart = nb.split('/')[0].trim();
-
-  const visitDate = document.getElementById('visitDate').value;
-  const visitTime = document.getElementById('visitTime').value;
-
+  const name = $('#name').value.trim();
+  const birth = $('#birth').value.trim();
   const data = {
     lang,
-    reservationType: document.querySelector('input[name="reservationType"]:checked')?.value || '',
-    consultationType: document.querySelector('input[name="consultationType"]:checked')?.value || '',
-    visitDate,
-    visitTime,
-    nameBirth: nb,
-    name: namePart,
-    phone: document.getElementById('phone').value.trim(),
-    address: document.getElementById('address').value.trim(),
-    treatmentHistory: [...document.querySelectorAll('input[name="treatmentHistory"]:checked')].map(x => x.value),
-    visitSource: document.querySelector('input[name="visitSource"]:checked')?.value || '',
-    scalpConcerns: [...document.querySelectorAll('input[name="scalpConcerns"]:checked')].map(x => x.value),
-    permFrequency: document.getElementById('permFrequency').value.trim(),
-    shampooFrequency: document.querySelector('input[name="shampooFrequency"]:checked')?.value || '',
-    hairLossGenetic: document.querySelector('input[name="hairLossGenetic"]:checked')?.value || '',
-    pregnancyStatus: document.querySelector('input[name="pregnancyStatus"]:checked')?.value || '',
-    desiredServices: ds,
-    videoConsent: document.querySelector('input[name="videoConsent"]:checked')?.value || '',
-    marketingConsent: document.getElementById('privacyMarketing').checked,
+    reservationType: checked('reservationType')[0]?.value || '',
+    consultationType: checked('consultationType')[0]?.value || '',
+    visitDate: $('#visitDate').value,
+    visitTime: checked('visitTime')[0]?.value || '',
+    nameBirth: `${name} / ${birth}`,
+    name,
+    phone: $('#phone').value.trim(),
+    address: $('#address').value.trim(),
+    treatmentHistory: checked('treatmentHistory').map(x => x.value),
+    visitSource: checked('visitSource')[0]?.value || '',
+    scalpConcerns: withOther('scalpConcerns', 'sc11'),
+    permFrequency: $('#permFrequency').value.trim(),
+    shampooFrequency: withOther('shampooFrequency', 'sf5')[0] || '',
+    hairLossGenetic: checked('hairLossGenetic')[0]?.value || '',
+    pregnancyStatus: checked('pregnancyStatus')[0]?.value || '',
+    desiredServices: checked('desiredServices').map(x => x.value),
+    videoConsent: checked('videoConsent')[0]?.value || '',
+    privacyConsent: $('#privacyRequired').checked,
+    marketingConsent: $('#privacyMarketing').checked,
   };
 
+  submitting = true; $('#btnNext').disabled = true; updateNav();
   try {
-    const res = await fetch('/api/submit' + _branchParam, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
+    const res = await fetch('/api/submit' + branchParam, {
+      method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error('server');
-    const json = await res.json();
-    if (!json.success) throw new Error('server');
-
-    document.getElementById('formWrap').style.display = 'none';
-    document.getElementById('doneTitle').textContent = t.done_title;
-    document.getElementById('doneDesc').textContent = t.done_desc;
-    // 날짜 포맷: YYYY-MM-DD → YYYY.MM.DD
-    const dateFormatted = visitDate ? visitDate.replace(/-/g, '.') : '';
-    document.getElementById('doneInfo').innerHTML = `
-      <div class="done-info-row"><span class="key">${t.done_name}</span><span class="val">${data.nameBirth}</span></div>
-      <div class="done-info-row"><span class="key">${t.done_phone}</span><span class="val">${data.phone}</span></div>
-      <div class="done-info-row"><span class="key">${t.done_datetime}</span><span class="val">${dateFormatted} ${visitTime}</span></div>
-      <div class="done-info-row"><span class="key">${t.done_res}</span><span class="val">${data.reservationType}</span></div>
-      <div class="done-info-row"><span class="key">${t.done_serv}</span><span class="val">${data.desiredServices.join(', ')}</span></div>
-    `;
-    document.getElementById('doneScreen').classList.add('show');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (res.status === 429) throw new Error('rate');
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || !json.success) throw new Error('server');
+    dirty = false;
+    showDone(data);
   } catch (e) {
-    btn.textContent = t.btn_submit; btn.disabled = false;
-    alert(e.message === 'server' ? t.err_server : t.err_network);
+    toast(e.message === 'rate' ? t.err_rate : e.message === 'server' ? t.err_server : t.err_network);
+  } finally {
+    submitting = false; $('#btnNext').disabled = false; updateNav();
   }
 }
+
+function showDone(data) {
+  const t = T[lang];
+  const label = name => checked(name).map(x => t[x.dataset.key]).join(', ');
+  const rows = [
+    [t.done_name, data.name],
+    [t.done_phone, data.phone],
+    [t.done_when, `${data.visitDate.replace(/-/g, '.')} ${data.visitTime}`],
+    branch.slug !== 'root' && [t.done_branch, branch.name],
+    [t.done_serv, label('desiredServices')],
+  ].filter(Boolean);
+  const box = $('#summary'); box.innerHTML = '';
+  rows.forEach(([k, v]) => {
+    const row = h('div', { class:'summary-row' });
+    const key = h('span', { class:'summary-key' }), val = h('span', { class:'summary-val' });
+    key.textContent = k; val.textContent = v;
+    row.append(key, val);
+    box.appendChild(row);
+  });
+  ['#form', '#actionbar', '#stepCount', '#langPill'].forEach(s => $(s).hidden = true);
+  $('#progressFill').style.width = '100%';
+  $('#done').classList.add('show');
+  window.scrollTo({ top: 0 });
+}
+
+// ── 초기화 ──
+buildForm();
+wireConsent();
+loadBranch();
+$$('.lang-btn').forEach(b => b.addEventListener('click', () => selectLang(b.dataset.lang)));
+$('#langPill').addEventListener('click', () => $('#intro').classList.remove('hidden'));
+$('#btnNext').addEventListener('click', onNext);
+$('#btnBack').addEventListener('click', () => current > 0 && showStep(current - 1));
+$('#form').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.matches('input.input')) { e.preventDefault(); onNext(); }
+});
+window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+try {
+  const saved = localStorage.getItem('scalpit-lang');
+  if (saved) $(`.lang-btn[data-lang="${saved}"]`)?.classList.add('recent');
+} catch {}
+applyLang();
 </script>
 </body>
 </html>

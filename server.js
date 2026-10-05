@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
+const crypto = require('crypto');
 const { Pool } = require('pg');
 
 const app = express();
@@ -8,35 +10,53 @@ const PORT = process.env.PORT || 3000;
 const BRANCHES = {
   cheonan: {
     name: '천안점',
-    password: process.env.CHEONAN_PASSWORD || 'cheonan2024',
+    passwordEnv: 'CHEONAN_PASSWORD',
+    // 비밀번호 원문은 저장소에 두지 않고 scrypt 해시만 보관 (환경변수가 있으면 환경변수 우선)
+    passwordHash: 'scrypt$5ed0d166803a77ce1eeb0fa5c549cf82$798bcad4e87b18cd4de214e05e9cace948652110781fd4b2259363a81ab20354',
     bizNo: '657-01-03945',
     address: '충청남도 천안시 서북구 불당21로 67-8, 2층 208,209호',
   },
   dongtan: {
     name: '동탄점',
-    password: process.env.DONGTAN_PASSWORD || 'dongtan2024',
+    passwordEnv: 'DONGTAN_PASSWORD',
+    // 비밀번호 원문은 저장소에 두지 않고 scrypt 해시만 보관 (환경변수가 있으면 환경변수 우선)
+    passwordHash: 'scrypt$60bf9351f5767150e5934cbeac00cc18$41410dc2a6259bdcf7b42a24b7898c70a022d856935ff9d53794e1bd6e0a9af7',
     bizNo: '501-75-00684',
     address: '경기도 화성시 동탄오산로 86-10, 4층 405호',
   },
   gwanggyo: {
     name: '광교점',
-    password: process.env.GWANGGYO_PASSWORD || 'gwanggyo2024',
+    passwordEnv: 'GWANGGYO_PASSWORD',
+    // 비밀번호 원문은 저장소에 두지 않고 scrypt 해시만 보관 (환경변수가 있으면 환경변수 우선)
+    passwordHash: 'scrypt$11085be7533202b4a5f90bc639edb2fe$4d28cd49c71be1291cf404856abf3cd69e6de7968b81d373467eb3e6230075c8',
     bizNo: '213-35-98664',
     address: '경기도 수원시 영통구 법조로 25(하동) 1114~1116호',
   },
   apgujeong: {
     name: '압구정로데오점',
-    password: process.env.APGUJEONG_PASSWORD || 'apgujeong2024',
+    passwordEnv: 'APGUJEONG_PASSWORD',
+    // 비밀번호 원문은 저장소에 두지 않고 scrypt 해시만 보관 (환경변수가 있으면 환경변수 우선)
+    passwordHash: 'scrypt$40e4d4179442fb405ae44adf7d4ac235$83798c49722b6d70f064289a3e902ae2dff3d45a9d42cfe0a4b88a18e71d9a90',
     bizNo: '407-11-65011',
     address: '서울특별시 강남구 신사동 644-3 세화빌딩 3층 (CU건물 3층)',
   },
+  cheongju: {
+    name: '청주점',
+    passwordEnv: 'CHEONGJU_PASSWORD',
+    // 비밀번호 원문은 저장소에 두지 않고 scrypt 해시만 보관 (환경변수가 있으면 환경변수 우선)
+    passwordHash: 'scrypt$f29c39c48919b5ad8712066619cb08e1$583a38f7120e04e92c83b26d708cc1ebf0718ebdd3de47f76a7efa36f8f39b80',
+    bizNo: '', // 오픈 후 입력
+    address: '',
+  },
 };
-const ROOT_PASSWORD = process.env.ADMIN_PASSWORD || 'scalpit2024';
+// 본사 관리자 비밀번호는 환경변수로만 설정 (미설정 시 본사 관리자 로그인 불가)
+const ROOT_PASSWORD = process.env.ADMIN_PASSWORD || '';
+if (!ROOT_PASSWORD) console.warn('⚠️  ADMIN_PASSWORD 환경변수가 없어 본사 관리자 화면에 로그인할 수 없습니다.');
 
 function getBranch(req) {
   // 1) query param ?b=slug  2) URL path prefix /slug/...  3) subdomain (legacy)
   const qb = req.query.b;
-  if (qb && BRANCHES[qb]) return { slug: qb, ...BRANCHES[qb] };
+  if (typeof qb === 'string' && BRANCHES[qb]) return { slug: qb, ...BRANCHES[qb] };
   const pathSlug = req.path.split('/').filter(Boolean)[0];
   if (pathSlug && BRANCHES[pathSlug]) return { slug: pathSlug, ...BRANCHES[pathSlug] };
   const host = (req.headers.host || '').split(':')[0];
@@ -45,10 +65,26 @@ function getBranch(req) {
   return null;
 }
 
+function safeEqual(a, b) {
+  const ha = crypto.createHash('sha256').update(String(a)).digest();
+  const hb = crypto.createHash('sha256').update(String(b)).digest();
+  return crypto.timingSafeEqual(ha, hb);
+}
+
+function verifyHash(given, stored) {
+  const [, salt, hash] = String(stored).split('$');
+  if (!salt || !hash) return false;
+  const derived = crypto.scryptSync(String(given), salt, 32, { N: 16384, r: 8, p: 1 });
+  return crypto.timingSafeEqual(derived, Buffer.from(hash, 'hex'));
+}
+
 function authPassword(req) {
+  const given = req.headers['x-admin-password'] || '';
+  if (!given) return false;
   const branch = getBranch(req);
-  const expected = branch ? branch.password : ROOT_PASSWORD;
-  return req.headers['x-admin-password'] === expected;
+  if (!branch) return !!ROOT_PASSWORD && safeEqual(given, ROOT_PASSWORD);
+  const envPw = process.env[branch.passwordEnv];
+  return envPw ? safeEqual(given, envPw) : verifyHash(given, branch.passwordHash);
 }
 
 let pool = null;
@@ -59,7 +95,6 @@ if (process.env.DATABASE_URL) {
   });
 }
 
-const fs = require('fs');
 const DATA_DIR = path.join(__dirname, 'data');
 const DATA_FILE = path.join(DATA_DIR, 'submissions.json');
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -95,10 +130,13 @@ async function initDB() {
   `);
 }
 
+// pg는 BIGINT를 문자열로 돌려주므로 숫자로 맞추고, data 안의 값이 id를 덮어쓰지 못하게 순서 고정
+const fromRow = r => ({ ...r.data, id: Number(r.id), submittedAt: r.submittedAt });
+
 async function getSubmissions() {
   if (pool) {
     const res = await pool.query('SELECT id, submitted_at as "submittedAt", data FROM submissions ORDER BY id ASC');
-    return res.rows.map(r => ({ id: r.id, submittedAt: r.submittedAt, ...r.data }));
+    return res.rows.map(fromRow);
   }
   return readJson();
 }
@@ -118,11 +156,78 @@ async function deleteSubmission(id) {
   if (pool) {
     await pool.query('DELETE FROM submissions WHERE id=$1', [id]);
   } else {
-    writeJson(readJson().filter(s => s.id !== id));
+    writeJson(readJson().filter(s => Number(s.id) !== id));
   }
 }
 
-app.use(express.json());
+// 동시 제출 시에도 PK가 겹치지 않도록 ms 타임스탬프 × 1000 + 시퀀스 (Number.MAX_SAFE_INTEGER 이내)
+let lastId = 0;
+function nextId() {
+  lastId = Math.max(Date.now() * 1000, lastId + 1);
+  return lastId;
+}
+
+// ── 입력값 정리: 허용된 필드만, 길이 제한 ──
+function pick(body, strings, arrays = {}) {
+  const out = {};
+  for (const [key, max] of Object.entries(strings)) {
+    if (typeof body[key] === 'string') out[key] = body[key].trim().slice(0, max);
+  }
+  for (const [key, max] of Object.entries(arrays)) {
+    if (Array.isArray(body[key])) {
+      out[key] = body[key].filter(v => typeof v === 'string').slice(0, max).map(v => v.trim().slice(0, 120));
+    }
+  }
+  return out;
+}
+
+const SUBMIT_STRINGS = {
+  lang: 5, reservationType: 100, consultationType: 100,
+  visitDate: 10, visitTime: 5,
+  nameBirth: 80, name: 40, phone: 30, address: 100,
+  visitSource: 60, permFrequency: 200, shampooFrequency: 120,
+  hairLossGenetic: 20, pregnancyStatus: 30, videoConsent: 20,
+};
+const SUBMIT_ARRAYS = { treatmentHistory: 10, scalpConcerns: 15, desiredServices: 10 };
+
+const REVIEW_STRINGS = { revisit: 10, improvement: 1000, comment: 1000 };
+const rating = v => (Number.isInteger(v) && v >= 1 && v <= 5 ? v : null);
+
+// ── 간단한 IP 기반 요청 제한 (외부 의존성 없이) ──
+function rateLimit({ windowMs, max }) {
+  const hits = new Map();
+  setInterval(() => {
+    const now = Date.now();
+    for (const [ip, h] of hits) if (now - h.start > windowMs) hits.delete(ip);
+  }, windowMs).unref();
+  return (req, res, next) => {
+    const now = Date.now();
+    const h = hits.get(req.ip);
+    if (!h || now - h.start > windowMs) { hits.set(req.ip, { start: now, count: 1 }); return next(); }
+    if (++h.count > max) return res.status(429).json({ success: false, message: '요청이 너무 많습니다. 잠시 후 다시 시도해주세요.' });
+    next();
+  };
+}
+const submitLimiter = rateLimit({ windowMs: 10 * 60 * 1000, max: 15 });
+const adminLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 120 });
+
+// 비동기 라우트 에러가 서버를 멈추지 않도록 감싸기
+const wrap = fn => (req, res) => fn(req, res).catch(err => {
+  console.error(`${req.method} ${req.path} 실패:`, err);
+  if (!res.headersSent) res.status(500).json({ success: false, message: '서버 오류가 발생했습니다.' });
+});
+
+app.set('trust proxy', 1);
+app.disable('x-powered-by');
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  if (/admin/.test(req.path) || req.path.startsWith('/api/submissions') || req.path.startsWith('/api/reviews'))
+    res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+  next();
+});
+app.use(express.json({ limit: '50kb' }));
 
 // 매장별 경로 라우팅
 Object.keys(BRANCHES).forEach(slug => {
@@ -143,7 +248,7 @@ app.get('/apply/ja', (req, res) => res.sendFile(path.join(__dirname, 'public/app
 app.get('/apply/zh', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/zh.html')));
 app.get('/apply/admin', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/admin.html')));
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
 
 app.get('/api/branch', (req, res) => {
   const branch = getBranch(req);
@@ -155,36 +260,42 @@ app.get('/api/branch', (req, res) => {
   });
 });
 
-app.post('/api/submit', async (req, res) => {
-  const body = req.body;
-  if (!body.name && !body.nameBirth) return res.status(400).json({ success: false, message: '필수 항목을 입력해주세요.' });
+app.post('/api/submit', submitLimiter, wrap(async (req, res) => {
+  const body = req.body || {};
+  const data = pick(body, SUBMIT_STRINGS, SUBMIT_ARRAYS);
+  if (!data.name && !data.nameBirth) return res.status(400).json({ success: false, message: '필수 항목을 입력해주세요.' });
+  if (body.privacyConsent === false) return res.status(400).json({ success: false, message: '개인정보 수집·이용 동의가 필요합니다.' });
+  data.marketingConsent = body.marketingConsent === true;
+  if (body.privacyConsent === true) data.privacyConsent = true;
   const branch = getBranch(req);
-  const entry = { id: Date.now(), submittedAt: new Date().toISOString(), branch: branch ? branch.name : '본사', ...body };
-  await saveSubmission(entry);
+  await saveSubmission({ ...data, id: nextId(), submittedAt: new Date().toISOString(), branch: branch ? branch.name : '본사' });
   res.json({ success: true });
-});
+}));
 
-app.get('/api/submissions', async (req, res) => {
+app.get('/api/submissions', adminLimiter, wrap(async (req, res) => {
   if (!authPassword(req))
     return res.status(401).json({ success: false, message: '비밀번호가 올바르지 않습니다.' });
   let data = await getSubmissions();
   const branch = getBranch(req);
   if (branch) data = data.filter(d => d.branch === branch.name);
-  res.json({ success: true, data, total: data.length });
-});
+  res.setHeader('Cache-Control', 'no-store');
+  res.json({ success: true, data, total: data.length, storage: pool ? 'postgres' : 'file' });
+}));
 
-app.delete('/api/submissions/:id', async (req, res) => {
+app.delete('/api/submissions/:id', adminLimiter, wrap(async (req, res) => {
   if (!authPassword(req))
     return res.status(401).json({ success: false });
+  const id = Number(req.params.id);
+  if (!Number.isSafeInteger(id)) return res.status(400).json({ success: false });
   const branch = getBranch(req);
   if (branch) {
     const all = await getSubmissions();
-    const entry = all.find(s => s.id === Number(req.params.id));
+    const entry = all.find(s => Number(s.id) === id);
     if (!entry || entry.branch !== branch.name) return res.status(403).json({ success: false });
   }
-  await deleteSubmission(Number(req.params.id));
+  await deleteSubmission(id);
   res.json({ success: true });
-});
+}));
 
 // 크리에이터 신청 API (Notion DB 저장)
 const NOTION_APPLY_DS_ID = process.env.NOTION_APPLY_DS_ID || 'b475231c-18c2-4787-ae33-941fef157e95';
@@ -198,7 +309,7 @@ if (process.env.NOTION_TOKEN) {
   }
 }
 
-app.post('/api/apply/submit', async (req, res) => {
+app.post('/api/apply/submit', submitLimiter, wrap(async (req, res) => {
   const body = req.body || {};
   const { instagram, followers, gifted, visitDate, contact, category, country, upload, repost, health, lang } = body;
   const langCode = ['en', 'ko', 'ja', 'zh'].includes(lang) ? lang : 'unknown';
@@ -244,61 +355,68 @@ app.post('/api/apply/submit', async (req, res) => {
 
   // 로컬 fallback 저장 (Notion 실패 or NOTION_TOKEN 미설정 시)
   try {
-    const entry = { id: Date.now(), submittedAt: new Date().toISOString(), branch: 'apply', lang: langCode, ...body };
+    const entry = { ...body, id: nextId(), submittedAt: new Date().toISOString(), branch: 'apply', lang: langCode };
     await saveSubmission(entry);
   } catch (e) {
     console.error('Local fallback save failed:', e.message);
   }
 
   res.status(200).json({ ok: true });
-});
+}));
 
 // 리뷰 API
-app.post('/api/review', async (req, res) => {
-  const body = req.body;
-  if (!body.overallRating) return res.status(400).json({ success: false, message: '전체 만족도를 선택해주세요.' });
+app.post('/api/review', submitLimiter, wrap(async (req, res) => {
+  const body = req.body || {};
+  const data = pick(body, REVIEW_STRINGS);
+  data.overallRating = rating(body.overallRating);
+  data.staffRating = rating(body.staffRating);
+  data.resultRating = rating(body.resultRating);
+  if (!data.overallRating) return res.status(400).json({ success: false, message: '전체 만족도를 선택해주세요.' });
   const branch = getBranch(req);
-  const entry = { id: Date.now(), submittedAt: new Date().toISOString(), branch: branch ? branch.name : '본사', ...body };
+  const entry = { ...data, id: nextId(), submittedAt: new Date().toISOString(), branch: branch ? branch.name : '본사' };
   if (pool) {
-    const { id, submittedAt, ...data } = entry;
-    await pool.query('INSERT INTO reviews (id, submitted_at, data) VALUES ($1, $2, $3)', [id, submittedAt, JSON.stringify(data)]);
+    const { id, submittedAt, ...rest } = entry;
+    await pool.query('INSERT INTO reviews (id, submitted_at, data) VALUES ($1, $2, $3)', [id, submittedAt, JSON.stringify(rest)]);
   } else {
     const list = readReviews(); list.push(entry); writeReviews(list);
   }
   res.json({ success: true });
-});
+}));
 
-app.get('/api/reviews', async (req, res) => {
+app.get('/api/reviews', adminLimiter, wrap(async (req, res) => {
   if (!authPassword(req))
     return res.status(401).json({ success: false, message: '비밀번호가 올바르지 않습니다.' });
   let data;
   if (pool) {
     const result = await pool.query('SELECT id, submitted_at as "submittedAt", data FROM reviews ORDER BY id DESC');
-    data = result.rows.map(r => ({ id: r.id, submittedAt: r.submittedAt, ...r.data }));
+    data = result.rows.map(fromRow);
   } else { data = readReviews().reverse(); }
   const branch = getBranch(req);
   if (branch) data = data.filter(d => d.branch === branch.name);
+  res.setHeader('Cache-Control', 'no-store');
   res.json({ success: true, data, total: data.length });
-});
+}));
 
-app.delete('/api/reviews/:id', async (req, res) => {
+app.delete('/api/reviews/:id', adminLimiter, wrap(async (req, res) => {
   if (!authPassword(req)) return res.status(401).json({ success: false });
+  const id = Number(req.params.id);
+  if (!Number.isSafeInteger(id)) return res.status(400).json({ success: false });
   const branch = getBranch(req);
   if (branch) {
     let data;
     if (pool) {
-      const result = await pool.query('SELECT id, submitted_at as "submittedAt", data FROM reviews WHERE id=$1', [Number(req.params.id)]);
-      data = result.rows.map(r => ({ id: r.id, submittedAt: r.submittedAt, ...r.data }))[0];
-    } else { data = readReviews().find(r => r.id === Number(req.params.id)); }
+      const result = await pool.query('SELECT id, submitted_at as "submittedAt", data FROM reviews WHERE id=$1', [id]);
+      data = result.rows.map(fromRow)[0];
+    } else { data = readReviews().find(r => Number(r.id) === id); }
     if (!data || data.branch !== branch.name) return res.status(403).json({ success: false });
   }
-  if (pool) { await pool.query('DELETE FROM reviews WHERE id=$1', [Number(req.params.id)]); }
-  else { writeReviews(readReviews().filter(r => r.id !== Number(req.params.id))); }
+  if (pool) { await pool.query('DELETE FROM reviews WHERE id=$1', [id]); }
+  else { writeReviews(readReviews().filter(r => Number(r.id) !== id)); }
   res.json({ success: true });
-});
+}));
 
 initDB().then(() => {
-  app.listen(PORT, () => console.log(`✅ scalpitform 서버 실행: http://localhost:${PORT}`));
+  app.listen(PORT, () => console.log(`✅ scalpitform 서버 실행: http://localhost:${PORT} (${pool ? 'PostgreSQL' : 'JSON 파일'} 저장)`));
 }).catch(err => {
   console.error('DB 초기화 실패, JSON 파일로 대체:', err.message);
   pool = null;

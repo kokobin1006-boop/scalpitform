@@ -2,503 +2,590 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="color-scheme" content="light" />
   <title>Scálpit Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --burg: #7B1A2B;
-      --burg-dark: #5A1020;
-      --cream: #FAF4EE;
-      --cream-mid: #F0E6DC;
-      --gold: #C4A47C;
-      --white: #FFFFFF;
-      --dark: #1C0E0E;
-      --text: #2D1818;
-      --text-muted: #8B7070;
-      --border: #E2D0C4;
-      --bg-burg: #F5ECEC;
+      --burg: #7B1A2B; --burg-deep: #3A1018; --burg-ink: #5A1020; --burg-tint: #FBF3F2;
+      --cream: #FAF6F1; --cream-2: #F3EBE2; --card: #FFFFFF;
+      --gold: #B08D62; --gold-soft: #D9C3A2;
+      --ink: #1E1214; --text: #3A2A2B; --muted: #7D6C6B; --faint: #A99B98;
+      --line: #EBE1D8; --line-strong: #DCCDC1; --danger: #B4232F;
+      --radius: 14px; --radius-sm: 10px;
+      --shadow: 0 1px 2px rgba(58,16,24,.04), 0 4px 16px rgba(58,16,24,.04);
+      --sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+      --serif: 'Cormorant Garamond', serif;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Noto Sans KR', 'Montserrat', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+    body { font-family: var(--sans); background: var(--cream); color: var(--text); min-height: 100vh; letter-spacing: -0.01em; -webkit-font-smoothing: antialiased; }
+    button, input, select { font: inherit; color: inherit; }
+    button { cursor: pointer; background: none; border: none; }
+    :focus-visible { outline: 2px solid var(--burg); outline-offset: 2px; }
+    [hidden] { display: none !important; }
 
-    /* ── 로그인 ── */
-    .login-wrap {
-      min-height: 100vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      background: #3A1018; padding: 24px;
+    /* 로그인 */
+    .login {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px;
+      background: radial-gradient(120% 70% at 50% 0%, #6A1A2A 0%, rgba(106,26,42,0) 60%), var(--burg-deep);
     }
-    .login-brand { text-align: center; margin-bottom: 48px; }
-    .login-logo {
-      height: 48px; width: auto;
-      filter: brightness(0) invert(1);
-      display: block; margin: 0 auto 12px;
-    }
-    .login-brand-line { width: 32px; height: 1px; background: var(--gold); margin: 14px auto; }
-    .login-brand-sub {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 8px; letter-spacing: 5px; color: var(--gold);
-      font-weight: 500; text-transform: uppercase;
-    }
-    .login-box {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 32px 28px; width: 100%; max-width: 320px; text-align: center;
-    }
-    .login-label {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 9px; letter-spacing: 3px; color: rgba(255,255,255,0.35);
-      text-transform: uppercase; margin-bottom: 12px; display: block;
-    }
+    .login-box { width: 100%; max-width: 340px; text-align: center; }
+    .login-logo { width: 150px; filter: brightness(0) invert(1); display: block; margin: 0 auto; }
+    .login-sub { font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--gold-soft); margin-top: 12px; }
+    .login-branch { display: inline-block; margin-top: 14px; padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(217,195,162,.45); color: var(--gold-soft); font-size: 13px; font-weight: 600; }
+    .login-form { margin-top: 36px; display: grid; gap: 10px; }
     .login-input {
-      width: 100%; padding: 13px 16px;
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);
-      color: var(--white); font-size: 14px; outline: none;
-      font-family: 'Montserrat', sans-serif; margin-bottom: 12px;
-      transition: border-color 0.2s;
+      height: 52px; padding: 0 16px; border-radius: 12px; font-size: 16px; outline: none;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); color: #fff;
     }
-    .login-input:focus { border-color: rgba(255,255,255,0.4); }
-    .login-input::placeholder { color: rgba(255,255,255,0.2); }
-    .login-btn {
-      width: 100%; padding: 14px; background: var(--burg); color: var(--white);
-      border: none; cursor: pointer; font-size: 10px; font-weight: 700;
-      font-family: 'Montserrat', sans-serif; letter-spacing: 3px; text-transform: uppercase;
-      transition: background 0.2s;
-    }
-    .login-btn:hover { background: var(--burg-dark); }
-    .login-err { font-size: 12px; color: #E07070; margin-top: 10px; display: none; }
-    .login-err.show { display: block; }
-
-    /* ── 관리자 화면 ── */
-    .admin-wrap { display: none; }
+    .login-input:focus { border-color: var(--gold-soft); }
+    .login-input::placeholder { color: rgba(255,255,255,.35); }
+    .login-btn { height: 52px; border-radius: 12px; background: #fff; color: var(--burg-deep); font-weight: 700; font-size: 15px; transition: opacity .2s; }
+    .login-btn:disabled { opacity: .6; }
+    .login-err { font-size: 13px; color: #F0A0A0; min-height: 20px; }
 
     /* 헤더 */
-    .admin-header {
-      background: var(--burg); padding: 20px 24px;
-      position: sticky; top: 0; z-index: 100;
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(250,246,241,.88); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+    .header-inner { max-width: 1240px; margin: 0 auto; height: 60px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand img { height: 20px; }
+    .brand span { font-size: 12.5px; font-weight: 600; color: var(--muted); padding-left: 12px; border-left: 1px solid var(--line-strong); white-space: nowrap; }
+    .brand b { color: var(--burg); font-weight: 700; }
+    .header-actions { display: flex; gap: 8px; }
+    .ghost-btn {
+      display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px;
+      font-size: 13px; font-weight: 600; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--card);
+      transition: border-color .2s, color .2s; white-space: nowrap;
     }
-    .admin-header-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .admin-header-left { display: flex; flex-direction: column; }
-    .admin-logo {
-      height: 24px; width: auto;
-      filter: brightness(0) invert(1);
-      display: block;
-    }
-    .admin-tagline {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 7px; letter-spacing: 3px; color: rgba(255,255,255,0.45);
-      text-transform: uppercase; margin-top: 4px;
-    }
-    .admin-header-right { display: flex; align-items: center; gap: 10px; }
-    .total-badge {
-      font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 2px;
-      color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.08);
-      padding: 7px 14px; border: 1px solid rgba(255,255,255,0.15);
-    }
-    .logout-btn {
-      font-family: 'Montserrat', sans-serif; font-size: 9px; color: rgba(255,255,255,0.45);
-      cursor: pointer; letter-spacing: 2px; padding: 7px 14px;
-      border: 1px solid rgba(255,255,255,0.15); background: transparent;
-      text-transform: uppercase; transition: all 0.2s;
-    }
-    .logout-btn:hover { border-color: rgba(255,255,255,0.5); color: white; }
+    .ghost-btn:hover { border-color: var(--burg); color: var(--burg); }
 
-    /* 바디 */
-    .admin-body { max-width: 1100px; margin: 0 auto; padding: 36px 20px 80px; }
+    .body { max-width: 1240px; margin: 0 auto; padding: 28px 20px 80px; }
+    .page-title { font-size: 24px; font-weight: 700; color: var(--ink); letter-spacing: -0.025em; }
+    .page-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
-    /* 통계 카드 */
-    .stats-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 10px; margin-bottom: 32px;
-    }
-    .stat-card {
-      background: var(--white); border: 1px solid var(--border);
-      padding: 20px; border-left: 2px solid var(--burg);
-    }
-    .stat-label {
-      font-family: 'Montserrat', sans-serif; font-size: 8px; letter-spacing: 3px;
-      color: var(--burg); text-transform: uppercase; margin-bottom: 10px; font-weight: 600;
-    }
-    .stat-val {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 36px; font-weight: 400; color: var(--dark); line-height: 1;
-    }
-    .stat-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+    .warn { margin-top: 16px; padding: 12px 16px; border-radius: 12px; background: #FFF6E5; border: 1px solid #F0D9A8; color: #7A5410; font-size: 13.5px; line-height: 1.6; }
 
-    /* 필터 바 */
-    .filter-bar { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-    .filter-input {
-      flex: 1; min-width: 200px; padding: 11px 14px;
-      background: var(--white); border: 1px solid var(--border);
-      font-size: 13px; font-family: 'Noto Sans KR', sans-serif;
-      color: var(--text); outline: none;
+    /* 통계 */
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 22px 0 24px; }
+    .stat { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); text-align: left; transition: border-color .2s, transform .2s; }
+    button.stat:hover { border-color: var(--burg); }
+    .stat-label { font-size: 12.5px; font-weight: 600; color: var(--muted); }
+    .stat-val { font-size: 30px; font-weight: 700; color: var(--ink); margin-top: 6px; font-variant-numeric: tabular-nums; letter-spacing: -0.03em; }
+    .stat-val small { font-size: 13px; font-weight: 500; color: var(--faint); margin-left: 4px; letter-spacing: 0; }
+    .stat.accent { background: var(--burg); border-color: var(--burg); }
+    .stat.accent .stat-label { color: rgba(255,255,255,.75); }
+    .stat.accent .stat-val { color: #fff; }
+    .stat.accent .stat-val small { color: rgba(255,255,255,.6); }
+
+    /* 필터 */
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .search { flex: 1; min-width: 220px; position: relative; }
+    .search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--faint); }
+    .search input, .select {
+      height: 44px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--card);
+      font-size: 14px; outline: none; transition: border-color .2s;
     }
-    .filter-input:focus { border-color: var(--burg); }
-    .filter-select {
-      padding: 11px 14px; background: var(--white); border: 1px solid var(--border);
-      font-size: 13px; font-family: 'Noto Sans KR', sans-serif;
-      color: var(--text); outline: none; cursor: pointer;
+    .search input { width: 100%; padding: 0 14px 0 40px; }
+    .select { padding: 0 34px 0 14px; -webkit-appearance: none; appearance: none; cursor: pointer;
+      background: var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237D6C6B' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center; }
+    .search input:focus, .select:focus { border-color: var(--burg); }
+    .primary-btn {
+      height: 44px; padding: 0 16px; border-radius: var(--radius-sm); background: var(--ink); color: #fff;
+      font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: background .2s;
     }
-    .filter-select:focus { border-color: var(--burg); }
-    .export-btn {
-      padding: 11px 18px; background: var(--dark); color: var(--white);
-      border: none; cursor: pointer; font-size: 10px; font-weight: 700;
-      font-family: 'Montserrat', sans-serif; letter-spacing: 2px; text-transform: uppercase;
-      transition: background 0.2s; white-space: nowrap;
-    }
-    .export-btn:hover { background: var(--burg); }
+    .primary-btn:hover { background: var(--burg); }
+    .result-count { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
 
     /* 테이블 */
-    .table-wrap { overflow-x: auto; border: 1px solid var(--border); }
-    table { width: 100%; border-collapse: collapse; background: var(--white); }
-    th {
-      background: var(--dark); color: rgba(255,255,255,0.7);
-      font-family: 'Montserrat', sans-serif; font-size: 8px; font-weight: 600;
-      letter-spacing: 2px; text-transform: uppercase;
-      padding: 13px 14px; text-align: left; white-space: nowrap;
-    }
-    td { padding: 13px 14px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: top; }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: #FFF8F5; cursor: pointer; }
-    .td-name { font-weight: 700; color: var(--dark); }
-    .td-phone { font-family: 'Montserrat', sans-serif; color: var(--text-muted); font-size: 12px; }
-    .td-date { font-family: 'Montserrat', sans-serif; font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+    .table-wrap { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th { font-size: 12px; font-weight: 600; color: var(--muted); text-align: left; padding: 12px 14px; white-space: nowrap; background: #FCFAF7; border-bottom: 1px solid var(--line); }
+    td { padding: 14px; font-size: 13.5px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr { cursor: pointer; transition: background .15s; }
+    tbody tr:hover td { background: var(--burg-tint); }
+    .td-num { color: var(--faint); font-variant-numeric: tabular-nums; }
+    .td-date { color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; font-size: 12.5px; }
+    .td-visit { white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 700; color: var(--burg); }
+    .td-visit small { display: block; font-weight: 500; color: var(--text); font-size: 12.5px; margin-top: 2px; }
+    .td-name { font-weight: 700; color: var(--ink); white-space: nowrap; }
+    .td-name small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .td-phone { white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .td-list { color: var(--muted); font-size: 12.5px; line-height: 1.6; max-width: 200px; }
 
-    .tag {
-      display: inline-block; font-size: 9px; padding: 3px 8px;
-      font-family: 'Montserrat', sans-serif; font-weight: 600; letter-spacing: 0.5px;
-      margin: 2px 2px 2px 0; white-space: nowrap;
-    }
-    .tag-res1 { background: var(--bg-burg); color: var(--burg); }
-    .tag-res2 { background: #EDF2F5; color: #1A3A4A; }
-    .tag-cons1 { background: var(--cream-mid); color: #6B4020; }
-    .tag-cons2 { background: #EDF5EE; color: #1A4A20; }
-    .tag-lang { background: var(--dark); color: rgba(255,255,255,0.65); font-size: 8px; }
+    .tag { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 3px 8px; border-radius: 6px; margin: 0 4px 4px 0; white-space: nowrap; }
+    .tag-multi { background: var(--burg-tint); color: var(--burg); }
+    .tag-single { background: #EEF2F4; color: #33505E; }
+    .tag-detail { background: #EAF3EC; color: #26583A; }
+    .tag-heal { background: var(--cream-2); color: #6B4A2A; }
+    .tag-preg { background: #FFF0E0; color: #8A4B0F; }
+    .tag-lang { background: var(--ink); color: #fff; font-size: 10.5px; letter-spacing: .06em; }
+    .tag-branch { background: #F1ECF7; color: #4B3470; }
+    .tag-today { background: var(--burg); color: #fff; }
+    .new-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--burg); margin-right: 6px; vertical-align: middle; }
 
-    .concern-list { font-size: 11px; color: var(--text-muted); line-height: 1.7; max-width: 180px; }
-    .del-btn {
-      background: none; border: 1px solid var(--border); color: var(--text-muted);
-      font-size: 9px; padding: 5px 10px; cursor: pointer;
-      font-family: 'Montserrat', sans-serif; letter-spacing: 1px; text-transform: uppercase;
-      transition: all 0.2s; white-space: nowrap;
-    }
-    .del-btn:hover { background: var(--burg); border-color: var(--burg); color: white; }
+    .icon-btn { width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; color: var(--faint); transition: background .2s, color .2s; }
+    .icon-btn:hover { background: #FBE9EA; color: var(--danger); }
 
-    .empty-state { text-align: center; padding: 80px 20px; color: var(--text-muted); background: var(--white); border: 1px solid var(--border); }
-    .empty-logo { height: 32px; width: auto; opacity: 0.15; margin: 0 auto 16px; display: block; }
+    /* 모바일 카드 */
+    .cards { display: none; gap: 10px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); cursor: pointer; }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+    .card-name { font-weight: 700; font-size: 16px; color: var(--ink); }
+    .card-meta { font-size: 13px; color: var(--muted); margin-top: 2px; font-variant-numeric: tabular-nums; }
+    .card-visit { text-align: right; font-weight: 700; color: var(--burg); font-size: 14px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .card-visit small { display: block; color: var(--text); font-weight: 500; font-size: 13px; }
+    .card-tags { margin-top: 10px; }
+    .card-line { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.6; }
 
-    /* 상세 패널 */
-    .detail-panel {
-      display: none; position: fixed; inset: 0;
-      background: rgba(28,14,14,0.55); z-index: 300;
-      align-items: center; justify-content: center; padding: 20px;
+    .empty { text-align: center; padding: 72px 20px; color: var(--muted); background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+    .empty img { width: 90px; opacity: .15; display: block; margin: 0 auto 16px; }
+
+    /* 상세 드로어 */
+    .drawer-bg { position: fixed; inset: 0; background: rgba(30,18,20,.4); z-index: 100; opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s; }
+    .drawer-bg.open { opacity: 1; visibility: visible; }
+    .drawer {
+      position: fixed; top: 0; right: 0; bottom: 0; width: min(480px, 100%); z-index: 101;
+      background: var(--cream); box-shadow: -20px 0 40px rgba(30,18,20,.12);
+      transform: translateX(100%); visibility: hidden; transition: transform .3s cubic-bezier(.2,.7,.2,1), visibility .3s;
+      display: flex; flex-direction: column;
     }
-    .detail-panel.open { display: flex; }
-    .detail-box {
-      background: var(--cream); border: 1px solid var(--border);
-      width: 100%; max-width: 540px; max-height: 88vh; overflow-y: auto;
+    .drawer.open { transform: none; visibility: visible; }
+    .drawer-head { padding: 20px 22px; background: var(--burg); color: #fff; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .drawer-en { font-family: var(--serif); font-style: italic; font-size: 15px; color: var(--gold-soft); }
+    .drawer-title { font-size: 22px; font-weight: 700; margin-top: 2px; }
+    .drawer-sub { font-size: 13px; color: rgba(255,255,255,.75); margin-top: 4px; }
+    .drawer-close { width: 36px; height: 36px; border-radius: 50%; color: #fff; display: grid; place-items: center; background: rgba(255,255,255,.1); flex-shrink: 0; }
+    .drawer-close:hover { background: rgba(255,255,255,.2); }
+    .drawer-body { padding: 8px 22px 28px; overflow-y: auto; flex: 1; }
+    .sec { font-size: 12px; font-weight: 700; color: var(--burg); margin: 22px 0 8px; letter-spacing: .02em; }
+    .rows { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 2px 16px; }
+    .row { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+    .row:last-child { border-bottom: none; }
+    .row-k { width: 96px; flex-shrink: 0; color: var(--muted); font-size: 13px; padding-top: 1px; }
+    .row-v { flex: 1; color: var(--ink); line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
+    .row-v a { color: var(--burg); font-weight: 600; text-decoration: none; }
+    .yes { color: #26583A; font-weight: 600; }
+    .no { color: var(--faint); }
+    .alert { color: #8A4B0F; font-weight: 700; }
+    .drawer-foot { padding: 14px 22px calc(14px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); display: flex; justify-content: flex-end; }
+    .danger-btn { height: 40px; padding: 0 16px; border-radius: 10px; border: 1px solid #EBC5C8; color: var(--danger); font-size: 13.5px; font-weight: 600; background: #fff; }
+    .danger-btn:hover { background: #FBE9EA; }
+
+    @media (max-width: 900px) {
+      .stats { grid-template-columns: 1fr 1fr; }
+      .table-wrap { display: none; }
+      .cards { display: grid; }
     }
-    .detail-header {
-      background: var(--burg); padding: 18px 20px;
-      display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0;
+    @media (max-width: 480px) {
+      .brand span { display: none; }
+      #refreshBtn span { display: none; }
     }
-    .detail-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px; font-style: italic; font-weight: 400; color: white;
-    }
-    .detail-close {
-      background: none; border: none; color: rgba(255,255,255,0.55);
-      font-size: 18px; cursor: pointer; padding: 4px 8px; line-height: 1;
-      transition: color 0.2s;
-    }
-    .detail-close:hover { color: white; }
-    .detail-body { padding: 24px; }
-    .detail-section {
-      font-family: 'Montserrat', sans-serif; font-size: 8px; font-weight: 600;
-      letter-spacing: 3px; color: var(--burg); text-transform: uppercase;
-      margin: 20px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
-    }
-    .detail-section:first-child { margin-top: 0; }
-    .detail-row { display: flex; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--border); }
-    .detail-row:last-child { border-bottom: none; }
-    .detail-key {
-      font-size: 10px; letter-spacing: 1.5px; color: var(--text-muted);
-      font-family: 'Montserrat', sans-serif; text-transform: uppercase;
-      min-width: 110px; flex-shrink: 0; padding-top: 2px; font-weight: 500;
-    }
-    .detail-val { font-size: 13px; color: var(--dark); line-height: 1.7; flex: 1; }
   </style>
 </head>
 <body>
 
-<!-- 로그인 -->
-<div class="login-wrap" id="loginWrap">
-  <div class="login-brand">
-    <img src="scalpit-logo.png" alt="Scálpit" class="login-logo" />
-    <div class="login-brand-line"></div>
-    <div class="login-brand-sub">Admin Console</div>
-  </div>
+<section class="login" id="login">
   <div class="login-box">
-    <span class="login-label">Password</span>
-    <input type="password" class="login-input" id="pwInput" placeholder="••••••••••" onkeydown="if(event.key==='Enter')doLogin()" />
-    <button class="login-btn" onclick="doLogin()">LOGIN</button>
-    <div class="login-err" id="loginErr">비밀번호가 올바르지 않습니다.</div>
+    <img src="/scalpit-logo.png" alt="Scálpit" class="login-logo" />
+    <div class="login-sub">Admin Console</div>
+    <div class="login-branch" id="loginBranch" hidden></div>
+    <form class="login-form" id="loginForm">
+      <input type="password" class="login-input" id="pw" placeholder="비밀번호" autocomplete="current-password" required />
+      <button class="login-btn" id="loginBtn" type="submit">로그인</button>
+      <div class="login-err" id="loginErr" role="alert"></div>
+    </form>
   </div>
-</div>
+</section>
 
-<!-- 관리자 화면 -->
-<div class="admin-wrap" id="adminWrap">
-
-  <header class="admin-header">
-    <div class="admin-header-inner">
-      <div class="admin-header-left">
-        <img src="scalpit-logo.png" alt="Scálpit" class="admin-logo" />
-        <div class="admin-tagline" id="adminTagline">Admin Console</div>
-      </div>
-      <div class="admin-header-right">
-        <div class="total-badge" id="totalBadge">TOTAL — 0</div>
-        <button class="logout-btn" onclick="logout()">Logout</button>
+<div id="app" hidden>
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand"><img src="/scalpit-logo.png" alt="Scálpit" /><span id="brandSub">사전 상담 관리</span></div>
+      <div class="header-actions">
+        <button class="ghost-btn" id="refreshBtn" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 11a8 8 0 10-2.3 5.7M20 4v7h-7"/></svg><span>새로고침</span>
+        </button>
+        <button class="ghost-btn" id="logoutBtn" type="button">로그아웃</button>
       </div>
     </div>
   </header>
 
-  <div class="admin-body">
+  <main class="body">
+    <h1 class="page-title" id="pageTitle">설문 접수 현황</h1>
+    <p class="page-sub" id="updatedAt"></p>
+    <div class="warn" id="storageWarn" hidden>⚠️ 지금 설문 데이터가 데이터베이스가 아닌 서버 임시 파일에 저장되고 있어요. 사이트를 업데이트하면 지워질 수 있으니, 반드시 데이터베이스(DATABASE_URL) 연결을 확인해 주세요.</div>
 
-    <!-- 통계 -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-label">Total</div>
-        <div class="stat-val" id="stTotal">0</div>
-        <div class="stat-sub">전체 접수</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Today</div>
-        <div class="stat-val" id="stToday">0</div>
-        <div class="stat-sub">오늘 접수</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">2인 이상</div>
-        <div class="stat-val" id="stMulti">0</div>
-        <div class="stat-sub">단체 예약</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">정밀 진단</div>
-        <div class="stat-val" id="stDetail">0</div>
-        <div class="stat-sub">상담 희망</div>
-      </div>
+    <div class="stats">
+      <button class="stat accent" type="button" data-quick="visit-today"><div class="stat-label">오늘 방문 예정</div><div class="stat-val" id="stVisitToday">0<small>명</small></div></button>
+      <button class="stat" type="button" data-quick="today"><div class="stat-label">오늘 접수</div><div class="stat-val" id="stToday">0<small>건</small></div></button>
+      <button class="stat" type="button" data-quick="multi"><div class="stat-label">2인 이상 예약</div><div class="stat-val" id="stMulti">0<small>건</small></div></button>
+      <button class="stat" type="button" data-quick="detail"><div class="stat-label">정밀 진단 희망</div><div class="stat-val" id="stDetail">0<small>건</small></div></button>
     </div>
 
-    <!-- 필터 -->
-    <div class="filter-bar">
-      <input type="text" class="filter-input" id="searchInput" placeholder="이름 / 연락처 검색..." oninput="renderTable()" />
-      <select class="filter-select" id="langFilter" onchange="renderTable()">
+    <div class="toolbar">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input type="search" id="q" placeholder="이름, 연락처, 주소 검색" />
+      </label>
+      <select class="select" id="fDate">
+        <option value="">전체 기간</option>
+        <option value="visit-today">오늘 방문 예정</option>
+        <option value="visit-upcoming">앞으로 방문 예정</option>
+        <option value="today">오늘 접수</option>
+        <option value="7">최근 7일 접수</option>
+        <option value="30">최근 30일 접수</option>
+      </select>
+      <select class="select" id="fBranch" hidden>
+        <option value="">지점 전체</option>
+      </select>
+      <select class="select" id="fRes">
+        <option value="">예약 유형 전체</option>
+        <option value="multi">2인 이상</option>
+        <option value="single">1인</option>
+        <option value="detail">정밀 진단 희망</option>
+      </select>
+      <select class="select" id="fLang">
         <option value="">언어 전체</option>
         <option value="ko">한국어</option>
         <option value="en">English</option>
         <option value="zh">中文</option>
         <option value="ja">日本語</option>
       </select>
-      <select class="filter-select" id="resFilter" onchange="renderTable()">
-        <option value="">예약 유형 전체</option>
-        <option value="2인">2인 이상</option>
-        <option value="1인">1인</option>
-      </select>
-      <button class="export-btn" onclick="exportCSV()">CSV 내보내기</button>
+      <button class="primary-btn" id="csvBtn" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>CSV
+      </button>
     </div>
 
-    <!-- 테이블 -->
+    <p class="result-count" id="resultCount"></p>
+
     <div class="table-wrap" id="tableWrap">
-      <table id="dataTable">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>접수 일시</th>
-            <th>🗓 방문 일시</th>
-            <th>이름 / 생년월일</th>
-            <th>연락처</th>
-            <th>예약</th>
-            <th>상담 유형</th>
-            <th>두피 고민</th>
-            <th>관심 서비스</th>
-            <th>유입 경로</th>
-            <th>언어</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr id="theadRow"></tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
     </div>
-    <div class="empty-state" id="emptyState" style="display:none">
-      <img src="scalpit-logo.png" alt="" class="empty-logo" />
-      아직 접수된 설문이 없습니다.
-    </div>
-
-  </div>
+    <div class="cards" id="cards"></div>
+    <div class="empty" id="empty" hidden><img src="/scalpit-logo.png" alt="" /><span id="emptyText">아직 접수된 설문이 없습니다.</span></div>
+  </main>
 </div>
 
-<!-- 상세 패널 -->
-<div class="detail-panel" id="detailPanel" onclick="if(event.target===this)closeDetail()">
-  <div class="detail-box">
-    <div class="detail-header">
-      <div class="detail-title" id="detailTitle">상세 정보</div>
-      <button class="detail-close" onclick="closeDetail()">✕</button>
-    </div>
-    <div class="detail-body" id="detailBody"></div>
+<div class="drawer-bg" id="drawerBg"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" role="dialog" aria-labelledby="dTitle">
+  <div class="drawer-head">
+    <div><div class="drawer-en">Consultation</div><div class="drawer-title" id="dTitle"></div><div class="drawer-sub" id="dSub"></div></div>
+    <button class="drawer-close" id="drawerClose" type="button" aria-label="닫기">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
   </div>
-</div>
+  <div class="drawer-body" id="dBody"></div>
+  <div class="drawer-foot"><button class="danger-btn" id="dDelete" type="button">이 접수 삭제</button></div>
+</aside>
 
 <script>
-let adminPw = '';
-let allData = [];
+const $ = s => document.querySelector(s);
+let pw = '';
+let all = [];
+let openId = null;
 
-const _pathSlug = window.location.pathname.split('/').filter(Boolean)[0] || '';
-const _branchParam = (_pathSlug && _pathSlug !== 'admin') ? `?b=${_pathSlug}` : '';
-fetch('/api/branch' + _branchParam).then(r => r.json()).then(b => {
-  if (b.slug !== 'root') {
-    document.getElementById('adminTagline').textContent = `Admin Console — ${b.name}`;
-  }
+// 지점 관리자: /cheonan/admin → ?b=cheonan, 본사: /admin
+const firstSeg = location.pathname.split('/').filter(Boolean)[0] || '';
+const branchSlug = /^admin(\.html)?$/.test(firstSeg) ? '' : firstSeg;
+const branchParam = branchSlug ? `?b=${encodeURIComponent(branchSlug)}` : '';
+const isRoot = !branchSlug;
+const SESSION_KEY = `scalpit-admin:${branchSlug || 'root'}`;
+
+// 모든 사용자 입력은 반드시 이스케이프 후 출력 (저장형 XSS 방지)
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+const list = v => Array.isArray(v) ? v : [];
+
+// 과거(언어별 저장) 데이터까지 인식하도록 다국어 키워드로 판별
+const isMulti = d => /2인|2 or more|2人|2名/.test(d.reservationType || '');
+const isDetail = d => /정밀|Detailed|精密/.test(d.consultationType || '');
+const isPregnant = d => /임신 중|수유 중|pregnant|breastfeeding|妊娠中|哺乳中|授乳中/i.test(d.pregnancyStatus || '');
+const nameOf = d => d.name || (d.nameBirth || '').split('/')[0].trim() || '-';
+const birthOf = d => ((d.nameBirth || '').split('/')[1] || '').trim();
+const dayKey = d => new Date(d).toLocaleDateString('sv');
+const today = () => dayKey(Date.now());
+const fmtVisit = d => d.visitDate ? d.visitDate.replace(/-/g, '.') : '';
+
+fetch('/api/branch' + branchParam).then(r => r.json()).then(b => {
+  if (b.slug === 'root') return;
+  $('#loginBranch').textContent = b.name; $('#loginBranch').hidden = false;
+  $('#brandSub').innerHTML = `<b>${esc(b.name)}</b> · 사전 상담 관리`;
+  $('#pageTitle').textContent = `${b.name} 설문 접수 현황`;
+  document.title = `Scálpit ${b.name} Admin`;
 }).catch(() => {});
 
-async function doLogin() {
-  const pw = document.getElementById('pwInput').value;
-  const res = await fetch('/api/submissions' + _branchParam, { headers: { 'x-admin-password': pw } });
-  if (res.status === 401) { document.getElementById('loginErr').classList.add('show'); return; }
-  adminPw = pw;
-  const json = await res.json();
-  allData = json.data || [];
-  document.getElementById('loginWrap').style.display = 'none';
-  document.getElementById('adminWrap').style.display = 'block';
-  renderStats(); renderTable();
+async function api(path, opts = {}) {
+  const sep = path.includes('?') ? '&' : '?';
+  const url = branchParam ? path + sep + branchParam.slice(1) : path;
+  const res = await fetch(url, { ...opts, headers: { 'x-admin-password': pw, ...(opts.headers || {}) } });
+  if (res.status === 401) { logout(); throw new Error('auth'); }
+  if (res.status === 429) throw new Error('rate');
+  if (!res.ok) throw new Error('server');
+  return res.json();
 }
 
+async function load() {
+  const json = await api('/api/submissions');
+  // 크리에이터 신청(/apply)은 별도 관리 화면에서 확인
+  all = (json.data || []).filter(d => d.branch !== 'apply');
+  $('#storageWarn').hidden = json.storage !== 'file';
+  $('#updatedAt').textContent = `마지막 업데이트 ${new Date().toLocaleTimeString('ko-KR', { hour:'2-digit', minute:'2-digit' })}`;
+  if (isRoot) {
+    const branches = [...new Set(all.map(d => d.branch).filter(Boolean))].sort();
+    const sel = $('#fBranch'), cur = sel.value;
+    sel.innerHTML = '<option value="">지점 전체</option>' + branches.map(b => `<option value="${esc(b)}">${esc(b)}</option>`).join('');
+    sel.value = cur; sel.hidden = branches.length < 2;
+  }
+  renderStats(); render();
+}
+
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  $('#loginBtn').disabled = true; $('#loginErr').textContent = '';
+  pw = $('#pw').value;
+  try {
+    await load();
+    try { sessionStorage.setItem(SESSION_KEY, pw); } catch {}
+    $('#login').hidden = true; $('#app').hidden = false;
+  } catch (err) {
+    $('#loginErr').textContent = err.message === 'rate' ? '시도 횟수가 너무 많습니다. 잠시 후 다시 시도해주세요.'
+      : err.message === 'auth' ? '비밀번호가 올바르지 않습니다.' : '서버에 연결할 수 없습니다.';
+  } finally { $('#loginBtn').disabled = false; }
+});
+
 function logout() {
-  adminPw = ''; allData = [];
-  document.getElementById('loginWrap').style.display = 'flex';
-  document.getElementById('adminWrap').style.display = 'none';
-  document.getElementById('pwInput').value = '';
-  document.getElementById('loginErr').classList.remove('show');
+  pw = ''; all = [];
+  try { sessionStorage.removeItem(SESSION_KEY); } catch {}
+  closeDetail();
+  $('#app').hidden = true; $('#login').hidden = false;
+  $('#pw').value = '';
 }
 
 function renderStats() {
-  const today = new Date().toLocaleDateString('sv');
-  document.getElementById('stTotal').textContent = allData.length;
-  document.getElementById('stToday').textContent = allData.filter(d => (d.submittedAt||'').startsWith(today)).length;
-  document.getElementById('stMulti').textContent = allData.filter(d => (d.reservationType||'').includes('2인')).length;
-  document.getElementById('stDetail').textContent = allData.filter(d => (d.consultationType||'').includes('정밀')).length;
-  document.getElementById('totalBadge').textContent = `TOTAL — ${allData.length}`;
+  const t = today();
+  const n = (v, unit = '건') => `${v}<small>${unit}</small>`;
+  $('#stVisitToday').innerHTML = n(all.filter(d => d.visitDate === t).length, '명');
+  $('#stToday').innerHTML = n(all.filter(d => d.submittedAt && dayKey(d.submittedAt) === t).length);
+  $('#stMulti').innerHTML = n(all.filter(isMulti).length);
+  $('#stDetail').innerHTML = n(all.filter(isDetail).length);
 }
 
-function getFiltered() {
-  const q = document.getElementById('searchInput').value.trim().toLowerCase();
-  const lf = document.getElementById('langFilter').value;
-  const rf = document.getElementById('resFilter').value;
-  return allData.filter(d => {
-    const nb = (d.nameBirth || d.name || '').toLowerCase();
-    const ph = (d.phone || '').toLowerCase();
-    if (q && !nb.includes(q) && !ph.includes(q)) return false;
-    if (lf && d.lang !== lf) return false;
-    if (rf && !(d.reservationType||'').includes(rf)) return false;
+function filtered() {
+  const q = $('#q').value.trim().toLowerCase();
+  const qDigits = q.replace(/\D/g, '');
+  const fl = $('#fLang').value, fr = $('#fRes').value, fd = $('#fDate').value, fb = $('#fBranch').value;
+  const now = Date.now(), t = today();
+  let rows = all.filter(d => {
+    if (q) {
+      const hay = `${d.nameBirth || ''} ${d.name || ''} ${d.address || ''}`.toLowerCase();
+      const phone = (d.phone || '').replace(/\D/g, '');
+      if (!hay.includes(q) && !(qDigits && phone.includes(qDigits))) return false;
+    }
+    if (fl && (d.lang || 'ko') !== fl) return false;
+    if (fb && d.branch !== fb) return false;
+    if (fr === 'multi' && !isMulti(d)) return false;
+    if (fr === 'single' && isMulti(d)) return false;
+    if (fr === 'detail' && !isDetail(d)) return false;
+    if (fd === 'visit-today' && d.visitDate !== t) return false;
+    if (fd === 'visit-upcoming' && !(d.visitDate && d.visitDate >= t)) return false;
+    if (fd === 'today' && (!d.submittedAt || dayKey(d.submittedAt) !== t)) return false;
+    if (/^\d+$/.test(fd) && (!d.submittedAt || now - new Date(d.submittedAt) > fd * 864e5)) return false;
     return true;
-  });
+  }).slice().reverse();
+  // 방문 예정 보기에서는 방문 시간순으로 정렬
+  if (fd.startsWith('visit')) rows.sort((a, b) => `${a.visitDate} ${a.visitTime}`.localeCompare(`${b.visitDate} ${b.visitTime}`));
+  return rows;
 }
 
-function renderTable() {
-  const filtered = getFiltered().slice().reverse();
-  document.getElementById('emptyState').style.display = filtered.length ? 'none' : '';
-  document.getElementById('tableWrap').style.display = filtered.length ? '' : 'none';
-
-  document.getElementById('tableBody').innerHTML = filtered.map((d, i) => {
-    const dt = d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '-';
-    const nb = d.nameBirth || d.name || '-';
-    const isMulti = (d.reservationType||'').includes('2인');
-    const isDetail = (d.consultationType||'').includes('정밀');
-    const concerns = (d.scalpConcerns||[]).join(', ') || '-';
-    const services = (d.desiredServices||[]).join(', ') || '-';
-    return `<tr onclick="showDetail(${d.id})">
-      <td class="td-date">${allData.length - i}</td>
-      <td class="td-date">${dt}</td>
-      <td class="td-date" style="color:var(--burg);font-weight:600">${d.visitDate ? (d.visitDate.replace(/-/g,'.')+'<br><span style="font-size:11px;font-weight:400">'+d.visitTime+'</span>') : '-'}</td>
-      <td class="td-name">${nb}</td>
-      <td class="td-phone">${d.phone||'-'}</td>
-      <td><span class="tag ${isMulti ? 'tag-res1' : 'tag-res2'}">${isMulti ? '2인+' : '1인'}</span></td>
-      <td><span class="tag ${isDetail ? 'tag-cons2' : 'tag-cons1'}">${isDetail ? '정밀' : '힐링'}</span></td>
-      <td><div class="concern-list">${concerns}</div></td>
-      <td style="font-size:12px;color:var(--text-muted);max-width:160px">${services}</td>
-      <td style="font-size:12px;color:var(--text-muted)">${d.visitSource||'-'}</td>
-      <td><span class="tag tag-lang">${(d.lang||'ko').toUpperCase()}</span></td>
-      <td onclick="event.stopPropagation()"><button class="del-btn" onclick="delEntry(${d.id})">삭제</button></td>
-    </tr>`;
-  }).join('');
+function tags(d) {
+  return `<span class="tag ${isMulti(d) ? 'tag-multi' : 'tag-single'}">${isMulti(d) ? '2인+' : '1인'}</span>`
+       + `<span class="tag ${isDetail(d) ? 'tag-detail' : 'tag-heal'}">${isDetail(d) ? '정밀' : '힐링'}</span>`
+       + (isPregnant(d) ? `<span class="tag tag-preg">${esc(d.pregnancyStatus)}</span>` : '');
 }
+const fmtDate = s => s ? new Date(s).toLocaleString('ko-KR', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' }) : '-';
+const isToday = s => s && dayKey(s) === today();
+const visitCell = d => d.visitDate
+  ? `${d.visitDate === today() ? '<span class="tag tag-today">오늘</span>' : ''}${esc(fmtVisit(d))}<small>${esc(d.visitTime || '')}</small>`
+  : '<span style="color:var(--faint);font-weight:400">-</span>';
+
+const COLS = ['#', '방문 일시', '이름', '연락처', '예약 / 상담', '두피 고민', '관심 서비스', '유입 경로', ...(isRoot ? ['지점'] : []), '언어', '접수', ''];
+$('#theadRow').innerHTML = COLS.map(c => `<th>${c}</th>`).join('');
+
+function render() {
+  const rows = filtered();
+  const total = all.length;
+  $('#resultCount').textContent = rows.length === total ? `총 ${total}건` : `${rows.length}건 / 전체 ${total}건`;
+  $('#empty').hidden = rows.length > 0;
+  $('#emptyText').textContent = total ? '조건에 맞는 접수가 없습니다.' : '아직 접수된 설문이 없습니다.';
+  $('#tableWrap').style.visibility = rows.length ? '' : 'hidden';
+  $('#tableWrap').style.height = rows.length ? '' : '0';
+
+  const idx = new Map(all.map((d, i) => [d.id, i + 1]));
+  $('#tbody').innerHTML = rows.map(d => `
+    <tr data-id="${esc(d.id)}">
+      <td class="td-num">${idx.get(d.id)}</td>
+      <td class="td-visit">${visitCell(d)}</td>
+      <td class="td-name">${esc(nameOf(d))}<small>${esc(birthOf(d))}</small></td>
+      <td class="td-phone">${esc(d.phone || '-')}</td>
+      <td>${tags(d)}</td>
+      <td class="td-list">${esc(list(d.scalpConcerns).join(', ') || '-')}</td>
+      <td class="td-list">${esc(list(d.desiredServices).join(', ') || '-')}</td>
+      <td class="td-list">${esc(d.visitSource || '-')}</td>
+      ${isRoot ? `<td><span class="tag tag-branch">${esc(d.branch || '본사')}</span></td>` : ''}
+      <td><span class="tag tag-lang">${esc((d.lang || 'ko').toUpperCase())}</span></td>
+      <td class="td-date">${isToday(d.submittedAt) ? '<span class="new-dot"></span>' : ''}${esc(fmtDate(d.submittedAt))}</td>
+      <td><button class="icon-btn" data-del="${esc(d.id)}" title="삭제" aria-label="삭제">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12M9 7V4h6v3"/></svg>
+      </button></td>
+    </tr>`).join('');
+
+  $('#cards').innerHTML = rows.map(d => `
+    <div class="card" data-id="${esc(d.id)}">
+      <div class="card-top">
+        <div><div class="card-name">${esc(nameOf(d))}</div><div class="card-meta">${esc(d.phone || '-')} · ${esc(birthOf(d))}</div></div>
+        <div class="card-visit">${d.visitDate ? `${d.visitDate === today() ? '<span class="tag tag-today">오늘</span>' : ''}${esc(fmtVisit(d))}<small>${esc(d.visitTime || '')}</small>` : ''}</div>
+      </div>
+      <div class="card-tags">${tags(d)}${isRoot ? `<span class="tag tag-branch">${esc(d.branch || '본사')}</span>` : ''}<span class="tag tag-lang">${esc((d.lang || 'ko').toUpperCase())}</span></div>
+      <div class="card-line">${esc(list(d.desiredServices).join(', ') || '-')}</div>
+      <div class="card-line">${esc(list(d.scalpConcerns).join(', ') || '-')}</div>
+    </div>`).join('');
+}
+
+function idFrom(el) { return Number(el.dataset.id ?? el.dataset.del); }
+
+document.addEventListener('click', e => {
+  const del = e.target.closest('[data-del]');
+  if (del) { e.stopPropagation(); remove(idFrom(del)); return; }
+  const row = e.target.closest('tr[data-id], .card[data-id]');
+  if (row) showDetail(idFrom(row));
+  const quick = e.target.closest('[data-quick]');
+  if (quick) {
+    const k = quick.dataset.quick;
+    $('#fDate').value = ['visit-today', 'today'].includes(k) ? k : '';
+    $('#fRes').value = ['multi', 'detail'].includes(k) ? k : '';
+    render();
+    $('#resultCount').scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+});
 
 function showDetail(id) {
-  const d = allData.find(x => x.id === id);
+  const d = all.find(x => x.id === id);
   if (!d) return;
-  const dt = d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '-';
-  const row = (k, v) => `<div class="detail-row"><div class="detail-key">${k}</div><div class="detail-val">${v||'-'}</div></div>`;
-  document.getElementById('detailTitle').textContent = (d.nameBirth||d.name||'상세 정보').split('/')[0].trim();
-  document.getElementById('detailBody').innerHTML = `
-    <div class="detail-section">예약 정보</div>
-    ${row('접수 일시', dt)}
-    ${d.visitDate ? row('🗓 방문 날짜', (d.visitDate||'').replace(/-/g,'.')) : ''}
-    ${d.visitTime ? row('⏰ 방문 시간', d.visitTime) : ''}
-    ${row('예약 인원', d.reservationType)}
-    ${row('상담 유형', d.consultationType)}
-    <div class="detail-section">기본 정보</div>
-    ${row('이름 / 생년월일', d.nameBirth || d.name)}
-    ${row('연락처', d.phone)}
-    ${row('주소', d.address)}
-    <div class="detail-section">시술 이력 & 경로</div>
-    ${row('관리 경험', (d.treatmentHistory||[]).join(', ')||'없음')}
-    ${row('유입 경로', d.visitSource)}
-    <div class="detail-section">두피 상태</div>
-    ${row('주요 고민', (d.scalpConcerns||[]).join(', '))}
-    ${row('펌 / 염색 주기', d.permFrequency)}
-    ${row('샴푸 횟수', d.shampooFrequency)}
-    ${row('탈모 유전력', d.hairLossGenetic)}
-    ${row('임신 / 수유 여부', d.pregnancyStatus)}
-    <div class="detail-section">서비스 & 동의</div>
-    ${row('관심 서비스', (d.desiredServices||[]).join(', '))}
-    ${row('촬영 동의', d.videoConsent === '동의' ? '✓ 동의' : '✗ 비동의')}
-    ${row('마케팅 동의', d.marketingConsent ? '✓ 동의' : '✗ 비동의')}
-    ${row('언어', (d.lang||'ko').toUpperCase())}
-  `;
-  document.getElementById('detailPanel').classList.add('open');
+  openId = id;
+  const yn = v => v ? '<span class="yes">✓ 동의</span>' : '<span class="no">비동의</span>';
+  const row = (k, v, raw = false) => `<div class="row"><div class="row-k">${k}</div><div class="row-v">${raw ? v : esc(v || '-')}</div></div>`;
+  const phone = d.phone || '';
+  $('#dTitle').textContent = nameOf(d);
+  $('#dSub').textContent = [birthOf(d), d.visitDate && `방문 ${fmtVisit(d)} ${d.visitTime || ''}`, isRoot && d.branch].filter(Boolean).join(' · ');
+  $('#dBody').innerHTML = `
+    <div class="sec">예약 정보</div>
+    <div class="rows">
+      ${row('방문 일시', d.visitDate ? `${fmtVisit(d)} ${d.visitTime || ''}` : '')}
+      ${row('지점', d.branch || '본사')}
+      ${row('예약 인원', d.reservationType)}
+      ${row('상담 유형', d.consultationType)}
+      ${row('접수 일시', d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '')}
+    </div>
+    <div class="sec">기본 정보</div>
+    <div class="rows">
+      ${row('이름 / 생년월일', d.nameBirth || d.name)}
+      ${row('연락처', phone ? `<a href="tel:${esc(phone.replace(/[^\d+]/g, ''))}">${esc(phone)}</a>` : '-', true)}
+      ${row('주소', d.address)}
+    </div>
+    <div class="sec">시술 이력 & 경로</div>
+    <div class="rows">
+      ${row('관리 경험', list(d.treatmentHistory).join(', ') || '없음')}
+      ${row('유입 경로', d.visitSource)}
+    </div>
+    <div class="sec">두피 상태</div>
+    <div class="rows">
+      ${row('주요 고민', list(d.scalpConcerns).join(', '))}
+      ${row('샴푸 횟수', d.shampooFrequency)}
+      ${row('탈모 유전력', d.hairLossGenetic)}
+      ${row('임신 / 수유', isPregnant(d) ? `<span class="alert">⚠ ${esc(d.pregnancyStatus)}</span>` : esc(d.pregnancyStatus || '-'), true)}
+      ${row('펌 / 염색 주기', d.permFrequency)}
+    </div>
+    <div class="sec">서비스 & 동의</div>
+    <div class="rows">
+      ${row('관심 서비스', list(d.desiredServices).join(', '))}
+      ${row('촬영', d.videoConsent === '동의' ? '<span class="yes">✓ 촬영 희망</span>' : '<span class="no">미희망</span>', true)}
+      ${row('마케팅 수신', yn(d.marketingConsent), true)}
+      ${row('작성 언어', (d.lang || 'ko').toUpperCase())}
+    </div>`;
+  $('#drawer').classList.add('open'); $('#drawerBg').classList.add('open');
+  $('#drawer').setAttribute('aria-hidden', 'false');
+  $('#drawerClose').focus();
 }
 
-function closeDetail() { document.getElementById('detailPanel').classList.remove('open'); }
+function closeDetail() {
+  openId = null;
+  $('#drawer').classList.remove('open'); $('#drawerBg').classList.remove('open');
+  $('#drawer').setAttribute('aria-hidden', 'true');
+}
 
-async function delEntry(id) {
-  if (!confirm('이 항목을 삭제하시겠습니까?')) return;
-  const res = await fetch(`/api/submissions/${id}` + _branchParam, { method: 'DELETE', headers: { 'x-admin-password': adminPw } });
-  if (res.ok) { allData = allData.filter(d => d.id !== id); renderStats(); renderTable(); }
+async function remove(id) {
+  const d = all.find(x => x.id === id);
+  if (!d || !confirm(`${nameOf(d)} 님의 접수를 삭제하시겠습니까?\n삭제 후에는 복구할 수 없습니다.`)) return;
+  try {
+    await api(`/api/submissions/${id}`, { method:'DELETE' });
+    all = all.filter(x => x.id !== id);
+    if (openId === id) closeDetail();
+    renderStats(); render();
+  } catch (err) { if (err.message !== 'auth') alert('삭제에 실패했습니다.'); }
 }
 
 function exportCSV() {
-  const filtered = getFiltered().slice().reverse();
-  const headers = ['번호','접수일시','방문날짜','방문시간','이름/생년월일','연락처','주소','예약유형','상담유형','관리경험','유입경로','두피고민','펌/염색주기','샴푸횟수','탈모유전력','임신/수유여부','관심서비스','촬영동의','마케팅동의','언어'];
-  const rows = filtered.map((d,i) => [
-    i+1,
+  const rows = filtered();
+  const headers = ['번호','접수일시','방문날짜','방문시간','지점','이름','생년월일','연락처','주소','예약유형','상담유형','관리경험','유입경로','두피고민','펌/염색주기','샴푸횟수','탈모유전력','임신/수유여부','관심서비스','촬영동의','마케팅동의','언어'];
+  const body = rows.map((d, i) => [
+    i + 1,
     d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '',
-    d.visitDate||'', d.visitTime||'',
-    d.nameBirth||d.name||'', d.phone||'', d.address||'',
-    d.reservationType||'', d.consultationType||'',
-    (d.treatmentHistory||[]).join('/'), d.visitSource||'',
-    (d.scalpConcerns||[]).join('/'), d.permFrequency||'',
-    d.shampooFrequency||'', d.hairLossGenetic||'', d.pregnancyStatus||'',
-    (d.desiredServices||[]).join('/'),
-    d.videoConsent||'', d.marketingConsent ? 'Y' : 'N', d.lang||'ko'
+    fmtVisit(d), d.visitTime || '', d.branch || '',
+    nameOf(d), birthOf(d), d.phone || '', d.address || '',
+    d.reservationType || '', d.consultationType || '',
+    list(d.treatmentHistory).join('/'), d.visitSource || '',
+    list(d.scalpConcerns).join('/'), d.permFrequency || '',
+    d.shampooFrequency || '', d.hairLossGenetic || '', d.pregnancyStatus || '',
+    list(d.desiredServices).join('/'),
+    d.videoConsent || '', d.marketingConsent ? 'Y' : 'N', d.lang || 'ko',
   ]);
-  const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const blob = new Blob(['﻿'+csv], { type: 'text/csv;charset=utf-8;' });
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-  a.download = `scalpit_${new Date().toLocaleDateString('sv')}.csv`;
+  // 엑셀 수식 주입 방지: =,+,-,@ 로 시작하는 셀 앞에 ' 추가
+  const cell = c => { let s = String(c); if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`; return `"${s.replace(/"/g, '""')}"`; };
+  const csv = [headers, ...body].map(r => r.map(cell).join(',')).join('\r\n');
+  const blob = new Blob(['﻿' + csv], { type:'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `scalpit_${branchSlug || 'all'}_${today()}.csv`;
   a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
+
+['#q', '#fLang', '#fRes', '#fDate', '#fBranch'].forEach(s => $(s).addEventListener('input', render));
+$('#csvBtn').addEventListener('click', exportCSV);
+$('#logoutBtn').addEventListener('click', logout);
+$('#refreshBtn').addEventListener('click', () => load().catch(() => {}));
+$('#drawerClose').addEventListener('click', closeDetail);
+$('#drawerBg').addEventListener('click', closeDetail);
+$('#dDelete').addEventListener('click', () => openId && remove(openId));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+
+// 같은 탭에서 새로고침해도 로그인 유지 (탭을 닫으면 사라짐)
+try {
+  const saved = sessionStorage.getItem(SESSION_KEY);
+  if (saved) { $('#pw').value = saved; $('#loginForm').requestSubmit(); }
+} catch {}
 </script>
 </body>
 </html>

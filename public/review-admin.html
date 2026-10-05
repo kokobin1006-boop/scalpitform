@@ -2,221 +2,312 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scálpit | 리뷰 어드민</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="color-scheme" content="light" />
+  <title>Scálpit Review Admin</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --burg: #7B1A2B; --burg-dark: #5A1020;
-      --cream: #FAF4EE; --gold: #C4A47C;
-      --white: #FFFFFF; --dark: #1C0E0E;
-      --text: #2D1818; --text-muted: #8B7070;
-      --border: #E2D0C4; --bg-burg: #F5ECEC;
+      --burg: #7B1A2B; --burg-deep: #3A1018; --burg-tint: #FBF3F2;
+      --cream: #FAF6F1; --cream-2: #F3EBE2; --card: #FFFFFF;
+      --gold: #B08D62; --gold-soft: #D9C3A2; --star: #C9A06A;
+      --ink: #1E1214; --text: #3A2A2B; --muted: #7D6C6B; --faint: #A99B98;
+      --line: #EBE1D8; --line-strong: #DCCDC1; --danger: #B4232F;
+      --radius: 14px; --radius-sm: 10px;
+      --shadow: 0 1px 2px rgba(58,16,24,.04), 0 4px 16px rgba(58,16,24,.04);
+      --sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+      --serif: 'Cormorant Garamond', serif;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Noto Sans KR', 'Montserrat', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+    [hidden] { display: none !important; }
+    body { font-family: var(--sans); background: var(--cream); color: var(--text); min-height: 100vh; letter-spacing: -0.01em; -webkit-font-smoothing: antialiased; }
+    button, input, select { font: inherit; color: inherit; }
+    button { cursor: pointer; background: none; border: none; }
+    :focus-visible { outline: 2px solid var(--burg); outline-offset: 2px; }
 
-    /* 로그인 */
-    .login-wrap {
-      min-height: 100vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      background: #3A1018; padding: 24px;
-    }
-    .login-brand { text-align: center; margin-bottom: 48px; }
-    .login-logo { height: 48px; width: auto; filter: brightness(0) invert(1); display: block; margin: 0 auto 12px; }
-    .login-brand-line { width: 32px; height: 1px; background: var(--gold); margin: 14px auto; }
-    .login-brand-sub { font-family: 'Montserrat', sans-serif; font-size: 8px; letter-spacing: 5px; color: var(--gold); font-weight: 500; text-transform: uppercase; }
-    .login-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); padding: 32px 28px; width: 100%; max-width: 320px; text-align: center; }
-    .login-label { font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 3px; color: rgba(255,255,255,0.35); text-transform: uppercase; margin-bottom: 12px; display: block; }
-    .login-input { width: 100%; padding: 13px 16px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: var(--white); font-size: 14px; outline: none; font-family: 'Montserrat', sans-serif; margin-bottom: 12px; transition: border-color 0.2s; }
-    .login-input:focus { border-color: rgba(255,255,255,0.4); }
-    .login-input::placeholder { color: rgba(255,255,255,0.2); }
-    .login-btn { width: 100%; padding: 14px; background: var(--burg); color: var(--white); border: none; cursor: pointer; font-size: 10px; font-weight: 700; font-family: 'Montserrat', sans-serif; letter-spacing: 3px; text-transform: uppercase; transition: background 0.2s; }
-    .login-btn:hover { background: var(--burg-dark); }
-    .login-err { font-size: 12px; color: #E07070; margin-top: 10px; display: none; }
-    .login-err.show { display: block; }
+    .login { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; background: radial-gradient(120% 70% at 50% 0%, #6A1A2A 0%, rgba(106,26,42,0) 60%), var(--burg-deep); }
+    .login-box { width: 100%; max-width: 340px; text-align: center; }
+    .login-logo { width: 150px; filter: brightness(0) invert(1); display: block; margin: 0 auto; }
+    .login-sub { font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--gold-soft); margin-top: 12px; }
+    .login-branch { display: inline-block; margin-top: 14px; padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(217,195,162,.45); color: var(--gold-soft); font-size: 13px; font-weight: 600; }
+    .login-form { margin-top: 36px; display: grid; gap: 10px; }
+    .login-input { height: 52px; padding: 0 16px; border-radius: 12px; font-size: 16px; outline: none; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); color: #fff; }
+    .login-input:focus { border-color: var(--gold-soft); }
+    .login-input::placeholder { color: rgba(255,255,255,.35); }
+    .login-btn { height: 52px; border-radius: 12px; background: #fff; color: var(--burg-deep); font-weight: 700; font-size: 15px; }
+    .login-btn:disabled { opacity: .6; }
+    .login-err { font-size: 13px; color: #F0A0A0; min-height: 20px; }
 
-    /* 관리자 */
-    .admin-wrap { display: none; }
-    .admin-header { background: var(--burg); padding: 20px 24px; position: sticky; top: 0; z-index: 100; }
-    .admin-header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-    .admin-logo { height: 24px; width: auto; filter: brightness(0) invert(1); }
-    .admin-tagline { font-family: 'Montserrat', sans-serif; font-size: 7px; letter-spacing: 3px; color: rgba(255,255,255,0.45); text-transform: uppercase; margin-top: 4px; }
-    .admin-header-right { display: flex; align-items: center; gap: 10px; }
-    .total-badge { font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.08); padding: 7px 14px; border: 1px solid rgba(255,255,255,0.15); }
-    .logout-btn { font-family: 'Montserrat', sans-serif; font-size: 9px; color: rgba(255,255,255,0.45); cursor: pointer; letter-spacing: 2px; padding: 7px 14px; border: 1px solid rgba(255,255,255,0.15); background: transparent; text-transform: uppercase; transition: all 0.2s; }
-    .logout-btn:hover { border-color: rgba(255,255,255,0.5); color: white; }
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(250,246,241,.88); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+    .header-inner { max-width: 1100px; margin: 0 auto; height: 60px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand img { height: 20px; }
+    .brand span { font-size: 12.5px; font-weight: 600; color: var(--muted); padding-left: 12px; border-left: 1px solid var(--line-strong); white-space: nowrap; }
+    .brand b { color: var(--burg); }
+    .header-actions { display: flex; gap: 8px; }
+    .ghost-btn { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; font-size: 13px; font-weight: 600; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--card); white-space: nowrap; }
+    .ghost-btn:hover { border-color: var(--burg); color: var(--burg); }
 
-    .admin-body { max-width: 900px; margin: 0 auto; padding: 36px 20px 80px; }
+    .body { max-width: 1100px; margin: 0 auto; padding: 28px 20px 80px; }
+    .page-title { font-size: 24px; font-weight: 700; color: var(--ink); letter-spacing: -0.025em; }
+    .page-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
-    /* 통계 */
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 32px; }
-    .stat-card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-left: 2px solid var(--burg); }
-    .stat-label { font-family: 'Montserrat', sans-serif; font-size: 8px; letter-spacing: 3px; color: var(--burg); text-transform: uppercase; margin-bottom: 10px; font-weight: 600; }
-    .stat-val { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 400; color: var(--dark); line-height: 1; }
-    .stat-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 22px 0 24px; }
+    .stat { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); }
+    .stat-label { font-size: 12.5px; font-weight: 600; color: var(--muted); }
+    .stat-val { font-size: 30px; font-weight: 700; color: var(--ink); margin-top: 6px; font-variant-numeric: tabular-nums; letter-spacing: -0.03em; }
+    .stat-val small { font-size: 13px; font-weight: 500; color: var(--faint); margin-left: 4px; letter-spacing: 0; }
+    .stat.accent { background: var(--burg); border-color: var(--burg); }
+    .stat.accent .stat-label { color: rgba(255,255,255,.75); }
+    .stat.accent .stat-val { color: #fff; }
+    .stat.accent .stat-val small { color: rgba(255,255,255,.6); }
+    .dist { display: grid; gap: 4px; margin-top: 10px; }
+    .dist-row { display: grid; grid-template-columns: 22px 1fr 28px; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .dist-bar { height: 6px; border-radius: 3px; background: var(--cream-2); overflow: hidden; }
+    .dist-bar i { display: block; height: 100%; background: var(--star); border-radius: 3px; }
 
-    /* 리뷰 카드 */
-    .reviews-grid { display: flex; flex-direction: column; gap: 12px; }
-    .review-card { background: var(--white); border: 1px solid var(--border); padding: 20px; }
-    .review-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
-    .review-date { font-family: 'Montserrat', sans-serif; font-size: 10px; color: var(--text-muted); letter-spacing: 1px; }
-    .stars-display { font-size: 16px; letter-spacing: 2px; }
-    .review-ratings { display: flex; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
-    .rating-item { font-size: 11px; color: var(--text-muted); }
-    .rating-item strong { color: var(--dark); font-size: 12px; }
-    .revisit-tag { display: inline-block; font-size: 9px; padding: 3px 10px; font-family: 'Montserrat', sans-serif; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 10px; }
-    .revisit-yes { background: #EDF5EE; color: #1A4A20; }
-    .revisit-maybe { background: var(--bg-burg); color: var(--burg); }
-    .revisit-no { background: #F5F0ED; color: #4A3020; }
-    .review-text { font-size: 13px; color: var(--text); line-height: 1.75; margin-bottom: 6px; }
-    .review-text-label { font-size: 10px; color: var(--text-muted); font-weight: 600; letter-spacing: 1px; margin-bottom: 3px; font-family: 'Montserrat', sans-serif; }
-    .del-btn { background: none; border: 1px solid var(--border); color: var(--text-muted); font-size: 9px; padding: 5px 10px; cursor: pointer; font-family: 'Montserrat', sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: all 0.2s; }
-    .del-btn:hover { background: var(--burg); border-color: var(--burg); color: white; }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .select { height: 44px; padding: 0 34px 0 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); font-size: 14px; outline: none; -webkit-appearance: none; appearance: none; cursor: pointer;
+      background: var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237D6C6B' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center; }
+    .select:focus { border-color: var(--burg); }
+    .spacer { flex: 1; }
+    .primary-btn { height: 44px; padding: 0 16px; border-radius: var(--radius-sm); background: var(--ink); color: #fff; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+    .primary-btn:hover { background: var(--burg); }
+    .result-count { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
 
-    .empty-state { text-align: center; padding: 80px 20px; color: var(--text-muted); background: var(--white); border: 1px solid var(--border); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+    .review { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; }
+    .review.low { border-color: #EBC5C8; }
+    .review-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+    .stars { color: var(--star); font-size: 18px; letter-spacing: 1px; line-height: 1; }
+    .stars .off { color: var(--line-strong); }
+    .review-date { font-size: 12.5px; color: var(--muted); margin-top: 6px; font-variant-numeric: tabular-nums; }
+    .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .tag { font-size: 11.5px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: var(--cream-2); color: var(--text); white-space: nowrap; }
+    .tag-yes { background: #EAF3EC; color: #26583A; }
+    .tag-maybe { background: #FFF6E5; color: #7A5410; }
+    .tag-no { background: #FBE9EA; color: var(--danger); }
+    .tag-branch { background: #F1ECF7; color: #4B3470; }
+    .quote { font-size: 14.5px; color: var(--ink); line-height: 1.65; padding-left: 12px; border-left: 2px solid var(--gold-soft); word-break: keep-all; overflow-wrap: anywhere; white-space: pre-line; }
+    .improve-k { font-size: 12px; font-weight: 700; color: var(--danger); }
+    .improve { font-size: 14px; color: var(--text); line-height: 1.6; background: #FDF6F6; border-radius: 8px; padding: 10px 12px; word-break: keep-all; overflow-wrap: anywhere; white-space: pre-line; }
+    .icon-btn { width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; color: var(--faint); flex-shrink: 0; }
+    .icon-btn:hover { background: #FBE9EA; color: var(--danger); }
+    .empty { text-align: center; padding: 72px 20px; color: var(--muted); background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
 
-    .filter-bar { display: flex; gap: 8px; margin-bottom: 20px; }
-    .export-btn { padding: 11px 18px; background: var(--dark); color: var(--white); border: none; cursor: pointer; font-size: 10px; font-weight: 700; font-family: 'Montserrat', sans-serif; letter-spacing: 2px; text-transform: uppercase; transition: background 0.2s; }
-    .export-btn:hover { background: var(--burg); }
+    @media (max-width: 860px) { .stats { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .brand span { display: none; } .grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
 
-<!-- 로그인 -->
-<div class="login-wrap" id="loginWrap">
-  <div class="login-brand">
-    <img src="scalpit-logo.png" alt="Scálpit" class="login-logo" />
-    <div class="login-brand-line"></div>
-    <div class="login-brand-sub">Review Admin</div>
-  </div>
+<section class="login" id="login">
   <div class="login-box">
-    <span class="login-label">Password</span>
-    <input type="password" class="login-input" id="pwInput" placeholder="••••••••••" onkeydown="if(event.key==='Enter')doLogin()" />
-    <button class="login-btn" onclick="doLogin()">LOGIN</button>
-    <div class="login-err" id="loginErr">비밀번호가 올바르지 않습니다.</div>
+    <img src="/scalpit-logo.png" alt="Scálpit" class="login-logo" />
+    <div class="login-sub">Review Admin</div>
+    <div class="login-branch" id="loginBranch" hidden></div>
+    <form class="login-form" id="loginForm">
+      <input type="password" class="login-input" id="pw" placeholder="비밀번호" autocomplete="current-password" required />
+      <button class="login-btn" id="loginBtn" type="submit">로그인</button>
+      <div class="login-err" id="loginErr" role="alert"></div>
+    </form>
   </div>
-</div>
+</section>
 
-<!-- 관리자 -->
-<div class="admin-wrap" id="adminWrap">
-  <header class="admin-header">
-    <div class="admin-header-inner">
-      <div>
-        <img src="scalpit-logo.png" alt="Scálpit" class="admin-logo" />
-        <div class="admin-tagline">Review Admin</div>
-      </div>
-      <div class="admin-header-right">
-        <div class="total-badge" id="totalBadge">TOTAL — 0</div>
-        <button class="logout-btn" onclick="logout()">Logout</button>
+<div id="app" hidden>
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand"><img src="/scalpit-logo.png" alt="Scálpit" /><span id="brandSub">리뷰 관리</span></div>
+      <div class="header-actions">
+        <button class="ghost-btn" id="refreshBtn" type="button">새로고침</button>
+        <button class="ghost-btn" id="logoutBtn" type="button">로그아웃</button>
       </div>
     </div>
   </header>
 
-  <div class="admin-body">
-    <div class="stats-grid">
-      <div class="stat-card"><div class="stat-label">Total</div><div class="stat-val" id="stTotal">0</div><div class="stat-sub">전체 리뷰</div></div>
-      <div class="stat-card"><div class="stat-label">Today</div><div class="stat-val" id="stToday">0</div><div class="stat-sub">오늘 리뷰</div></div>
-      <div class="stat-card"><div class="stat-label">Avg Score</div><div class="stat-val" id="stAvg">-</div><div class="stat-sub">평균 별점</div></div>
-      <div class="stat-card"><div class="stat-label">Revisit</div><div class="stat-val" id="stRevisit">0</div><div class="stat-sub">재방문 의향</div></div>
+  <main class="body">
+    <h1 class="page-title" id="pageTitle">고객 리뷰</h1>
+    <p class="page-sub" id="updatedAt"></p>
+
+    <div class="stats">
+      <div class="stat accent"><div class="stat-label">평균 만족도</div><div class="stat-val" id="stAvg">-</div></div>
+      <div class="stat"><div class="stat-label">전체 리뷰</div><div class="stat-val" id="stTotal">0</div></div>
+      <div class="stat"><div class="stat-label">재방문 의향</div><div class="stat-val" id="stRevisit">-</div></div>
+      <div class="stat"><div class="stat-label">별점 분포</div><div class="dist" id="dist"></div></div>
     </div>
 
-    <div class="filter-bar">
-      <button class="export-btn" onclick="exportCSV()">CSV 내보내기</button>
+    <div class="toolbar">
+      <select class="select" id="fRating">
+        <option value="">별점 전체</option>
+        <option value="low">3점 이하 (개선 필요)</option>
+        <option value="5">5점</option>
+        <option value="4">4점</option>
+      </select>
+      <select class="select" id="fText">
+        <option value="">내용 전체</option>
+        <option value="comment">후기 있는 리뷰</option>
+        <option value="improve">개선 의견 있는 리뷰</option>
+      </select>
+      <select class="select" id="fBranch" hidden><option value="">지점 전체</option></select>
+      <div class="spacer"></div>
+      <button class="primary-btn" id="csvBtn" type="button">CSV</button>
     </div>
-
-    <div class="reviews-grid" id="reviewsGrid"></div>
-    <div class="empty-state" id="emptyState" style="display:none">아직 접수된 리뷰가 없습니다.</div>
-  </div>
+    <p class="result-count" id="resultCount"></p>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden></div>
+  </main>
 </div>
 
 <script>
-let adminPw = '';
-let allData = [];
+const $ = s => document.querySelector(s);
+const firstSeg = location.pathname.split('/').filter(Boolean)[0] || '';
+const branchSlug = /^review-admin/.test(firstSeg) ? '' : firstSeg;
+const branchParam = branchSlug ? `?b=${encodeURIComponent(branchSlug)}` : '';
+const isRoot = !branchSlug;
+const SESSION_KEY = `scalpit-review-admin:${branchSlug || 'root'}`;
+let pw = '', all = [];
 
-const _pathSlug = window.location.pathname.split('/').filter(Boolean)[0] || '';
-const _branchParam = (_pathSlug && _pathSlug !== 'review-admin') ? `?b=${_pathSlug}` : '';
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+const starStr = n => `${'★'.repeat(n || 0)}<span class="off">${'★'.repeat(5 - (n || 0))}</span>`;
+const REVISIT = { yes:['tag-yes', '재방문 의향 있음'], maybe:['tag-maybe', '고민 중'], no:['tag-no', '재방문 없음'] };
 
-async function doLogin() {
-  const pw = document.getElementById('pwInput').value;
-  const res = await fetch('/api/reviews' + _branchParam, { headers: { 'x-admin-password': pw } });
-  if (res.status === 401) { document.getElementById('loginErr').classList.add('show'); return; }
-  adminPw = pw;
-  const json = await res.json();
-  allData = json.data || [];
-  document.getElementById('loginWrap').style.display = 'none';
-  document.getElementById('adminWrap').style.display = 'block';
-  renderStats(); renderReviews();
+fetch('/api/branch' + branchParam).then(r => r.json()).then(b => {
+  if (b.slug === 'root') return;
+  $('#loginBranch').textContent = b.name; $('#loginBranch').hidden = false;
+  $('#brandSub').innerHTML = `<b>${esc(b.name)}</b> · 리뷰 관리`;
+  $('#pageTitle').textContent = `${b.name} 고객 리뷰`;
+}).catch(() => {});
+
+async function api(path, opts = {}) {
+  const res = await fetch(path + branchParam, { ...opts, headers: { 'x-admin-password': pw } });
+  if (res.status === 401) { logout(); throw new Error('auth'); }
+  if (res.status === 429) throw new Error('rate');
+  if (!res.ok) throw new Error('server');
+  return res.json();
 }
 
+async function load() {
+  const json = await api('/api/reviews');
+  all = json.data || [];
+  $('#updatedAt').textContent = `마지막 업데이트 ${new Date().toLocaleTimeString('ko-KR', { hour:'2-digit', minute:'2-digit' })}`;
+  if (isRoot) {
+    const branches = [...new Set(all.map(d => d.branch).filter(Boolean))].sort();
+    const sel = $('#fBranch'), cur = sel.value;
+    sel.innerHTML = '<option value="">지점 전체</option>' + branches.map(b => `<option value="${esc(b)}">${esc(b)}</option>`).join('');
+    sel.value = cur; sel.hidden = branches.length < 2;
+  }
+  renderStats(); render();
+}
+
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  $('#loginBtn').disabled = true; $('#loginErr').textContent = '';
+  pw = $('#pw').value;
+  try {
+    await load();
+    try { sessionStorage.setItem(SESSION_KEY, pw); } catch {}
+    $('#login').hidden = true; $('#app').hidden = false;
+  } catch (err) {
+    $('#loginErr').textContent = err.message === 'rate' ? '시도 횟수가 너무 많습니다. 잠시 후 다시 시도해주세요.'
+      : err.message === 'auth' ? '비밀번호가 올바르지 않습니다.' : '서버에 연결할 수 없습니다.';
+  } finally { $('#loginBtn').disabled = false; }
+});
+
 function logout() {
-  adminPw = ''; allData = [];
-  document.getElementById('loginWrap').style.display = 'flex';
-  document.getElementById('adminWrap').style.display = 'none';
-  document.getElementById('pwInput').value = '';
-  document.getElementById('loginErr').classList.remove('show');
+  pw = ''; all = [];
+  try { sessionStorage.removeItem(SESSION_KEY); } catch {}
+  $('#app').hidden = true; $('#login').hidden = false; $('#pw').value = '';
 }
 
 function renderStats() {
-  const today = new Date().toLocaleDateString('sv');
-  const total = allData.length;
-  const todayCount = allData.filter(d => (d.submittedAt||'').startsWith(today)).length;
-  const avg = total ? (allData.reduce((s, d) => s + (d.overallRating||0), 0) / total).toFixed(1) : '-';
-  const revisit = allData.filter(d => d.revisit === 'yes').length;
-  document.getElementById('stTotal').textContent = total;
-  document.getElementById('stToday').textContent = todayCount;
-  document.getElementById('stAvg').textContent = avg;
-  document.getElementById('stRevisit').textContent = revisit;
-  document.getElementById('totalBadge').textContent = `TOTAL — ${total}`;
-}
-
-function stars(n) { return n ? '⭐'.repeat(n) + ' ' + n : '-'; }
-
-function renderReviews() {
-  document.getElementById('emptyState').style.display = allData.length ? 'none' : '';
-  const revisitMap = { yes: ['revisit-yes', '재방문 의향 있음'], maybe: ['revisit-maybe', '고민 중'], no: ['revisit-no', '재방문 없음'] };
-  document.getElementById('reviewsGrid').innerHTML = allData.map(d => {
-    const dt = d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '-';
-    const rv = d.revisit ? revisitMap[d.revisit] : null;
-    return `<div class="review-card">
-      <div class="review-card-header">
-        <div>
-          <div class="stars-display">${'⭐'.repeat(d.overallRating||0)}</div>
-          <div class="review-date">${dt}</div>
-        </div>
-        <button class="del-btn" onclick="delEntry(${d.id})">삭제</button>
-      </div>
-      <div class="review-ratings">
-        <div class="rating-item"><strong>전체</strong> ${d.overallRating}점</div>
-        ${d.staffRating ? `<div class="rating-item"><strong>직원 응대</strong> ${d.staffRating}점</div>` : ''}
-        ${d.resultRating ? `<div class="rating-item"><strong>시술 결과</strong> ${d.resultRating}점</div>` : ''}
-      </div>
-      ${rv ? `<div class="revisit-tag ${rv[0]}">${rv[1]}</div>` : ''}
-      ${d.comment ? `<div class="review-text-label">후기</div><div class="review-text">"${d.comment}"</div>` : ''}
-      ${d.improvement ? `<div class="review-text-label" style="margin-top:8px">개선 의견</div><div class="review-text">${d.improvement}</div>` : ''}
-    </div>`;
+  const total = all.length;
+  const avg = total ? (all.reduce((s, d) => s + (d.overallRating || 0), 0) / total).toFixed(1) : '-';
+  const answered = all.filter(d => d.revisit).length;
+  const yes = all.filter(d => d.revisit === 'yes').length;
+  $('#stAvg').innerHTML = total ? `${avg}<small>/ 5</small>` : '-';
+  $('#stTotal').innerHTML = `${total}<small>건</small>`;
+  $('#stRevisit').innerHTML = answered ? `${Math.round(yes / answered * 100)}<small>%</small>` : '-';
+  $('#dist').innerHTML = [5, 4, 3, 2, 1].map(n => {
+    const c = all.filter(d => d.overallRating === n).length;
+    return `<div class="dist-row"><span>${n}★</span><span class="dist-bar"><i style="width:${total ? c / total * 100 : 0}%"></i></span><span>${c}</span></div>`;
   }).join('');
 }
 
-async function delEntry(id) {
-  if (!confirm('삭제하시겠습니까?')) return;
-  const res = await fetch(`/api/reviews/${id}` + _branchParam, { method: 'DELETE', headers: { 'x-admin-password': adminPw } });
-  if (res.ok) { allData = allData.filter(d => d.id !== id); renderStats(); renderReviews(); }
+function filtered() {
+  const fr = $('#fRating').value, ft = $('#fText').value, fb = $('#fBranch').value;
+  return all.filter(d => {
+    if (fr === 'low' && !(d.overallRating <= 3)) return false;
+    if (/^\d$/.test(fr) && d.overallRating !== Number(fr)) return false;
+    if (ft === 'comment' && !d.comment) return false;
+    if (ft === 'improve' && !d.improvement) return false;
+    if (fb && d.branch !== fb) return false;
+    return true;
+  });
 }
 
-function exportCSV() {
-  const headers = ['접수일시','전체만족도','직원응대','시술결과','재방문의향','후기','개선의견'];
-  const rows = allData.map(d => [
-    d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '',
-    d.overallRating||'', d.staffRating||'', d.resultRating||'',
-    d.revisit||'', d.comment||'', d.improvement||''
-  ]);
-  const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob(['﻿'+csv], { type: 'text/csv;charset=utf-8;' }));
-  a.download = `scalpit_reviews_${new Date().toLocaleDateString('sv')}.csv`;
-  a.click();
+function render() {
+  const rows = filtered();
+  $('#resultCount').textContent = rows.length === all.length ? `총 ${all.length}건` : `${rows.length}건 / 전체 ${all.length}건`;
+  $('#empty').hidden = rows.length > 0;
+  $('#empty').textContent = all.length ? '조건에 맞는 리뷰가 없습니다.' : '아직 접수된 리뷰가 없습니다.';
+  $('#grid').innerHTML = rows.map(d => {
+    const rv = REVISIT[d.revisit];
+    const subs = [d.staffRating && `직원 응대 ${d.staffRating}점`, d.resultRating && `관리 결과 ${d.resultRating}점`].filter(Boolean);
+    return `<article class="review${d.overallRating <= 3 ? ' low' : ''}">
+      <div class="review-top">
+        <div><div class="stars">${starStr(d.overallRating)}</div><div class="review-date">${esc(d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '-')}</div></div>
+        <button class="icon-btn" data-del="${esc(d.id)}" title="삭제" aria-label="삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12M9 7V4h6v3"/></svg></button>
+      </div>
+      <div class="tags">
+        ${isRoot ? `<span class="tag tag-branch">${esc(d.branch || '본사')}</span>` : ''}
+        ${subs.map(s => `<span class="tag">${esc(s)}</span>`).join('')}
+        ${rv ? `<span class="tag ${rv[0]}">${rv[1]}</span>` : ''}
+      </div>
+      ${d.comment ? `<p class="quote">${esc(d.comment)}</p>` : ''}
+      ${d.improvement ? `<div><div class="improve-k">개선 의견</div><p class="improve">${esc(d.improvement)}</p></div>` : ''}
+    </article>`;
+  }).join('');
 }
+
+document.addEventListener('click', async e => {
+  const del = e.target.closest('[data-del]');
+  if (!del) return;
+  const id = Number(del.dataset.del);
+  if (!confirm('이 리뷰를 삭제하시겠습니까?\n삭제 후에는 복구할 수 없습니다.')) return;
+  try {
+    await api(`/api/reviews/${id}`, { method:'DELETE' });
+    all = all.filter(d => Number(d.id) !== id);
+    renderStats(); render();
+  } catch (err) { if (err.message !== 'auth') alert('삭제에 실패했습니다.'); }
+});
+
+function exportCSV() {
+  const headers = ['접수일시','지점','전체만족도','직원응대','관리결과','재방문의향','후기','개선의견'];
+  const body = filtered().map(d => [
+    d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '', d.branch || '',
+    d.overallRating || '', d.staffRating || '', d.resultRating || '',
+    REVISIT[d.revisit]?.[1] || '', d.comment || '', d.improvement || '',
+  ]);
+  const cell = c => { let s = String(c); if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`; return `"${s.replace(/"/g, '""')}"`; };
+  const csv = [headers, ...body].map(r => r.map(cell).join(',')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type:'text/csv;charset=utf-8;' }));
+  a.download = `scalpit_reviews_${branchSlug || 'all'}_${new Date().toLocaleDateString('sv')}.csv`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+['#fRating', '#fText', '#fBranch'].forEach(s => $(s).addEventListener('input', render));
+$('#csvBtn').addEventListener('click', exportCSV);
+$('#logoutBtn').addEventListener('click', logout);
+$('#refreshBtn').addEventListener('click', () => load().catch(() => {}));
+try {
+  const saved = sessionStorage.getItem(SESSION_KEY);
+  if (saved) { $('#pw').value = saved; $('#loginForm').requestSubmit(); }
+} catch {}
 </script>
 </body>
 </html>
