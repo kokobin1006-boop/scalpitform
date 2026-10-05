@@ -272,7 +272,7 @@
     .consent-detail dd { display: inline; }
     .consent-detail dd::after { content: ''; display: block; }
     .consent-link { display: inline-flex; margin: 8px 0 0 32px; font-size: 12.5px; font-weight: 600; color: var(--burg); text-decoration: underline; text-underline-offset: 3px; }
-    #q-privacy .err { margin-left: 32px; }
+    #q-privacy > .err { margin: 10px 0 0 4px; }
 
     .biz { margin-top: 32px; font-size: 11.5px; color: var(--faint); line-height: 1.8; text-align: center; }
 
@@ -370,6 +370,30 @@
     .summary-val { font-weight: 600; color: var(--ink); text-align: right; word-break: keep-all; }
     .done-logo { width: 96px; margin: 40px auto 0; display: block; opacity: .85; }
 
+    /* ── 오시는 길 ── */
+    #visitCard { display: grid; gap: 10px; margin-top: 14px; text-align: left; }
+    .visit-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); }
+    .visit-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+    .visit-title { font-size: 15px; font-weight: 700; color: var(--ink); }
+    .visit-branch { font-size: 13px; font-weight: 600; color: var(--burg); }
+    .visit-addr { display: flex; align-items: flex-start; gap: 8px; font-size: 14px; color: var(--text); line-height: 1.55; }
+    .visit-addr svg { flex-shrink: 0; margin-top: 2px; color: var(--burg); }
+    .visit-addr span { flex: 1; word-break: keep-all; }
+    .mini-btn { flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--muted); border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px 10px; }
+    .visit-note { font-size: 13px; color: var(--muted); margin: 8px 0 0 24px; }
+    .map-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 14px; }
+    .map-btn { display: flex; align-items: center; justify-content: center; height: 42px; border-radius: 10px; font-size: 13px; font-weight: 700; text-decoration: none; border: 1px solid var(--line); color: var(--ink); background: #fff; }
+    .map-naver { color: #03A94D; }
+    .map-kakao { color: #3A1D1D; background: #FEE500; border-color: #FEE500; }
+    .map-google { color: #1A73E8; }
+    .visit-actions { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; margin-top: 8px; }
+    .act-btn { display: flex; align-items: center; justify-content: center; gap: 6px; height: 42px; border-radius: 10px; background: var(--cream-2); color: var(--ink); font-size: 13.5px; font-weight: 600; text-decoration: none; }
+    .kakao-btn { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--radius); background: #FEE500; color: #3A1D1D; text-decoration: none; }
+    .kakao-ico { flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px; background: #3A1D1D; color: #FEE500; display: grid; place-items: center; font-size: 10px; font-weight: 900; letter-spacing: .02em; }
+    .kakao-txt strong { display: block; font-size: 15px; }
+    .kakao-txt small { display: block; font-size: 12.5px; opacity: .75; }
+    .insta-btn { display: flex; align-items: center; justify-content: center; height: 46px; border-radius: var(--radius); border: 1px solid var(--line-strong); background: #fff; color: var(--ink); font-size: 14px; font-weight: 600; text-decoration: none; }
+
     /* ── 토스트 ── */
     .toast {
       position: fixed; left: 50%; bottom: calc(var(--bar-h) + 20px + env(safe-area-inset-bottom)); z-index: 300;
@@ -454,6 +478,7 @@
   <h1 class="done-title" data-t="done_title"></h1>
   <p class="done-desc" data-t="done_desc"></p>
   <div class="summary" id="summary"></div>
+  <div id="visitCard"></div>
   <img src="/scalpit-logo.png" alt="Scálpit" class="done-logo" />
 </section>
 
@@ -486,6 +511,16 @@ const T = {
     q_src:'방문 경로',
     vs1:'Instagram', vs2:'YouTube', vs3:'네이버 검색', vs4:'네이버 카페 / 블로그', vs5:'지인 소개', vs6:'간판 / 현수막',
     err_src:'방문 경로를 선택해주세요.',
+    vs7:'네이버 지도 / 플레이스', vs8:'카카오맵', vs9:'TikTok', vs10:'재방문', vs11:'기타',
+    ph_referrer:'소개해 주신 분 성함 (선택)',
+    privacy_sens:'민감정보(건강정보) 처리 동의',
+    sv_items:'두피·모발 상태, 치료·약물 복용 이력, 탈모 유전력, 임신·수유 여부',
+    sv_purpose:'안전하고 정확한 맞춤 관리 제공',
+    refuse_k:'거부 권리', refuse:'동의를 거부할 수 있으나, 거부 시 상담·관리 제공이 제한될 수 있습니다.',
+    visit_title:'오시는 길', addr_copy:'주소 복사', copied:'복사되었습니다.',
+    map_naver:'네이버 지도', map_kakao:'카카오맵', map_google:'Google 지도',
+    call:'전화하기', parking_k:'주차', cal_add:'캘린더에 저장', cal_title:'스칼프잇 {b} 방문',
+    kakao_ch:'카카오톡 채널 추가', kakao_ch_desc:'예약 변경·문의를 카톡으로 편하게 하세요', insta:'Instagram 팔로우',
     s4_title:'두피 고민 & 생활 습관', s4_desc:'현재 두피 상태와 생활 패턴을 알려주세요.',
     q_scalp:'주요 두피 고민',
     sc1:'탈모', sc2:'가려움', sc3:'건조', sc4:'지성 / 번들거림', sc5:'비듬',
@@ -530,7 +565,7 @@ const T = {
     privacy_mkt:'마케팅 정보 수신 동의',
     privacy_mkt_detail:'이벤트, 프로모션, 신규 서비스 안내를 받아보실 수 있어요.',
     promo_title:'첫 방문 30% 할인', promo_body:'마케팅 정보 수신에 동의하시면 바로 적용돼요!',
-    err_privacy:'개인정보 수집·이용에 동의해주세요.',
+    err_privacy:'필수 항목에 모두 동의해주세요.',
     btn_next:'다음', btn_back:'이전', btn_submit:'제출하기', btn_ing:'제출 중',
     done_title:'설문이 접수되었습니다',
     done_desc:'소중한 정보 감사합니다.\n스칼프잇에서 최적의 두피 케어를 준비하겠습니다.\n예약 당일 편안하게 방문해주세요.',
@@ -565,6 +600,16 @@ const T = {
     q_src:'How did you find us?',
     vs1:'Instagram', vs2:'YouTube', vs3:'Naver Search', vs4:'Naver Cafe / Blog', vs5:'Referral from a friend', vs6:'Signage / Banner',
     err_src:'Please select how you found us.',
+    vs7:'Naver Map / Place', vs8:'Kakao Map', vs9:'TikTok', vs10:'Returning customer', vs11:'Other',
+    ph_referrer:"Referrer's name (optional)",
+    privacy_sens:'Processing of sensitive (health) information',
+    sv_items:'Scalp & hair condition, treatment/medication history, family history of hair loss, pregnancy/breastfeeding',
+    sv_purpose:'Safe and accurate personalized care',
+    refuse_k:'Right to refuse', refuse:'You may refuse, but consultation and care may be limited.',
+    visit_title:'Getting Here', addr_copy:'Copy address', copied:'Copied.',
+    map_naver:'Naver Map', map_kakao:'Kakao Map', map_google:'Google Maps',
+    call:'Call', parking_k:'Parking', cal_add:'Add to calendar', cal_title:'Scálpit {b} visit',
+    kakao_ch:'Add us on KakaoTalk', kakao_ch_desc:'Reschedule or ask questions easily via KakaoTalk', insta:'Follow on Instagram',
     s4_title:'Scalp & Lifestyle', s4_desc:'Tell us about your current scalp condition and routine.',
     q_scalp:'Main Scalp Concerns',
     sc1:'Hair loss', sc2:'Itchiness', sc3:'Dryness', sc4:'Oily scalp', sc5:'Dandruff',
@@ -609,7 +654,7 @@ const T = {
     privacy_mkt:'Receive marketing information',
     privacy_mkt_detail:'Get notified about events, promotions and new services.',
     promo_title:'30% off your first visit', promo_body:'Applied when you agree to receive marketing info!',
-    err_privacy:'Please agree to the collection and use of personal information.',
+    err_privacy:'Please agree to all required items.',
     btn_next:'Next', btn_back:'Back', btn_submit:'Submit', btn_ing:'Submitting',
     done_title:'Your form has been submitted',
     done_desc:"Thank you for sharing.\nWe'll prepare the best scalp care for you.\nWe look forward to your visit.",
@@ -644,6 +689,16 @@ const T = {
     q_src:'来访途径',
     vs1:'Instagram', vs2:'YouTube', vs3:'Naver搜索', vs4:'Naver Cafe/博客', vs5:'朋友介绍', vs6:'招牌/横幅',
     err_src:'请选择来访途径。',
+    vs7:'Naver地图', vs8:'Kakao地图', vs9:'TikTok', vs10:'回头客', vs11:'其他',
+    ph_referrer:'介绍人姓名（选填）',
+    privacy_sens:'同意处理敏感信息（健康信息）',
+    sv_items:'头皮·毛发状况、治疗·用药史、脱发遗传史、妊娠·哺乳状态',
+    sv_purpose:'提供安全、准确的个性化护理',
+    refuse_k:'拒绝权利', refuse:'您可以拒绝同意，但可能会限制咨询及护理服务。',
+    visit_title:'交通指南', addr_copy:'复制地址', copied:'已复制。',
+    map_naver:'Naver地图', map_kakao:'Kakao地图', map_google:'Google地图',
+    call:'拨打电话', parking_k:'停车', cal_add:'添加到日历', cal_title:'Scálpit {b} 到访',
+    kakao_ch:'添加KakaoTalk频道', kakao_ch_desc:'通过KakaoTalk轻松变更预约或咨询', insta:'关注Instagram',
     s4_title:'头皮烦恼 & 生活习惯', s4_desc:'请告知您目前的头皮状况和生活习惯。',
     q_scalp:'主要头皮烦恼',
     sc1:'脱发', sc2:'瘙痒', sc3:'干燥', sc4:'油性/油光', sc5:'头皮屑',
@@ -688,7 +743,7 @@ const T = {
     privacy_mkt:'同意接收营销信息',
     privacy_mkt_detail:'接收活动、促销、新服务等信息。',
     promo_title:'首次到访 30% 折扣', promo_body:'同意接收营销信息即可享受！',
-    err_privacy:'请同意个人信息收集和使用。',
+    err_privacy:'请同意所有必选项目。',
     btn_next:'下一步', btn_back:'上一步', btn_submit:'提交', btn_ing:'提交中',
     done_title:'问卷已提交',
     done_desc:'感谢您提供宝贵信息。\nScálpit将为您准备最佳的头皮护理。\n期待您的到来。',
@@ -722,6 +777,16 @@ const T = {
     q_src:'来店経路',
     vs1:'Instagram', vs2:'YouTube', vs3:'Naver検索', vs4:'Naver Cafe / ブログ', vs5:'知人の紹介', vs6:'看板 / バナー',
     err_src:'来店経路を選択してください。',
+    vs7:'Naverマップ', vs8:'Kakaoマップ', vs9:'TikTok', vs10:'再来店', vs11:'その他',
+    ph_referrer:'ご紹介者のお名前（任意）',
+    privacy_sens:'センシティブ情報（健康情報）の取扱いへの同意',
+    sv_items:'頭皮・毛髪の状態、治療・服薬歴、脱毛の遺伝歴、妊娠・授乳の有無',
+    sv_purpose:'安全で正確なオーダーメイドケアのため',
+    refuse_k:'拒否する権利', refuse:'同意を拒否できますが、その場合カウンセリング・施術が制限される場合があります。',
+    visit_title:'アクセス', addr_copy:'住所をコピー', copied:'コピーしました。',
+    map_naver:'Naverマップ', map_kakao:'Kakaoマップ', map_google:'Googleマップ',
+    call:'電話する', parking_k:'駐車場', cal_add:'カレンダーに追加', cal_title:'Scálpit {b} ご来店',
+    kakao_ch:'KakaoTalkチャンネル追加', kakao_ch_desc:'予約変更・お問い合わせをKakaoTalkで', insta:'Instagramをフォロー',
     s4_title:'頭皮のお悩み & 生活習慣', s4_desc:'現在の頭皮状態と生活習慣を教えてください。',
     q_scalp:'主な頭皮のお悩み',
     sc1:'抜け毛・薄毛', sc2:'かゆみ', sc3:'乾燥', sc4:'脂性・テカリ', sc5:'フケ',
@@ -766,7 +831,7 @@ const T = {
     privacy_mkt:'マーケティング情報の受信への同意',
     privacy_mkt_detail:'イベント、プロモーション、新サービスのご案内をお届けします。',
     promo_title:'初回 30% 割引', promo_body:'マーケティング情報の受信に同意すると適用されます！',
-    err_privacy:'個人情報の収集・利用に同意してください。',
+    err_privacy:'必須項目すべてに同意してください。',
     btn_next:'次へ', btn_back:'戻る', btn_submit:'送信する', btn_ing:'送信中',
     done_title:'アンケートを受け付けました',
     done_desc:'貴重な情報をありがとうございます。\nScálpitで最適な頭皮ケアをご準備いたします。\nご来店をお待ちしております。',
@@ -805,12 +870,13 @@ const STEPS = [
   ]},
   { en:'History', title:'s3_title', desc:'s3_desc', qs:[
     { name:'treatmentHistory', type:'checkbox', label:'q_treat', chip:'multi', chip2:'optional', opts:['th1','th2','th3','th4','th5','th6'] },
-    { name:'visitSource', type:'radio', label:'q_src', req:true, err:'err_src', grid:true, opts:['vs1','vs2','vs3','vs4','vs5','vs6'] },
+    { name:'visitSource', type:'radio', label:'q_src', req:true, err:'err_src', grid:true,
+      opts:['vs1','vs2','vs3','vs7','vs4','vs8','vs9','vs5','vs6','vs10','vs11'], wide:['vs11'], details:{ vs5:'ph_referrer', vs11:'ph_other' } },
   ]},
   { en:'Scalp & Lifestyle', title:'s4_title', desc:'s4_desc', qs:[
     { name:'scalpConcerns', type:'checkbox', label:'q_scalp', chip:'multi', req:true, err:'err_scalp', grid:true,
-      opts:['sc1','sc2','sc3','sc4','sc5','sc6','sc7','sc8','sc9','sc10','sc11'], wide:['sc11'], other:'sc11' },
-    { name:'shampooFrequency', type:'radio', label:'q_shampoo', req:true, err:'err_shampoo', opts:['sf1','sf2','sf3','sf4','sf5'], other:'sf5' },
+      opts:['sc1','sc2','sc3','sc4','sc5','sc6','sc7','sc8','sc9','sc10','sc11'], wide:['sc11'], details:{ sc11:'ph_other' } },
+    { name:'shampooFrequency', type:'radio', label:'q_shampoo', req:true, err:'err_shampoo', opts:['sf1','sf2','sf3','sf4','sf5'], details:{ sf5:'ph_other' } },
     { name:'hairLossGenetic', type:'radio', label:'q_genetic', req:true, err:'err_genetic', grid:true, opts:['hg1','hg2'] },
     { name:'pregnancyStatus', type:'radio', label:'q_pregnant', req:true, err:'err_pregnant', opts:['pg3','pg1','pg2'] },
     { name:'permFrequency', type:'text', label:'q_perm', chip:'optional', ph:'ph_perm', maxlength:200 },
@@ -839,6 +905,14 @@ const todayStr = () => new Date().toLocaleDateString('sv');
 const branchSlug = location.pathname.split('/').filter(Boolean)[0] || '';
 const branchParam = branchSlug ? `?b=${encodeURIComponent(branchSlug)}` : '';
 let branch = { slug:'root', name:'' };
+
+// 유입 경로 자동 기록: ?from=insta_ad 같은 채널 링크, UTM 파라미터, 이전 사이트 주소
+const TRACKING = (() => {
+  const params = new URLSearchParams(location.search), t = {};
+  ['from', 'utm_source', 'utm_medium', 'utm_campaign'].forEach(k => { const v = params.get(k); if (v) t[k] = v.slice(0, 80); });
+  try { const r = document.referrer && new URL(document.referrer); if (r && r.host !== location.host) t.ref = r.host; } catch {}
+  return t;
+})();
 
 let lang = 'ko';
 let current = 0;
@@ -907,13 +981,17 @@ function buildQuestion(q) {
     });
     block.appendChild(opts);
 
-    if (q.other) {
-      const other = h('input', { class:'input other-input', type:'text', id:`${q.name}-other`, 'data-tph':'ph_other', maxlength:100, 'aria-label':'other' });
-      block.appendChild(other);
-      opts.addEventListener('change', () => {
-        const on = $(`#${q.name}-${q.other}`).checked;
-        other.classList.toggle('show', on);
-        if (on && document.activeElement?.id === `${q.name}-${q.other}`) setTimeout(() => other.focus(), 50);
+    if (q.details) {
+      // '기타', '지인 소개' 등을 고르면 상세 입력칸 표시
+      const detail = h('input', { class:'input other-input', type:'text', id:`${q.name}-other`, maxlength:100, 'aria-label':'detail' });
+      block.appendChild(detail);
+      opts.addEventListener('change', e => {
+        const key = Object.keys(q.details).find(k => $(`#${q.name}-${k}`).checked);
+        detail.classList.toggle('show', !!key);
+        if (!key) return;
+        detail.dataset.tph = q.details[key];
+        detail.placeholder = T[lang][q.details[key]];
+        if (e.target.dataset.key === key) setTimeout(() => detail.focus(), 50);
       });
     }
     if (q.share) {
@@ -960,9 +1038,19 @@ function consentHTML() {
           <dt data-t="pv_items_k"></dt> · <dd data-t="pv_items"></dd>
           <dt data-t="pv_purpose_k"></dt> · <dd data-t="pv_purpose"></dd>
           <dt data-t="pv_period_k"></dt> · <dd data-t="pv_period"></dd>
+          <dt data-t="refuse_k"></dt> · <dd data-t="refuse"></dd>
         </dl>
         <a class="consent-link" href="/scalpit-privacy.html" target="_blank" rel="noopener" data-t="privacy_link"></a>
-        <div class="err" role="alert">${ICON_ERR}<span data-t="err_privacy"></span></div>
+      </div>
+      <div class="consent-item">
+        <label class="check"><input type="checkbox" id="sensitiveRequired" /><span class="mark">${ICON_CHECK}</span>
+          <span class="check-text"><span class="tag-req" data-t="tag_req"></span><span data-t="privacy_sens"></span></span></label>
+        <dl class="consent-detail">
+          <dt data-t="pv_items_k"></dt> · <dd data-t="sv_items"></dd>
+          <dt data-t="pv_purpose_k"></dt> · <dd data-t="sv_purpose"></dd>
+          <dt data-t="pv_period_k"></dt> · <dd data-t="pv_period"></dd>
+          <dt data-t="refuse_k"></dt> · <dd data-t="refuse"></dd>
+        </dl>
       </div>
       <div class="consent-item">
         <div class="promo">
@@ -973,13 +1061,14 @@ function consentHTML() {
           <span class="check-text"><span class="tag-opt" data-t="tag_opt"></span><span data-t="privacy_mkt"></span></span></label>
         <p class="consent-detail" data-t="privacy_mkt_detail"></p>
       </div>
-    </div>`;
+    </div>
+    <div class="err" role="alert">${ICON_ERR}<span data-t="err_privacy"></span></div>`;
 }
 
 function wireConsent() {
-  const all = $('#consentAll'), req = $('#privacyRequired'), mkt = $('#privacyMarketing');
-  all.addEventListener('change', () => { req.checked = mkt.checked = all.checked; $('#q-privacy').classList.remove('invalid'); });
-  [req, mkt].forEach(c => c.addEventListener('change', () => { all.checked = req.checked && mkt.checked; $('#q-privacy').classList.remove('invalid'); }));
+  const all = $('#consentAll'), items = ['#privacyRequired', '#sensitiveRequired', '#privacyMarketing'].map(s => $(s));
+  all.addEventListener('change', () => { items.forEach(c => { c.checked = all.checked; }); $('#q-privacy').classList.remove('invalid'); });
+  items.forEach(c => c.addEventListener('change', () => { all.checked = items.every(x => x.checked); $('#q-privacy').classList.remove('invalid'); }));
 }
 
 // ── 입력 포맷 ──
@@ -1079,7 +1168,7 @@ function validateStep(i) {
   const bad = [];
   STEPS[i].qs.forEach(q => {
     let ok = true;
-    if (q.type === 'consent') ok = $('#privacyRequired').checked;
+    if (q.type === 'consent') ok = $('#privacyRequired').checked && $('#sensitiveRequired').checked;
     else if (q.type === 'notice') ok = $('#bookingNoticeCheck').checked;
     else if (!q.req) ok = true;
     else if (q.type === 'date') { const v = $(`#${q.name}`).value; ok = !!v && v >= todayStr(); }
@@ -1109,7 +1198,7 @@ function onNext() {
 
 // ── 공유 ──
 async function shareLink() {
-  const url = location.origin + location.pathname;
+  const url = `${location.origin}${location.pathname}?from=share`; // 손님 공유로 들어온 일행을 구분
   if (navigator.share) {
     try { await navigator.share({ title: document.title, url }); return; } catch (e) { if (e.name === 'AbortError') return; }
   }
@@ -1125,9 +1214,11 @@ function toast(msg) {
 }
 
 // ── 제출 ──
-function withOther(name, otherKey) {
-  const otherText = $(`#${name}-other`)?.value.trim();
-  return checked(name).map(x => x.dataset.key === otherKey && otherText ? `${x.value} (${otherText})` : x.value);
+const QUESTIONS = Object.fromEntries(STEPS.flatMap(s => s.qs).map(q => [q.name, q]));
+function withDetail(name) {
+  const details = QUESTIONS[name].details || {};
+  const text = $(`#${name}-other`)?.value.trim();
+  return checked(name).map(x => details[x.dataset.key] && text ? `${x.value} (${text})` : x.value);
 }
 
 async function submitForm() {
@@ -1145,16 +1236,18 @@ async function submitForm() {
     phone: $('#phone').value.trim(),
     address: $('#address').value.trim(),
     treatmentHistory: checked('treatmentHistory').map(x => x.value),
-    visitSource: checked('visitSource')[0]?.value || '',
-    scalpConcerns: withOther('scalpConcerns', 'sc11'),
+    visitSource: withDetail('visitSource')[0] || '',
+    scalpConcerns: withDetail('scalpConcerns'),
     permFrequency: $('#permFrequency').value.trim(),
-    shampooFrequency: withOther('shampooFrequency', 'sf5')[0] || '',
+    shampooFrequency: withDetail('shampooFrequency')[0] || '',
     hairLossGenetic: checked('hairLossGenetic')[0]?.value || '',
     pregnancyStatus: checked('pregnancyStatus')[0]?.value || '',
     desiredServices: checked('desiredServices').map(x => x.value),
     videoConsent: checked('videoConsent')[0]?.value || '',
     privacyConsent: $('#privacyRequired').checked,
+    sensitiveConsent: $('#sensitiveRequired').checked,
     marketingConsent: $('#privacyMarketing').checked,
+    tracking: TRACKING,
   };
 
   submitting = true; $('#btnNext').disabled = true; updateNav();
@@ -1192,10 +1285,77 @@ function showDone(data) {
     row.append(key, val);
     box.appendChild(row);
   });
+  $('#visitCard').replaceChildren(...visitCard(data));
   ['#form', '#actionbar', '#stepCount', '#langPill'].forEach(s => $(s).hidden = true);
   $('#progressFill').style.width = '100%';
   $('#done').classList.add('show');
   window.scrollTo({ top: 0 });
+}
+
+const ICON_PIN = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5a7 7 0 1114 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+const ICON_PHONE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"/></svg>';
+const ICON_CAL = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>';
+
+// 지점 주소·지도·연락처·캘린더·카카오 채널 (방문 전 노쇼를 줄이고 채널 친구를 확보)
+function visitCard(data) {
+  if (branch.slug === 'root') return [];
+  const t = T[lang];
+  const link = (cls, href, html) => { const a = h('a', { class: cls, href, target: '_blank', rel: 'noopener' }, html); return a; };
+  const card = h('div', { class: 'visit-card' });
+  const head = h('div', { class: 'visit-head' });
+  head.append(h('span', { class: 'visit-title' }), h('span', { class: 'visit-branch' }));
+  head.children[0].textContent = t.visit_title; head.children[1].textContent = branch.name;
+  const addr = h('div', { class: 'visit-addr' }, ICON_PIN);
+  const addrText = h('span'); addrText.textContent = branch.address;
+  const copy = h('button', { type: 'button', class: 'mini-btn' }); copy.textContent = t.addr_copy;
+  copy.addEventListener('click', async () => { try { await navigator.clipboard.writeText(branch.address); toast(t.copied); } catch { prompt('', branch.address); } });
+  addr.append(addrText, copy);
+  card.append(head, addr);
+  if (branch.parking) { const p = h('p', { class: 'visit-note' }); p.textContent = `${t.parking_k} · ${branch.parking}`; card.appendChild(p); }
+
+  const maps = [['naver', branch.naverMapUrl, t.map_naver], ['kakao', branch.kakaoMapUrl, t.map_kakao], ['google', branch.googleMapUrl, t.map_google]];
+  if (lang !== 'ko') maps.unshift(maps.pop()); // 외국인은 구글 지도를 먼저
+  const mapRow = h('div', { class: 'map-row' });
+  maps.filter(m => m[1]).forEach(([k, href, label]) => { const a = link(`map-btn map-${k}`, href, ''); a.textContent = label; mapRow.appendChild(a); });
+  card.appendChild(mapRow);
+
+  const actions = h('div', { class: 'visit-actions' });
+  if (branch.phone) { const a = h('a', { class: 'act-btn', href: `tel:${branch.phone.replace(/[^\d+]/g, '')}` }, `${ICON_PHONE}<span></span>`); a.lastChild.textContent = t.call; actions.appendChild(a); }
+  if (data.visitDate && data.visitTime) {
+    const b = h('button', { type: 'button', class: 'act-btn' }, `${ICON_CAL}<span></span>`); b.lastChild.textContent = t.cal_add;
+    b.addEventListener('click', () => downloadICS(data));
+    actions.appendChild(b);
+  }
+  if (actions.children.length) card.appendChild(actions);
+
+  const out = [card];
+  if (branch.kakaoChannelUrl) {
+    const k = link('kakao-btn', branch.kakaoChannelUrl, '<span class="kakao-ico">TALK</span><span class="kakao-txt"><strong></strong><small></small></span>');
+    k.querySelector('strong').textContent = t.kakao_ch; k.querySelector('small').textContent = t.kakao_ch_desc;
+    out.push(k);
+  }
+  if (branch.instagramUrl) { const a = link('insta-btn', branch.instagramUrl, ''); a.textContent = t.insta; out.push(a); }
+  return out;
+}
+
+// 방문 일정을 휴대폰 캘린더에 저장 (.ics)
+function downloadICS(data) {
+  const [y, m, d] = data.visitDate.split('-').map(Number);
+  const [hh, mm] = data.visitTime.split(':').map(Number);
+  const pad = n => String(n).padStart(2, '0');
+  const stamp = dt => `${dt.getFullYear()}${pad(dt.getMonth() + 1)}${pad(dt.getDate())}T${pad(dt.getHours())}${pad(dt.getMinutes())}00`;
+  const start = new Date(y, m - 1, d, hh, mm), end = new Date(start.getTime() + 90 * 60000);
+  const esc = v => String(v).replace(/[\\,;]/g, c => '\\' + c);
+  const ics = [
+    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Scalpit//Consultation//KO', 'BEGIN:VEVENT',
+    `UID:${Date.now()}@scalpitform.com`, `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').slice(0, 15)}Z`,
+    `DTSTART;TZID=Asia/Seoul:${stamp(start)}`, `DTEND;TZID=Asia/Seoul:${stamp(end)}`,
+    `SUMMARY:${esc(T[lang].cal_title.replace('{b}', branch.name))}`, `LOCATION:${esc(branch.address)}`,
+    'BEGIN:VALARM', 'TRIGGER:-PT2H', 'ACTION:DISPLAY', 'DESCRIPTION:Scálpit', 'END:VALARM',
+    'END:VEVENT', 'END:VCALENDAR',
+  ].join('\r\n');
+  const a = h('a', { href: 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics), download: 'scalpit.ics' });
+  document.body.appendChild(a); a.click(); a.remove();
 }
 
 // ── 초기화 ──

@@ -25,17 +25,21 @@
       --sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
       --serif: 'Cormorant Garamond', serif;
     }
+    html[lang="ja"] { --sans: 'Pretendard Variable', 'Noto Sans JP', 'Hiragino Sans', sans-serif; }
+    html[lang="zh"] { --sans: 'Pretendard Variable', 'Noto Sans SC', 'PingFang SC', sans-serif; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     [hidden] { display: none !important; }
     body { font-family: var(--sans); background: var(--cream); color: var(--text); min-height: 100vh; line-height: 1.6; letter-spacing: -0.01em; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
-    button, textarea { font: inherit; color: inherit; letter-spacing: inherit; }
+    button, textarea, input, select { font: inherit; color: inherit; letter-spacing: inherit; }
     button { cursor: pointer; background: none; border: none; }
     :focus-visible { outline: 2px solid var(--burg); outline-offset: 2px; }
 
     .header { position: sticky; top: 0; z-index: 10; background: rgba(250,246,241,.88); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
     .header-inner { max-width: 560px; margin: 0 auto; height: 58px; padding: 0 20px; display: flex; align-items: center; gap: 10px; }
     .header-inner img { height: 20px; }
-    .header-branch { font-size: 12.5px; font-weight: 600; color: var(--burg); padding-left: 10px; border-left: 1px solid var(--line-strong); }
+    .header-branch { font-size: 12.5px; font-weight: 600; color: var(--burg); padding-left: 10px; border-left: 1px solid var(--line-strong); white-space: nowrap; }
+    .lang-select { margin-left: auto; height: 32px; padding: 0 26px 0 12px; border: 1px solid var(--line-strong); border-radius: 999px; font-size: 12.5px; font-weight: 600; -webkit-appearance: none; appearance: none; cursor: pointer;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%237D6C6B' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center; }
 
     .wrap { max-width: 560px; margin: 0 auto; padding: 36px 20px calc(120px + env(safe-area-inset-bottom)); }
     .hero { text-align: center; margin-bottom: 32px; animation: rise .5s var(--ease) both; }
@@ -63,6 +67,13 @@
     .sub-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .sub-row .q-label { font-size: 14.5px; }
 
+    .low-box { display: none; margin-top: 16px; padding: 14px 16px; border-radius: 12px; background: var(--burg-tint); text-align: left; }
+    .low-box.show { display: block; animation: rise .3s var(--ease) both; }
+    .low-box strong { display: block; font-size: 14.5px; color: var(--burg); }
+    .low-box p { font-size: 13.5px; color: var(--text); margin: 2px 0 10px; }
+    .input { width: 100%; height: 50px; padding: 0 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: #fff; font-size: 16px; outline: none; }
+    .input:focus { border-color: var(--burg); box-shadow: 0 0 0 3px rgba(123,26,43,.10); }
+
     .opts { display: grid; gap: 8px; margin-top: 14px; }
     .opt input { position: absolute; opacity: 0; pointer-events: none; }
     .opt label { display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 12px 16px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-sm); font-size: 15px; cursor: pointer; transition: border-color .18s, background .18s, box-shadow .18s; }
@@ -73,7 +84,7 @@
 
     textarea { width: 100%; margin-top: 12px; min-height: 96px; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--card); font-size: 16px; line-height: 1.6; color: var(--ink); outline: none; resize: vertical; transition: border-color .18s, box-shadow .18s; }
     textarea:focus { border-color: var(--burg); box-shadow: 0 0 0 3px rgba(123,26,43,.10); }
-    textarea::placeholder { color: var(--faint); }
+    textarea::placeholder, .input::placeholder { color: var(--faint); }
 
     .err { display: none; text-align: center; font-size: 13px; color: var(--danger); margin-top: 6px; }
     .card.invalid { border-color: rgba(180,35,47,.45); }
@@ -85,14 +96,26 @@
     .btn:active { transform: scale(.985); }
     .btn:disabled { opacity: .6; cursor: progress; }
 
-    .done { display: none; max-width: 440px; margin: 0 auto; padding: 72px 20px; text-align: center; }
+    .done { display: none; max-width: 440px; margin: 0 auto; padding: 56px 20px 72px; text-align: center; }
     .done.show { display: block; animation: rise .6s var(--ease) both; }
-    .done-mark { width: 72px; height: 72px; margin: 0 auto 28px; border-radius: 50%; background: var(--burg); color: #fff; display: grid; place-items: center; box-shadow: 0 0 0 10px var(--burg-tint); }
+    .done-mark { width: 72px; height: 72px; margin: 0 auto 26px; border-radius: 50%; background: var(--burg); color: #fff; display: grid; place-items: center; box-shadow: 0 0 0 10px var(--burg-tint); }
     .done-mark path { stroke-dasharray: 30; stroke-dashoffset: 30; animation: draw .5s .25s var(--ease) forwards; }
     @keyframes draw { to { stroke-dashoffset: 0; } }
     .done-title { font-size: 24px; font-weight: 700; color: var(--ink); margin-top: 6px; }
-    .done-desc { font-size: 15px; color: var(--muted); margin-top: 10px; line-height: 1.8; }
+    .done-desc { font-size: 15px; color: var(--muted); margin-top: 10px; line-height: 1.8; white-space: pre-line; }
+    .ext { display: grid; gap: 8px; margin-top: 26px; }
+    .ext-btn { display: flex; align-items: center; justify-content: center; gap: 10px; height: 54px; border-radius: 14px; font-size: 15.5px; font-weight: 700; text-decoration: none; border: 1px solid var(--line); background: #fff; color: var(--ink); }
+    .ext-btn .dot { width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; font-size: 12px; font-weight: 900; color: #fff; }
+    .ext-naver { background: #03C75A; border-color: #03C75A; color: #fff; }
+    .ext-naver .dot { background: #fff; color: #03C75A; }
+    .ext-kakao { background: #FEE500; border-color: #FEE500; color: #3A1D1D; }
+    .ext-kakao .dot { background: #3A1D1D; color: #FEE500; }
+    .ext-google .dot { background: #1A73E8; }
+    .copy-btn { margin-top: 12px; font-size: 13.5px; font-weight: 600; color: var(--burg); text-decoration: underline; text-underline-offset: 3px; }
     .done-logo { width: 96px; margin: 40px auto 0; display: block; opacity: .85; }
+
+    .toast { position: fixed; left: 50%; bottom: calc(28px + env(safe-area-inset-bottom)); z-index: 30; transform: translate(-50%, 12px); opacity: 0; pointer-events: none; background: var(--ink); color: #fff; font-size: 14px; padding: 12px 18px; border-radius: 12px; max-width: calc(100% - 40px); text-align: center; transition: opacity .25s, transform .25s var(--ease); }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
     @media (max-width: 520px) { .sub-row { grid-template-columns: 1fr; gap: 20px; } }
     @media (max-width: 380px) { .star svg { width: 36px; height: 36px; } }
@@ -100,131 +123,281 @@
   </style>
 </head>
 <body>
-<header class="header"><div class="header-inner"><img src="/scalpit-logo.png" alt="Scálpit" /><span class="header-branch" id="headerBranch" hidden></span></div></header>
+<header class="header">
+  <div class="header-inner">
+    <img src="/scalpit-logo.png" alt="Scálpit" /><span class="header-branch" id="headerBranch" hidden></span>
+    <select class="lang-select" id="langSelect" aria-label="Language">
+      <option value="ko">한국어</option><option value="en">English</option><option value="zh">中文</option><option value="ja">日本語</option>
+    </select>
+  </div>
+</header>
 
 <main class="wrap" id="formSection">
   <div class="hero">
     <div class="hero-en">How was your visit?</div>
-    <h1 class="hero-title">오늘 서비스 어떠셨나요?</h1>
-    <p class="hero-desc">솔직한 한마디가 스칼프잇을 더 좋게 만들어요.</p>
+    <h1 class="hero-title" data-t="title"></h1>
+    <p class="hero-desc" data-t="desc"></p>
   </div>
 
   <section class="card center" id="q-overall">
-    <div class="q-label">전체적인 만족도<span class="q-req">*</span></div>
-    <div class="stars" data-group="overall" role="radiogroup" aria-label="전체 만족도"></div>
+    <div class="q-label"><span data-t="q_overall"></span><span class="q-req">*</span></div>
+    <div class="stars" data-group="overall" role="radiogroup"></div>
     <div class="star-label" id="label-overall"></div>
-    <div class="err" role="alert">전체 만족도를 선택해주세요.</div>
+    <div class="err" role="alert" data-t="err_overall"></div>
+    <div class="low-box" id="lowBox">
+      <strong data-t="low_title"></strong>
+      <p data-t="low_desc"></p>
+      <input class="input" id="contactPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" data-tph="ph_phone" />
+    </div>
   </section>
 
   <section class="card sub-row">
     <div>
-      <div class="q-label">직원 응대 <span class="q-chip">선택</span></div>
-      <div class="stars small" data-group="staff" role="radiogroup" aria-label="직원 응대"></div>
+      <div class="q-label"><span data-t="q_staff"></span> <span class="q-chip" data-t="optional"></span></div>
+      <div class="stars small" data-group="staff" role="radiogroup"></div>
       <div class="star-label" id="label-staff"></div>
     </div>
     <div>
-      <div class="q-label">관리 결과 <span class="q-chip">선택</span></div>
-      <div class="stars small" data-group="result" role="radiogroup" aria-label="관리 결과"></div>
+      <div class="q-label"><span data-t="q_result"></span> <span class="q-chip" data-t="optional"></span></div>
+      <div class="stars small" data-group="result" role="radiogroup"></div>
       <div class="star-label" id="label-result"></div>
     </div>
   </section>
 
   <section class="card">
-    <div class="q-label">다음에 또 방문하실 의향이 있으신가요? <span class="q-chip">선택</span></div>
+    <div class="q-label"><span data-t="q_revisit"></span> <span class="q-chip" data-t="optional"></span></div>
     <div class="opts" role="radiogroup">
-      <div class="opt"><input type="radio" name="revisit" id="rv1" value="yes" /><label for="rv1"><span class="emoji">😍</span> 당연하죠! 또 올게요</label></div>
-      <div class="opt"><input type="radio" name="revisit" id="rv2" value="maybe" /><label for="rv2"><span class="emoji">🤔</span> 고민 중이에요</label></div>
-      <div class="opt"><input type="radio" name="revisit" id="rv3" value="no" /><label for="rv3"><span class="emoji">😔</span> 아마 아닐 것 같아요</label></div>
+      <div class="opt"><input type="radio" name="revisit" id="rv1" value="yes" /><label for="rv1"><span class="emoji">😍</span><span data-t="rv1"></span></label></div>
+      <div class="opt"><input type="radio" name="revisit" id="rv2" value="maybe" /><label for="rv2"><span class="emoji">🤔</span><span data-t="rv2"></span></label></div>
+      <div class="opt"><input type="radio" name="revisit" id="rv3" value="no" /><label for="rv3"><span class="emoji">😔</span><span data-t="rv3"></span></label></div>
     </div>
   </section>
 
   <section class="card">
-    <div class="q-label">한 줄 후기를 남겨주세요 <span class="q-chip">선택</span></div>
-    <textarea id="comment" maxlength="1000" placeholder="예: 두피가 시원해지는 느낌이 너무 좋았어요!"></textarea>
+    <div class="q-label"><span data-t="q_comment"></span> <span class="q-chip" data-t="optional"></span></div>
+    <textarea id="comment" maxlength="1000" data-tph="ph_comment"></textarea>
   </section>
 
   <section class="card">
-    <div class="q-label">불편하셨던 점이 있으셨나요? <span class="q-chip">선택</span></div>
-    <textarea id="improvement" maxlength="1000" placeholder="솔직하게 말씀해 주세요. 바로 개선할게요!&#10;예: 대기 시간이 조금 길었어요"></textarea>
+    <div class="q-label"><span data-t="q_improve"></span> <span class="q-chip" data-t="optional"></span></div>
+    <textarea id="improvement" maxlength="1000" data-tph="ph_improve"></textarea>
   </section>
 </main>
 
-<nav class="actionbar" id="actionbar"><button class="btn" id="submitBtn" type="button">리뷰 보내기</button></nav>
+<nav class="actionbar" id="actionbar"><button class="btn" id="submitBtn" type="button" data-t="submit"></button></nav>
 
 <section class="done" id="done" aria-live="polite">
   <div class="done-mark"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
   <div class="hero-en">Thank you</div>
-  <h1 class="done-title">감사합니다!</h1>
-  <p class="done-desc">소중한 리뷰가 잘 전달되었어요.<br>더 좋은 서비스로 보답하겠습니다.</p>
+  <h1 class="done-title" id="doneTitle"></h1>
+  <p class="done-desc" id="doneDesc"></p>
+  <div class="ext" id="ext"></div>
+  <button class="copy-btn" id="copyBtn" type="button" hidden data-t="copy_review"></button>
   <img src="/scalpit-logo.png" alt="Scálpit" class="done-logo" />
 </section>
 
+<div class="toast" id="toast" role="status"></div>
+
 <script>
+const T = {
+  ko: {
+    title:'오늘 서비스 어떠셨나요?', desc:'솔직한 한마디가 스칼프잇을 더 좋게 만들어요.',
+    q_overall:'전체적인 만족도', err_overall:'전체 만족도를 선택해주세요.',
+    q_staff:'직원 응대', q_result:'관리 결과', optional:'선택',
+    q_revisit:'다음에 또 방문하실 의향이 있으신가요?', rv1:'당연하죠! 또 올게요', rv2:'고민 중이에요', rv3:'아마 아닐 것 같아요',
+    q_comment:'한 줄 후기를 남겨주세요', ph_comment:'예: 두피가 시원해지는 느낌이 너무 좋았어요!',
+    q_improve:'불편하셨던 점이 있으셨나요?', ph_improve:'솔직하게 말씀해 주세요. 바로 개선할게요!',
+    low_title:'불편을 드려 죄송합니다', low_desc:'연락처를 남겨주시면 매니저가 직접 연락드릴게요.', ph_phone:'연락처 (선택)',
+    submit:'리뷰 보내기', sending:'보내는 중…',
+    stars:['', '아쉬웠어요', '조금 아쉬웠어요', '보통이에요', '좋았어요', '최고였어요!'],
+    hi_title:'감사합니다! 💛', hi_desc:'딱 한 번만 더 도와주세요!\n지도 앱에도 리뷰를 남겨주시면\n스칼프잇에 정말 큰 힘이 돼요.',
+    review_naver:'네이버에 리뷰 남기기', review_kakao:'카카오맵에 리뷰 남기기', review_google:'Google에 리뷰 남기기',
+    copy_review:'내 후기 복사하기', copied:'후기가 복사되었어요. 리뷰 칸에 붙여넣기 해주세요!',
+    low_done_title:'소중한 의견 감사합니다', low_done_desc:'말씀해 주신 부분 꼭 개선하겠습니다.', low_done_contact:'\n매니저가 확인 후 연락드릴게요.',
+    err_server:'오류가 발생했습니다. 다시 시도해주세요.', err_rate:'잠시 후 다시 시도해주세요.',
+  },
+  en: {
+    title:'How was your visit today?', desc:'Your honest feedback helps us improve.',
+    q_overall:'Overall satisfaction', err_overall:'Please rate your overall satisfaction.',
+    q_staff:'Staff', q_result:'Results', optional:'Optional',
+    q_revisit:'Would you visit us again?', rv1:'Absolutely! I’ll be back', rv2:'Not sure yet', rv3:'Probably not',
+    q_comment:'Leave a short review', ph_comment:'e.g. My scalp felt so refreshed!',
+    q_improve:'Was there anything uncomfortable?', ph_improve:'Please tell us honestly. We’ll improve right away!',
+    low_title:'We’re sorry for the inconvenience', low_desc:'Leave your number and our manager will contact you.', ph_phone:'Phone (optional)',
+    submit:'Send review', sending:'Sending…',
+    stars:['', 'Disappointing', 'Could be better', 'Okay', 'Good', 'Excellent!'],
+    hi_title:'Thank you! 💛', hi_desc:'One more small favor!\nA review on Google or Naver Maps\nhelps us more than you know.',
+    review_naver:'Review on Naver', review_kakao:'Review on Kakao Map', review_google:'Review on Google',
+    copy_review:'Copy my review', copied:'Review copied. Just paste it into the review box!',
+    low_done_title:'Thank you for your feedback', low_done_desc:'We will make sure to improve.', low_done_contact:'\nOur manager will contact you soon.',
+    err_server:'An error occurred. Please try again.', err_rate:'Please try again shortly.',
+  },
+  zh: {
+    title:'今天的服务怎么样？', desc:'您真诚的反馈让我们变得更好。',
+    q_overall:'整体满意度', err_overall:'请选择整体满意度。',
+    q_staff:'员工服务', q_result:'护理效果', optional:'选填',
+    q_revisit:'您还会再来吗？', rv1:'当然！还会再来', rv2:'还在考虑', rv3:'可能不会',
+    q_comment:'留下一句评价吧', ph_comment:'例：头皮感觉特别清爽！',
+    q_improve:'有不满意的地方吗？', ph_improve:'请坦诚告诉我们，我们会立即改进！',
+    low_title:'很抱歉给您带来不便', low_desc:'留下联系方式，店长会直接与您联系。', ph_phone:'联系电话（选填）',
+    submit:'提交评价', sending:'提交中…',
+    stars:['', '不满意', '有点失望', '一般', '满意', '非常满意！'],
+    hi_title:'谢谢您！💛', hi_desc:'再帮我们一个小忙！\n在地图应用上留下评价\n对我们帮助很大。',
+    review_naver:'在Naver留下评价', review_kakao:'在Kakao地图留下评价', review_google:'在Google留下评价',
+    copy_review:'复制我的评价', copied:'评价已复制，请粘贴到评价栏！',
+    low_done_title:'感谢您的宝贵意见', low_done_desc:'我们一定会改进。', low_done_contact:'\n店长确认后会与您联系。',
+    err_server:'发生错误，请重试。', err_rate:'请稍后再试。',
+  },
+  ja: {
+    title:'本日のサービスはいかがでしたか？', desc:'率直なご意見がScálpitをより良くします。',
+    q_overall:'総合満足度', err_overall:'総合満足度を選択してください。',
+    q_staff:'スタッフの対応', q_result:'施術の結果', optional:'任意',
+    q_revisit:'また来店したいと思いますか？', rv1:'もちろん！また来ます', rv2:'検討中です', rv3:'たぶん来ないと思います',
+    q_comment:'ひとことレビューをお願いします', ph_comment:'例：頭皮がすっきりして最高でした！',
+    q_improve:'ご不便な点はありましたか？', ph_improve:'率直にお聞かせください。すぐに改善します！',
+    low_title:'ご不便をおかけして申し訳ありません', low_desc:'ご連絡先を残していただければ、マネージャーよりご連絡いたします。', ph_phone:'電話番号（任意）',
+    submit:'レビューを送る', sending:'送信中…',
+    stars:['', '残念でした', '少し残念でした', '普通です', '良かったです', '最高でした！'],
+    hi_title:'ありがとうございます！💛', hi_desc:'もうひとつだけお願いです！\n地図アプリにもレビューを残していただけると\nとても励みになります。',
+    review_naver:'Naverにレビューを書く', review_kakao:'Kakaoマップにレビューを書く', review_google:'Googleにレビューを書く',
+    copy_review:'レビューをコピー', copied:'レビューをコピーしました。レビュー欄に貼り付けてください！',
+    low_done_title:'貴重なご意見ありがとうございます', low_done_desc:'いただいたご意見は必ず改善いたします。', low_done_contact:'\nマネージャーより改めてご連絡いたします。',
+    err_server:'エラーが発生しました。もう一度お試しください。', err_rate:'しばらくしてからお試しください。',
+  },
+};
+
 const $ = s => document.querySelector(s);
+const h = (tag, attrs = {}, html = '') => { const e = document.createElement(tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (html) e.innerHTML = html; return e; };
 const firstSeg = location.pathname.split('/').filter(Boolean)[0] || '';
 const branchSlug = /^review/.test(firstSeg) ? '' : firstSeg;
 const branchParam = branchSlug ? `?b=${encodeURIComponent(branchSlug)}` : '';
+let branch = { slug: 'root' };
 
-fetch('/api/branch' + branchParam).then(r => r.json()).then(b => {
-  if (b.slug === 'root') return;
-  $('#headerBranch').textContent = b.name; $('#headerBranch').hidden = false;
-  document.title = `Scálpit ${b.name} | 오늘 서비스 어떠셨나요?`;
-}).catch(() => {});
+// 언어: ?lang= → 휴대폰 언어 → 한국어
+const pickLang = () => {
+  const q = new URLSearchParams(location.search).get('lang');
+  if (T[q]) return q;
+  const nav = (navigator.language || 'ko').slice(0, 2);
+  return T[nav] ? nav : 'ko';
+};
+let lang = pickLang();
 
 const STAR = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.8l2.75 5.82 6.35.8-4.66 4.4 1.18 6.3L12 17.07 6.38 20.12l1.18-6.3L2.9 9.42l6.35-.8z"/></svg>';
-const TEXTS = ['', '아쉬웠어요', '조금 아쉬웠어요', '보통이에요', '좋았어요', '최고였어요!'];
 const ratings = { overall: 0, staff: 0, result: 0 };
-let sent = false, dirty = false;
+let sent = false, dirty = false, reviewId = null;
+
+function applyLang() {
+  const t = T[lang];
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-t]').forEach(el => { if (typeof t[el.dataset.t] === 'string') el.textContent = t[el.dataset.t]; });
+  document.querySelectorAll('[data-tph]').forEach(el => { el.placeholder = t[el.dataset.tph]; });
+  Object.keys(ratings).forEach(g => { $(`#label-${g}`).textContent = t.stars[ratings[g]] || ''; });
+  $('#langSelect').value = lang;
+  const fam = { ja: 'Noto+Sans+JP', zh: 'Noto+Sans+SC' }[lang];
+  if (fam && !document.getElementById(`font-${lang}`))
+    document.head.appendChild(h('link', { id: `font-${lang}`, rel: 'stylesheet', href: `https://fonts.googleapis.com/css2?family=${fam}:wght@400;500;700&display=swap` }));
+}
+
+fetch('/api/branch' + branchParam).then(r => r.json()).then(b => {
+  branch = b;
+  if (b.slug === 'root') return;
+  $('#headerBranch').textContent = b.name; $('#headerBranch').hidden = false;
+  document.title = `Scálpit ${b.name} | Review`;
+}).catch(() => {});
 
 document.querySelectorAll('.stars').forEach(box => {
   const group = box.dataset.group;
   for (let v = 1; v <= 5; v++) {
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'star'; b.innerHTML = STAR;
-    b.setAttribute('role', 'radio'); b.setAttribute('aria-label', `${v}점`); b.setAttribute('aria-checked', 'false');
+    const b = h('button', { type: 'button', class: 'star', role: 'radio', 'aria-label': `${v}`, 'aria-checked': 'false' }, STAR);
     b.addEventListener('click', () => {
       ratings[group] = v; dirty = true;
       box.querySelectorAll('.star').forEach((s, i) => { s.classList.toggle('on', i < v); s.setAttribute('aria-checked', String(i === v - 1)); });
-      $(`#label-${group}`).textContent = TEXTS[v];
-      if (group === 'overall') $('#q-overall').classList.remove('invalid');
+      $(`#label-${group}`).textContent = T[lang].stars[v];
+      if (group === 'overall') {
+        $('#q-overall').classList.remove('invalid');
+        $('#lowBox').classList.toggle('show', v <= 3); // 아쉬운 별점이면 연락처 요청
+      }
     });
     box.appendChild(b);
   }
 });
 document.querySelectorAll('textarea, input').forEach(el => el.addEventListener('input', () => { dirty = true; }));
+$('#langSelect').addEventListener('change', e => { lang = e.target.value; applyLang(); });
+
+let toastTimer;
+function toast(msg) {
+  const el = $('#toast'); el.textContent = msg; el.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+function trackClick(target) {
+  if (!reviewId) return;
+  fetch(`/api/review/${reviewId}/click${branchParam}`, { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ target }) }).catch(() => {});
+}
+
+async function copyComment(silent) {
+  const text = $('#comment').value.trim();
+  if (!text) return;
+  try { await navigator.clipboard.writeText(text); toast(T[lang].copied); } catch { if (!silent) prompt('', text); }
+}
+
+function showDone() {
+  const t = T[lang], happy = ratings.overall >= 4;
+  $('#doneTitle').textContent = happy ? t.hi_title : t.low_done_title;
+  $('#doneDesc').textContent = happy ? t.hi_desc : t.low_done_desc + ($('#contactPhone').value.trim() ? t.low_done_contact : '');
+  const ext = $('#ext'); ext.innerHTML = '';
+  // 만족한 고객만 외부 리뷰로 연결 (네이버·카카오맵·구글)
+  if (happy && branch.slug !== 'root') {
+    const links = [['naver', branch.naverMapUrl, t.review_naver, 'N'], ['kakao', branch.kakaoMapUrl, t.review_kakao, 'K'], ['google', branch.googleMapUrl, t.review_google, 'G']];
+    if (lang !== 'ko') links.unshift(links.pop());
+    links.filter(l => l[1]).forEach(([k, href, label, mark]) => {
+      const a = h('a', { class: `ext-btn ext-${k}`, href, target: '_blank', rel: 'noopener' }, `<span class="dot">${mark}</span><span></span>`);
+      a.lastChild.textContent = label;
+      a.addEventListener('click', () => { trackClick(k); copyComment(true); });
+      ext.appendChild(a);
+    });
+    $('#copyBtn').hidden = !$('#comment').value.trim();
+  }
+  $('#formSection').hidden = true; $('#actionbar').hidden = true;
+  $('#done').classList.add('show');
+  window.scrollTo({ top: 0 });
+}
+$('#copyBtn').addEventListener('click', () => { trackClick('copy'); copyComment(false); });
 
 $('#submitBtn').addEventListener('click', async () => {
   if (sent) return;
+  const t = T[lang];
   if (!ratings.overall) {
     $('#q-overall').classList.add('invalid');
-    $('#q-overall').scrollIntoView({ behavior:'smooth', block:'center' });
+    $('#q-overall').scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
   const btn = $('#submitBtn');
-  btn.disabled = true; btn.textContent = '보내는 중…';
+  btn.disabled = true; btn.textContent = t.sending;
   const payload = {
+    lang,
     overallRating: ratings.overall,
     staffRating: ratings.staff || null,
     resultRating: ratings.result || null,
     revisit: document.querySelector('input[name="revisit"]:checked')?.value || '',
     improvement: $('#improvement').value.trim(),
     comment: $('#comment').value.trim(),
+    contactPhone: $('#contactPhone').value.trim(),
   };
   try {
-    const res = await fetch('/api/review' + branchParam, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+    const res = await fetch('/api/review' + branchParam, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
     if (res.status === 429) throw new Error('rate');
     const data = await res.json().catch(() => ({}));
     if (!data.success) throw new Error('server');
-    sent = true; dirty = false;
-    $('#formSection').hidden = true; $('#actionbar').hidden = true;
-    $('#done').classList.add('show');
-    window.scrollTo({ top: 0 });
+    reviewId = data.id; sent = true; dirty = false;
+    showDone();
   } catch (e) {
-    btn.disabled = false; btn.textContent = '리뷰 보내기';
-    alert(e.message === 'rate' ? '잠시 후 다시 시도해주세요.' : '오류가 발생했습니다. 다시 시도해주세요.');
+    btn.disabled = false; btn.textContent = t.submit;
+    toast(e.message === 'rate' ? t.err_rate : t.err_server);
   }
 });
 window.addEventListener('beforeunload', e => { if (dirty && !sent) { e.preventDefault(); e.returnValue = ''; } });
+applyLang();
 </script>
 </body>
 </html>

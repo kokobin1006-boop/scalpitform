@@ -15,6 +15,12 @@ const BRANCHES = {
     passwordHash: 'scrypt$f72a4740164f016b801d045841919860$d5924b2b6a5b93a504e73464eca888420bc45faf94c3431edab4c9b07e8cfa39',
     bizNo: '657-01-03945',
     address: '충청남도 천안시 서북구 불당21로 67-8, 2층 208,209호',
+    // 방문 안내·리뷰 링크 (비어 있으면 지점명으로 지도 검색 링크를 자동 생성)
+    phone: '',
+    parking: '',
+    naverPlaceUrl: '',
+    kakaoPlaceUrl: '',
+    googlePlaceUrl: '',
   },
   dongtan: {
     name: '동탄점',
@@ -23,6 +29,12 @@ const BRANCHES = {
     passwordHash: 'scrypt$36c6c18d6693f6b66ceb1bde61013355$5a2b3dcbe5244cf13d2274f38b81643efff41b232ca2d183974062e912ae5f49',
     bizNo: '501-75-00684',
     address: '경기도 화성시 동탄오산로 86-10, 4층 405호',
+    // 방문 안내·리뷰 링크 (비어 있으면 지점명으로 지도 검색 링크를 자동 생성)
+    phone: '',
+    parking: '',
+    naverPlaceUrl: '',
+    kakaoPlaceUrl: '',
+    googlePlaceUrl: '',
   },
   gwanggyo: {
     name: '광교점',
@@ -31,6 +43,12 @@ const BRANCHES = {
     passwordHash: 'scrypt$adaf958f51f1f6935561994a568b89a4$68553de157b9630b41d409d7e727d05cb227abcd9f9298dc3f28595c841a6317',
     bizNo: '213-35-98664',
     address: '경기도 수원시 영통구 법조로 25(하동) 1114~1116호',
+    // 방문 안내·리뷰 링크 (비어 있으면 지점명으로 지도 검색 링크를 자동 생성)
+    phone: '',
+    parking: '',
+    naverPlaceUrl: '',
+    kakaoPlaceUrl: '',
+    googlePlaceUrl: '',
   },
   apgujeong: {
     name: '압구정로데오점',
@@ -39,8 +57,23 @@ const BRANCHES = {
     passwordHash: 'scrypt$984371ab84d61fb1a479e16a46dd4c3b$b073ec5d1c3bdb14a203118aeec4235a2c6e29bb2875d3f1cf7ebe6aaec51d63',
     bizNo: '407-11-65011',
     address: '서울특별시 강남구 신사동 644-3 세화빌딩 3층 (CU건물 3층)',
+    // 방문 안내·리뷰 링크 (비어 있으면 지점명으로 지도 검색 링크를 자동 생성)
+    phone: '',
+    parking: '',
+    naverPlaceUrl: '',
+    kakaoPlaceUrl: '',
+    googlePlaceUrl: '',
   },
 };
+// 브랜드 공통 링크 (비어 있으면 버튼을 숨김)
+const BRAND = {
+  kakaoChannelUrl: '',
+  instagramUrl: '',
+};
+
+// 동의 문구가 바뀌면 버전을 올려서, 고객이 어떤 문구에 동의했는지 기록으로 남김
+const CONSENT_VERSION = '2026-10-05';
+
 // 본사 관리자 비밀번호는 환경변수로만 설정 (미설정 시 본사 관리자 로그인 불가)
 const ROOT_PASSWORD = process.env.ADMIN_PASSWORD || '';
 if (!ROOT_PASSWORD) console.warn('⚠️  ADMIN_PASSWORD 환경변수가 없어 본사 관리자 화면에 로그인할 수 없습니다.');
@@ -182,7 +215,9 @@ const SUBMIT_STRINGS = {
 };
 const SUBMIT_ARRAYS = { treatmentHistory: 10, scalpConcerns: 15, desiredServices: 10 };
 
-const REVIEW_STRINGS = { revisit: 10, improvement: 1000, comment: 1000 };
+const TRACKING_STRINGS = { from: 40, utm_source: 80, utm_medium: 80, utm_campaign: 120, ref: 120 };
+
+const REVIEW_STRINGS = { lang: 5, revisit: 10, improvement: 1000, comment: 1000, contactPhone: 30 };
 const rating = v => (Number.isInteger(v) && v >= 1 && v <= 5 ? v : null);
 
 // ── 간단한 IP 기반 요청 제한 (외부 의존성 없이) ──
@@ -242,23 +277,61 @@ app.get('/apply/admin', (req, res) => res.sendFile(path.join(__dirname, 'public/
 
 app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
 
-app.get('/api/branch', (req, res) => {
-  const branch = getBranch(req);
-  res.json({
-    slug: branch ? branch.slug : 'root',
-    name: branch ? branch.name : '스칼프잇',
-    bizNo: branch ? branch.bizNo : '',
-    address: branch ? branch.address : '',
-  });
-});
+function publicBranch(branch) {
+  if (!branch) return { slug: 'root', name: '스칼프잇', bizNo: '', address: '', ...BRAND };
+  const q = encodeURIComponent(`스칼프잇 ${branch.name}`);
+  return {
+    slug: branch.slug,
+    name: branch.name,
+    bizNo: branch.bizNo,
+    address: branch.address,
+    phone: branch.phone,
+    parking: branch.parking,
+    naverMapUrl: branch.naverPlaceUrl || `https://map.naver.com/p/search/${q}`,
+    kakaoMapUrl: branch.kakaoPlaceUrl || `https://map.kakao.com/link/search/${q}`,
+    googleMapUrl: branch.googlePlaceUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branch.address)}`,
+    ...BRAND,
+  };
+}
+
+app.get('/api/branch', (req, res) => res.json(publicBranch(getBranch(req))));
+app.get('/api/branches', (req, res) => res.json(Object.entries(BRANCHES).map(([slug, b]) => ({ slug, name: b.name }))));
+
+// 채널별 링크용 QR 코드 (이 사이트 주소만 허용)
+app.get('/api/qr', wrap(async (req, res) => {
+  const text = String(req.query.text || '');
+  const origin = `${req.protocol}://${req.get('host')}/`;
+  if (text.length > 300 || !(text.startsWith(origin) || text.startsWith('https://scalpitform.com/')))
+    return res.status(400).json({ success: false });
+  const QRCode = require('qrcode');
+  const png = await QRCode.toBuffer(text, { width: 600, margin: 2, color: { dark: '#1E1214', light: '#FFFFFF' } });
+  res.setHeader('Content-Type', 'image/png');
+  res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.send(png);
+}));
 
 app.post('/api/submit', submitLimiter, wrap(async (req, res) => {
   const body = req.body || {};
   const data = pick(body, SUBMIT_STRINGS, SUBMIT_ARRAYS);
   if (!data.name && !data.nameBirth) return res.status(400).json({ success: false, message: '필수 항목을 입력해주세요.' });
-  if (body.privacyConsent === false) return res.status(400).json({ success: false, message: '개인정보 수집·이용 동의가 필요합니다.' });
+  if (body.privacyConsent === false || body.sensitiveConsent === false)
+    return res.status(400).json({ success: false, message: '필수 동의 항목에 동의해주세요.' });
   data.marketingConsent = body.marketingConsent === true;
-  if (body.privacyConsent === true) data.privacyConsent = true;
+  if (body.privacyConsent === true) {
+    data.privacyConsent = true;
+    // 동의 증빙: 어떤 버전의 문구에 언제 동의했는지 서버 시각으로 기록
+    data.consents = {
+      privacy: true,
+      sensitive: body.sensitiveConsent === true,
+      marketing: data.marketingConsent,
+      version: CONSENT_VERSION,
+      at: new Date().toISOString(),
+    };
+  }
+  if (body.tracking && typeof body.tracking === 'object') {
+    const tracking = pick(body.tracking, TRACKING_STRINGS);
+    if (Object.keys(tracking).length) data.tracking = tracking;
+  }
   const branch = getBranch(req);
   await saveSubmission({ ...data, id: nextId(), submittedAt: new Date().toISOString(), branch: branch ? branch.name : '본사' });
   res.json({ success: true });
@@ -364,6 +437,8 @@ app.post('/api/review', submitLimiter, wrap(async (req, res) => {
   data.staffRating = rating(body.staffRating);
   data.resultRating = rating(body.resultRating);
   if (!data.overallRating) return res.status(400).json({ success: false, message: '전체 만족도를 선택해주세요.' });
+  if (data.overallRating > 3) delete data.contactPhone;
+  else data.handled = false; // 3점 이하는 지점에서 확인·연락이 필요한 리뷰
   const branch = getBranch(req);
   const entry = { ...data, id: nextId(), submittedAt: new Date().toISOString(), branch: branch ? branch.name : '본사' };
   if (pool) {
@@ -372,6 +447,46 @@ app.post('/api/review', submitLimiter, wrap(async (req, res) => {
   } else {
     const list = readReviews(); list.push(entry); writeReviews(list);
   }
+  res.json({ success: true, id: entry.id });
+}));
+
+async function getReview(id) {
+  if (pool) {
+    const result = await pool.query('SELECT id, submitted_at as "submittedAt", data FROM reviews WHERE id=$1', [id]);
+    return result.rows.map(fromRow)[0];
+  }
+  return readReviews().find(r => Number(r.id) === id);
+}
+
+async function patchReview(id, patch) {
+  if (pool) {
+    await pool.query('UPDATE reviews SET data = data || $2::jsonb WHERE id=$1', [id, JSON.stringify(patch)]);
+  } else {
+    writeReviews(readReviews().map(r => (Number(r.id) === id ? { ...r, ...patch } : r)));
+  }
+}
+
+// 고객이 완료 화면에서 네이버·카카오·구글 리뷰 버튼을 눌렀는지 기록 (작성 직후 1시간 이내만)
+const REVIEW_TARGETS = ['naver', 'kakao', 'google', 'copy'];
+app.post('/api/review/:id/click', submitLimiter, wrap(async (req, res) => {
+  const id = Number(req.params.id);
+  const target = (req.body || {}).target;
+  if (!Number.isSafeInteger(id) || !REVIEW_TARGETS.includes(target)) return res.status(400).json({ success: false });
+  const review = await getReview(id);
+  if (!review || Date.now() - new Date(review.submittedAt) > 60 * 60 * 1000) return res.status(404).json({ success: false });
+  const clicks = Array.isArray(review.externalClicks) ? review.externalClicks : [];
+  if (!clicks.includes(target)) await patchReview(id, { externalClicks: [...clicks, target] });
+  res.json({ success: true });
+}));
+
+app.patch('/api/reviews/:id', adminLimiter, wrap(async (req, res) => {
+  if (!authPassword(req)) return res.status(401).json({ success: false });
+  const id = Number(req.params.id);
+  if (!Number.isSafeInteger(id) || typeof (req.body || {}).handled !== 'boolean') return res.status(400).json({ success: false });
+  const review = await getReview(id);
+  const branch = getBranch(req);
+  if (!review || (branch && review.branch !== branch.name)) return res.status(404).json({ success: false });
+  await patchReview(id, { handled: req.body.handled, handledAt: req.body.handled ? new Date().toISOString() : null });
   res.json({ success: true });
 }));
 
@@ -395,11 +510,7 @@ app.delete('/api/reviews/:id', adminLimiter, wrap(async (req, res) => {
   if (!Number.isSafeInteger(id)) return res.status(400).json({ success: false });
   const branch = getBranch(req);
   if (branch) {
-    let data;
-    if (pool) {
-      const result = await pool.query('SELECT id, submitted_at as "submittedAt", data FROM reviews WHERE id=$1', [id]);
-      data = result.rows.map(fromRow)[0];
-    } else { data = readReviews().find(r => Number(r.id) === id); }
+    const data = await getReview(id);
     if (!data || data.branch !== branch.name) return res.status(403).json({ success: false });
   }
   if (pool) { await pool.query('DELETE FROM reviews WHERE id=$1', [id]); }
