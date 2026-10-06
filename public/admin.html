@@ -177,6 +177,7 @@
     .danger-btn { height: 40px; padding: 0 16px; border-radius: 10px; border: 1px solid #EBC5C8; color: var(--danger); font-size: 13.5px; font-weight: 600; background: #fff; }
     .danger-btn:hover { background: #FBE9EA; }
     .tag-chan { background: #EEF0FB; color: #34408A; }
+    .tag-scalp { background: #F6EEDF; color: #7A5A2A; }
     .td-src small { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
     .link-intro { font-size: 13.5px; color: var(--muted); line-height: 1.7; margin-top: 16px; }
     .link-branch { margin-top: 14px; width: 100%; }
@@ -365,6 +366,10 @@ function autoChannel(d) {
   if (t.ref) { const m = REFERRERS.find(([re]) => re.test(t.ref)); return m ? `${m[1]} (자동)` : t.ref; }
   return '';
 }
+const SCALP_TYPES = { OILY: '지성 두피', DRY: '건성 두피', SENSITIVE: '민감성 두피', SEBORRHEIC: '지루성 두피', HAIR_LOSS: '탈모 신호 두피', BALANCED: '균형 두피', PREGNANCY: '임산부 케어' };
+const SCALP_AREAS = [['oil', '지성'], ['dry', '건성'], ['sensitive', '민감성'], ['seborrheic', '지루성'], ['hairloss', '탈모']];
+const scalpLabel = d => (d.scalpTest && SCALP_TYPES[d.scalpTest.type]) || '';
+const scalpScores = d => d.scalpTest?.scores ? SCALP_AREAS.filter(([k]) => d.scalpTest.scores[k] != null).map(([k, n]) => `${n} ${d.scalpTest.scores[k]}`).join(' · ') : '';
 const isPregnant = d => /임신 중|수유 중|pregnant|breastfeeding|妊娠中|哺乳中|授乳中/i.test(d.pregnancyStatus || '');
 const nameOf = d => d.name || (d.nameBirth || '').split('/')[0].trim() || '-';
 const birthOf = d => ((d.nameBirth || '').split('/')[1] || '').trim();
@@ -500,7 +505,7 @@ function render() {
       <td class="td-name">${esc(nameOf(d))}<small>${esc(birthOf(d))}</small></td>
       <td class="td-phone">${esc(d.phone || '-')}</td>
       <td>${tags(d)}</td>
-      <td class="td-list">${esc(list(d.scalpConcerns).join(', ') || '-')}</td>
+      <td class="td-list">${scalpLabel(d) ? `<span class="tag tag-scalp">자가진단 · ${esc(scalpLabel(d))}</span><br>` : ''}${esc(list(d.scalpConcerns).join(', ') || '-')}</td>
       <td class="td-list">${esc(list(d.desiredServices).join(', ') || '-')}</td>
       <td class="td-list td-src">${autoChannel(d) ? `<span class="tag tag-chan">${esc(autoChannel(d))}</span>` : ''}<small>${esc(d.visitSource || '-')}</small></td>
       ${isRoot ? `<td><span class="tag tag-branch">${esc(d.branch || '본사')}</span></td>` : ''}
@@ -519,7 +524,7 @@ function render() {
       </div>
       <div class="card-tags">${tags(d)}${isRoot ? `<span class="tag tag-branch">${esc(d.branch || '본사')}</span>` : ''}<span class="tag tag-lang">${esc((d.lang || 'ko').toUpperCase())}</span></div>
       <div class="card-line">${esc(list(d.desiredServices).join(', ') || '-')}</div>
-      <div class="card-line">${esc(list(d.scalpConcerns).join(', ') || '-')}</div>
+      <div class="card-line">${scalpLabel(d) ? `<span class="tag tag-scalp">자가진단 · ${esc(scalpLabel(d))}</span> ` : ''}${esc(list(d.scalpConcerns).join(', ') || '-')}</div>
     </div>`).join('');
 }
 
@@ -572,6 +577,7 @@ function showDetail(id) {
     <div class="sec">두피 상태</div>
     <div class="rows">
       ${row('주요 고민', list(d.scalpConcerns).join(', '))}
+      ${scalpLabel(d) ? row('자가진단', `<b>${esc(scalpLabel(d))}</b>${scalpScores(d) ? `<br><span style="color:var(--muted);font-size:13px">${esc(scalpScores(d))} (각 12점 만점)</span>` : ''}`, true) : ''}
       ${row('샴푸 횟수', d.shampooFrequency)}
       ${row('탈모 유전력', d.hairLossGenetic)}
       ${row('임신 / 수유', isPregnant(d) ? `<span class="alert">⚠ ${esc(d.pregnancyStatus)}</span>` : esc(d.pregnancyStatus || '-'), true)}
@@ -579,7 +585,7 @@ function showDetail(id) {
     </div>
     <div class="sec">서비스 & 동의</div>
     <div class="rows">
-      ${row('관심 서비스', list(d.desiredServices).join(', '))}
+      ${row('관심 메뉴', list(d.desiredServices).join(', '))}
       ${row('촬영', d.videoConsent === '동의' ? '<span class="yes">✓ 촬영 희망</span>' : '<span class="no">미희망</span>', true)}
       ${row('마케팅 수신', yn(d.marketingConsent), true)}
       ${row('작성 언어', (d.lang || 'ko').toUpperCase())}
@@ -621,7 +627,7 @@ async function remove(id) {
 
 function exportCSV() {
   const rows = filtered();
-  const headers = ['번호','접수일시','방문날짜','방문시간','지점','이름','생년월일','연락처','주소','예약유형','상담유형','관리경험','유입경로','두피고민','펌/염색주기','샴푸횟수','탈모유전력','임신/수유여부','관심서비스','촬영동의','마케팅동의','언어','자동유입','민감정보동의','동의일시'];
+  const headers = ['번호','접수일시','방문날짜','방문시간','지점','이름','생년월일','연락처','주소','예약유형','상담유형','관리경험','유입경로','두피고민','펌/염색주기','샴푸횟수','탈모유전력','임신/수유여부','관심서비스','촬영동의','마케팅동의','언어','자동유입','민감정보동의','동의일시','자가진단결과','자가진단점수'];
   const body = rows.map((d, i) => [
     i + 1,
     d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '',
@@ -634,6 +640,7 @@ function exportCSV() {
     list(d.desiredServices).join('/'),
     d.videoConsent || '', d.marketingConsent ? 'Y' : 'N', d.lang || 'ko',
     autoChannel(d), d.consents ? (d.consents.sensitive ? 'Y' : 'N') : '', d.consents ? new Date(d.consents.at).toLocaleString('ko-KR') : '',
+    scalpLabel(d), scalpScores(d),
   ]);
   // 엑셀 수식 주입 방지: =,+,-,@ 로 시작하는 셀 앞에 ' 추가
   const cell = c => { let s = String(c); if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`; return `"${s.replace(/"/g, '""')}"`; };

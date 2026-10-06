@@ -1003,6 +1003,8 @@ html, body {
   cursor: pointer;
   text-transform: uppercase;
 }
+/* 설문 안에서 열렸을 때는 '매장 직원에게 보여주기' 안내를 숨김 */
+.embed .cta-block, .embed .staff-screen { display: none !important; }
 </style>
 </head>
 <body>
@@ -1379,6 +1381,10 @@ const TOTAL_CATS = 5;
 let currentCat = 1;
 let pregnancy = false;
 
+// 사전 상담 설문 안에서 열린 경우(?embed=1): 결과를 설문으로 전달하고 매장용 안내는 숨김
+const EMBED = new URLSearchParams(location.search).has('embed') && window.parent !== window;
+if (EMBED) document.documentElement.classList.add('embed');
+
 /* ====================== RESULT TYPES ====================== */
 const RESULTS = {
   OILY: {
@@ -1668,6 +1674,11 @@ function showResult(type, scores, secondConcern) {
   document.getElementById('staffPriceMember').textContent = (r.primary.member / 1000).toFixed(0) + 'K';
 
   window.scrollTo(0, 0);
+
+  if (EMBED) {
+    const named = scores ? Object.fromEntries(CAT_KEYS.slice(1).map((k, i) => [k, scores[i + 1]])) : null;
+    window.parent.postMessage({ type: 'scalpit:scalp-test', result: { type, scores: named, secondConcern } }, location.origin);
+  }
 
   // Animate bars
   setTimeout(() => {

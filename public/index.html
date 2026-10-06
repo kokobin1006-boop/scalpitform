@@ -305,6 +305,25 @@
     .assure-ico { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; background: #fff; color: var(--burg); display: grid; place-items: center; }
     .assure strong { display: block; font-size: 14.5px; font-weight: 700; color: var(--ink); }
     .assure-body { display: block; margin-top: 2px; font-size: 13.5px; color: var(--text); line-height: 1.65; white-space: pre-line; }
+    .test-cta { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--gold-soft); background: #fff; text-align: left; transition: border-color .2s; }
+    .test-cta:hover { border-color: var(--gold); }
+    .test-ico { flex-shrink: 0; width: 38px; height: 38px; border-radius: 12px; background: #F6EEDF; color: var(--gold); display: grid; place-items: center; }
+    .test-txt { flex: 1; min-width: 0; }
+    .test-txt strong { display: block; font-size: 15px; font-weight: 700; color: var(--ink); }
+    .test-txt small { display: block; font-size: 12.5px; color: var(--muted); line-height: 1.5; margin-top: 2px; }
+    .test-arrow { flex-shrink: 0; color: var(--gold); }
+    .test-result { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 16px; border-radius: 14px; background: #F6EEDF; }
+    .test-result > div { min-width: 0; }
+    .tr-k { display: block; font-size: 12px; font-weight: 600; color: var(--gold); }
+    .tr-v { display: block; font-size: 16px; font-weight: 800; color: var(--ink); margin-top: 1px; }
+    .tr-recs { display: block; font-size: 12.5px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+    .sheet { position: fixed; inset: 0; z-index: 500; display: flex; flex-direction: column; background: var(--cream); }
+    .sheet-bar { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; height: 54px; padding: 0 16px; border-bottom: 1px solid var(--line); background: #fff; }
+    .sheet-bar strong { font-size: 15px; color: var(--ink); }
+    .sheet-close { font-size: 14px; font-weight: 600; color: var(--muted); padding: 8px 4px; }
+    .sheet iframe { flex: 1; width: 100%; border: 0; background: #fff; }
+    .sheet-foot { flex-shrink: 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: #fff; border-top: 1px solid var(--line); display: flex; }
+    .sheet-foot .btn { flex: 1; }
     .menu-toggle { display: flex; align-items: center; gap: 8px; width: 100%; height: 50px; padding: 0 16px; border: 1px solid var(--line-strong); border-radius: 12px; background: #fff; font-size: 14.5px; font-weight: 600; color: var(--text); }
     .menu-toggle small { font-size: 12px; font-weight: 700; color: var(--burg); background: var(--burg-tint); border-radius: 999px; padding: 2px 8px; }
     .menu-toggle svg { margin-left: auto; color: var(--muted); transition: transform .2s; }
@@ -584,7 +603,10 @@ const T = {
     s5_title:'메뉴 선택 & 동의', s5_desc:'관심 있는 메뉴와 방문 전 안내, 동의 사항을 확인해주세요.',
     q_serv:'관심 메뉴',
     menu_help:'정확한 프로그램은 방문 상담 때 함께 정해요. 관심 가는 메뉴를 편하게 골라주세요.', undecided:'상담 후 결정할게요', undecided_desc:'아직 잘 모르셔도 괜찮아요. 두피 진단 후 딱 맞는 메뉴를 추천해 드려요.',
-    assure_title:'부담 갖지 마세요', assure:'관심 있는 메뉴를 여러 개 골라도 괜찮아요. 여기서 고른 메뉴로 확정되지 않아요.\n방문하시면 두피 상태를 먼저 확인한 뒤, 고객님께 딱 맞는 관리로 추천해 드릴게요.', pick_menu:'메뉴를 직접 고를게요', rec_count:'답변 기준 추천 {n}개',
+    test_cta:'3분 두피 자가진단으로 추천받기', test_cta_desc:'20문항으로 내 두피 유형을 알아보고, 맞는 메뉴에 추천 표시를 해드려요.',
+    test_done:'두피 자가진단 결과', test_redo:'다시 하기', test_sheet:'두피 자가진단', test_close:'닫기', test_back:'결과 반영 완료 · 설문으로 돌아가기',
+    rec_note_test:'두피 자가진단 결과({t}) 기준으로 추천 표시를 해드렸어요.',
+    assure_title:'부담 갖지 마세요', assure:'관심 있는 메뉴를 여러 개 골라도 괜찮아요. 여기서 고른 메뉴로 확정되지 않아요.\n방문하시면 두피 상태를 먼저 확인한 뒤, 고객님께 딱 맞는 관리로 추천해 드릴게요.', pick_menu:'메뉴를 직접 고를게요', rec_count:'추천 {n}개',
     rec:'추천', rec_note:'앞서 답해주신 내용을 바탕으로 추천 표시를 해드렸어요.', min:'분', no_disc:'할인 제외',
     col_min:'시간', col_reg:'정상가', col_first:'첫 방문가', price_note:'가격 단위: 원 · 첫 방문가는 첫 방문 고객 한정', price_intl:'',
     err_serv:'관심 메뉴를 하나 이상 골라주세요. 아직 모르시면 \'상담 후 결정\'을 선택해주세요.',
@@ -671,6 +693,7 @@ const T = {
     s5_title:'Services & Consent', s5_desc:'Choose your services and review the visit notes and consent.',
     q_serv:'Menu of Interest',
     menu_help:'Your exact program is decided together at your consultation. Pick anything that interests you.', undecided:"I'll decide at the consultation", undecided_desc:"Not sure yet? That's totally fine — we'll recommend the right menu after a scalp check.",
+    test_cta:'', test_cta_desc:'', test_done:'', test_redo:'', test_sheet:'', test_close:'', test_back:'', rec_note_test:'',
     assure_title:'No pressure', assure:"Feel free to pick as many as you like — nothing is final.\nWe'll check your scalp first and recommend the care that suits you best.", pick_menu:'I want to pick from the menu', rec_count:'{n} recommended for you',
     rec:'Recommended', rec_note:'We marked recommendations based on your answers.', min:'min', no_disc:'',
     col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'Prices for international guests will be guided at the store.',
@@ -758,6 +781,7 @@ const T = {
     s5_title:'服务选择 & 同意', s5_desc:'请选择感兴趣的服务，并确认到访须知和同意事项。',
     q_serv:'感兴趣的项目',
     menu_help:'具体疗程将在到店咨询时一起决定，请随意选择您感兴趣的项目。', undecided:'咨询后再决定', undecided_desc:'还不确定也没关系，头皮检测后为您推荐最合适的项目。',
+    test_cta:'', test_cta_desc:'', test_done:'', test_redo:'', test_sheet:'', test_close:'', test_back:'', rec_note_test:'',
     assure_title:'不用有负担', assure:'感兴趣的项目可以多选，这里的选择并不是最终决定。\n到店后我们会先检查您的头皮状态，再为您推荐最合适的护理。', pick_menu:'我想自己选择项目', rec_count:'为您推荐{n}项',
     rec:'推荐', rec_note:'已根据您的回答标注推荐项目。', min:'分钟', no_disc:'',
     col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'海外顾客的价格将在店内另行说明。',
@@ -844,6 +868,7 @@ const T = {
     s5_title:'サービス選択 & 同意', s5_desc:'ご希望のサービスを選び、ご来店前のご案内と同意事項をご確認ください。',
     q_serv:'気になるメニュー',
     menu_help:'具体的なプログラムはご来店時のカウンセリングで一緒に決めます。気になるメニューをお選びください。', undecided:'カウンセリングで決めます', undecided_desc:'まだ分からなくても大丈夫です。頭皮チェック後に最適なメニューをご提案します。',
+    test_cta:'', test_cta_desc:'', test_done:'', test_redo:'', test_sheet:'', test_close:'', test_back:'', rec_note_test:'',
     assure_title:'お気軽にどうぞ', assure:'気になるメニューは複数選んでも大丈夫です。ここで選んだもので確定にはなりません。\nご来店時にまず頭皮の状態を確認し、お客様にぴったりのケアをご提案します。', pick_menu:'メニューから選ぶ', rec_count:'おすすめ{n}件',
     rec:'おすすめ', rec_note:'ご回答内容をもとにおすすめを表示しています。', min:'分', no_disc:'',
     col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'海外のお客様の料金は店頭でご案内いたします。',
@@ -970,6 +995,17 @@ const MENU_ITEMS = Object.fromEntries(MENU.flatMap(t => t.items).map(i => [i.id,
 MENU.flatMap(t => t.items).forEach(i => { STORED[i.id] = `${i.ko[0]} ${i.min}분`; });
 STORED.undecided = '상담 후 결정';
 const won = n => n.toLocaleString('ko-KR');
+
+const SCALP_TEST = {
+  OILY:       { ko:'지성 두피',      recs:['c2', 's5'] },
+  DRY:        { ko:'건성 두피',      recs:['s5', 'c1'] },
+  SENSITIVE:  { ko:'민감성 두피',    recs:['c3', 's5'] },
+  SEBORRHEIC: { ko:'지루성 두피',    recs:['c2', 'c3'] },
+  HAIR_LOSS:  { ko:'탈모 신호 두피', recs:['c4', 's5'] },
+  BALANCED:   { ko:'균형 두피',      recs:['s5', 'c2'] },
+  PREGNANCY:  { ko:'임산부 케어',    recs:['c5'] },
+};
+let scalpTest = null;
 const menuName = id => id === 'undecided' ? T[lang].undecided : `${(MENU_ITEMS[id][lang] || MENU_ITEMS[id].ko)[0]} · ${MENU_ITEMS[id].min}${T[lang].min}`;
 
 const TIMES = [];
@@ -1137,6 +1173,12 @@ function buildMenu(name) {
   wrap.appendChild(h('div', { class:'assure' },
     '<span class="assure-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10.2A4.3 4.3 0 0112 7.6a4.3 4.3 0 017.5 2.7c0 5.6-7.5 10.2-7.5 10.2z"/></svg></span>'
     + '<span><strong data-t="assure_title"></strong><span class="assure-body" data-t="assure"></span></span>'));
+  const cta = h('button', { type:'button', class:'test-cta', id:'testCta' },
+    '<span class="test-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2M8.5 11h5M11 8.5v5"/></svg></span>'
+    + '<span class="test-txt"><strong data-t="test_cta"></strong><small data-t="test_cta_desc"></small></span>'
+    + '<svg class="test-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>');
+  cta.addEventListener('click', openScalpTest);
+  wrap.append(cta, h('div', { class:'test-result', id:'testResult', hidden:'' }));
   wrap.appendChild(opt('undecided', 'mi-undecided',
     '<span class="und-body"><span class="und-title"><span data-t="undecided"></span><span class="und-badge" data-t="rec"></span></span><span class="und-desc" data-t="undecided_desc"></span></span>'));
   // 메뉴가 많아서 기본은 접어 두고, 원하는 손님만 펼쳐서 고르게 함
@@ -1177,14 +1219,16 @@ function applyMenuLang() {
   $$('[data-menu-min]').forEach(el => { el.textContent = `${MENU_ITEMS[el.dataset.menuMin].min}${t.min}`; });
   $$('[data-menu-desc]').forEach(el => { const tier = MENU.find(x => x.tier === el.dataset.menuDesc); el.textContent = tier.desc[lang] || tier.desc.ko; });
   $('.menu').classList.toggle('intl', lang !== 'ko');
+  $('#testCta').hidden = lang !== 'ko' || !!scalpTest;
   $('#menuFoot').textContent = lang === 'ko' ? t.price_note : t.price_intl;
 }
 
 // 앞 단계 답변으로 메뉴에 '추천' 표시 (직원도 손님 성향을 미리 짐작할 수 있음)
 function updateRecs() {
   const has = (name, keys) => checked(name).some(x => keys.includes(x.dataset.key));
-  let recs = [];
+  let recs = [], fromTest = false;
   if (has('pregnancyStatus', ['pg1', 'pg2'])) recs = ['c5'];
+  else if (scalpTest && SCALP_TEST[scalpTest.type]) { recs = [...SCALP_TEST[scalpTest.type].recs]; fromTest = true; }
   else {
     if (has('scalpConcerns', ['sc1']) || has('hairLossGenetic', ['hg1'])) recs.push('c4', 'p2');
     if (has('scalpConcerns', ['sc2', 'sc3', 'sc6', 'sc8', 'sc9', 'sc10'])) recs.push('c3');
@@ -1194,9 +1238,59 @@ function updateRecs() {
   recs = [...new Set(recs)].slice(0, 3);
   $$('.mi').forEach(box => { $('.rec', box).hidden = !recs.includes(box.dataset.id); });
   $('#recNote').hidden = !recs.length;
-  $('#recNote').textContent = T[lang].rec_note;
+  $('#recNote').textContent = fromTest ? T[lang].rec_note_test.replace('{t}', SCALP_TEST[scalpTest.type].ko) : T[lang].rec_note;
   $('#recCount').hidden = !recs.length;
   $('#recCount').textContent = T[lang].rec_count.replace('{n}', recs.length);
+}
+
+// 두피 자가진단(/scalp-test)을 설문 위에 띄우고, 결과를 받아 추천에 반영 (입력한 설문 내용은 그대로 유지)
+function openScalpTest() {
+  let sheet = $('#testSheet');
+  if (!sheet) {
+    sheet = h('div', { class:'sheet', id:'testSheet', role:'dialog', 'aria-modal':'true', hidden:'' },
+      `<div class="sheet-bar"><strong data-t="test_sheet"></strong><button type="button" class="sheet-close" id="testClose" data-t="test_close"></button></div>
+       <iframe id="testFrame" title="scalp test"></iframe>
+       <div class="sheet-foot" id="testFoot" hidden><button type="button" class="btn btn-next" id="testBack" data-t="test_back"></button></div>`);
+    document.body.appendChild(sheet);
+    $('#testClose').addEventListener('click', closeScalpTest);
+    $('#testBack').addEventListener('click', closeScalpTest);
+    applyLang();
+  }
+  $('#testFoot').hidden = true;
+  $('#testFrame').src = '/scalp-test?embed=1';
+  sheet.hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+function closeScalpTest() {
+  $('#testSheet').hidden = true;
+  document.body.style.overflow = '';
+  if (scalpTest) {
+    $('#menuList').hidden = false;
+    $('.menu-toggle').setAttribute('aria-expanded', 'true');
+    $('#q-desiredServices').scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+}
+window.addEventListener('message', e => {
+  if (e.origin !== location.origin || e.data?.type !== 'scalpit:scalp-test') return;
+  const r = e.data.result || {};
+  if (!SCALP_TEST[r.type]) return;
+  scalpTest = { type: r.type, scores: r.scores || null };
+  dirty = true;
+  renderTestResult();
+  updateRecs();
+  $('#testFoot').hidden = false;
+});
+function renderTestResult() {
+  const box = $('#testResult');
+  if (!scalpTest) { box.hidden = true; return; }
+  const t = T[lang], info = SCALP_TEST[scalpTest.type];
+  box.innerHTML = `<div><span class="tr-k"></span><strong class="tr-v"></strong><span class="tr-recs"></span></div><button type="button" class="mini-btn"></button>`;
+  $('.tr-k', box).textContent = t.test_done;
+  $('.tr-v', box).textContent = info.ko;
+  $('.tr-recs', box).textContent = info.recs.map(menuName).join(' · ');
+  const redo = $('button', box); redo.textContent = t.test_redo; redo.addEventListener('click', openScalpTest);
+  box.hidden = false;
+  $('#testCta').hidden = true;
 }
 
 function withEvents(block) {
@@ -1443,6 +1537,7 @@ async function submitForm() {
     sensitiveConsent: $('#sensitiveRequired').checked,
     marketingConsent: $('#privacyMarketing').checked,
     tracking: TRACKING,
+    scalpTest: scalpTest || undefined,
   };
 
   submitting = true; $('#btnNext').disabled = true; updateNav();

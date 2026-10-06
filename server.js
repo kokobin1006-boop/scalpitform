@@ -203,6 +203,19 @@ const SUBMIT_STRINGS = {
 };
 const SUBMIT_ARRAYS = { treatmentHistory: 10, scalpConcerns: 15, desiredServices: 10 };
 
+// 두피 자가진단(/scalp-test) 결과: 유형 + 5개 영역 점수(각 0~12)
+const SCALP_TYPES = ['OILY', 'DRY', 'SENSITIVE', 'SEBORRHEIC', 'HAIR_LOSS', 'BALANCED', 'PREGNANCY'];
+const SCALP_AREAS = ['oil', 'dry', 'sensitive', 'seborrheic', 'hairloss'];
+function pickScalpTest(v) {
+  if (!v || typeof v !== 'object' || !SCALP_TYPES.includes(v.type)) return null;
+  const scores = {};
+  for (const k of SCALP_AREAS) {
+    const n = Number(v.scores && v.scores[k]);
+    if (Number.isInteger(n) && n >= 0 && n <= 12) scores[k] = n;
+  }
+  return { type: v.type, scores };
+}
+
 const TRACKING_STRINGS = { from: 40, utm_source: 80, utm_medium: 80, utm_campaign: 120, ref: 120 };
 
 
@@ -312,6 +325,8 @@ app.post('/api/submit', submitLimiter, wrap(async (req, res) => {
       at: new Date().toISOString(),
     };
   }
+  const scalpTest = pickScalpTest(body.scalpTest);
+  if (scalpTest) data.scalpTest = scalpTest;
   if (body.tracking && typeof body.tracking === 'object') {
     const tracking = pick(body.tracking, TRACKING_STRINGS);
     if (Object.keys(tracking).length) data.tracking = tracking;
