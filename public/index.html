@@ -358,7 +358,7 @@
     .mi-price b { font-size: 16px; font-weight: 800; color: var(--burg); letter-spacing: -0.02em; }
     .mi-plain { font-size: 13px; font-weight: 400; color: var(--muted); }
     .mi-price .mi-nodisc { font-size: 12px; }
-    .menu.intl .ko-only { display: none; }
+    .menu.intl .ko-only, .menu:not(.intl) .intl-only { display: none; }
     .menu-foot { font-size: 12px; color: var(--muted); text-align: right; }
 
     /* 방문 전 안내 */
@@ -374,6 +374,7 @@
     #q-bookingNotice .err { margin: 8px 0 0; }
 
     /* 마케팅 할인 배너 */
+    html:not([lang="ko"]) .promo { display: none; }
     .promo {
       display: flex; align-items: center; gap: 14px; margin: 0 0 14px;
       padding: 14px 16px; border-radius: 12px; color: #fff;
@@ -697,7 +698,7 @@ const T = {
     test_cta:'', test_cta_desc:'', test_done:'', test_redo:'', test_sheet:'', test_close:'', test_back:'', rec_note_test:'',
     assure_title:'No pressure', assure:"Feel free to pick as many as you like — nothing is final.\nWe'll check your scalp first and recommend the care that suits you best.", pick_menu:'I want to pick from the menu', rec_count:'{n} recommended for you',
     rec:'Recommended', rec_note:'We marked recommendations based on your answers.', min:'min', no_disc:'',
-    col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'Prices for international guests will be guided at the store.',
+    col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'Prices in Korean won (KRW).',
     err_serv:"Please pick at least one, or choose 'Not sure yet'.",
     q_video:'Souvenir Video',
     video_desc:"We can record photos & video of your head spa on your phone. Select 'Yes' if you'd like that.",
@@ -717,7 +718,6 @@ const T = {
     privacy_link:'View full privacy policy',
     privacy_mkt:'Receive marketing information',
     privacy_mkt_detail:'Get notified about events, promotions and new services.',
-    promo_title:'30% off your first visit', promo_body:'Applied when you agree to receive marketing info!',
     err_privacy:'Please agree to all required items.',
     btn_next:'Next', btn_back:'Back', btn_submit:'Submit', btn_ing:'Submitting',
     done_title:'Your form has been submitted',
@@ -785,7 +785,7 @@ const T = {
     test_cta:'', test_cta_desc:'', test_done:'', test_redo:'', test_sheet:'', test_close:'', test_back:'', rec_note_test:'',
     assure_title:'不用有负担', assure:'感兴趣的项目可以多选，这里的选择并不是最终决定。\n到店后我们会先检查您的头皮状态，再为您推荐最合适的护理。', pick_menu:'我想自己选择项目', rec_count:'为您推荐{n}项',
     rec:'推荐', rec_note:'已根据您的回答标注推荐项目。', min:'分钟', no_disc:'',
-    col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'海外顾客的价格将在店内另行说明。',
+    col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'价格单位：韩元（KRW）',
     err_serv:'请至少选择一项，或选择“还不确定”。',
     q_video:'纪念视频拍摄',
     video_desc:"可用您的手机为您拍摄头皮水疗过程的视频和照片。如需要，请选择'是'。",
@@ -805,7 +805,6 @@ const T = {
     privacy_link:'查看完整隐私政策',
     privacy_mkt:'同意接收营销信息',
     privacy_mkt_detail:'接收活动、促销、新服务等信息。',
-    promo_title:'首次到访 30% 折扣', promo_body:'同意接收营销信息即可享受！',
     err_privacy:'请同意所有必选项目。',
     btn_next:'下一步', btn_back:'上一步', btn_submit:'提交', btn_ing:'提交中',
     done_title:'问卷已提交',
@@ -872,7 +871,7 @@ const T = {
     test_cta:'', test_cta_desc:'', test_done:'', test_redo:'', test_sheet:'', test_close:'', test_back:'', rec_note_test:'',
     assure_title:'お気軽にどうぞ', assure:'気になるメニューは複数選んでも大丈夫です。ここで選んだもので確定にはなりません。\nご来店時にまず頭皮の状態を確認し、お客様にぴったりのケアをご提案します。', pick_menu:'メニューから選ぶ', rec_count:'おすすめ{n}件',
     rec:'おすすめ', rec_note:'ご回答内容をもとにおすすめを表示しています。', min:'分', no_disc:'',
-    col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'海外のお客様の料金は店頭でご案内いたします。',
+    col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'料金は韓国ウォン（KRW）表示です。',
     err_serv:'一つ以上お選びいただくか、「まだ決めていません」を選択してください。',
     q_video:'記念撮影',
     video_desc:'ヘッドスパ中のお姿をお客様のスマートフォンで動画・写真撮影いたします。ご希望の場合は「はい」を選択してください。',
@@ -892,7 +891,6 @@ const T = {
     privacy_link:'個人情報処理方針の全文を見る',
     privacy_mkt:'マーケティング情報の受信への同意',
     privacy_mkt_detail:'イベント、プロモーション、新サービスのご案内をお届けします。',
-    promo_title:'初回 30% 割引', promo_body:'マーケティング情報の受信に同意すると適用されます！',
     err_privacy:'必須項目すべてに同意してください。',
     btn_next:'次へ', btn_back:'戻る', btn_submit:'送信する', btn_ing:'送信中',
     done_title:'アンケートを受け付けました',
@@ -1197,7 +1195,8 @@ function buildMenu(name) {
       <span class="mi-no">0${i + 1}</span>
       <span class="mi-body"><span class="mi-name"><span data-menu-name="${it.id}"></span><span class="rec" hidden data-t="rec"></span></span><span class="mi-desc" data-menu-text="${it.id}"></span></span>
       <span class="mi-meta"><span class="mi-min" data-menu-min="${it.id}"></span>
-        <span class="mi-price ko-only">${it.first ? `<s>${won(it.reg)}</s><b>${won(it.first)}</b>` : `<span class="mi-plain">${won(it.reg)}</span><b class="mi-nodisc" data-t="no_disc"></b>`}</span></span>`)));
+        <span class="mi-price ko-only">${it.first ? `<s>${won(it.reg)}</s><b>${won(it.first)}</b>` : `<span class="mi-plain">${won(it.reg)}</span><b class="mi-nodisc" data-t="no_disc"></b>`}</span>
+        <span class="mi-price intl-only"><b>₩${won(it.reg)}</b></span></span>`)));
     list.appendChild(sec);
   });
   list.appendChild(h('p', { class:'menu-foot', id:'menuFoot' }));
