@@ -289,7 +289,23 @@
     /* 메뉴판 */
     .menu { display: grid; gap: 12px; }
     .rec-note { font-size: 13px; color: var(--burg); background: var(--burg-tint); border-radius: 10px; padding: 10px 14px; }
-    .mi-undecided label { min-height: 52px; border-style: dashed; font-weight: 600; }
+    .mi-undecided label { align-items: flex-start; gap: 14px; padding: 20px 18px; border: 1.5px solid var(--burg); border-radius: 16px; background: linear-gradient(135deg, #fff 0%, var(--burg-tint) 100%); box-shadow: 0 6px 18px rgba(123,26,43,.08); }
+    .mi-undecided .mark { width: 24px; height: 24px; margin-top: 1px; border-color: var(--burg); }
+    .und-body { flex: 1; }
+    .und-title { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 18px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; }
+    .und-badge { font-size: 11.5px; font-weight: 700; color: #fff; background: var(--burg); border-radius: 999px; padding: 2px 9px; letter-spacing: 0; }
+    .und-desc { display: block; margin-top: 6px; font-size: 13.5px; font-weight: 400; color: var(--muted); line-height: 1.6; }
+    .mi-undecided input:checked + label { background: var(--burg); border-color: var(--burg); box-shadow: 0 8px 22px rgba(123,26,43,.28); }
+    .mi-undecided input:checked + label .und-title { color: #fff; }
+    .mi-undecided input:checked + label .und-badge { background: #fff; color: var(--burg); }
+    .mi-undecided input:checked + label .und-desc { color: rgba(255,255,255,.85); }
+    .mi-undecided input:checked + label .mark { background: #fff; border-color: #fff; }
+    .mi-undecided input:checked + label .mark svg path { stroke: var(--burg); }
+    .menu-toggle { display: flex; align-items: center; gap: 8px; width: 100%; height: 50px; padding: 0 16px; border: 1px solid var(--line-strong); border-radius: 12px; background: #fff; font-size: 14.5px; font-weight: 600; color: var(--text); }
+    .menu-toggle small { font-size: 12px; font-weight: 700; color: var(--burg); background: var(--burg-tint); border-radius: 999px; padding: 2px 8px; }
+    .menu-toggle svg { margin-left: auto; color: var(--muted); transition: transform .2s; }
+    .menu-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+    .menu-list { display: grid; gap: 12px; animation: rise .3s var(--ease) both; }
     .tier { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
     .tier-head { padding: 16px 16px 14px; }
     .tier-en { font-family: var(--serif); font-size: 26px; font-weight: 500; letter-spacing: .02em; line-height: 1; }
@@ -563,7 +579,7 @@ const T = {
     err_pregnant:'임신/수유 여부를 선택해주세요.',
     s5_title:'메뉴 선택 & 동의', s5_desc:'관심 있는 메뉴와 방문 전 안내, 동의 사항을 확인해주세요.',
     q_serv:'관심 메뉴',
-    menu_help:'정확한 프로그램은 방문 상담 때 함께 정해요. 관심 가는 메뉴를 편하게 골라주세요.', undecided:'아직 잘 모르겠어요 · 상담 후 결정할게요',
+    menu_help:'정확한 프로그램은 방문 상담 때 함께 정해요. 관심 가는 메뉴를 편하게 골라주세요.', undecided:'상담 후 결정할게요', undecided_desc:'처음 오셨다면 이걸 골라주세요. 두피 진단 후 딱 맞는 메뉴를 제안해 드려요.', pick_menu:'메뉴를 직접 고를게요', rec_count:'답변 기준 추천 {n}개',
     rec:'추천', rec_note:'앞서 답해주신 내용을 바탕으로 추천 표시를 해드렸어요.', min:'분', no_disc:'할인 제외',
     col_min:'시간', col_reg:'정상가', col_first:'첫 방문가', price_note:'가격 단위: 원 · 첫 방문가는 첫 방문 고객 한정', price_intl:'',
     err_serv:'관심 메뉴를 하나 이상 골라주세요. 아직 모르시면 \'상담 후 결정\'을 선택해주세요.',
@@ -649,7 +665,7 @@ const T = {
     err_pregnant:'Please select an option.',
     s5_title:'Services & Consent', s5_desc:'Choose your services and review the visit notes and consent.',
     q_serv:'Menu of Interest',
-    menu_help:'Your exact program is decided together at your consultation. Pick anything that interests you.', undecided:"Not sure yet · I'll decide at the consultation",
+    menu_help:'Your exact program is decided together at your consultation. Pick anything that interests you.', undecided:"I'll decide at the consultation", undecided_desc:"First visit? Choose this — we'll suggest the right menu after a scalp check.", pick_menu:'I want to pick from the menu', rec_count:'{n} recommended for you',
     rec:'Recommended', rec_note:'We marked recommendations based on your answers.', min:'min', no_disc:'',
     col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'Prices for international guests will be guided at the store.',
     err_serv:"Please pick at least one, or choose 'Not sure yet'.",
@@ -735,7 +751,7 @@ const T = {
     err_pregnant:'请选择妊娠/哺乳状态。',
     s5_title:'服务选择 & 同意', s5_desc:'请选择感兴趣的服务，并确认到访须知和同意事项。',
     q_serv:'感兴趣的项目',
-    menu_help:'具体疗程将在到店咨询时一起决定，请随意选择您感兴趣的项目。', undecided:'还不确定 · 咨询后再决定',
+    menu_help:'具体疗程将在到店咨询时一起决定，请随意选择您感兴趣的项目。', undecided:'咨询后再决定', undecided_desc:'首次到访请选择此项，头皮检测后为您推荐最合适的项目。', pick_menu:'我想自己选择项目', rec_count:'为您推荐{n}项',
     rec:'推荐', rec_note:'已根据您的回答标注推荐项目。', min:'分钟', no_disc:'',
     col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'海外顾客的价格将在店内另行说明。',
     err_serv:'请至少选择一项，或选择“还不确定”。',
@@ -820,7 +836,7 @@ const T = {
     err_pregnant:'妊娠/授乳の有無を選択してください。',
     s5_title:'サービス選択 & 同意', s5_desc:'ご希望のサービスを選び、ご来店前のご案内と同意事項をご確認ください。',
     q_serv:'気になるメニュー',
-    menu_help:'具体的なプログラムはご来店時のカウンセリングで一緒に決めます。気になるメニューをお選びください。', undecided:'まだ決めていません · カウンセリングで決めます',
+    menu_help:'具体的なプログラムはご来店時のカウンセリングで一緒に決めます。気になるメニューをお選びください。', undecided:'カウンセリングで決めます', undecided_desc:'初めての方はこちらをお選びください。頭皮チェック後に最適なメニューをご提案します。', pick_menu:'メニューから選ぶ', rec_count:'おすすめ{n}件',
     rec:'おすすめ', rec_note:'ご回答内容をもとにおすすめを表示しています。', min:'分', no_disc:'',
     col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'海外のお客様の料金は店頭でご案内いたします。',
     err_serv:'一つ以上お選びいただくか、「まだ決めていません」を選択してください。',
@@ -979,7 +995,7 @@ const STEPS = [
     { name:'permFrequency', type:'text', label:'q_perm', chip:'optional', ph:'ph_perm', maxlength:200 },
   ]},
   { en:'Services & Consent', title:'s5_title', desc:'s5_desc', qs:[
-    { name:'desiredServices', type:'menu', label:'q_serv', chip:'multi', help:'menu_help', req:true, err:'err_serv' },
+    { name:'desiredServices', type:'menu', label:'q_serv', req:true, err:'err_serv' },
     { name:'videoConsent', type:'radio', label:'q_video', help:'video_desc', req:true, err:'err_video', opts:['vc1','vc2'] },
     { name:'bookingNotice', type:'notice', err:'err_vn' },
     { name:'privacy', type:'consent', err:'err_privacy' },
@@ -1110,8 +1126,16 @@ function buildMenu(name) {
                h('label', { for:`${name}-${id}` }, `<span class="mark">${ICON_CHECK}</span>${inner}`));
     return box;
   };
-  wrap.appendChild(h('p', { class:'rec-note', id:'recNote', hidden:'' }));
-  wrap.appendChild(opt('undecided', 'mi-undecided', '<span data-t="undecided"></span>'));
+  wrap.appendChild(opt('undecided', 'mi-undecided',
+    '<span class="und-body"><span class="und-title"><span data-t="undecided"></span><span class="und-badge" data-t="rec"></span></span><span class="und-desc" data-t="undecided_desc"></span></span>'));
+  // 메뉴가 많아서 기본은 접어 두고, 원하는 손님만 펼쳐서 고르게 함
+  const toggle = h('button', { type:'button', class:'menu-toggle', 'aria-expanded':'false', 'aria-controls':'menuList' },
+    '<span data-t="pick_menu"></span><small id="recCount" hidden></small><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>');
+  const list = h('div', { class:'menu-list', id:'menuList', hidden:'' });
+  const setOpen = open => { list.hidden = !open; toggle.setAttribute('aria-expanded', String(open)); };
+  toggle.addEventListener('click', () => setOpen(list.hidden));
+  wrap.append(toggle, list);
+  list.appendChild(h('p', { class:'rec-note', id:'recNote', hidden:'' }));
   MENU.forEach(tier => {
     const sec = h('section', { class:`tier tier-${tier.tier}` });
     sec.innerHTML = `<div class="tier-head"><div><span class="tier-en">${tier.en}</span><span class="tier-sub">${tier.sub}</span></div><p class="tier-desc" data-menu-desc="${tier.tier}"></p></div>`;
@@ -1120,15 +1144,17 @@ function buildMenu(name) {
       <span class="mi-body"><span class="mi-name"><span data-menu-name="${it.id}"></span><span class="rec" hidden data-t="rec"></span></span><span class="mi-desc" data-menu-text="${it.id}"></span></span>
       <span class="mi-meta"><span class="mi-min" data-menu-min="${it.id}"></span>
         <span class="mi-price ko-only">${it.first ? `<s>${won(it.reg)}</s><b>${won(it.first)}</b>` : `<span class="mi-plain">${won(it.reg)}</span><b class="mi-nodisc" data-t="no_disc"></b>`}</span></span>`)));
-    wrap.appendChild(sec);
+    list.appendChild(sec);
   });
-  wrap.appendChild(h('p', { class:'menu-foot', id:'menuFoot' }));
+  list.appendChild(h('p', { class:'menu-foot', id:'menuFoot' }));
   // '상담 후 결정'은 다른 메뉴와 함께 고를 수 없음
   wrap.addEventListener('change', e => {
     if (e.target.name !== name || !e.target.checked) return;
     const undecided = $(`#${name}-undecided`);
-    if (e.target === undecided) $$(`input[name="${name}"]`).forEach(x => { if (x !== undecided) x.checked = false; });
-    else undecided.checked = false;
+    if (e.target === undecided) {
+      $$(`input[name="${name}"]`).forEach(x => { if (x !== undecided) x.checked = false; });
+      setOpen(false);
+    } else undecided.checked = false;
   });
   return wrap;
 }
@@ -1158,6 +1184,8 @@ function updateRecs() {
   $$('.mi').forEach(box => { $('.rec', box).hidden = !recs.includes(box.dataset.id); });
   $('#recNote').hidden = !recs.length;
   $('#recNote').textContent = T[lang].rec_note;
+  $('#recCount').hidden = !recs.length;
+  $('#recCount').textContent = T[lang].rec_count.replace('{n}', recs.length);
 }
 
 function withEvents(block) {
