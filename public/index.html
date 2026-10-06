@@ -83,6 +83,7 @@
       transition: opacity .45s var(--ease), visibility .45s;
     }
     .intro.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    html.direct .intro { display: none; }
     .intro-inner { width: 100%; max-width: 340px; text-align: center; animation: rise .8s var(--ease) both; }
     .intro-logo { width: 168px; height: auto; display: block; margin: 0 auto; filter: brightness(0) invert(1); }
     .intro-sub {
@@ -361,34 +362,6 @@
     .menu.intl .ko-only, .menu:not(.intl) .intl-only { display: none; }
     .menu-foot { font-size: 12px; color: var(--muted); text-align: right; }
 
-    /* 방문 전 안내 */
-    .visit-notice { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
-    .visit-notice-head { padding: 14px 18px; background: var(--burg); color: #fff; font-size: 14.5px; font-weight: 700; }
-    .visit-notice-body { padding: 16px 18px 4px; }
-    .tip { display: flex; gap: 10px; font-size: 14px; color: var(--ink); line-height: 1.65; margin-bottom: 10px; }
-    .tip::before { content: '★'; color: var(--gold); flex-shrink: 0; }
-    .ops { list-style: none; border-top: 1px solid var(--line); padding-top: 12px; margin-top: 4px; }
-    .ops li { position: relative; padding-left: 14px; font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 8px; }
-    .ops li::before { content: ''; position: absolute; left: 2px; top: .75em; width: 4px; height: 4px; border-radius: 50%; background: var(--faint); }
-    .visit-notice-agree { padding: 14px 18px; border-top: 1px solid var(--line); background: var(--cream-2); }
-    #q-bookingNotice .err { margin: 8px 0 0; }
-
-    /* 마케팅 할인 배너 */
-    html:not([lang="ko"]) .promo { display: none; }
-    .promo {
-      display: flex; align-items: center; gap: 14px; margin: 0 0 14px;
-      padding: 14px 16px; border-radius: 12px; color: #fff;
-      background: linear-gradient(135deg, var(--burg) 0%, #9C2B44 100%);
-    }
-    .promo-badge {
-      flex-shrink: 0; width: 58px; height: 58px; border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,.55); display: grid; place-content: center; text-align: center;
-      font-weight: 800; font-size: 17px; line-height: 1.05; letter-spacing: -.02em;
-    }
-    .promo-badge small { display: block; font-size: 10px; font-weight: 600; letter-spacing: .08em; }
-    .promo-copy { font-size: 13px; line-height: 1.55; color: rgba(255,255,255,.85); }
-    .promo-copy strong { display: block; color: #fff; font-size: 15.5px; font-weight: 700; }
-
     /* ── 하단 액션 바 ── */
     .actionbar {
       position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
@@ -497,6 +470,10 @@
       *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
     }
   </style>
+<script>
+  // 한국 고객용 링크: 언어 선택 화면을 건너뜀 (깜빡임 방지를 위해 그리기 전에 표시)
+  if (!location.pathname.split('/').includes('global')) document.documentElement.classList.add('direct');
+</script>
 </head>
 <body>
 
@@ -531,7 +508,7 @@
       </button>
     </div>
   </div>
-  <div class="progress" role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" id="progress"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" id="progress"><div class="progress-fill" id="progressFill"></div></div>
 </header>
 
 <main class="wrap" id="form" hidden>
@@ -586,17 +563,15 @@ const T = {
     q_birth:'생년월일', ph_birth:'1995.03.15', err_birth:'생년월일 8자리를 정확히 입력해주세요.',
     q_phone:'연락처', ph_phone:'010-1234-5678', err_phone:'연락처를 정확히 입력해주세요.',
     q_addr:'주소', q_addr_hint:'동까지만', ph_addr:'예) 천안시 불당동', err_addr:'주소를 입력해주세요.',
-    s3_title:'시술 이력 & 방문 경로', s3_desc:'이전 관리 경험과 스칼프잇을 알게 된 경로를 알려주세요.',
-    q_treat:'관리(치료) 경험', multi:'복수 선택', optional:'선택',
-    th1:'병원 치료', th2:'전문 두피 관리', th3:'약물 복용',
-    th4:'두피 & 모발 시술 (메조, PRP 등)', th5:'일반 미용실 관리', th6:'홈케어 (두피 샴푸 / 앰플 등)',
+    q_treat:'이전 두피 관리 경험', multi:'복수 선택', optional:'선택',
+    th1:'다른 두피 관리샵', th2:'미용실 두피 케어', th3:'홈케어 (두피 샴푸·앰플)', th4:'처음이에요',
     q_src:'방문 경로',
     vs1:'Instagram', vs2:'YouTube', vs3:'네이버 검색', vs4:'네이버 카페 / 블로그', vs5:'지인 소개', vs6:'간판 / 현수막',
     err_src:'방문 경로를 선택해주세요.',
     vs7:'네이버 지도 / 플레이스', vs8:'카카오맵', vs12:'Google', vs9:'TikTok', vs10:'재방문', vs11:'기타',
     ph_referrer:'소개해 주신 분 성함 (선택)',
     privacy_sens:'민감정보(건강정보) 처리 동의',
-    sv_items:'두피·모발 상태, 치료·약물 복용 이력, 탈모 유전력, 임신·수유 여부',
+    sv_items:'두피·모발 상태, 탈모 유전력, 임신·수유 여부, 복용 약·병원 치료·시술 이력, 알레르기·피부 질환',
     sv_purpose:'안전하고 정확한 맞춤 관리 제공',
     refuse_k:'거부 권리', refuse:'동의를 거부할 수 있으나, 거부 시 상담·관리 제공이 제한될 수 있습니다.',
     visit_title:'오시는 길', addr_copy:'주소 복사', copied:'복사되었습니다.',
@@ -617,23 +592,19 @@ const T = {
       ['생리 중이거나 두피에 상처가 있어도 되나요?', '컨디션이 괜찮으시다면 생리 중에도 받으실 수 있어요. 두피에 상처나 염증이 있거나 최근 염색·펌·두피 시술을 받으셨다면 상담 때 꼭 말씀해 주세요. 상태에 맞춰 관리 방식을 조정해 드려요.'],
       ['둘이 함께 받을 수 있나요?', '네, 2인 예약이 가능해요. 예약·운영 상황에 따라 1인룸에서 각각 진행될 수 있고, 일행분도 이 설문을 꼭 작성해 주세요.'],
     ],
-    s4_title:'두피 고민 & 생활 습관', s4_desc:'현재 두피 상태와 생활 패턴을 알려주세요.',
+    s4_title:'두피 상태', s4_desc:'편안하고 안전한 관리를 위해 알려 주세요.',
     q_scalp:'주요 두피 고민',
-    sc1:'탈모', sc2:'가려움', sc3:'건조', sc4:'지성 / 번들거림', sc5:'비듬',
-    sc6:'홍반 / 발적', sc7:'악취', sc8:'두피 열감', sc9:'뾰루지 & 염증',
-    sc10:'두피 통증 / 따가움', sc11:'기타',
+    sc1:'탈모 고민', sc2:'가려움', sc3:'건조함', sc4:'유분 · 번들거림', sc5:'비듬 · 각질',
+    sc6:'예민함 (붉음·열감·따가움)', sc7:'뾰루지 · 트러블', sc8:'냄새', sc9:'기타',
     err_scalp:'두피 고민을 하나 이상 선택해주세요.',
     ph_other:'직접 입력해주세요',
-    q_perm:'펌 / 염색 횟수 & 주기', ph_perm:'예) 염색 2개월에 한 번, 파마 1년에 한 번',
-    q_shampoo:'샴푸 세정 횟수',
-    sf1:'매일 아침, 저녁 한 번씩', sf2:'매일 아침 한 번', sf3:'매일 저녁 한 번',
-    sf4:'이틀에 한 번', sf5:'기타',
-    err_shampoo:'샴푸 횟수를 선택해주세요.',
-    q_genetic:'탈모 유전력', hg1:'있음', hg2:'없음',
-    err_genetic:'탈모 유전력을 선택해주세요.',
-    q_pregnant:'임신 / 수유 여부', pg1:'임신 중', pg2:'수유 중', pg3:'해당 없음',
-    err_pregnant:'임신/수유 여부를 선택해주세요.',
-    s5_title:'메뉴 선택 & 동의', s5_desc:'관심 있는 메뉴와 방문 전 안내, 동의 사항을 확인해주세요.',
+    q_genetic:'탈모 유전력', hg1:'있음', hg2:'없음', hg3:'잘 모르겠음',
+    q_caution:'관리 전에 알려 주실 것', caution_help:'해당하는 것을 모두 골라주세요. 안전한 관리를 위해 꼭 필요해요.',
+    ct1:'임신 중이에요', ct2:'수유 중이에요', ct3:'복용 중인 약이 있어요', ct4:'두피 문제로 병원 치료 중이에요',
+    ct5:'최근 2주 안에 두피 시술(메조·PRP 등)을 받았어요', ct6:'최근 2주 안에 펌·염색을 했어요',
+    ct7:'알레르기·피부 질환이 있어요 (아로마 오일 등)', ct8:'해당 없음',
+    err_caution:'해당하는 항목을 골라주세요. 없으시면 \'해당 없음\'을 선택해주세요.',
+    s5_title:'메뉴 선택 & 동의', s5_desc:'관심 있는 메뉴와 동의 사항을 확인해주세요.',
     q_serv:'관심 메뉴',
     menu_help:'정확한 프로그램은 방문 상담 때 함께 정해요. 관심 가는 메뉴를 편하게 골라주세요.', undecided:'상담 후 결정할게요', undecided_desc:'아직 잘 모르셔도 괜찮아요. 두피 진단 후 딱 맞는 메뉴를 추천해 드려요.',
     test_cta:'3분 두피 자가진단으로 추천받기', test_cta_desc:'20문항으로 내 두피 유형을 알아보고, 맞는 메뉴에 추천 표시를 해드려요.',
@@ -647,11 +618,6 @@ const T = {
     video_desc:'헤드스파 받으시는 모습을 고객님 휴대폰으로 동영상·사진 촬영해드려요. 원하시면 \'네\'를 선택해주세요.',
     vc1:'네, 촬영 원합니다.', vc2:'아니오, 촬영 원하지 않습니다.',
     err_video:'촬영 희망 여부를 선택해주세요.',
-    vn_head:'방문 전 확인해주세요',
-    vn_tips:['당일 샴푸는 하지 않아도 괜찮습니다!','관리 중 네이프라인(목 뒤) 마사지가 포함되어 있어 목폴라·하이넥 착용 시 안에 나시 또는 가벼운 이너 착용을 추천드립니다 :)'],
-    vn_ops:['매장 예약, 운영 상황에 따라 2인룸 사용이 어려운 경우 1인룸에서 각각 관리 진행될 수 있으니 참고 부탁드리며 당일 방문시 확인 가능하십니다.','예약 시간에 부득이하게 늦으시는 경우, 다음 고객님과의 스케줄로 인해 관리 시간이 다소 조정될 수 있는 점 깊은 양해 부탁드립니다.'],
-    vn_agree:'위 내용을 확인하였습니다',
-    err_vn:'안내 사항을 확인하고 체크해주세요.',
     consent_all:'약관 전체 동의',
     tag_req:'[필수]', tag_opt:'[선택]',
     privacy_req:'개인정보 수집·이용 동의',
@@ -659,9 +625,6 @@ const T = {
     pv_purpose_k:'수집 목적', pv_purpose:'두피케어 상담 및 예약 관리',
     pv_period_k:'보유 기간', pv_period:'서비스 제공 완료 후 1년',
     privacy_link:'개인정보처리방침 전문 보기',
-    privacy_mkt:'마케팅 정보 수신 동의',
-    privacy_mkt_detail:'이벤트, 프로모션, 신규 서비스 안내를 받아보실 수 있어요.',
-    promo_title:'첫 방문 30% 할인', promo_body:'마케팅 정보 수신에 동의하시면 바로 적용돼요!',
     err_privacy:'필수 항목에 모두 동의해주세요.',
     btn_next:'다음', btn_back:'이전', btn_submit:'제출하기', btn_ing:'제출 중',
     done_title:'설문이 접수되었습니다',
@@ -690,17 +653,15 @@ const T = {
     q_birth:'Date of Birth', ph_birth:'1995.03.15', err_birth:'Please enter a valid date (YYYY.MM.DD).',
     q_phone:'Phone Number', ph_phone:'010-1234-5678', err_phone:'Please enter a valid phone number.',
     q_addr:'Address', q_addr_hint:'Neighborhood only', ph_addr:'e.g. Buldang-dong, Cheonan', err_addr:'Please enter your address.',
-    s3_title:'History & Source', s3_desc:'Tell us about previous treatments and how you found us.',
-    q_treat:'Treatment Experience', multi:'Multiple', optional:'Optional',
-    th1:'Hospital treatment', th2:'Professional scalp care', th3:'Medication',
-    th4:'Scalp & hair procedures (Meso, PRP, etc.)', th5:'General salon care', th6:'Home care (scalp shampoo / ampoule, etc.)',
+    q_treat:'Previous Scalp Care', multi:'Multiple', optional:'Optional',
+    th1:'Another scalp care shop', th2:'Scalp care at a hair salon', th3:'Home care (scalp shampoo / ampoule)', th4:'This is my first time',
     q_src:'How did you find us?',
     vs1:'Instagram', vs2:'YouTube', vs3:'Naver Search', vs4:'Naver Cafe / Blog', vs5:'Referral from a friend', vs6:'Signage / Banner',
     err_src:'Please select how you found us.',
     vs7:'Naver Map / Place', vs8:'Kakao Map', vs12:'Google', vs9:'TikTok', vs10:'Returning customer', vs11:'Other',
     ph_referrer:"Referrer's name (optional)",
     privacy_sens:'Processing of sensitive (health) information',
-    sv_items:'Scalp & hair condition, treatment/medication history, family history of hair loss, pregnancy/breastfeeding',
+    sv_items:'Scalp & hair condition, family history of hair loss, pregnancy/breastfeeding, medication/hospital treatment/procedure history, allergies/skin conditions',
     sv_purpose:'Safe and accurate personalized care',
     refuse_k:'Right to refuse', refuse:'You may refuse, but consultation and care may be limited.',
     visit_title:'Getting Here', addr_copy:'Copy address', copied:'Copied.',
@@ -720,23 +681,19 @@ const T = {
       ['Can I get a treatment during my period or with a scalp wound?', "If you feel well, you can get a treatment during your period. If you have a wound or inflammation on your scalp, or recently had coloring, a perm or a scalp procedure, please tell us at the consultation and we'll adjust the care accordingly."],
       ['Can two people be treated together?', 'Yes, you can book for two. Depending on availability, you may be treated in separate rooms. Please ask your companion to fill out this form as well.'],
     ],
-    s4_title:'Scalp & Lifestyle', s4_desc:'Tell us about your current scalp condition and routine.',
+    s4_title:'Your Scalp', s4_desc:'Tell us so we can care for you comfortably and safely.',
     q_scalp:'Main Scalp Concerns',
-    sc1:'Hair loss', sc2:'Itchiness', sc3:'Dryness', sc4:'Oily scalp', sc5:'Dandruff',
-    sc6:'Redness / Rash', sc7:'Odor', sc8:'Scalp heat', sc9:'Pimples & inflammation',
-    sc10:'Scalp pain / sensitivity', sc11:'Other',
+    sc1:'Hair loss', sc2:'Itchiness', sc3:'Dryness', sc4:'Oiliness / Greasiness', sc5:'Dandruff / Flakes',
+    sc6:'Sensitivity (redness, heat, stinging)', sc7:'Breakouts / Trouble', sc8:'Odor', sc9:'Other',
     err_scalp:'Please select at least one concern.',
     ph_other:'Please describe',
-    q_perm:'Perm / Coloring Frequency', ph_perm:'e.g. Color every 2 months, perm once a year',
-    q_shampoo:'Shampoo Frequency',
-    sf1:'Twice daily (morning & evening)', sf2:'Once daily (morning)', sf3:'Once daily (evening)',
-    sf4:'Every other day', sf5:'Other',
-    err_shampoo:'Please select your shampoo frequency.',
-    q_genetic:'Family History of Hair Loss', hg1:'Yes', hg2:'No',
-    err_genetic:'Please select an option.',
-    q_pregnant:'Pregnancy / Breastfeeding', pg1:'Currently pregnant', pg2:'Currently breastfeeding', pg3:'Not applicable',
-    err_pregnant:'Please select an option.',
-    s5_title:'Services & Consent', s5_desc:'Choose your services and review the visit notes and consent.',
+    q_genetic:'Family History of Hair Loss', hg1:'Yes', hg2:'No', hg3:'Not sure',
+    q_caution:'Please Let Us Know', caution_help:'Select all that apply. This helps us keep your care safe.',
+    ct1:"I'm pregnant", ct2:"I'm breastfeeding", ct3:"I'm taking medication", ct4:"I'm in hospital treatment for a scalp condition",
+    ct5:'Scalp procedure (Meso, PRP, etc.) in the last 2 weeks', ct6:'Perm or hair color in the last 2 weeks',
+    ct7:'Allergies or skin conditions (e.g. aroma oils)', ct8:'None of the above',
+    err_caution:"Please select what applies, or 'None of the above'.",
+    s5_title:'Services & Consent', s5_desc:'Choose your services and review the consent.',
     q_serv:'Menu of Interest',
     menu_help:'Your exact program is decided together at your consultation. Pick anything that interests you.', undecided:"I'll decide at the consultation", undecided_desc:"Not sure yet? That's totally fine — we'll recommend the right menu after a scalp check.",
     test_cta:'', test_cta_desc:'', test_done:'', test_redo:'', test_sheet:'', test_close:'', test_back:'', rec_note_test:'',
@@ -748,11 +705,6 @@ const T = {
     video_desc:"We can record photos & video of your head spa on your phone. Select 'Yes' if you'd like that.",
     vc1:'Yes, please record.', vc2:'No, thank you.',
     err_video:'Please select your preference.',
-    vn_head:'Before Your Visit',
-    vn_tips:['No need to wash your hair on the day of your visit!','Our treatment includes a nape-line (back of neck) massage. If wearing a turtleneck or high-neck top, we recommend a tank top or light inner layer underneath :)'],
-    vn_ops:['Depending on availability, 2-person rooms may not be available. In that case, guests will be served separately in individual rooms. You can check on the day of your visit.','If you arrive late, your treatment time may be adjusted to accommodate the next guest. We appreciate your understanding.'],
-    vn_agree:'I have read and understood the above',
-    err_vn:'Please read and confirm the notes above.',
     consent_all:'Agree to all',
     tag_req:'[Required]', tag_opt:'[Optional]',
     privacy_req:'Collection & use of personal information',
@@ -760,8 +712,6 @@ const T = {
     pv_purpose_k:'Purpose', pv_purpose:'Scalp care consultation & booking management',
     pv_period_k:'Retention', pv_period:'1 year after service',
     privacy_link:'View full privacy policy',
-    privacy_mkt:'Receive marketing information',
-    privacy_mkt_detail:'Get notified about events, promotions and new services.',
     err_privacy:'Please agree to all required items.',
     btn_next:'Next', btn_back:'Back', btn_submit:'Submit', btn_ing:'Submitting',
     done_title:'Your form has been submitted',
@@ -790,17 +740,15 @@ const T = {
     q_birth:'出生日期', ph_birth:'1995.03.15', err_birth:'请正确输入出生日期（8位数字）。',
     q_phone:'联系电话', ph_phone:'010-1234-5678', err_phone:'请正确输入联系电话。',
     q_addr:'地址', q_addr_hint:'至街道即可', ph_addr:'例) 天安市 不当洞', err_addr:'请输入地址。',
-    s3_title:'护理经历 & 来访途径', s3_desc:'请告知您的以往护理经历及如何了解到我们。',
-    q_treat:'护理（治疗）经历', multi:'可多选', optional:'选填',
-    th1:'医院治疗', th2:'专业头皮护理', th3:'药物治疗',
-    th4:'头皮&毛发手术（Meso、PRP等）', th5:'普通美发沙龙护理', th6:'家庭护理（头皮洗发水/安瓶等）',
+    q_treat:'以往头皮护理经历', multi:'可多选', optional:'选填',
+    th1:'其他头皮护理店', th2:'美发店头皮护理', th3:'居家护理（头皮洗发水·安瓶）', th4:'第一次',
     q_src:'来访途径',
     vs1:'Instagram', vs2:'YouTube', vs3:'Naver搜索', vs4:'Naver Cafe/博客', vs5:'朋友介绍', vs6:'招牌/横幅',
     err_src:'请选择来访途径。',
     vs7:'Naver地图', vs8:'Kakao地图', vs12:'Google', vs9:'TikTok', vs10:'回头客', vs11:'其他',
     ph_referrer:'介绍人姓名（选填）',
     privacy_sens:'同意处理敏感信息（健康信息）',
-    sv_items:'头皮·毛发状况、治疗·用药史、脱发遗传史、妊娠·哺乳状态',
+    sv_items:'头皮·毛发状况、脱发遗传史、妊娠·哺乳状态、用药·医院治疗·项目史、过敏·皮肤疾病',
     sv_purpose:'提供安全、准确的个性化护理',
     refuse_k:'拒绝权利', refuse:'您可以拒绝同意，但可能会限制咨询及护理服务。',
     visit_title:'交通指南', addr_copy:'复制地址', copied:'已复制。',
@@ -820,23 +768,19 @@ const T = {
       ['生理期或头皮有伤口时可以做吗？', '如果身体状况良好，生理期也可以进行护理。如头皮有伤口或炎症，或近期做过染发、烫发、头皮项目，请在咨询时告知，我们会据此调整护理方式。'],
       ['两个人可以一起做吗？', '可以，支持2人预约。根据预约及运营情况，也可能分别在单人间进行。请同行人员也填写此问卷。'],
     ],
-    s4_title:'头皮烦恼 & 生活习惯', s4_desc:'请告知您目前的头皮状况和生活习惯。',
+    s4_title:'头皮状态', s4_desc:'为了让护理更舒适、更安全，请告诉我们。',
     q_scalp:'主要头皮烦恼',
-    sc1:'脱发', sc2:'瘙痒', sc3:'干燥', sc4:'油性/油光', sc5:'头皮屑',
-    sc6:'红斑/发红', sc7:'气味', sc8:'头皮燥热', sc9:'粉刺&炎症',
-    sc10:'头皮疼痛/敏感', sc11:'其他',
+    sc1:'脱发困扰', sc2:'瘙痒', sc3:'干燥', sc4:'油脂 / 油光', sc5:'头皮屑 / 角质',
+    sc6:'敏感（发红·发热·刺痛）', sc7:'痘痘 / 问题', sc8:'异味', sc9:'其他',
     err_scalp:'请至少选择一项头皮烦恼。',
     ph_other:'请直接输入',
-    q_perm:'烫发/染发频率', ph_perm:'例) 染发每2个月一次，烫发一年一次',
-    q_shampoo:'洗发频率',
-    sf1:'每日早晚各一次', sf2:'每日早晨一次', sf3:'每日晚上一次',
-    sf4:'每两天一次', sf5:'其他',
-    err_shampoo:'请选择洗发频率。',
-    q_genetic:'脱发遗传史', hg1:'有', hg2:'无',
-    err_genetic:'请选择脱发遗传史。',
-    q_pregnant:'妊娠 / 哺乳状态', pg1:'妊娠中', pg2:'哺乳中', pg3:'不适用',
-    err_pregnant:'请选择妊娠/哺乳状态。',
-    s5_title:'服务选择 & 同意', s5_desc:'请选择感兴趣的服务，并确认到访须知和同意事项。',
+    q_genetic:'脱发遗传史', hg1:'有', hg2:'无', hg3:'不清楚',
+    q_caution:'护理前请告知', caution_help:'请选择所有符合的项目，这有助于确保护理安全。',
+    ct1:'正在怀孕', ct2:'正在哺乳', ct3:'正在服用药物', ct4:'因头皮问题正在医院治疗',
+    ct5:'近2周内做过头皮项目（Meso、PRP等）', ct6:'近2周内烫发或染发',
+    ct7:'有过敏或皮肤疾病（如芳香精油）', ct8:'以上都没有',
+    err_caution:'请选择符合的项目，如没有请选择“以上都没有”。',
+    s5_title:'服务选择 & 同意', s5_desc:'请选择感兴趣的服务，并确认同意事项。',
     q_serv:'感兴趣的项目',
     menu_help:'具体疗程将在到店咨询时一起决定，请随意选择您感兴趣的项目。', undecided:'咨询后再决定', undecided_desc:'还不确定也没关系，头皮检测后为您推荐最合适的项目。',
     test_cta:'', test_cta_desc:'', test_done:'', test_redo:'', test_sheet:'', test_close:'', test_back:'', rec_note_test:'',
@@ -848,11 +792,6 @@ const T = {
     video_desc:"可用您的手机为您拍摄头皮水疗过程的视频和照片。如需要，请选择'是'。",
     vc1:'是，我希望拍摄。', vc2:'否，不需要拍摄。',
     err_video:'请选择您的意愿。',
-    vn_head:'到访前请确认',
-    vn_tips:['当天不需要洗发，直接来访即可！','护理过程中包含后颈部按摩。穿高领上衣时，建议内搭背心或薄款内衣 :)'],
-    vn_ops:['根据预约及运营情况，如2人间不可用，将在1人间分别进行护理，请知悉。具体情况可在当日来访时确认。','如预约迟到，因下一位顾客的安排，护理时间可能会有所调整，敬请谅解。'],
-    vn_agree:'我已阅读并了解以上内容',
-    err_vn:'请确认并勾选上述注意事项。',
     consent_all:'全部同意',
     tag_req:'[必选]', tag_opt:'[可选]',
     privacy_req:'同意收集和使用个人信息',
@@ -860,8 +799,6 @@ const T = {
     pv_purpose_k:'收集目的', pv_purpose:'头皮护理咨询及预约管理',
     pv_period_k:'保存期限', pv_period:'服务完成后1年',
     privacy_link:'查看完整隐私政策',
-    privacy_mkt:'同意接收营销信息',
-    privacy_mkt_detail:'接收活动、促销、新服务等信息。',
     err_privacy:'请同意所有必选项目。',
     btn_next:'下一步', btn_back:'上一步', btn_submit:'提交', btn_ing:'提交中',
     done_title:'问卷已提交',
@@ -889,17 +826,15 @@ const T = {
     q_birth:'生年月日', ph_birth:'1995.03.15', err_birth:'生年月日を正しく入力してください（8桁）。',
     q_phone:'電話番号', ph_phone:'010-1234-5678', err_phone:'電話番号を正しく入力してください。',
     q_addr:'ご住所', q_addr_hint:'町名まで', ph_addr:'例) 天安市 不当洞', err_addr:'ご住所を入力してください。',
-    s3_title:'施術歴 & 来店経路', s3_desc:'これまでのケア経験と、当店をお知りになった経緯を教えてください。',
-    q_treat:'ケア（治療）経験', multi:'複数選択可', optional:'任意',
-    th1:'病院での治療', th2:'専門頭皮ケア', th3:'薬の服用',
-    th4:'頭皮・毛髪施術（メソ、PRPなど）', th5:'一般美容室でのケア', th6:'ホームケア（頭皮シャンプー/アンプルなど）',
+    q_treat:'これまでの頭皮ケア経験', multi:'複数選択可', optional:'任意',
+    th1:'他の頭皮ケア専門店', th2:'美容室の頭皮ケア', th3:'ホームケア（頭皮用シャンプー・アンプル）', th4:'初めてです',
     q_src:'来店経路',
     vs1:'Instagram', vs2:'YouTube', vs3:'Naver検索', vs4:'Naver Cafe / ブログ', vs5:'知人の紹介', vs6:'看板 / バナー',
     err_src:'来店経路を選択してください。',
     vs7:'Naverマップ', vs8:'Kakaoマップ', vs12:'Google', vs9:'TikTok', vs10:'再来店', vs11:'その他',
     ph_referrer:'ご紹介者のお名前（任意）',
     privacy_sens:'センシティブ情報（健康情報）の取扱いへの同意',
-    sv_items:'頭皮・毛髪の状態、治療・服薬歴、脱毛の遺伝歴、妊娠・授乳の有無',
+    sv_items:'頭皮・毛髪の状態、脱毛の遺伝歴、妊娠・授乳の有無、服薬・通院・施術歴、アレルギー・皮膚疾患',
     sv_purpose:'安全で正確なオーダーメイドケアのため',
     refuse_k:'拒否する権利', refuse:'同意を拒否できますが、その場合カウンセリング・施術が制限される場合があります。',
     visit_title:'アクセス', addr_copy:'住所をコピー', copied:'コピーしました。',
@@ -919,23 +854,19 @@ const T = {
       ['生理中や頭皮に傷があっても受けられますか？', '体調が問題なければ、生理中でも施術を受けられます。頭皮に傷や炎症がある場合、または最近カラー・パーマ・頭皮の施術を受けた場合は、カウンセリング時に必ずお知らせください。状態に合わせてケアを調整いたします。'],
       ['2人で一緒に受けられますか？', 'はい、2名様でのご予約が可能です。予約・運営状況により個室で別々に施術する場合があります。お連れ様もこのフォームへのご記入をお願いします。'],
     ],
-    s4_title:'頭皮のお悩み & 生活習慣', s4_desc:'現在の頭皮状態と生活習慣を教えてください。',
+    s4_title:'頭皮の状態', s4_desc:'快適で安全な施術のために教えてください。',
     q_scalp:'主な頭皮のお悩み',
-    sc1:'抜け毛・薄毛', sc2:'かゆみ', sc3:'乾燥', sc4:'脂性・テカリ', sc5:'フケ',
-    sc6:'赤み・発疹', sc7:'臭い', sc8:'頭皮の熱感', sc9:'ニキビ・炎症',
-    sc10:'頭皮の痛み・刺激感', sc11:'その他',
+    sc1:'抜け毛・薄毛', sc2:'かゆみ', sc3:'乾燥', sc4:'皮脂・べたつき', sc5:'フケ・角質',
+    sc6:'敏感（赤み・ほてり・ヒリヒリ）', sc7:'吹き出物・トラブル', sc8:'におい', sc9:'その他',
     err_scalp:'頭皮のお悩みを一つ以上選択してください。',
     ph_other:'直接ご入力ください',
-    q_perm:'パーマ / カラーの頻度', ph_perm:'例) カラー2ヶ月に1回、パーマ年1回',
-    q_shampoo:'シャンプーの頻度',
-    sf1:'毎日朝晩1回ずつ', sf2:'毎日朝1回', sf3:'毎日夜1回',
-    sf4:'2日に1回', sf5:'その他',
-    err_shampoo:'シャンプーの頻度を選択してください。',
-    q_genetic:'脱毛の遺伝歴', hg1:'あり', hg2:'なし',
-    err_genetic:'脱毛の遺伝歴を選択してください。',
-    q_pregnant:'妊娠 / 授乳の有無', pg1:'妊娠中', pg2:'授乳中', pg3:'該当なし',
-    err_pregnant:'妊娠/授乳の有無を選択してください。',
-    s5_title:'サービス選択 & 同意', s5_desc:'ご希望のサービスを選び、ご来店前のご案内と同意事項をご確認ください。',
+    q_genetic:'脱毛の遺伝歴', hg1:'あり', hg2:'なし', hg3:'わからない',
+    q_caution:'施術前にお知らせください', caution_help:'当てはまるものをすべてお選びください。安全な施術のために必要です。',
+    ct1:'妊娠中です', ct2:'授乳中です', ct3:'服用中の薬があります', ct4:'頭皮の症状で通院中です',
+    ct5:'2週間以内に頭皮の施術（メソ・PRPなど）を受けました', ct6:'2週間以内にパーマ・カラーをしました',
+    ct7:'アレルギー・皮膚疾患があります（アロマオイルなど）', ct8:'該当なし',
+    err_caution:'当てはまる項目をお選びください。ない場合は「該当なし」を選択してください。',
+    s5_title:'サービス選択 & 同意', s5_desc:'ご希望のサービスを選び、同意事項をご確認ください。',
     q_serv:'気になるメニュー',
     menu_help:'具体的なプログラムはご来店時のカウンセリングで一緒に決めます。気になるメニューをお選びください。', undecided:'カウンセリングで決めます', undecided_desc:'まだ分からなくても大丈夫です。頭皮チェック後に最適なメニューをご提案します。',
     test_cta:'', test_cta_desc:'', test_done:'', test_redo:'', test_sheet:'', test_close:'', test_back:'', rec_note_test:'',
@@ -947,11 +878,6 @@ const T = {
     video_desc:'ヘッドスパ中のお姿をお客様のスマートフォンで動画・写真撮影いたします。ご希望の場合は「はい」を選択してください。',
     vc1:'はい、撮影を希望します。', vc2:'いいえ、希望しません。',
     err_video:'ご意向を選択してください。',
-    vn_head:'ご来店前のご確認',
-    vn_tips:['当日のシャンプーはしなくて大丈夫です！','施術中にネープライン（首の後ろ）マッサージが含まれています。タートルネックやハイネックをお召しの場合は、中にキャミソールや薄手のインナーの着用をお勧めします :)'],
-    vn_ops:['ご予約・運営状況によっては2人部屋のご利用が難しい場合があり、その際は1人部屋にて各々施術を行います。当日ご来店時にご確認いただけます。','ご予約時間に遅れた場合、次のお客様のスケジュールの都合上、施術時間が多少調整される場合がございます。何卒ご理解ください。'],
-    vn_agree:'上記内容を確認しました',
-    err_vn:'ご案内をご確認のうえ、チェックしてください。',
     consent_all:'すべてに同意する',
     tag_req:'[必須]', tag_opt:'[任意]',
     privacy_req:'個人情報の収集・利用への同意',
@@ -959,8 +885,6 @@ const T = {
     pv_purpose_k:'収集目的', pv_purpose:'頭皮ケア相談・予約管理',
     pv_period_k:'保有期間', pv_period:'サービス完了後1年',
     privacy_link:'個人情報処理方針の全文を見る',
-    privacy_mkt:'マーケティング情報の受信への同意',
-    privacy_mkt_detail:'イベント、プロモーション、新サービスのご案内をお届けします。',
     err_privacy:'必須項目すべてに同意してください。',
     btn_next:'次へ', btn_back:'戻る', btn_submit:'送信する', btn_ing:'送信中',
     done_title:'アンケートを受け付けました',
@@ -1061,8 +985,9 @@ const MENU = [
 ];
 const MENU_ITEMS = Object.fromEntries(MENU.flatMap(t => t.items).map(i => [i.id, i]));
 // 관리자 화면에는 언어와 무관하게 '메뉴명 + 시간'(한국어)으로 저장
-MENU.flatMap(t => t.items).forEach(i => { STORED[i.id] = `${i.ko[0]} ${i.min}분`; });
-STORED.undecided = '상담 후 결정';
+// (메뉴 id c1·c2가 상담 유형 보기 c1·c2와 겹치므로 따로 보관)
+const MENU_STORED = { undecided:'상담 후 결정' };
+MENU.flatMap(t => t.items).forEach(i => { MENU_STORED[i.id] = `${i.ko[0]} ${i.min}분`; });
 const won = n => n.toLocaleString('ko-KR');
 
 const SCALP_TEST = {
@@ -1093,24 +1018,22 @@ const STEPS = [
     { name:'birth', type:'text', label:'q_birth', req:true, err:'err_birth', ph:'ph_birth', inputmode:'numeric', autocomplete:'bday', maxlength:10, format:'date' },
     { name:'phone', type:'tel', label:'q_phone', req:true, err:'err_phone', ph:'ph_phone', inputmode:'tel', autocomplete:'tel', maxlength:20, format:'phone' },
     { name:'address', type:'text', label:'q_addr', chip:'q_addr_hint', req:true, err:'err_addr', ph:'ph_addr', maxlength:100 },
-  ]},
-  { en:'History', title:'s3_title', desc:'s3_desc', qs:[
-    { name:'treatmentHistory', type:'checkbox', label:'q_treat', chip:'multi', chip2:'optional', opts:['th1','th2','th3','th4','th5','th6'] },
     { name:'visitSource', type:'radio', label:'q_src', req:true, err:'err_src', grid:true,
       opts:['vs1','vs2','vs3','vs7','vs4','vs8','vs12','vs9','vs5','vs6','vs10','vs11'], details:{ vs5:'ph_referrer', vs11:'ph_other' } },
   ]},
-  { en:'Scalp & Lifestyle', title:'s4_title', desc:'s4_desc', qs:[
+  { en:'Your Scalp', title:'s4_title', desc:'s4_desc', qs:[
     { name:'scalpConcerns', type:'checkbox', label:'q_scalp', chip:'multi', req:true, err:'err_scalp', grid:true,
-      opts:['sc1','sc2','sc3','sc4','sc5','sc6','sc7','sc8','sc9','sc10','sc11'], wide:['sc11'], details:{ sc11:'ph_other' } },
-    { name:'shampooFrequency', type:'radio', label:'q_shampoo', req:true, err:'err_shampoo', opts:['sf1','sf2','sf3','sf4','sf5'], details:{ sf5:'ph_other' } },
-    { name:'hairLossGenetic', type:'radio', label:'q_genetic', req:true, err:'err_genetic', grid:true, opts:['hg1','hg2'] },
-    { name:'pregnancyStatus', type:'radio', label:'q_pregnant', req:true, err:'err_pregnant', opts:['pg3','pg1','pg2'] },
-    { name:'permFrequency', type:'text', label:'q_perm', chip:'optional', ph:'ph_perm', maxlength:200 },
+      opts:['sc1','sc2','sc3','sc4','sc5','sc6','sc7','sc8','sc9'], wide:['sc9'], details:{ sc9:'ph_other' } },
+    // '탈모 고민'을 고른 손님에게만 묻기 (힐링 목적 손님에게는 불필요하고 민감한 질문)
+    { name:'hairLossGenetic', type:'radio', label:'q_genetic', chip:'optional', grid:true, opts:['hg1','hg2','hg3'], wide:['hg3'], showIf:['scalpConcerns', 'sc1'] },
+    // 안전 확인: 임신·수유, 약, 치료·시술, 펌·염색, 알레르기(아로마 오일 사용)
+    { name:'cautions', type:'checkbox', label:'q_caution', help:'caution_help', chip:'multi', req:true, err:'err_caution',
+      opts:['ct1','ct2','ct3','ct4','ct5','ct6','ct7','ct8'], none:'ct8' },
+    { name:'treatmentHistory', type:'checkbox', label:'q_treat', chip:'multi', chip2:'optional', opts:['th1','th2','th3','th4'], none:'th4' },
   ]},
   { en:'Services & Consent', title:'s5_title', desc:'s5_desc', qs:[
     { name:'desiredServices', type:'menu', label:'q_serv', chip:'multi', req:true, err:'err_serv' },
     { name:'videoConsent', type:'radio', label:'q_video', help:'video_desc', req:true, err:'err_video', opts:['vc1','vc2'] },
-    { name:'bookingNotice', type:'notice', err:'err_vn' },
     { name:'privacy', type:'consent', err:'err_privacy' },
   ]},
 ];
@@ -1125,8 +1048,10 @@ const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const h = (tag, attrs = {}, html = '') => { const e = document.createElement(tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (html) e.innerHTML = html; return e; };
 const todayStr = () => new Date().toLocaleDateString('sv');
 
-// 지점: /cheonan → ?b=cheonan
-const branchSlug = location.pathname.split('/').filter(Boolean)[0] || '';
+// 지점: /cheonan → ?b=cheonan · 외국 고객용 링크는 /cheonan/global (언어 선택 화면부터 시작)
+const pathSegs = location.pathname.split('/').filter(Boolean);
+const isGlobal = pathSegs.includes('global');
+const branchSlug = pathSegs[0] === 'global' ? '' : (pathSegs[0] || '');
 const branchParam = branchSlug ? `?b=${encodeURIComponent(branchSlug)}` : '';
 let branch = { slug:'root', name:'' };
 
@@ -1156,12 +1081,22 @@ function buildForm() {
     step.qs.forEach(q => sec.appendChild(buildQuestion(q)));
     root.appendChild(sec);
   });
+  // 앞 질문의 특정 보기를 골랐을 때만 보이는 질문 (숨기면 답도 지움)
+  STEPS.flatMap(s => s.qs).filter(q => q.showIf).forEach(q => {
+    const [ctrl, key] = q.showIf, block = $(`#q-${q.name}`);
+    const sync = () => {
+      const on = $(`#${ctrl}-${key}`).checked;
+      block.hidden = !on;
+      if (!on) $$(`input[name="${q.name}"]`).forEach(x => { x.checked = false; });
+    };
+    $(`#q-${ctrl}`).addEventListener('change', sync);
+    sync();
+  });
 }
 
 function buildQuestion(q) {
   const block = h('div', { class:'q-block', id:`q-${q.name}` });
   if (q.type === 'consent') { block.innerHTML = consentHTML(); return block; }
-  if (q.type === 'notice') { block.innerHTML = noticeHTML(); return withEvents(block); }
 
   const labelId = `lbl-${q.name}`;
   let head = `<div class="q-head"><span class="q-label" id="${labelId}" data-t="${q.label}"></span>${q.req ? '<span class="q-req" aria-hidden="true">*</span>' : ''}`;
@@ -1218,6 +1153,15 @@ function buildQuestion(q) {
         if (e.target.dataset.key === key) setTimeout(() => detail.focus(), 50);
       });
     }
+    if (q.none) {
+      // '해당 없음' · '처음이에요'는 다른 보기와 함께 고를 수 없음
+      opts.addEventListener('change', e => {
+        if (!e.target.checked) return;
+        const none = $(`#${q.name}-${q.none}`);
+        if (e.target === none) $$(`input[name="${q.name}"]`).forEach(x => { if (x !== none) x.checked = false; });
+        else none.checked = false;
+      });
+    }
     if (q.share) {
       const share = h('div', { class:'share', id:'shareBox' });
       share.innerHTML = `<span class="share-text" data-t="share_text"></span><button type="button" class="share-btn">${ICON_SHARE}<span data-t="share_btn"></span></button>`;
@@ -1235,7 +1179,7 @@ function buildMenu(name) {
   const wrap = h('div', { class:'menu', role:'group' });
   const opt = (id, cls, inner) => {
     const box = h('div', { class:`opt multi ${cls}`, 'data-id': id });
-    box.append(h('input', { type:'checkbox', name, id:`${name}-${id}`, value: storedValue(id), 'data-key': id }),
+    box.append(h('input', { type:'checkbox', name, id:`${name}-${id}`, value: MENU_STORED[id], 'data-key': id }),
                h('label', { for:`${name}-${id}` }, `<span class="mark">${ICON_CHECK}</span>${inner}`));
     return box;
   };
@@ -1297,12 +1241,12 @@ function applyMenuLang() {
 function updateRecs() {
   const has = (name, keys) => checked(name).some(x => keys.includes(x.dataset.key));
   let recs = [], fromTest = false;
-  if (has('pregnancyStatus', ['pg1', 'pg2'])) recs = ['c5'];
+  if (has('cautions', ['ct1', 'ct2'])) recs = ['c5'];
   else if (scalpTest && SCALP_TEST[scalpTest.type]) { recs = [...SCALP_TEST[scalpTest.type].recs]; fromTest = true; }
   else {
     if (has('scalpConcerns', ['sc1']) || has('hairLossGenetic', ['hg1'])) recs.push('c4', 'p2');
-    if (has('scalpConcerns', ['sc2', 'sc3', 'sc6', 'sc8', 'sc9', 'sc10'])) recs.push('c3');
-    if (has('scalpConcerns', ['sc4', 'sc5', 'sc7'])) recs.push('s1');
+    if (has('scalpConcerns', ['sc2', 'sc3', 'sc6', 'sc7'])) recs.push('c3');
+    if (has('scalpConcerns', ['sc4', 'sc5', 'sc8'])) recs.push('s1');
     if (has('consultationType', ['c1'])) recs.push('s2', 's5');
   }
   recs = [...new Set(recs)].slice(0, 3);
@@ -1369,18 +1313,6 @@ function withEvents(block) {
   return block;
 }
 
-function noticeHTML() {
-  return `
-    <div class="visit-notice">
-      <div class="visit-notice-head" data-t="vn_head"></div>
-      <div class="visit-notice-body"><div id="vnTips"></div><ul class="ops" id="vnOps"></ul></div>
-      <div class="visit-notice-agree">
-        <label class="check"><input type="checkbox" id="bookingNoticeCheck" /><span class="mark">${ICON_CHECK}</span><span class="check-text" data-t="vn_agree"></span></label>
-      </div>
-    </div>
-    <div class="err" role="alert">${ICON_ERR}<span data-t="err_vn"></span></div>`;
-}
-
 function consentHTML() {
   return `
     <div class="consent">
@@ -1408,21 +1340,12 @@ function consentHTML() {
           <dt data-t="refuse_k"></dt> · <dd data-t="refuse"></dd>
         </dl>
       </div>
-      <div class="consent-item">
-        <div class="promo">
-          <div class="promo-badge">30%<small>OFF</small></div>
-          <div class="promo-copy"><strong data-t="promo_title"></strong><span data-t="promo_body"></span></div>
-        </div>
-        <label class="check"><input type="checkbox" id="privacyMarketing" /><span class="mark">${ICON_CHECK}</span>
-          <span class="check-text"><span class="tag-opt" data-t="tag_opt"></span><span data-t="privacy_mkt"></span></span></label>
-        <p class="consent-detail" data-t="privacy_mkt_detail"></p>
-      </div>
     </div>
     <div class="err" role="alert">${ICON_ERR}<span data-t="err_privacy"></span></div>`;
 }
 
 function wireConsent() {
-  const all = $('#consentAll'), items = ['#privacyRequired', '#sensitiveRequired', '#privacyMarketing'].map(s => $(s));
+  const all = $('#consentAll'), items = ['#privacyRequired', '#sensitiveRequired'].map(s => $(s));
   all.addEventListener('change', () => { items.forEach(c => { c.checked = all.checked; }); $('#q-privacy').classList.remove('invalid'); });
   items.forEach(c => c.addEventListener('change', () => { all.checked = items.every(x => x.checked); $('#q-privacy').classList.remove('invalid'); }));
 }
@@ -1461,9 +1384,6 @@ function applyLang() {
   document.documentElement.lang = lang;
   $$('[data-t]').forEach(el => { const v = t[el.dataset.t]; if (typeof v === 'string') el.textContent = v; });
   $$('[data-tph]').forEach(el => { el.placeholder = t[el.dataset.tph] || ''; });
-  const tips = $('#vnTips'), ops = $('#vnOps');
-  tips.replaceChildren(...t.vn_tips.map(s => { const p = h('p', { class:'tip' }); p.textContent = s; return p; }));
-  ops.replaceChildren(...t.vn_ops.map(s => { const li = h('li'); li.textContent = s; return li; }));
   $('#langPillText').textContent = lang.toUpperCase();
   applyMenuLang();
   updateRecs();
@@ -1528,7 +1448,6 @@ function validateStep(i) {
   STEPS[i].qs.forEach(q => {
     let ok = true;
     if (q.type === 'consent') ok = $('#privacyRequired').checked && $('#sensitiveRequired').checked;
-    else if (q.type === 'notice') ok = $('#bookingNoticeCheck').checked;
     else if (!q.req) ok = true;
     else if (q.type === 'date') { const v = $(`#${q.name}`).value; ok = !!v && v >= todayStr(); }
     else if (q.type === 'text' || q.type === 'tel') {
@@ -1597,15 +1516,14 @@ async function submitForm() {
     treatmentHistory: checked('treatmentHistory').map(x => x.value),
     visitSource: withDetail('visitSource')[0] || '',
     scalpConcerns: withDetail('scalpConcerns'),
-    permFrequency: $('#permFrequency').value.trim(),
-    shampooFrequency: withDetail('shampooFrequency')[0] || '',
     hairLossGenetic: checked('hairLossGenetic')[0]?.value || '',
-    pregnancyStatus: checked('pregnancyStatus')[0]?.value || '',
+    cautions: checked('cautions').map(x => x.value),
+    // 관리자 화면의 '임신 / 수유' 표시와 이전 접수 건과 같은 형식 유지
+    pregnancyStatus: $('#cautions-ct1').checked ? '임신 중' : $('#cautions-ct2').checked ? '수유 중' : '해당 없음',
     desiredServices: checked('desiredServices').map(x => x.value),
     videoConsent: checked('videoConsent')[0]?.value || '',
     privacyConsent: $('#privacyRequired').checked,
     sensitiveConsent: $('#sensitiveRequired').checked,
-    marketingConsent: $('#privacyMarketing').checked,
     tracking: TRACKING,
     scalpTest: scalpTest || undefined,
   };
@@ -1760,7 +1678,7 @@ buildForm();
 wireConsent();
 loadBranch();
 $$('.lang-btn').forEach(b => b.addEventListener('click', () => selectLang(b.dataset.lang)));
-$('#langPill').addEventListener('click', () => $('#intro').classList.remove('hidden'));
+$('#langPill').addEventListener('click', () => { document.documentElement.classList.remove('direct'); $('#intro').classList.remove('hidden'); });
 $('#btnNext').addEventListener('click', onNext);
 $('#btnBack').addEventListener('click', () => current > 0 && showStep(current - 1));
 $('#form').addEventListener('keydown', e => {
@@ -1772,6 +1690,7 @@ try {
   if (saved) $(`.lang-btn[data-lang="${saved}"]`)?.classList.add('recent');
 } catch {}
 applyLang();
+if (!isGlobal) selectLang('ko');
 </script>
 </body>
 </html>

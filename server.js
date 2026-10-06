@@ -72,7 +72,7 @@ const BRAND = {
 };
 
 // 동의 문구가 바뀌면 버전을 올려서, 고객이 어떤 문구에 동의했는지 기록으로 남김
-const CONSENT_VERSION = '2026-10-05';
+const CONSENT_VERSION = '2026-10-06';
 
 // 본사 관리자 비밀번호는 환경변수로만 설정 (미설정 시 본사 관리자 로그인 불가)
 const ROOT_PASSWORD = process.env.ADMIN_PASSWORD || '';
@@ -201,7 +201,7 @@ const SUBMIT_STRINGS = {
   visitSource: 60, permFrequency: 200, shampooFrequency: 120,
   hairLossGenetic: 20, pregnancyStatus: 30, videoConsent: 20,
 };
-const SUBMIT_ARRAYS = { treatmentHistory: 10, scalpConcerns: 15, desiredServices: 10 };
+const SUBMIT_ARRAYS = { treatmentHistory: 10, scalpConcerns: 15, cautions: 10, desiredServices: 10 };
 
 // 두피 자가진단(/scalp-test) 결과: 유형 + 5개 영역 점수(각 0~12)
 const SCALP_TYPES = ['OILY', 'DRY', 'SENSITIVE', 'SEBORRHEIC', 'HAIR_LOSS', 'BALANCED', 'PREGNANCY'];
@@ -258,6 +258,7 @@ app.use(express.json({ limit: '50kb' }));
 // 매장별 경로 라우팅
 Object.keys(BRANCHES).forEach(slug => {
   app.get(`/${slug}`, (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
+  app.get(`/${slug}/global`, (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html'))); // 외국 고객용(언어 선택부터)
   app.get(`/${slug}/admin`, (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
 });
 

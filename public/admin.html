@@ -357,7 +357,7 @@ const list = v => Array.isArray(v) ? v : [];
 const isMulti = d => /2인|2 or more|2人|2名/.test(d.reservationType || '');
 const isDetail = d => /정밀|Detailed|精密/.test(d.consultationType || '');
 // 유입 경로 자동 기록(링크 채널 > UTM > 이전 사이트) → 사람이 읽는 이름
-const CHANNELS = { insta_profile: '인스타 프로필', insta_ad: '인스타 광고', naver_booking: '네이버 예약 안내', kakao: '카카오톡 안내', store_qr: '매장 QR', threads: '스레드', share: '일행 공유' };
+const CHANNELS = { insta_profile: '인스타 프로필', insta_ad: '인스타 광고', naver_booking: '네이버 예약 안내', kakao: '카카오톡 안내', store_qr: '매장 QR', threads: '스레드', share: '일행 공유', global: '외국인용 링크' };
 const REFERRERS = [[/instagram/, '인스타그램'], [/naver/, '네이버'], [/kakao/, '카카오'], [/google/, '구글'], [/threads/, '스레드'], [/tiktok/, '틱톡'], [/youtube/, '유튜브'], [/facebook/, '페이스북']];
 function autoChannel(d) {
   const t = d.tracking || {};
@@ -371,6 +371,9 @@ const SCALP_AREAS = [['oil', '지성'], ['dry', '건성'], ['sensitive', '민감
 const scalpLabel = d => (d.scalpTest && SCALP_TYPES[d.scalpTest.type]) || '';
 const scalpScores = d => d.scalpTest?.scores ? SCALP_AREAS.filter(([k]) => d.scalpTest.scores[k] != null).map(([k, n]) => `${n} ${d.scalpTest.scores[k]}`).join(' · ') : '';
 const isPregnant = d => /임신 중|수유 중|pregnant|breastfeeding|妊娠中|哺乳中|授乳中/i.test(d.pregnancyStatus || '');
+// '관리 전에 알려 주실 것' 중 임신·수유 외 항목을 짧은 태그로 (약, 치료, 시술, 펌·염색, 알레르기)
+const CAUTION_SHORT = [[/약/, '약 복용'], [/병원/, '병원 치료'], [/두피 시술/, '최근 시술'], [/펌·염색/, '최근 펌·염색'], [/알레르기/, '알레르기']];
+const cautionTags = d => list(d.cautions).map(c => (CAUTION_SHORT.find(([re]) => re.test(c)) || [])[1]).filter(Boolean);
 const nameOf = d => d.name || (d.nameBirth || '').split('/')[0].trim() || '-';
 const birthOf = d => ((d.nameBirth || '').split('/')[1] || '').trim();
 const dayKey = d => new Date(d).toLocaleDateString('sv');
@@ -477,7 +480,8 @@ function filtered() {
 function tags(d) {
   return `<span class="tag ${isMulti(d) ? 'tag-multi' : 'tag-single'}">${isMulti(d) ? '2인+' : '1인'}</span>`
        + `<span class="tag ${isDetail(d) ? 'tag-detail' : 'tag-heal'}">${isDetail(d) ? '정밀' : '힐링'}</span>`
-       + (isPregnant(d) ? `<span class="tag tag-preg">${esc(d.pregnancyStatus)}</span>` : '');
+       + (isPregnant(d) ? `<span class="tag tag-preg">${esc(d.pregnancyStatus)}</span>` : '')
+       + cautionTags(d).map(c => `<span class="tag tag-preg">${esc(c)}</span>`).join('');
 }
 const fmtDate = s => s ? new Date(s).toLocaleString('ko-KR', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' }) : '-';
 const isToday = s => s && dayKey(s) === today();
@@ -569,25 +573,26 @@ function showDetail(id) {
       ${row('연락처', phone ? `<a href="tel:${esc(phone.replace(/[^\d+]/g, ''))}">${esc(phone)}</a>` : '-', true)}
       ${row('주소', d.address)}
     </div>
-    <div class="sec">시술 이력 & 경로</div>
+    <div class="sec">이전 관리 & 경로</div>
     <div class="rows">
-      ${row('관리 경험', list(d.treatmentHistory).join(', ') || '없음')}
+      ${row('이전 관리 경험', list(d.treatmentHistory).join(', ') || '없음')}
       ${row('유입 경로', d.visitSource)}
     </div>
     <div class="sec">두피 상태</div>
     <div class="rows">
       ${row('주요 고민', list(d.scalpConcerns).join(', '))}
       ${scalpLabel(d) ? row('자가진단', `<b>${esc(scalpLabel(d))}</b>${scalpScores(d) ? `<br><span style="color:var(--muted);font-size:13px">${esc(scalpScores(d))} (각 12점 만점)</span>` : ''}`, true) : ''}
-      ${row('샴푸 횟수', d.shampooFrequency)}
+      ${d.shampooFrequency ? row('샴푸 횟수', d.shampooFrequency) : ''}
       ${row('탈모 유전력', d.hairLossGenetic)}
       ${row('임신 / 수유', isPregnant(d) ? `<span class="alert">⚠ ${esc(d.pregnancyStatus)}</span>` : esc(d.pregnancyStatus || '-'), true)}
-      ${row('펌 / 염색 주기', d.permFrequency)}
+      ${d.cautions ? row('관리 전 알림', list(d.cautions).some(c => c !== '해당 없음') ? `<span class="alert">⚠ ${esc(list(d.cautions).join(', '))}</span>` : '해당 없음', true) : ''}
+      ${d.permFrequency ? row('펌 / 염색 주기', d.permFrequency) : ''}
     </div>
     <div class="sec">서비스 & 동의</div>
     <div class="rows">
       ${row('관심 메뉴', list(d.desiredServices).join(', '))}
       ${row('촬영', d.videoConsent === '동의' ? '<span class="yes">✓ 촬영 희망</span>' : '<span class="no">미희망</span>', true)}
-      ${row('마케팅 수신', yn(d.marketingConsent), true)}
+      ${d.marketingConsent ? row('마케팅 수신', yn(d.marketingConsent), true) : ''}
       ${row('작성 언어', (d.lang || 'ko').toUpperCase())}
     </div>
     <div class="sec">유입 경로</div>
@@ -627,7 +632,7 @@ async function remove(id) {
 
 function exportCSV() {
   const rows = filtered();
-  const headers = ['번호','접수일시','방문날짜','방문시간','지점','이름','생년월일','연락처','주소','예약유형','상담유형','관리경험','유입경로','두피고민','펌/염색주기','샴푸횟수','탈모유전력','임신/수유여부','관심서비스','촬영동의','마케팅동의','언어','자동유입','민감정보동의','동의일시','자가진단결과','자가진단점수'];
+  const headers = ['번호','접수일시','방문날짜','방문시간','지점','이름','생년월일','연락처','주소','예약유형','상담유형','관리경험','유입경로','두피고민','펌/염색주기','샴푸횟수','탈모유전력','임신/수유여부','관리전알림','관심서비스','촬영동의','마케팅동의','언어','자동유입','민감정보동의','동의일시','자가진단결과','자가진단점수'];
   const body = rows.map((d, i) => [
     i + 1,
     d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '',
@@ -636,7 +641,7 @@ function exportCSV() {
     d.reservationType || '', d.consultationType || '',
     list(d.treatmentHistory).join('/'), d.visitSource || '',
     list(d.scalpConcerns).join('/'), d.permFrequency || '',
-    d.shampooFrequency || '', d.hairLossGenetic || '', d.pregnancyStatus || '',
+    d.shampooFrequency || '', d.hairLossGenetic || '', d.pregnancyStatus || '', list(d.cautions).join('/'),
     list(d.desiredServices).join('/'),
     d.videoConsent || '', d.marketingConsent ? 'Y' : 'N', d.lang || 'ko',
     autoChannel(d), d.consents ? (d.consents.sensitive ? 'Y' : 'N') : '', d.consents ? new Date(d.consents.at).toLocaleString('ko-KR') : '',
@@ -659,6 +664,7 @@ function exportCSV() {
 const LINK_PRESETS = [
   ['insta_profile', '인스타그램 프로필 링크'], ['insta_ad', '인스타그램 광고'], ['naver_booking', '네이버 예약 확정 안내 메시지'],
   ['kakao', '카카오톡 안내 메시지'], ['store_qr', '매장 QR (카운터·POP)'], ['threads', '스레드'],
+  ['global', '외국인 고객용 (언어 선택부터)'],
 ];
 let customChans = [];
 try { customChans = JSON.parse(localStorage.getItem('scalpit-custom-chans') || '[]'); } catch {}
@@ -688,7 +694,7 @@ function renderLinks() {
   const slug = branchSlug || $('#linkBranch').value || (branchList[0] && branchList[0].slug) || '';
   const base = `${location.origin}/${slug}`;
   const chans = [...LINK_PRESETS, ...customChans.map(c => [c, c])];
-  $('#formLinks').innerHTML = chans.map(([k, name]) => linkItem(name, `${base}?from=${k}`)).join('');
+  $('#formLinks').innerHTML = chans.map(([k, name]) => linkItem(name, k === 'global' ? `${base}/global?from=global` : `${base}?from=${k}`)).join('');
 }
 
 function openLinks() {
