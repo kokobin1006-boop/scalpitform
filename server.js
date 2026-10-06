@@ -132,22 +132,10 @@ function writeJson(data) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
 }
 
-const REVIEW_FILE = path.join(DATA_DIR, 'reviews.json');
-function readReviews() {
-  if (!fs.existsSync(REVIEW_FILE)) return [];
-  try { return JSON.parse(fs.readFileSync(REVIEW_FILE, 'utf8')); } catch { return []; }
-}
-function writeReviews(data) { fs.writeFileSync(REVIEW_FILE, JSON.stringify(data, null, 2), 'utf8'); }
-
 async function initDB() {
   if (!pool) return;
   await pool.query(`
     CREATE TABLE IF NOT EXISTS submissions (
-      id BIGINT PRIMARY KEY,
-      submitted_at TIMESTAMPTZ DEFAULT NOW(),
-      data JSONB NOT NULL
-    );
-    CREATE TABLE IF NOT EXISTS reviews (
       id BIGINT PRIMARY KEY,
       submitted_at TIMESTAMPTZ DEFAULT NOW(),
       data JSONB NOT NULL
@@ -217,8 +205,6 @@ const SUBMIT_ARRAYS = { treatmentHistory: 10, scalpConcerns: 15, desiredServices
 
 const TRACKING_STRINGS = { from: 40, utm_source: 80, utm_medium: 80, utm_campaign: 120, ref: 120 };
 
-const REVIEW_STRINGS = { lang: 5, revisit: 10, improvement: 1000, comment: 1000, contactPhone: 30 };
-const rating = v => (Number.isInteger(v) && v >= 1 && v <= 5 ? v : null);
 
 // ── 간단한 IP 기반 요청 제한 (외부 의존성 없이) ──
 function rateLimit({ windowMs, max }) {
@@ -250,7 +236,7 @@ app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  if (/admin/.test(req.path) || req.path.startsWith('/api/submissions') || req.path.startsWith('/api/reviews'))
+  if (/admin/.test(req.path) || req.path.startsWith('/api/submissions'))
     res.setHeader('X-Robots-Tag', 'noindex, nofollow');
   next();
 });
@@ -260,8 +246,6 @@ app.use(express.json({ limit: '50kb' }));
 Object.keys(BRANCHES).forEach(slug => {
   app.get(`/${slug}`, (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
   app.get(`/${slug}/admin`, (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
-  app.get(`/${slug}/review`, (req, res) => res.sendFile(path.join(__dirname, 'public', 'review.html')));
-  app.get(`/${slug}/review-admin`, (req, res) => res.sendFile(path.join(__dirname, 'public', 'review-admin.html')));
 });
 
 // 두피 자가진단 페이지
@@ -429,94 +413,6 @@ app.post('/api/apply/submit', submitLimiter, wrap(async (req, res) => {
   res.status(200).json({ ok: true });
 }));
 
-// 리뷰 API
-app.post('/api/review', submitLimiter, wrap(async (req, res) => {
-  const body = req.body || {};
-  const data = pick(body, REVIEW_STRINGS);
-  data.overallRating = rating(body.overallRating);
-  data.staffRating = rating(body.staffRating);
-  data.resultRating = rating(body.resultRating);
-  if (!data.overallRating) return res.status(400).json({ success: false, message: '전체 만족도를 선택해주세요.' });
-  if (data.overallRating > 3) delete data.contactPhone;
-  else data.handled = false; // 3점 이하는 지점에서 확인·연락이 필요한 리뷰
-  const branch = getBranch(req);
-  const entry = { ...data, id: nextId(), submittedAt: new Date().toISOString(), branch: branch ? branch.name : '본사' };
-  if (pool) {
-    const { id, submittedAt, ...rest } = entry;
-    await pool.query('INSERT INTO reviews (id, submitted_at, data) VALUES ($1, $2, $3)', [id, submittedAt, JSON.stringify(rest)]);
-  } else {
-    const list = readReviews(); list.push(entry); writeReviews(list);
-  }
-  res.json({ success: true, id: entry.id });
-}));
-
-async function getReview(id) {
-  if (pool) {
-    const result = await pool.query('SELECT id, submitted_at as "submittedAt", data FROM reviews WHERE id=$1', [id]);
-    return result.rows.map(fromRow)[0];
-  }
-  return readReviews().find(r => Number(r.id) === id);
-}
-
-async function patchReview(id, patch) {
-  if (pool) {
-    await pool.query('UPDATE reviews SET data = data || $2::jsonb WHERE id=$1', [id, JSON.stringify(patch)]);
-  } else {
-    writeReviews(readReviews().map(r => (Number(r.id) === id ? { ...r, ...patch } : r)));
-  }
-}
-
-// 고객이 완료 화면에서 네이버·카카오·구글 리뷰 버튼을 눌렀는지 기록 (작성 직후 1시간 이내만)
-const REVIEW_TARGETS = ['naver', 'kakao', 'google', 'copy'];
-app.post('/api/review/:id/click', submitLimiter, wrap(async (req, res) => {
-  const id = Number(req.params.id);
-  const target = (req.body || {}).target;
-  if (!Number.isSafeInteger(id) || !REVIEW_TARGETS.includes(target)) return res.status(400).json({ success: false });
-  const review = await getReview(id);
-  if (!review || Date.now() - new Date(review.submittedAt) > 60 * 60 * 1000) return res.status(404).json({ success: false });
-  const clicks = Array.isArray(review.externalClicks) ? review.externalClicks : [];
-  if (!clicks.includes(target)) await patchReview(id, { externalClicks: [...clicks, target] });
-  res.json({ success: true });
-}));
-
-app.patch('/api/reviews/:id', adminLimiter, wrap(async (req, res) => {
-  if (!authPassword(req)) return res.status(401).json({ success: false });
-  const id = Number(req.params.id);
-  if (!Number.isSafeInteger(id) || typeof (req.body || {}).handled !== 'boolean') return res.status(400).json({ success: false });
-  const review = await getReview(id);
-  const branch = getBranch(req);
-  if (!review || (branch && review.branch !== branch.name)) return res.status(404).json({ success: false });
-  await patchReview(id, { handled: req.body.handled, handledAt: req.body.handled ? new Date().toISOString() : null });
-  res.json({ success: true });
-}));
-
-app.get('/api/reviews', adminLimiter, wrap(async (req, res) => {
-  if (!authPassword(req))
-    return res.status(401).json({ success: false, message: '비밀번호가 올바르지 않습니다.' });
-  let data;
-  if (pool) {
-    const result = await pool.query('SELECT id, submitted_at as "submittedAt", data FROM reviews ORDER BY id DESC');
-    data = result.rows.map(fromRow);
-  } else { data = readReviews().reverse(); }
-  const branch = getBranch(req);
-  if (branch) data = data.filter(d => d.branch === branch.name);
-  res.setHeader('Cache-Control', 'no-store');
-  res.json({ success: true, data, total: data.length });
-}));
-
-app.delete('/api/reviews/:id', adminLimiter, wrap(async (req, res) => {
-  if (!authPassword(req)) return res.status(401).json({ success: false });
-  const id = Number(req.params.id);
-  if (!Number.isSafeInteger(id)) return res.status(400).json({ success: false });
-  const branch = getBranch(req);
-  if (branch) {
-    const data = await getReview(id);
-    if (!data || data.branch !== branch.name) return res.status(403).json({ success: false });
-  }
-  if (pool) { await pool.query('DELETE FROM reviews WHERE id=$1', [id]); }
-  else { writeReviews(readReviews().filter(r => Number(r.id) !== id)); }
-  res.json({ success: true });
-}));
 
 initDB().then(() => {
   app.listen(PORT, () => console.log(`✅ scalpitform 서버 실행: http://localhost:${PORT} (${pool ? 'PostgreSQL' : 'JSON 파일'} 저장)`));

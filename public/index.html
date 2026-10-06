@@ -205,13 +205,6 @@
     .opt.wide { grid-column: 1 / -1; }
 
     /* 서비스 카드 */
-    .svc label { align-items: flex-start; padding: 18px; gap: 14px; }
-    .svc .mark { margin-top: 2px; }
-    .svc-body { flex: 1; min-width: 0; }
-    .svc-en { font-family: var(--serif); font-style: italic; font-size: 15px; color: var(--gold); line-height: 1.2; }
-    .svc-name { font-size: 16px; font-weight: 700; color: var(--ink); margin-top: 2px; }
-    .svc-desc { font-size: 13.5px; font-weight: 400; color: var(--muted); line-height: 1.65; margin-top: 6px; }
-    .svc input:checked + label .svc-en { color: var(--burg); }
 
     /* 입력 */
     .field { display: block; }
@@ -293,9 +286,40 @@
     .opts.times label { min-height: 46px; padding: 10px 4px; justify-content: center; font-size: 14.5px; font-variant-numeric: tabular-nums; }
     .opts.times .mark { display: none; }
 
-    /* 서비스 가격 */
-    .svc-price { display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 700; color: var(--burg); background: var(--burg-tint); padding: 3px 9px; border-radius: 6px; }
-    .svc input:checked + label .svc-price { background: #fff; }
+    /* 메뉴판 */
+    .menu { display: grid; gap: 12px; }
+    .rec-note { font-size: 13px; color: var(--burg); background: var(--burg-tint); border-radius: 10px; padding: 10px 14px; }
+    .mi-undecided label { min-height: 52px; border-style: dashed; font-weight: 600; }
+    .tier { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+    .tier-head { padding: 16px 16px 14px; }
+    .tier-en { font-family: var(--serif); font-size: 26px; font-weight: 500; letter-spacing: .02em; line-height: 1; }
+    .tier-sub { font-family: var(--serif); font-style: italic; font-size: 15px; margin-left: 8px; }
+    .tier-desc { font-size: 12.5px; margin-top: 6px; line-height: 1.5; }
+    .tier-core .tier-head { background: var(--cream-2); }
+    .tier-core .tier-en { color: var(--burg); }
+    .tier-core .tier-sub, .tier-core .tier-desc { color: var(--muted); }
+    .tier-signature .tier-head { background: linear-gradient(135deg, #5A1020, var(--burg)); color: #fff; }
+    .tier-signature .tier-sub, .tier-signature .tier-desc { color: rgba(255,255,255,.8); }
+    .tier-prestige .tier-head { background: linear-gradient(135deg, #1E1214, #33262A); color: #fff; }
+    .tier-prestige .tier-en { color: var(--gold-soft); }
+    .tier-prestige .tier-sub, .tier-prestige .tier-desc { color: rgba(255,255,255,.72); }
+    .mi label { border: none; border-top: 1px solid var(--line); border-radius: 0; padding: 14px 14px 14px 16px; gap: 10px; align-items: center; }
+    .tier-head + .mi label { border-top: none; }
+    .mi input:checked + label { box-shadow: inset 3px 0 0 var(--burg); }
+    .mi-no { font-family: var(--serif); font-size: 15px; color: var(--gold); width: 18px; flex-shrink: 0; }
+    .mi-body { flex: 1; min-width: 0; }
+    .mi-name { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.35; }
+    .mi-desc { display: block; font-size: 12.5px; font-weight: 400; color: var(--muted); line-height: 1.5; margin-top: 3px; }
+    .rec { font-size: 11px; font-weight: 700; color: #fff; background: var(--burg); border-radius: 999px; padding: 1px 8px; }
+    .mi-meta { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; text-align: right; font-variant-numeric: tabular-nums; min-width: 58px; }
+    .mi-min { font-size: 12px; font-weight: 600; color: var(--muted); }
+    .mi-price { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2; }
+    .mi-price s { font-size: 11.5px; font-weight: 400; color: var(--faint); }
+    .mi-price b { font-size: 16px; font-weight: 800; color: var(--burg); letter-spacing: -0.02em; }
+    .mi-plain { font-size: 13px; font-weight: 400; color: var(--muted); }
+    .mi-price .mi-nodisc { font-size: 12px; }
+    .menu.intl .ko-only { display: none; }
+    .menu-foot { font-size: 12px; color: var(--muted); text-align: right; }
 
     /* 방문 전 안내 */
     .visit-notice { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
@@ -537,15 +561,12 @@ const T = {
     err_genetic:'탈모 유전력을 선택해주세요.',
     q_pregnant:'임신 / 수유 여부', pg1:'임신 중', pg2:'수유 중', pg3:'해당 없음',
     err_pregnant:'임신/수유 여부를 선택해주세요.',
-    s5_title:'서비스 선택 & 동의', s5_desc:'관심 있는 서비스와 방문 전 안내, 동의 사항을 확인해주세요.',
-    q_serv:'관심 서비스',
-    ds0:'시그니쳐 딥 릴렉싱 아로마스파 · 80분', ds0_desc:'아로마 오일을 활용한 깊은 릴렉싱 두피·두발 스파', ds0_price:'첫 방문 150,000원',
-    ds1:'브레인디톡스 헤드스파 · 60분', ds1_desc:'뇌 피로 해소에 특화된 두피 힐링 헤드스파', ds1_price:'첫 방문 90,000원',
-    ds2:'브레인디톡스 헤드스파 · 80분', ds2_desc:'뇌 피로 해소에 특화된 두피 힐링 헤드스파 (프리미엄)', ds2_price:'첫 방문 120,000원',
-    ds3:'프리미엄 탈모 솔루션 · 70분', ds3_desc:'두피 환경을 개선하고 모근을 강화하는 전문 탈모 케어', ds3_price:'첫 방문 105,000원',
-    ds4:'문제성 두피 케어 솔루션 · 60분', ds4_desc:'지루성·민감성·염증성 두피 등 문제성 두피 집중 케어', ds4_price:'첫 방문 90,000원',
-    ds5:'임산부 헤드스파 · 60분', ds5_desc:'임산부를 위한 안전하고 부드러운 두피 케어 프로그램', ds5_price:'첫 방문 105,000원',
-    err_serv:'관심 서비스를 하나 이상 선택해주세요.',
+    s5_title:'메뉴 선택 & 동의', s5_desc:'관심 있는 메뉴와 방문 전 안내, 동의 사항을 확인해주세요.',
+    q_serv:'관심 메뉴',
+    menu_help:'정확한 프로그램은 방문 상담 때 함께 정해요. 관심 가는 메뉴를 편하게 골라주세요.', undecided:'아직 잘 모르겠어요 · 상담 후 결정할게요',
+    rec:'추천', rec_note:'앞서 답해주신 내용을 바탕으로 추천 표시를 해드렸어요.', min:'분', no_disc:'할인 제외',
+    col_min:'시간', col_reg:'정상가', col_first:'첫 방문가', price_note:'가격 단위: 원 · 첫 방문가는 첫 방문 고객 한정', price_intl:'',
+    err_serv:'관심 메뉴를 하나 이상 골라주세요. 아직 모르시면 \'상담 후 결정\'을 선택해주세요.',
     q_video:'기념 영상 촬영',
     video_desc:'헤드스파 받으시는 모습을 고객님 휴대폰으로 동영상·사진 촬영해드려요. 원하시면 \'네\'를 선택해주세요.',
     vc1:'네, 촬영 원합니다.', vc2:'아니오, 촬영 원하지 않습니다.',
@@ -569,7 +590,7 @@ const T = {
     btn_next:'다음', btn_back:'이전', btn_submit:'제출하기', btn_ing:'제출 중',
     done_title:'설문이 접수되었습니다',
     done_desc:'소중한 정보 감사합니다.\n스칼프잇에서 최적의 두피 케어를 준비하겠습니다.\n예약 당일 편안하게 방문해주세요.',
-    done_name:'이름', done_phone:'연락처', done_when:'방문 일시', done_branch:'지점', done_serv:'관심 서비스',
+    done_name:'이름', done_phone:'연락처', done_when:'방문 일시', done_branch:'지점', done_serv:'관심 메뉴',
     err_server:'오류가 발생했습니다. 다시 시도해주세요.',
     err_network:'서버 연결 오류입니다. 잠시 후 다시 시도해주세요.',
     err_rate:'요청이 너무 많습니다. 잠시 후 다시 시도해주세요.',
@@ -627,14 +648,11 @@ const T = {
     q_pregnant:'Pregnancy / Breastfeeding', pg1:'Currently pregnant', pg2:'Currently breastfeeding', pg3:'Not applicable',
     err_pregnant:'Please select an option.',
     s5_title:'Services & Consent', s5_desc:'Choose your services and review the visit notes and consent.',
-    q_serv:'Services of Interest',
-    ds0:'Signature Deep Relaxing Aroma Spa · 80min', ds0_desc:'Deep aroma oil scalp spa for ultimate relaxation', ds0_price:'First visit ₩150,000',
-    ds1:'Brain Detox Head Spa · 60min', ds1_desc:'Healing head spa specialized for brain fatigue relief', ds1_price:'First visit ₩90,000',
-    ds2:'Brain Detox Head Spa · 80min', ds2_desc:'Premium head spa for brain fatigue relief', ds2_price:'First visit ₩120,000',
-    ds3:'Premium Hair Loss Solution · 70min', ds3_desc:'Professional hair loss care to strengthen follicles', ds3_price:'First visit ₩105,000',
-    ds4:'Problematic Scalp Care · 60min', ds4_desc:'Intensive care for seborrheic, sensitive or inflamed scalps', ds4_price:'First visit ₩90,000',
-    ds5:'Pregnancy Head Spa · 60min', ds5_desc:'Gentle and safe scalp care for expecting mothers', ds5_price:'First visit ₩105,000',
-    err_serv:'Please select at least one service.',
+    q_serv:'Menu of Interest',
+    menu_help:'Your exact program is decided together at your consultation. Pick anything that interests you.', undecided:"Not sure yet · I'll decide at the consultation",
+    rec:'Recommended', rec_note:'We marked recommendations based on your answers.', min:'min', no_disc:'',
+    col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'Prices for international guests will be guided at the store.',
+    err_serv:"Please pick at least one, or choose 'Not sure yet'.",
     q_video:'Souvenir Video',
     video_desc:"We can record photos & video of your head spa on your phone. Select 'Yes' if you'd like that.",
     vc1:'Yes, please record.', vc2:'No, thank you.',
@@ -716,14 +734,11 @@ const T = {
     q_pregnant:'妊娠 / 哺乳状态', pg1:'妊娠中', pg2:'哺乳中', pg3:'不适用',
     err_pregnant:'请选择妊娠/哺乳状态。',
     s5_title:'服务选择 & 同意', s5_desc:'请选择感兴趣的服务，并确认到访须知和同意事项。',
-    q_serv:'感兴趣的服务',
-    ds0:'招牌深度舒缓芳香水疗 · 80分钟', ds0_desc:'芳香精油深度放松头皮水疗', ds0_price:'首次到访 150,000韩元',
-    ds1:'脑排毒头皮水疗 · 60分钟', ds1_desc:'专注缓解脑疲劳的治愈系头皮水疗', ds1_price:'首次到访 90,000韩元',
-    ds2:'脑排毒头皮水疗 · 80分钟', ds2_desc:'专注缓解脑疲劳的高级头皮水疗', ds2_price:'首次到访 120,000韩元',
-    ds3:'高级脱发解决方案 · 70分钟', ds3_desc:'改善头皮环境并强化毛根的专业脱发护理', ds3_price:'首次到访 105,000韩元',
-    ds4:'问题头皮护理方案 · 60分钟', ds4_desc:'针对脂溢性、敏感性、炎症性头皮的集中护理', ds4_price:'首次到访 90,000韩元',
-    ds5:'孕妇头皮水疗 · 60分钟', ds5_desc:'专为孕妇设计的安全温和头皮护理', ds5_price:'首次到访 105,000韩元',
-    err_serv:'请至少选择一项服务。',
+    q_serv:'感兴趣的项目',
+    menu_help:'具体疗程将在到店咨询时一起决定，请随意选择您感兴趣的项目。', undecided:'还不确定 · 咨询后再决定',
+    rec:'推荐', rec_note:'已根据您的回答标注推荐项目。', min:'分钟', no_disc:'',
+    col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'海外顾客的价格将在店内另行说明。',
+    err_serv:'请至少选择一项，或选择“还不确定”。',
     q_video:'纪念视频拍摄',
     video_desc:"可用您的手机为您拍摄头皮水疗过程的视频和照片。如需要，请选择'是'。",
     vc1:'是，我希望拍摄。', vc2:'否，不需要拍摄。',
@@ -804,14 +819,11 @@ const T = {
     q_pregnant:'妊娠 / 授乳の有無', pg1:'妊娠中', pg2:'授乳中', pg3:'該当なし',
     err_pregnant:'妊娠/授乳の有無を選択してください。',
     s5_title:'サービス選択 & 同意', s5_desc:'ご希望のサービスを選び、ご来店前のご案内と同意事項をご確認ください。',
-    q_serv:'ご興味のあるサービス',
-    ds0:'シグネチャー ディープリラクシング アロマスパ · 80分', ds0_desc:'アロマオイルで深くリラックスする頭皮スパ', ds0_price:'初回 150,000ウォン',
-    ds1:'ブレインデトックス ヘッドスパ · 60分', ds1_desc:'脳疲労解消に特化したヒーリングヘッドスパ', ds1_price:'初回 90,000ウォン',
-    ds2:'ブレインデトックス ヘッドスパ · 80分', ds2_desc:'脳疲労解消に特化したプレミアムヘッドスパ', ds2_price:'初回 120,000ウォン',
-    ds3:'プレミアム 薄毛ソリューション · 70分', ds3_desc:'頭皮環境を改善し毛根を強化する専門的な薄毛ケア', ds3_price:'初回 105,000ウォン',
-    ds4:'問題頭皮ケアソリューション · 60分', ds4_desc:'脂漏性・敏感性・炎症性頭皮の集中ケア', ds4_price:'初回 90,000ウォン',
-    ds5:'マタニティ ヘッドスパ · 60分', ds5_desc:'妊婦様のための安全で優しい頭皮ケアプログラム', ds5_price:'初回 105,000ウォン',
-    err_serv:'サービスを一つ以上選択してください。',
+    q_serv:'気になるメニュー',
+    menu_help:'具体的なプログラムはご来店時のカウンセリングで一緒に決めます。気になるメニューをお選びください。', undecided:'まだ決めていません · カウンセリングで決めます',
+    rec:'おすすめ', rec_note:'ご回答内容をもとにおすすめを表示しています。', min:'分', no_disc:'',
+    col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'海外のお客様の料金は店頭でご案内いたします。',
+    err_serv:'一つ以上お選びいただくか、「まだ決めていません」を選択してください。',
     q_video:'記念撮影',
     video_desc:'ヘッドスパ中のお姿をお客様のスマートフォンで動画・写真撮影いたします。ご希望の場合は「はい」を選択してください。',
     vc1:'はい、撮影を希望します。', vc2:'いいえ、希望しません。',
@@ -845,11 +857,96 @@ const T = {
 
 // 관리자 화면 통계·필터가 언어와 무관하게 동작하도록, 저장값은 항상 한국어로 고정
 const STORED = {
-  ds0:'시그니쳐 딥 릴렉싱 아로마스파 80분', ds1:'브레인디톡스 헤드스파 60분', ds2:'브레인디톡스 헤드스파 80분',
-  ds3:'프리미엄 탈모 솔루션 70분', ds4:'문제성 두피 케어 솔루션 60분', ds5:'임산부 헤드스파 60분',
   vc1:'동의', vc2:'비동의',
 };
 const storedValue = key => STORED[key] || T.ko[key] || key;
+
+// ── 메뉴판 (국내 고객 메뉴판 기준 · 가격은 한국어 화면에서만 표시) ──
+const MENU = [
+  { tier:'core', en:'CORE', sub:'Essential Scalp Care', desc:{
+      ko:'두피와 모발의 기본 컨디션을 정돈하는 에센셜 케어', en:'Essential care to reset your scalp and hair condition',
+      zh:'调理头皮与头发基础状态的基础护理', ja:'頭皮と髪の基本コンディションを整えるエッセンシャルケア' }, items:[
+    { id:'c1', min:60, reg:130000, first:90000,
+      ko:['브레인 디톡스 헤드스파', '두피 스케일링과 릴렉싱 케어로 답답한 두피와 머리를 맑고 가볍게 정돈하는 시간'],
+      en:['Brain Detox Head Spa', 'Scalp scaling and relaxing care to clear a heavy scalp and mind'],
+      zh:['脑排毒头皮水疗', '通过头皮去角质与放松护理，让沉闷的头皮和头脑清爽轻盈'],
+      ja:['ブレインデトックス ヘッドスパ', '頭皮スケーリングとリラクシングケアで、重たい頭皮と頭をすっきり整える時間'] },
+    { id:'c2', min:80, reg:170000, first:120000,
+      ko:['프리미엄 브레인 디톡스', '브레인 디톡스에 두피팩·온열 타월·LED 진정 케어를 더해 한층 더 깊고 편안한 프리미엄 코스'],
+      en:['Premium Brain Detox', 'Brain Detox plus scalp pack, warm towel and LED soothing care'],
+      zh:['高级脑排毒', '在脑排毒基础上加入头皮面膜、热毛巾与LED舒缓护理的高级疗程'],
+      ja:['プレミアム ブレインデトックス', 'ブレインデトックスに頭皮パック・温タオル・LED鎮静ケアを加えたプレミアムコース'] },
+    { id:'c3', min:60, reg:130000, first:90000,
+      ko:['문제성 두피 케어', '유분·각질·건조·민감 등 현재 두피 상태에 맞춰 섬세하게 관리하는 맞춤 케어'],
+      en:['Problem Scalp Care', 'Tailored care for oiliness, flakes, dryness or sensitivity'],
+      zh:['问题头皮护理', '针对油脂、角质、干燥、敏感等头皮状态的定制护理'],
+      ja:['問題頭皮ケア', '皮脂・角質・乾燥・敏感など、今の頭皮状態に合わせたオーダーメイドケア'] },
+    { id:'c4', min:70, reg:150000, first:105000,
+      ko:['프리미엄 탈모 솔루션', '가늘어진 모발과 힘없는 두피가 고민일 때, 맞춤 앰플을 중심으로 두피를 집중 관리하는 솔루션 케어'],
+      en:['Premium Hair Loss Solution', 'Intensive ampoule-based care for thinning hair and a weak scalp'],
+      zh:['高级脱发解决方案', '针对发丝变细、头皮无力，以定制安瓶为核心的集中护理'],
+      ja:['プレミアム 薄毛ソリューション', '細くなった髪やハリのない頭皮を、オーダーメイドアンプル中心に集中ケア'] },
+    { id:'c5', min:60, reg:150000, first:105000,
+      ko:['임산부 헤드스파', '임신 중에도 편안하게 받을 수 있도록 성분과 관리 방식을 세심하게 구성한 임산부 전용 헤드스파'],
+      en:['Pregnancy Head Spa', 'A head spa for expecting mothers with carefully chosen ingredients'],
+      zh:['孕妇头皮水疗', '精选成分与护理方式，孕期也能安心享受的专属头皮水疗'],
+      ja:['マタニティ ヘッドスパ', '妊娠中でも安心して受けられるよう成分と施術を工夫した専用ヘッドスパ'] },
+    { id:'c6', min:50, reg:90000, first:null,
+      ko:['프리미엄 모발클리닉', '손상된 모발을 3단계로 집중 케어하고, 목·어깨 이완까지 더해 윤기와 편안함을 함께 채우는 모발 클리닉'],
+      en:['Premium Hair Clinic', '3-step repair for damaged hair, plus neck & shoulder relaxation'],
+      zh:['高级护发疗程', '三步集中修护受损发质，并放松颈肩'],
+      ja:['プレミアム ヘアクリニック', 'ダメージ毛を3ステップで集中ケア＋首・肩のほぐし'] },
+  ]},
+  { tier:'signature', en:'SIGNATURE', sub:'For Your Scalp', desc:{
+      ko:'두피 고민과 휴식의 목적에 따라 선택하는 스칼프잇 시그니처 케어', en:'Signature care chosen by your scalp concern and how you want to relax',
+      zh:'根据头皮困扰与放松需求选择的招牌护理', ja:'頭皮の悩みと休息の目的で選ぶシグネチャーケア' }, items:[
+    { id:'s1', min:70, reg:160000, first:110000,
+      ko:['클리어 스파', '피지와 노폐물을 세심하게 정돈해 답답했던 두피를 산뜻하고 가볍게 만드는 딥 클렌징 스파'],
+      en:['Clear Spa', 'Deep-cleansing spa that clears sebum and buildup'],
+      zh:['清透水疗', '细致清理皮脂与代谢物，让头皮清爽轻盈的深层清洁水疗'],
+      ja:['クリアスパ', '皮脂や老廃物を整え、頭皮を爽やかに軽くするディープクレンジングスパ'] },
+    { id:'s2', min:70, reg:160000, first:110000,
+      ko:['릴렉스 스파', '따뜻한 방짜 케어와 두피 지압 테라피로 두피부터 목·어깨까지 편안하게 이완하는 릴렉싱 스파'],
+      en:['Relax Spa', 'Warm brass (bangjja) care and acupressure from scalp to neck and shoulders'],
+      zh:['放松水疗', '以温热黄铜器护理与头皮指压，从头皮到颈肩全面放松'],
+      ja:['リラックススパ', '温かい真鍮（パンチャ）ケアと指圧で、頭皮から首・肩までほぐすスパ'] },
+    { id:'s3', min:80, reg:180000, first:125000,
+      ko:['릴렉스 스파', '릴렉스 케어에 두피 컨디션별 맞춤 앰플 케어를 더해 한층 더 깊고 섬세하게 관리하는 스파'],
+      en:['Relax Spa + Ampoule', 'Relax care plus a tailored ampoule for your scalp condition'],
+      zh:['放松水疗 + 安瓶', '在放松护理上加入按头皮状态定制的安瓶护理'],
+      ja:['リラックススパ ＋ アンプル', 'リラックスケアに頭皮状態別のアンプルケアを加えたスパ'] },
+    { id:'s4', min:80, reg:190000, first:130000,
+      ko:['리페어 스파', '두피를 깨끗하게 정돈한 뒤 3단계 리페어 케어로 모발 끝까지 부드럽게 관리하는 토탈 스파'],
+      en:['Repair Spa', 'Scalp cleansing, then 3-step repair care to the hair ends'],
+      zh:['修护水疗', '清洁头皮后以三步修护护理，让发丝直至发尾柔顺'],
+      ja:['リペアスパ', '頭皮を整えた後、3ステップのリペアケアで毛先までなめらかに'] },
+    { id:'s5', min:80, reg:210000, first:145000,
+      ko:['시그니처 딥 릴렉스 스파', '스칼프잇의 시그니처 코스. 아로마와 온열 방짜 테라피로 두피부터 몸의 긴장까지 깊이 이완하는 릴렉싱 케어'],
+      en:['Signature Deep Relax Spa', 'Our signature course with aroma and warm brass therapy'],
+      zh:['招牌深度放松水疗', '招牌疗程，以芳香与温热黄铜疗法从头皮到全身深度舒缓'],
+      ja:['シグネチャー ディープリラックススパ', 'アロマと温熱真鍮テラピーで頭皮から体まで深くほぐすシグネチャーコース'] },
+  ]},
+  { tier:'prestige', en:'PRESTIGE', sub:'Signature + Premium Full Care', desc:{
+      ko:'두피·모발·릴렉싱 케어를 하나의 코스로 완성한 프레스티지 프로그램', en:'Scalp, hair and relaxation care in one prestige program',
+      zh:'将头皮、头发与放松护理融为一体的尊享疗程', ja:'頭皮・髪・リラクシングをひとつにしたプレステージプログラム' }, items:[
+    { id:'p1', min:90, reg:300000, first:210000,
+      ko:['프레스티지 딥 릴렉스 스파', '깊은 릴렉싱 케어에 두피 앰플 또는 모발 리페어를 맞춤으로 더해 완성하는 프리미엄 풀 케어'],
+      en:['Prestige Deep Relax Spa', 'Deep relaxation plus a tailored scalp ampoule or hair repair'],
+      zh:['尊享深度放松水疗', '深度放松护理并定制加入头皮安瓶或发丝修护'],
+      ja:['プレステージ ディープリラックススパ', '深いリラクシングに頭皮アンプルまたはヘアリペアを組み合わせたフルケア'] },
+    { id:'p2', min:80, reg:240000, first:165000,
+      ko:['프레스티지 스캘프 리바이브', '깊은 이완 마사지와 3단계 두피 앰플로 지친 두피 컨디션을 집중적으로 끌어올리는 프레스티지 스캘프 케어'],
+      en:['Prestige Scalp Revive', 'Deep massage and 3-step scalp ampoules to revive a tired scalp'],
+      zh:['尊享头皮焕活', '深度按摩与三步头皮安瓶，集中焕活疲惫头皮'],
+      ja:['プレステージ スカルプリバイブ', '深いマッサージと3ステップ頭皮アンプルで疲れた頭皮を立て直すケア'] },
+  ]},
+];
+const MENU_ITEMS = Object.fromEntries(MENU.flatMap(t => t.items).map(i => [i.id, i]));
+// 관리자 화면에는 언어와 무관하게 '메뉴명 + 시간'(한국어)으로 저장
+MENU.flatMap(t => t.items).forEach(i => { STORED[i.id] = `${i.ko[0]} ${i.min}분`; });
+STORED.undecided = '상담 후 결정';
+const won = n => n.toLocaleString('ko-KR');
+const menuName = id => id === 'undecided' ? T[lang].undecided : `${(MENU_ITEMS[id][lang] || MENU_ITEMS[id].ko)[0]} · ${MENU_ITEMS[id].min}${T[lang].min}`;
 
 const TIMES = [];
 for (let hh = 10; hh < 20; hh++) TIMES.push(`${hh}:00`, `${hh}:30`);
@@ -882,9 +979,7 @@ const STEPS = [
     { name:'permFrequency', type:'text', label:'q_perm', chip:'optional', ph:'ph_perm', maxlength:200 },
   ]},
   { en:'Services & Consent', title:'s5_title', desc:'s5_desc', qs:[
-    { name:'desiredServices', type:'service', label:'q_serv', chip:'multi', req:true, err:'err_serv',
-      opts:[['ds0','SIGNATURE AROMA SPA'],['ds1','BRAIN DETOX HEAD SPA'],['ds2','BRAIN DETOX HEAD SPA · PREMIUM'],
-            ['ds3','PREMIUM HAIR LOSS SOLUTION'],['ds4','PROBLEMATIC SCALP CARE'],['ds5','PREGNANCY HEAD SPA']] },
+    { name:'desiredServices', type:'menu', label:'q_serv', chip:'multi', help:'menu_help', req:true, err:'err_serv' },
     { name:'videoConsent', type:'radio', label:'q_video', help:'video_desc', req:true, err:'err_video', opts:['vc1','vc2'] },
     { name:'bookingNotice', type:'notice', err:'err_vn' },
     { name:'privacy', type:'consent', err:'err_privacy' },
@@ -947,7 +1042,9 @@ function buildQuestion(q) {
   if (q.help) head += `<p class="q-help" data-t="${q.help}"></p>`;
   block.innerHTML = head;
 
-  if (q.type === 'text' || q.type === 'tel' || q.type === 'date') {
+  if (q.type === 'menu') {
+    block.appendChild(buildMenu(q.name));
+  } else if (q.type === 'text' || q.type === 'tel' || q.type === 'date') {
     const input = h('input', {
       class:'input', type:q.type, id:q.name, name:q.name, 'aria-labelledby':labelId,
       autocomplete:q.autocomplete || 'off',
@@ -960,18 +1057,16 @@ function buildQuestion(q) {
     if (q.format) input.addEventListener('input', () => formatInput(input, q.format));
     block.appendChild(input);
   } else {
-    const multi = q.type === 'checkbox' || q.type === 'service';
+    const multi = q.type === 'checkbox';
     const times = q.type === 'times';
     const opts = h('div', { class:`opts${q.grid ? ' grid' : ''}${times ? ' times' : ''}`, role: multi ? 'group' : 'radiogroup', 'aria-labelledby':labelId });
     (times ? TIMES : q.opts).forEach(o => {
-      const [key, en] = Array.isArray(o) ? o : [o];
+      const key = o;
       const id = `${q.name}-${key.replace(':', '')}`;
-      const wrap = h('div', { class:`opt${multi ? ' multi' : ''}${q.type === 'service' ? ' svc' : ''}${q.wide?.includes(key) ? ' wide' : ''}` });
+      const wrap = h('div', { class:`opt${multi ? ' multi' : ''}${q.wide?.includes(key) ? ' wide' : ''}` });
       const input = h('input', { type: multi ? 'checkbox' : 'radio', name:q.name, id, value: times ? key : storedValue(key), 'data-key':key });
       const label = h('label', { for:id });
-      if (q.type === 'service') {
-        label.innerHTML = `<span class="mark">${ICON_CHECK}</span><span class="svc-body"><span class="svc-en">${en}</span><span class="svc-name" data-t="${key}" style="display:block"></span><span class="svc-desc" data-t="${key}_desc" style="display:block"></span><span class="svc-price" data-t="${key}_price"></span></span>`;
-      } else if (times) {
+      if (times) {
         label.innerHTML = `<span class="mark">${ICON_CHECK}</span><span>${key}</span>`;
       } else {
         label.innerHTML = `<span class="mark">${ICON_CHECK}</span><span data-t="${key}"></span>`;
@@ -1005,6 +1100,64 @@ function buildQuestion(q) {
 
   if (q.err) block.appendChild(h('div', { class:'err', role:'alert' }, `${ICON_ERR}<span data-t="${q.err}"></span>`));
   return withEvents(block);
+}
+
+function buildMenu(name) {
+  const wrap = h('div', { class:'menu', role:'group' });
+  const opt = (id, cls, inner) => {
+    const box = h('div', { class:`opt multi ${cls}`, 'data-id': id });
+    box.append(h('input', { type:'checkbox', name, id:`${name}-${id}`, value: storedValue(id), 'data-key': id }),
+               h('label', { for:`${name}-${id}` }, `<span class="mark">${ICON_CHECK}</span>${inner}`));
+    return box;
+  };
+  wrap.appendChild(h('p', { class:'rec-note', id:'recNote', hidden:'' }));
+  wrap.appendChild(opt('undecided', 'mi-undecided', '<span data-t="undecided"></span>'));
+  MENU.forEach(tier => {
+    const sec = h('section', { class:`tier tier-${tier.tier}` });
+    sec.innerHTML = `<div class="tier-head"><div><span class="tier-en">${tier.en}</span><span class="tier-sub">${tier.sub}</span></div><p class="tier-desc" data-menu-desc="${tier.tier}"></p></div>`;
+    tier.items.forEach((it, i) => sec.appendChild(opt(it.id, 'mi', `
+      <span class="mi-no">0${i + 1}</span>
+      <span class="mi-body"><span class="mi-name"><span data-menu-name="${it.id}"></span><span class="rec" hidden data-t="rec"></span></span><span class="mi-desc" data-menu-text="${it.id}"></span></span>
+      <span class="mi-meta"><span class="mi-min" data-menu-min="${it.id}"></span>
+        <span class="mi-price ko-only">${it.first ? `<s>${won(it.reg)}</s><b>${won(it.first)}</b>` : `<span class="mi-plain">${won(it.reg)}</span><b class="mi-nodisc" data-t="no_disc"></b>`}</span></span>`)));
+    wrap.appendChild(sec);
+  });
+  wrap.appendChild(h('p', { class:'menu-foot', id:'menuFoot' }));
+  // '상담 후 결정'은 다른 메뉴와 함께 고를 수 없음
+  wrap.addEventListener('change', e => {
+    if (e.target.name !== name || !e.target.checked) return;
+    const undecided = $(`#${name}-undecided`);
+    if (e.target === undecided) $$(`input[name="${name}"]`).forEach(x => { if (x !== undecided) x.checked = false; });
+    else undecided.checked = false;
+  });
+  return wrap;
+}
+
+function applyMenuLang() {
+  const t = T[lang];
+  $$('[data-menu-name]').forEach(el => { const it = MENU_ITEMS[el.dataset.menuName]; el.textContent = (it[lang] || it.ko)[0]; });
+  $$('[data-menu-text]').forEach(el => { const it = MENU_ITEMS[el.dataset.menuText]; el.textContent = (it[lang] || it.ko)[1]; });
+  $$('[data-menu-min]').forEach(el => { el.textContent = `${MENU_ITEMS[el.dataset.menuMin].min}${t.min}`; });
+  $$('[data-menu-desc]').forEach(el => { const tier = MENU.find(x => x.tier === el.dataset.menuDesc); el.textContent = tier.desc[lang] || tier.desc.ko; });
+  $('.menu').classList.toggle('intl', lang !== 'ko');
+  $('#menuFoot').textContent = lang === 'ko' ? t.price_note : t.price_intl;
+}
+
+// 앞 단계 답변으로 메뉴에 '추천' 표시 (직원도 손님 성향을 미리 짐작할 수 있음)
+function updateRecs() {
+  const has = (name, keys) => checked(name).some(x => keys.includes(x.dataset.key));
+  let recs = [];
+  if (has('pregnancyStatus', ['pg1', 'pg2'])) recs = ['c5'];
+  else {
+    if (has('scalpConcerns', ['sc1']) || has('hairLossGenetic', ['hg1'])) recs.push('c4', 'p2');
+    if (has('scalpConcerns', ['sc2', 'sc3', 'sc6', 'sc8', 'sc9', 'sc10'])) recs.push('c3');
+    if (has('scalpConcerns', ['sc4', 'sc5', 'sc7'])) recs.push('s1');
+    if (has('consultationType', ['c1'])) recs.push('s2', 's5');
+  }
+  recs = [...new Set(recs)].slice(0, 3);
+  $$('.mi').forEach(box => { $('.rec', box).hidden = !recs.includes(box.dataset.id); });
+  $('#recNote').hidden = !recs.length;
+  $('#recNote').textContent = T[lang].rec_note;
 }
 
 function withEvents(block) {
@@ -1109,6 +1262,8 @@ function applyLang() {
   tips.replaceChildren(...t.vn_tips.map(s => { const p = h('p', { class:'tip' }); p.textContent = s; return p; }));
   ops.replaceChildren(...t.vn_ops.map(s => { const li = h('li'); li.textContent = s; return li; }));
   $('#langPillText').textContent = lang.toUpperCase();
+  applyMenuLang();
+  updateRecs();
   updateNav();
 }
 
@@ -1156,6 +1311,7 @@ function showStep(n, focus = true) {
   $$('.step').forEach(s => s.classList.remove('active'));
   $(`#step${n + 1}`).classList.add('active');
   $('#notice').hidden = n !== 0;
+  if (n === STEPS.length - 1) updateRecs();
   current = n;
   updateNav();
   window.scrollTo({ top: 0, behavior: focus ? 'smooth' : 'auto' });
@@ -1269,7 +1425,7 @@ async function submitForm() {
 
 function showDone(data) {
   const t = T[lang];
-  const label = name => checked(name).map(x => t[x.dataset.key]).join(', ');
+  const label = name => checked(name).map(x => name === 'desiredServices' ? menuName(x.dataset.key) : t[x.dataset.key]).join(', ');
   const rows = [
     [t.done_name, data.name],
     [t.done_phone, data.phone],
