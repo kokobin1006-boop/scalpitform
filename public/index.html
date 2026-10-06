@@ -459,6 +459,22 @@
     .kakao-txt small { display: block; font-size: 12.5px; opacity: .75; }
     .insta-btn { display: flex; align-items: center; justify-content: center; height: 46px; border-radius: var(--radius); border: 1px solid var(--line-strong); background: #fff; color: var(--ink); font-size: 14px; font-weight: 600; text-decoration: none; }
 
+    /* ── 브랜드 영상 · 자주 묻는 질문 ── */
+    #brandBox { display: grid; gap: 28px; margin-top: 36px; text-align: left; }
+    .brand-title { font-size: 17px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; }
+    .brand-sub { font-size: 13.5px; color: var(--muted); margin-top: 2px; word-break: keep-all; }
+    .video { position: relative; display: block; margin-top: 12px; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; background: linear-gradient(140deg, #5A1020, var(--burg)); box-shadow: var(--shadow); }
+    .video img, .video iframe { width: 100%; height: 100%; display: block; border: 0; object-fit: cover; }
+    .video-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 58px; height: 58px; border-radius: 50%; background: rgba(255,255,255,.94); color: var(--burg); display: grid; place-items: center; padding-left: 3px; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+    .video-label { position: absolute; left: 12px; bottom: 12px; font-size: 12px; font-weight: 600; color: #fff; background: rgba(30,18,20,.62); padding: 4px 10px; border-radius: 999px; }
+    .faq { margin-top: 12px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .faq details + details { border-top: 1px solid var(--line); }
+    .faq summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; font-size: 14.5px; font-weight: 650; color: var(--ink); line-height: 1.45; word-break: keep-all; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: ''; flex-shrink: 0; width: 7px; height: 7px; margin-right: 2px; border-right: 2px solid var(--faint); border-bottom: 2px solid var(--faint); transform: translateY(-2px) rotate(45deg); transition: transform .2s; }
+    .faq details[open] summary::after { transform: translateY(2px) rotate(-135deg); }
+    .faq details p { padding: 0 18px 16px; font-size: 14px; color: var(--muted); line-height: 1.7; word-break: keep-all; }
+
     /* ── 토스트 ── */
     .toast {
       position: fixed; left: 50%; bottom: calc(var(--bar-h) + 20px + env(safe-area-inset-bottom)); z-index: 300;
@@ -544,6 +560,7 @@
   <p class="done-desc" data-t="done_desc"></p>
   <div class="summary" id="summary"></div>
   <div id="visitCard"></div>
+  <div id="brandBox"></div>
   <img src="/scalpit-logo.png" alt="Scálpit" class="done-logo" />
 </section>
 
@@ -586,6 +603,15 @@ const T = {
     map_naver:'네이버 지도', map_kakao:'카카오맵', map_google:'Google 지도',
     call:'전화하기', parking_k:'주차', cal_add:'캘린더에 저장', cal_title:'스칼프잇 {b} 방문',
     kakao_ch:'카카오톡 채널 추가', kakao_ch_desc:'예약 변경·문의를 카톡으로 편하게 하세요', insta:'Instagram 팔로우',
+    vid_title:'스칼프잇 미리 만나보기', vid_sub:'방문 전에 스칼프잇이 어떤 곳인지 영상으로 먼저 만나보세요.', vid_label:'브랜드 소개 영상',
+    faq_title:'자주 묻는 질문',
+    faq:[
+      ['메뉴를 미리 정하고 가야 하나요?', '아니요, 괜찮아요. 방문하시면 먼저 두피 상태를 확인하고 고객님께 맞는 케어를 추천해 드려요. 설문에서 고르신 메뉴도 상담 후 언제든 바꾸실 수 있어요.'],
+      ['관리 시간은 얼마나 걸리나요?', '메뉴에 따라 50분에서 90분 정도예요.'],
+      ['머리를 감고 가야 하나요?', '당일 샴푸는 하지 않고 오셔도 괜찮아요. 관리 중 목 뒤(네이프라인) 마사지가 있어서, 목폴라나 하이넥을 입으신다면 안에 가벼운 이너를 추천드려요.'],
+      ['임신 중에도 받을 수 있나요?', '네. 임신 중에도 편안하게 받으실 수 있도록 성분과 관리 방식을 세심하게 구성한 임산부 전용 헤드스파가 있어요. 설문에 남겨주신 내용을 보고 미리 준비해 둘게요.'],
+      ['둘이 함께 받을 수 있나요?', '네, 2인 예약이 가능해요. 예약·운영 상황에 따라 1인룸에서 각각 진행될 수 있고, 일행분도 이 설문을 꼭 작성해 주세요.'],
+    ],
     s4_title:'두피 고민 & 생활 습관', s4_desc:'현재 두피 상태와 생활 패턴을 알려주세요.',
     q_scalp:'주요 두피 고민',
     sc1:'탈모', sc2:'가려움', sc3:'건조', sc4:'지성 / 번들거림', sc5:'비듬',
@@ -676,6 +702,15 @@ const T = {
     map_naver:'Naver Map', map_kakao:'Kakao Map', map_google:'Google Maps',
     call:'Call', parking_k:'Parking', cal_add:'Add to calendar', cal_title:'Scálpit {b} visit',
     kakao_ch:'Add us on KakaoTalk', kakao_ch_desc:'Reschedule or ask questions easily via KakaoTalk', insta:'Follow on Instagram',
+    vid_title:'Get to know Scálpit', vid_sub:'Take a look at Scálpit before your visit.', vid_label:'Brand film',
+    faq_title:'FAQ',
+    faq:[
+      ['Do I need to choose a menu in advance?', "Not at all. We'll check your scalp first and recommend the care that suits you. You can always change what you picked in the form after the consultation."],
+      ['How long does a treatment take?', 'About 50 to 90 minutes, depending on the menu.'],
+      ['Should I wash my hair before coming?', 'No need to wash your hair on the day. The treatment includes a nape-line (back of neck) massage, so if you wear a turtleneck or high-neck top, a light inner layer is recommended.'],
+      ['Can I get a treatment while pregnant?', "Yes. We offer a dedicated pregnancy head spa with carefully chosen ingredients and techniques. We'll prepare in advance based on your answers."],
+      ['Can two people be treated together?', 'Yes, you can book for two. Depending on availability, you may be treated in separate rooms. Please ask your companion to fill out this form as well.'],
+    ],
     s4_title:'Scalp & Lifestyle', s4_desc:'Tell us about your current scalp condition and routine.',
     q_scalp:'Main Scalp Concerns',
     sc1:'Hair loss', sc2:'Itchiness', sc3:'Dryness', sc4:'Oily scalp', sc5:'Dandruff',
@@ -763,6 +798,15 @@ const T = {
     map_naver:'Naver地图', map_kakao:'Kakao地图', map_google:'Google地图',
     call:'拨打电话', parking_k:'停车', cal_add:'添加到日历', cal_title:'Scálpit {b} 到访',
     kakao_ch:'添加KakaoTalk频道', kakao_ch_desc:'通过KakaoTalk轻松变更预约或咨询', insta:'关注Instagram',
+    vid_title:'提前认识Scálpit', vid_sub:'到访前，先通过视频了解Scálpit吧。', vid_label:'品牌介绍视频',
+    faq_title:'常见问题',
+    faq:[
+      ['需要提前选好项目吗？', '不需要。到店后我们会先检查您的头皮状态，再为您推荐合适的护理。问卷中选择的项目在咨询后也可以随时更改。'],
+      ['护理需要多长时间？', '根据项目不同，大约50至90分钟。'],
+      ['需要先洗头再来吗？', '当天不需要洗发，直接来访即可。护理包含后颈部按摩，如穿高领上衣，建议内搭轻薄的打底衣。'],
+      ['怀孕期间可以做吗？', '可以。我们提供孕妇专属头皮护理，成分与护理方式均经过细心设计。我们会根据您在问卷中填写的内容提前做好准备。'],
+      ['两个人可以一起做吗？', '可以，支持2人预约。根据预约及运营情况，也可能分别在单人间进行。请同行人员也填写此问卷。'],
+    ],
     s4_title:'头皮烦恼 & 生活习惯', s4_desc:'请告知您目前的头皮状况和生活习惯。',
     q_scalp:'主要头皮烦恼',
     sc1:'脱发', sc2:'瘙痒', sc3:'干燥', sc4:'油性/油光', sc5:'头皮屑',
@@ -849,6 +893,15 @@ const T = {
     map_naver:'Naverマップ', map_kakao:'Kakaoマップ', map_google:'Googleマップ',
     call:'電話する', parking_k:'駐車場', cal_add:'カレンダーに追加', cal_title:'Scálpit {b} ご来店',
     kakao_ch:'KakaoTalkチャンネル追加', kakao_ch_desc:'予約変更・お問い合わせをKakaoTalkで', insta:'Instagramをフォロー',
+    vid_title:'Scálpitを事前にチェック', vid_sub:'ご来店前に、Scálpitがどんな場所か動画でご覧ください。', vid_label:'ブランド紹介動画',
+    faq_title:'よくある質問',
+    faq:[
+      ['メニューは事前に決める必要がありますか？', 'いいえ、大丈夫です。ご来店後にまず頭皮の状態を確認し、お客様に合ったケアをご提案します。フォームで選んだメニューもカウンセリング後にいつでも変更できます。'],
+      ['施術時間はどのくらいですか？', 'メニューにより50〜90分程度です。'],
+      ['髪を洗ってから行くべきですか？', '当日のシャンプーは不要です。施術には首の後ろ（ネープライン）のマッサージが含まれるため、タートルネックやハイネックの場合は中に薄手のインナーをおすすめします。'],
+      ['妊娠中でも受けられますか？', 'はい。妊娠中でも安心して受けられるよう、成分と施術方法を丁寧に組み立てたマタニティ専用ヘッドスパがあります。フォームのご回答をもとに事前に準備いたします。'],
+      ['2人で一緒に受けられますか？', 'はい、2名様でのご予約が可能です。予約・運営状況により個室で別々に施術する場合があります。お連れ様もこのフォームへのご記入をお願いします。'],
+    ],
     s4_title:'頭皮のお悩み & 生活習慣', s4_desc:'現在の頭皮状態と生活習慣を教えてください。',
     q_scalp:'主な頭皮のお悩み',
     sc1:'抜け毛・薄毛', sc2:'かゆみ', sc3:'乾燥', sc4:'脂性・テカリ', sc5:'フケ',
@@ -1576,6 +1629,7 @@ function showDone(data) {
     box.appendChild(row);
   });
   $('#visitCard').replaceChildren(...visitCard(data));
+  $('#brandBox').replaceChildren(...brandBox());
   ['#form', '#actionbar', '#stepCount', '#langPill'].forEach(s => $(s).hidden = true);
   $('#progressFill').style.width = '100%';
   $('#done').classList.add('show');
@@ -1625,6 +1679,41 @@ function visitCard(data) {
     out.push(k);
   }
   if (branch.instagramUrl) { const a = link('insta-btn', branch.instagramUrl, ''); a.textContent = t.insta; out.push(a); }
+  return out;
+}
+
+// 브랜드 소개 영상 + 자주 묻는 질문 (제출 후 화면에서만 노출 → 설문 작성률에 영향 없음)
+const BRAND_VIDEO = '-Yf4cOHxKrM'; // YouTube 영상 ID (https://youtu.be/ 뒤 부분)
+const VIDEO_INLINE = true;          // 화면 안에서 바로 재생
+const ICON_PLAY = '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 001.5.86l10.5-6.5a1 1 0 000-1.72L9.5 4.64A1 1 0 008 5.5z"/></svg>';
+function brandBox() {
+  const t = T[lang], out = [];
+  if (BRAND_VIDEO) {
+    const sec = h('section', { class: 'brand-sec' }, `<h2 class="brand-title"></h2><p class="brand-sub"></p>
+      <a class="video" href="https://youtu.be/${BRAND_VIDEO}" target="_blank" rel="noopener">
+        <img src="https://i.ytimg.com/vi/${BRAND_VIDEO}/hqdefault.jpg" alt="" loading="lazy" />
+        <span class="video-play">${ICON_PLAY}</span><span class="video-label"></span></a>`);
+    $('.brand-title', sec).textContent = t.vid_title;
+    $('.brand-sub', sec).textContent = t.vid_sub;
+    $('.video-label', sec).textContent = t.vid_label;
+    $('.video img', sec).addEventListener('error', e => e.target.remove());
+    $('.video', sec).addEventListener('click', e => {
+      if (!VIDEO_INLINE) return;
+      e.preventDefault();
+      const box = h('div', { class: 'video' });
+      box.appendChild(h('iframe', { src: `https://www.youtube-nocookie.com/embed/${BRAND_VIDEO}?autoplay=1&playsinline=1&rel=0`, title: t.vid_label, allow: 'autoplay; encrypted-media; picture-in-picture; fullscreen', allowfullscreen: '' }));
+      e.currentTarget.replaceWith(box);
+    });
+    out.push(sec);
+  }
+  const faq = h('section', { class: 'brand-sec' }, '<h2 class="brand-title"></h2><div class="faq"></div>');
+  $('.brand-title', faq).textContent = t.faq_title;
+  t.faq.forEach(([q, a]) => {
+    const d = h('details', {}, '<summary></summary><p></p>');
+    $('summary', d).textContent = q; $('p', d).textContent = a;
+    $('.faq', faq).appendChild(d);
+  });
+  out.push(faq);
   return out;
 }
 
