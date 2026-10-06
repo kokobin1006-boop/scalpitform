@@ -601,7 +601,7 @@ const T = {
     q_genetic:'탈모 유전력', hg1:'있음', hg2:'없음', hg3:'잘 모르겠음',
     q_caution:'관리 전에 알려 주실 것', caution_help:'해당하는 것을 모두 골라주세요. 안전한 관리를 위해 꼭 필요해요.',
     ct1:'임신 중이에요', ct2:'수유 중이에요', ct3:'복용 중인 약이 있어요', ct4:'두피 문제로 병원 치료 중이에요',
-    ct5:'최근 2주 안에 두피 시술(메조·PRP 등)을 받았어요', ct6:'최근 2주 안에 펌·염색을 했어요',
+    ct5:'최근 2주 안에 두피 시술(메조·PRP 등)을 받았어요', ct6:'최근 2주 안에 펌·염색을 했어요', ct9:'붙임머리를 했어요',
     ct7:'알레르기·피부 질환이 있어요 (아로마 오일 등)', ct8:'해당 없음',
     err_caution:'해당하는 항목을 골라주세요. 없으시면 \'해당 없음\'을 선택해주세요.',
     s5_title:'메뉴 선택 & 동의', s5_desc:'관심 있는 메뉴와 동의 사항을 확인해주세요.',
@@ -690,7 +690,7 @@ const T = {
     q_genetic:'Family History of Hair Loss', hg1:'Yes', hg2:'No', hg3:'Not sure',
     q_caution:'Please Let Us Know', caution_help:'Select all that apply. This helps us keep your care safe.',
     ct1:"I'm pregnant", ct2:"I'm breastfeeding", ct3:"I'm taking medication", ct4:"I'm in hospital treatment for a scalp condition",
-    ct5:'Scalp procedure (Meso, PRP, etc.) in the last 2 weeks', ct6:'Perm or hair color in the last 2 weeks',
+    ct5:'Scalp procedure (Meso, PRP, etc.) in the last 2 weeks', ct6:'Perm or hair color in the last 2 weeks', ct9:'I have hair extensions',
     ct7:'Allergies or skin conditions (e.g. aroma oils)', ct8:'None of the above',
     err_caution:"Please select what applies, or 'None of the above'.",
     s5_title:'Services & Consent', s5_desc:'Choose your services and review the consent.',
@@ -777,7 +777,7 @@ const T = {
     q_genetic:'脱发遗传史', hg1:'有', hg2:'无', hg3:'不清楚',
     q_caution:'护理前请告知', caution_help:'请选择所有符合的项目，这有助于确保护理安全。',
     ct1:'正在怀孕', ct2:'正在哺乳', ct3:'正在服用药物', ct4:'因头皮问题正在医院治疗',
-    ct5:'近2周内做过头皮项目（Meso、PRP等）', ct6:'近2周内烫发或染发',
+    ct5:'近2周内做过头皮项目（Meso、PRP等）', ct6:'近2周内烫发或染发', ct9:'有接发',
     ct7:'有过敏或皮肤疾病（如芳香精油）', ct8:'以上都没有',
     err_caution:'请选择符合的项目，如没有请选择“以上都没有”。',
     s5_title:'服务选择 & 同意', s5_desc:'请选择感兴趣的服务，并确认同意事项。',
@@ -863,7 +863,7 @@ const T = {
     q_genetic:'脱毛の遺伝歴', hg1:'あり', hg2:'なし', hg3:'わからない',
     q_caution:'施術前にお知らせください', caution_help:'当てはまるものをすべてお選びください。安全な施術のために必要です。',
     ct1:'妊娠中です', ct2:'授乳中です', ct3:'服用中の薬があります', ct4:'頭皮の症状で通院中です',
-    ct5:'2週間以内に頭皮の施術（メソ・PRPなど）を受けました', ct6:'2週間以内にパーマ・カラーをしました',
+    ct5:'2週間以内に頭皮の施術（メソ・PRPなど）を受けました', ct6:'2週間以内にパーマ・カラーをしました', ct9:'エクステをつけています',
     ct7:'アレルギー・皮膚疾患があります（アロマオイルなど）', ct8:'該当なし',
     err_caution:'当てはまる項目をお選びください。ない場合は「該当なし」を選択してください。',
     s5_title:'サービス選択 & 同意', s5_desc:'ご希望のサービスを選び、同意事項をご確認ください。',
@@ -1026,9 +1026,9 @@ const STEPS = [
       opts:['sc1','sc2','sc3','sc4','sc5','sc6','sc7','sc8','sc9'], wide:['sc9'], details:{ sc9:'ph_other' } },
     // '탈모 고민'을 고른 손님에게만 묻기 (힐링 목적 손님에게는 불필요하고 민감한 질문)
     { name:'hairLossGenetic', type:'radio', label:'q_genetic', chip:'optional', grid:true, opts:['hg1','hg2','hg3'], wide:['hg3'], showIf:['scalpConcerns', 'sc1'] },
-    // 안전 확인: 임신·수유, 약, 치료·시술, 펌·염색, 알레르기(아로마 오일 사용)
+    // 안전 확인: 임신·수유, 약, 치료·시술, 펌·염색, 붙임머리, 알레르기(아로마 오일 사용)
     { name:'cautions', type:'checkbox', label:'q_caution', help:'caution_help', chip:'multi', req:true, err:'err_caution',
-      opts:['ct1','ct2','ct3','ct4','ct5','ct6','ct7','ct8'], none:'ct8' },
+      opts:['ct1','ct2','ct3','ct4','ct5','ct6','ct9','ct7','ct8'], none:'ct8' },
     { name:'treatmentHistory', type:'checkbox', label:'q_treat', chip:'multi', chip2:'optional', opts:['th1','th2','th3','th4'], none:'th4' },
   ]},
   { en:'Services & Consent', title:'s5_title', desc:'s5_desc', qs:[

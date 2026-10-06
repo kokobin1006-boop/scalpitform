@@ -371,8 +371,8 @@ const SCALP_AREAS = [['oil', '지성'], ['dry', '건성'], ['sensitive', '민감
 const scalpLabel = d => (d.scalpTest && SCALP_TYPES[d.scalpTest.type]) || '';
 const scalpScores = d => d.scalpTest?.scores ? SCALP_AREAS.filter(([k]) => d.scalpTest.scores[k] != null).map(([k, n]) => `${n} ${d.scalpTest.scores[k]}`).join(' · ') : '';
 const isPregnant = d => /임신 중|수유 중|pregnant|breastfeeding|妊娠中|哺乳中|授乳中/i.test(d.pregnancyStatus || '');
-// '관리 전에 알려 주실 것' 중 임신·수유 외 항목을 짧은 태그로 (약, 치료, 시술, 펌·염색, 알레르기)
-const CAUTION_SHORT = [[/약/, '약 복용'], [/병원/, '병원 치료'], [/두피 시술/, '최근 시술'], [/펌·염색/, '최근 펌·염색'], [/알레르기/, '알레르기']];
+// '관리 전에 알려 주실 것' 중 임신·수유 외 항목을 짧은 태그로 (약, 치료, 시술, 펌·염색, 붙임머리, 알레르기)
+const CAUTION_SHORT = [[/약/, '약 복용'], [/병원/, '병원 치료'], [/두피 시술/, '최근 시술'], [/펌·염색/, '최근 펌·염색'], [/붙임머리/, '붙임머리'], [/알레르기/, '알레르기']];
 const cautionTags = d => list(d.cautions).map(c => (CAUTION_SHORT.find(([re]) => re.test(c)) || [])[1]).filter(Boolean);
 const nameOf = d => d.name || (d.nameBirth || '').split('/')[0].trim() || '-';
 const birthOf = d => ((d.nameBirth || '').split('/')[1] || '').trim();
