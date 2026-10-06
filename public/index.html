@@ -175,6 +175,7 @@
     /* 옵션 카드 */
     .opts { display: grid; gap: 8px; }
     .opts.grid { grid-template-columns: 1fr 1fr; }
+    .opts.grid .opt label { height: 100%; }
     .opt { position: relative; }
     .opt input { position: absolute; opacity: 0; pointer-events: none; }
     .opt label {
@@ -574,7 +575,7 @@ const T = {
     q_src:'방문 경로',
     vs1:'Instagram', vs2:'YouTube', vs3:'네이버 검색', vs4:'네이버 카페 / 블로그', vs5:'지인 소개', vs6:'간판 / 현수막',
     err_src:'방문 경로를 선택해주세요.',
-    vs7:'네이버 지도 / 플레이스', vs8:'카카오맵', vs9:'TikTok', vs10:'재방문', vs11:'기타',
+    vs7:'네이버 지도 / 플레이스', vs8:'카카오맵', vs12:'Google', vs9:'TikTok', vs10:'재방문', vs11:'기타',
     ph_referrer:'소개해 주신 분 성함 (선택)',
     privacy_sens:'민감정보(건강정보) 처리 동의',
     sv_items:'두피·모발 상태, 치료·약물 복용 이력, 탈모 유전력, 임신·수유 여부',
@@ -664,7 +665,7 @@ const T = {
     q_src:'How did you find us?',
     vs1:'Instagram', vs2:'YouTube', vs3:'Naver Search', vs4:'Naver Cafe / Blog', vs5:'Referral from a friend', vs6:'Signage / Banner',
     err_src:'Please select how you found us.',
-    vs7:'Naver Map / Place', vs8:'Kakao Map', vs9:'TikTok', vs10:'Returning customer', vs11:'Other',
+    vs7:'Naver Map / Place', vs8:'Kakao Map', vs12:'Google', vs9:'TikTok', vs10:'Returning customer', vs11:'Other',
     ph_referrer:"Referrer's name (optional)",
     privacy_sens:'Processing of sensitive (health) information',
     sv_items:'Scalp & hair condition, treatment/medication history, family history of hair loss, pregnancy/breastfeeding',
@@ -752,7 +753,7 @@ const T = {
     q_src:'来访途径',
     vs1:'Instagram', vs2:'YouTube', vs3:'Naver搜索', vs4:'Naver Cafe/博客', vs5:'朋友介绍', vs6:'招牌/横幅',
     err_src:'请选择来访途径。',
-    vs7:'Naver地图', vs8:'Kakao地图', vs9:'TikTok', vs10:'回头客', vs11:'其他',
+    vs7:'Naver地图', vs8:'Kakao地图', vs12:'Google', vs9:'TikTok', vs10:'回头客', vs11:'其他',
     ph_referrer:'介绍人姓名（选填）',
     privacy_sens:'同意处理敏感信息（健康信息）',
     sv_items:'头皮·毛发状况、治疗·用药史、脱发遗传史、妊娠·哺乳状态',
@@ -839,7 +840,7 @@ const T = {
     q_src:'来店経路',
     vs1:'Instagram', vs2:'YouTube', vs3:'Naver検索', vs4:'Naver Cafe / ブログ', vs5:'知人の紹介', vs6:'看板 / バナー',
     err_src:'来店経路を選択してください。',
-    vs7:'Naverマップ', vs8:'Kakaoマップ', vs9:'TikTok', vs10:'再来店', vs11:'その他',
+    vs7:'Naverマップ', vs8:'Kakaoマップ', vs12:'Google', vs9:'TikTok', vs10:'再来店', vs11:'その他',
     ph_referrer:'ご紹介者のお名前（任意）',
     privacy_sens:'センシティブ情報（健康情報）の取扱いへの同意',
     sv_items:'頭皮・毛髪の状態、治療・服薬歴、脱毛の遺伝歴、妊娠・授乳の有無',
@@ -1028,7 +1029,7 @@ const STEPS = [
   { en:'History', title:'s3_title', desc:'s3_desc', qs:[
     { name:'treatmentHistory', type:'checkbox', label:'q_treat', chip:'multi', chip2:'optional', opts:['th1','th2','th3','th4','th5','th6'] },
     { name:'visitSource', type:'radio', label:'q_src', req:true, err:'err_src', grid:true,
-      opts:['vs1','vs2','vs3','vs7','vs4','vs8','vs9','vs5','vs6','vs10','vs11'], wide:['vs11'], details:{ vs5:'ph_referrer', vs11:'ph_other' } },
+      opts:['vs1','vs2','vs3','vs7','vs4','vs8','vs12','vs9','vs5','vs6','vs10','vs11'], details:{ vs5:'ph_referrer', vs11:'ph_other' } },
   ]},
   { en:'Scalp & Lifestyle', title:'s4_title', desc:'s4_desc', qs:[
     { name:'scalpConcerns', type:'checkbox', label:'q_scalp', chip:'multi', req:true, err:'err_scalp', grid:true,
