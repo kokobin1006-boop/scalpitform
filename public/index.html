@@ -611,8 +611,8 @@ const T = {
     s4_title:'두피 상태', s4_desc:'편안하고 안전한 관리를 위해 알려 주세요.',
     q_scalp:'주요 두피 고민',
     sc1:'탈모 고민', sc2:'가려움', sc3:'건조함', sc4:'유분 · 번들거림', sc5:'비듬 · 각질',
-    sc6:'예민함 (붉음·열감·따가움)', sc7:'뾰루지 · 트러블', sc8:'냄새', sc9:'기타',
-    err_scalp:'두피 고민을 하나 이상 선택해주세요.',
+    sc6:'예민함 (붉음·열감·따가움)', sc7:'뾰루지 · 트러블', sc8:'냄새', sc9:'기타', sc10:'고민 없음',
+    err_scalp:'두피 고민을 하나 이상 골라주세요. 없으시면 \'고민 없음\'을 선택해주세요.',
     ph_other:'직접 입력해주세요',
     q_genetic:'탈모 유전력', hg1:'있음', hg2:'없음', hg3:'잘 모르겠음',
     q_caution:'관리 전에 알려 주실 것', caution_help:'해당하는 것을 모두 골라주세요. 안전한 관리를 위해 꼭 필요해요.',
@@ -703,8 +703,8 @@ const T = {
     s4_title:'Your Scalp', s4_desc:'Tell us so we can care for you comfortably and safely.',
     q_scalp:'Main Scalp Concerns',
     sc1:'Hair loss', sc2:'Itchiness', sc3:'Dryness', sc4:'Oiliness / Greasiness', sc5:'Dandruff / Flakes',
-    sc6:'Sensitivity (redness, heat, stinging)', sc7:'Breakouts / Trouble', sc8:'Odor', sc9:'Other',
-    err_scalp:'Please select at least one concern.',
+    sc6:'Sensitivity (redness, heat, stinging)', sc7:'Breakouts / Trouble', sc8:'Odor', sc9:'Other', sc10:'No concerns',
+    err_scalp:"Please select at least one, or 'No concerns'.",
     ph_other:'Please describe',
     q_genetic:'Family History of Hair Loss', hg1:'Yes', hg2:'No', hg3:'Not sure',
     q_caution:'Please Let Us Know', caution_help:'Select all that apply. This helps us keep your care safe.',
@@ -792,8 +792,8 @@ const T = {
     s4_title:'头皮状态', s4_desc:'为了让护理更舒适、更安全，请告诉我们。',
     q_scalp:'主要头皮烦恼',
     sc1:'脱发困扰', sc2:'瘙痒', sc3:'干燥', sc4:'油脂 / 油光', sc5:'头皮屑 / 角质',
-    sc6:'敏感（发红·发热·刺痛）', sc7:'痘痘 / 问题', sc8:'异味', sc9:'其他',
-    err_scalp:'请至少选择一项头皮烦恼。',
+    sc6:'敏感（发红·发热·刺痛）', sc7:'痘痘 / 问题', sc8:'异味', sc9:'其他', sc10:'没有困扰',
+    err_scalp:'请至少选择一项，如没有请选择“没有困扰”。',
     ph_other:'请直接输入',
     q_genetic:'脱发遗传史', hg1:'有', hg2:'无', hg3:'不清楚',
     q_caution:'护理前请告知', caution_help:'请选择所有符合的项目，这有助于确保护理安全。',
@@ -880,8 +880,8 @@ const T = {
     s4_title:'頭皮の状態', s4_desc:'快適で安全な施術のために教えてください。',
     q_scalp:'主な頭皮のお悩み',
     sc1:'抜け毛・薄毛', sc2:'かゆみ', sc3:'乾燥', sc4:'皮脂・べたつき', sc5:'フケ・角質',
-    sc6:'敏感（赤み・ほてり・ヒリヒリ）', sc7:'吹き出物・トラブル', sc8:'におい', sc9:'その他',
-    err_scalp:'頭皮のお悩みを一つ以上選択してください。',
+    sc6:'敏感（赤み・ほてり・ヒリヒリ）', sc7:'吹き出物・トラブル', sc8:'におい', sc9:'その他', sc10:'特になし',
+    err_scalp:'一つ以上お選びください。ない場合は「特になし」を選択してください。',
     ph_other:'直接ご入力ください',
     q_genetic:'脱毛の遺伝歴', hg1:'あり', hg2:'なし', hg3:'わからない',
     q_caution:'施術前にお知らせください', caution_help:'当てはまるものをすべてお選びください。安全な施術のために必要です。',
@@ -1048,7 +1048,7 @@ const STEPS = [
   ]},
   { en:'Your Scalp', title:'s4_title', desc:'s4_desc', qs:[
     { name:'scalpConcerns', type:'checkbox', label:'q_scalp', chip:'multi', req:true, err:'err_scalp', grid:true,
-      opts:['sc1','sc2','sc3','sc4','sc5','sc6','sc7','sc8','sc9'], wide:['sc9'], details:{ sc9:'ph_other' } },
+      opts:['sc1','sc2','sc3','sc4','sc5','sc6','sc7','sc8','sc9','sc10'], none:'sc10', details:{ sc9:'ph_other' } },
     // '탈모 고민'을 고른 손님에게만 묻기 (힐링 목적 손님에게는 불필요하고 민감한 질문)
     { name:'hairLossGenetic', type:'radio', label:'q_genetic', chip:'optional', grid:true, opts:['hg1','hg2','hg3'], wide:['hg3'], showIf:['scalpConcerns', 'sc1'] },
     // 안전 확인: 임신·수유, 약, 치료·시술, 펌·염색, 붙임머리, 알레르기(아로마 오일 사용)
@@ -1165,6 +1165,15 @@ function buildQuestion(q) {
     });
     block.appendChild(opts);
 
+    if (q.none) {
+      // '해당 없음' · '고민 없음' · '처음이에요'는 다른 보기와 함께 고를 수 없음 (기타 입력칸 표시보다 먼저 처리)
+      opts.addEventListener('change', e => {
+        if (!e.target.checked) return;
+        const none = $(`#${q.name}-${q.none}`);
+        if (e.target === none) $$(`input[name="${q.name}"]`).forEach(x => { if (x !== none) x.checked = false; });
+        else none.checked = false;
+      });
+    }
     if (q.details) {
       // '기타', '지인 소개' 등을 고르면 상세 입력칸 표시
       const detail = h('input', { class:'input other-input', type:'text', id:`${q.name}-other`, maxlength:100, 'aria-label':'detail' });
@@ -1176,15 +1185,6 @@ function buildQuestion(q) {
         detail.dataset.tph = q.details[key];
         detail.placeholder = T[lang][q.details[key]];
         if (e.target.dataset.key === key) setTimeout(() => detail.focus(), 50);
-      });
-    }
-    if (q.none) {
-      // '해당 없음' · '처음이에요'는 다른 보기와 함께 고를 수 없음
-      opts.addEventListener('change', e => {
-        if (!e.target.checked) return;
-        const none = $(`#${q.name}-${q.none}`);
-        if (e.target === none) $$(`input[name="${q.name}"]`).forEach(x => { if (x !== none) x.checked = false; });
-        else none.checked = false;
       });
     }
     if (q.share) {
