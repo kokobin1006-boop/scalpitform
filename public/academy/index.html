@@ -89,10 +89,16 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hl .h-b{font:400 clamp(4.2rem,9.6vw,8.4rem)/.9 var(--brush);color:var(--rose);letter-spacing:0;margin:.03em 0 .03em -.04em;transform:rotate(-2.5deg);transform-origin:0 70%;white-space:nowrap;text-shadow:0 8px 40px #d1283f66}
 .hl .h-c{font-size:clamp(2.8rem,6.5vw,5.4rem)}
 .hl[data-lead=person] .h-b{font-size:clamp(2.7rem,6.2vw,5.2rem);line-height:1.2;margin:.12em 0 .06em -.02em;transform:rotate(-1.8deg)}
-.hero .sub{margin-top:clamp(18px,2.4vw,28px);color:#e9dfd6;font-size:clamp(1rem,1.6vw,1.2rem);max-width:44ch;line-height:1.65}
+.hero .sub{margin-top:clamp(18px,2.4vw,30px);color:#f1e8df;font-size:clamp(1.15rem,2.1vw,1.55rem);font-weight:500;max-width:34ch;line-height:1.55;letter-spacing:-.03em}
+.hero .sub b{font-weight:800;color:#fff}
 .hero .sub u{text-decoration:none;box-shadow:inset 0 -.38em 0 #d1283f88}
-.mini{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:20px;font:500 .78rem var(--mono);color:var(--mut)}
-.mini b{color:var(--ink);font-weight:600}
+.hstats{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;margin-top:clamp(22px,3vw,34px);border-top:1px solid #ffffff33;border-bottom:1px solid #ffffff33}
+.hstats>div{padding:16px clamp(14px,2.6vw,34px) 14px 0}
+.hstats>div+div{padding-left:clamp(14px,2.6vw,34px);border-left:1px solid #ffffff33}
+.hstats b{display:block;font:600 clamp(2.1rem,4.9vw,4.1rem)/1 var(--serif);font-variant-numeric:lining-nums;letter-spacing:-.02em;white-space:nowrap}
+.hstats b small{font:800 .36em var(--font);color:var(--rose);margin-left:4px;letter-spacing:0}
+.hstats span{display:block;margin-top:7px;font-size:clamp(.78rem,1.25vw,.95rem);font-weight:700;color:#eadfd6}
+.hsrc{margin-top:8px;font:500 .7rem var(--mono);color:var(--faint)}
 .pass{grid-area:pass;margin:clamp(22px,3vw,34px) 0 0;display:grid;grid-template-columns:clamp(100px,11vw,128px) 1fr;background:var(--paper) var(--tooth);color:var(--paper-ink);border-radius:14px;overflow:hidden;max-width:430px;transform:rotate(-1.4deg);box-shadow:0 22px 44px #000a;position:relative}
 .pass::before{content:"";position:absolute;right:16px;top:-1px;width:38px;height:9px;border-radius:0 0 9px 9px;background:#0b0909}
 .pass img{width:100%;height:100%;min-height:132px;object-fit:cover;object-position:46% 16%}
@@ -358,7 +364,10 @@ footer a{color:var(--mut)}
   .cd span{padding:2px 6px;font-size:.9rem}
   .bar .btn.sm{display:none}
   .brand-line .ed{margin-left:0}
-  .mini{display:none}
+  .hstats{grid-template-columns:auto auto 1fr}
+  .hstats b{font-size:clamp(2.3rem,11.2vw,3.3rem)}
+  .hstats>div{padding-right:12px}
+  .hstats>div+div{padding-left:12px}
   .srow{grid-template-columns:78px 1fr;}
   .srow .sc{display:none}
   .srow .sd i{width:22px}
@@ -395,8 +404,13 @@ footer a{color:var(--mut)}
         <span class="h-b">처음으로</span>
         <span class="h-c">가르칩니다.</span>
       </h1>
-      <p class="sub" id="heroSub">직영 4곳을 1년 만에 만든 방식 그대로. 대표원장이 6명에게, 하루 5시간 반, <u>손을 잡고</u> 가르칩니다.</p>
-      <p class="mini"><span><b>직영 4곳</b></span><span>누적 매출 <b>20억</b></span><span>월평균 예약 <b>1,500건</b></span><span class="faint">직영 4개점 자체 집계</span></p>
+      <p class="sub" id="heroSub"><b>직영 4곳을 1년 만에 만든 방식 그대로.</b> 대표원장이 6명에게, 하루 5시간 반, <u>손을 잡고</u> 가르칩니다.</p>
+      <div class="hstats" role="list" aria-label="스칼프잇 직영 4개점 자체 집계">
+        <div role="listitem"><b>4<small>곳</small></b><span>직영점</span></div>
+        <div role="listitem"><b>20<small>억</small></b><span>1년 누적 매출</span></div>
+        <div role="listitem"><b>1,500<small>건</small></b><span>월평균 예약</span></div>
+      </div>
+      <p class="hsrc">직영 4개점 자체 집계 기준</p>
     </div>
 
     <figure class="pass">
