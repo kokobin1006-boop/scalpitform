@@ -293,7 +293,7 @@ app.post('/api/academy/lead', async (req, res) => {
 
     const attrIn = b.attr && typeof b.attr === 'object' ? b.attr : {};
     const attr = {};
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'n_media', 'n_query', 'n_ad', 'referrer', 'angle'].forEach(k => {
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'n_media', 'n_query', 'n_ad', 'referrer', 'angle', 'lead'].forEach(k => {
       if (attrIn[k]) attr[k] = clip(attrIn[k], 300);
     });
     const lead = {
