@@ -362,6 +362,22 @@
     .menu.intl .ko-only, .menu:not(.intl) .intl-only { display: none; }
     .menu-foot { font-size: 12px; color: var(--muted); text-align: right; }
 
+    /* 마케팅 할인 배너 */
+    html:not([lang="ko"]) .promo { display: none; }
+    .promo {
+      display: flex; align-items: center; gap: 14px; margin: 0 0 14px;
+      padding: 14px 16px; border-radius: 12px; color: #fff;
+      background: linear-gradient(135deg, var(--burg) 0%, #9C2B44 100%);
+    }
+    .promo-badge {
+      flex-shrink: 0; width: 58px; height: 58px; border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,.55); display: grid; place-content: center; text-align: center;
+      font-weight: 800; font-size: 17px; line-height: 1.05; letter-spacing: -.02em;
+    }
+    .promo-badge small { display: block; font-size: 10px; font-weight: 600; letter-spacing: .08em; }
+    .promo-copy { font-size: 13px; line-height: 1.55; color: rgba(255,255,255,.85); }
+    .promo-copy strong { display: block; color: #fff; font-size: 15.5px; font-weight: 700; }
+
     /* ── 하단 액션 바 ── */
     .actionbar {
       position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
@@ -625,6 +641,9 @@ const T = {
     pv_purpose_k:'수집 목적', pv_purpose:'두피케어 상담 및 예약 관리',
     pv_period_k:'보유 기간', pv_period:'서비스 제공 완료 후 1년',
     privacy_link:'개인정보처리방침 전문 보기',
+    privacy_mkt:'마케팅 정보 수신 동의',
+    privacy_mkt_detail:'이벤트, 프로모션, 신규 서비스 안내를 받아보실 수 있어요.',
+    promo_title:'첫 방문 30% 할인', promo_body:'마케팅 정보 수신에 동의하시면 바로 적용돼요!',
     err_privacy:'필수 항목에 모두 동의해주세요.',
     btn_next:'다음', btn_back:'이전', btn_submit:'제출하기', btn_ing:'제출 중',
     done_title:'설문이 접수되었습니다',
@@ -712,6 +731,8 @@ const T = {
     pv_purpose_k:'Purpose', pv_purpose:'Scalp care consultation & booking management',
     pv_period_k:'Retention', pv_period:'1 year after service',
     privacy_link:'View full privacy policy',
+    privacy_mkt:'Receive marketing information',
+    privacy_mkt_detail:'Get notified about events, promotions and new services.',
     err_privacy:'Please agree to all required items.',
     btn_next:'Next', btn_back:'Back', btn_submit:'Submit', btn_ing:'Submitting',
     done_title:'Your form has been submitted',
@@ -799,6 +820,8 @@ const T = {
     pv_purpose_k:'收集目的', pv_purpose:'头皮护理咨询及预约管理',
     pv_period_k:'保存期限', pv_period:'服务完成后1年',
     privacy_link:'查看完整隐私政策',
+    privacy_mkt:'同意接收营销信息',
+    privacy_mkt_detail:'接收活动、促销、新服务等信息。',
     err_privacy:'请同意所有必选项目。',
     btn_next:'下一步', btn_back:'上一步', btn_submit:'提交', btn_ing:'提交中',
     done_title:'问卷已提交',
@@ -885,6 +908,8 @@ const T = {
     pv_purpose_k:'収集目的', pv_purpose:'頭皮ケア相談・予約管理',
     pv_period_k:'保有期間', pv_period:'サービス完了後1年',
     privacy_link:'個人情報処理方針の全文を見る',
+    privacy_mkt:'マーケティング情報の受信への同意',
+    privacy_mkt_detail:'イベント、プロモーション、新サービスのご案内をお届けします。',
     err_privacy:'必須項目すべてに同意してください。',
     btn_next:'次へ', btn_back:'戻る', btn_submit:'送信する', btn_ing:'送信中',
     done_title:'アンケートを受け付けました',
@@ -1340,12 +1365,21 @@ function consentHTML() {
           <dt data-t="refuse_k"></dt> · <dd data-t="refuse"></dd>
         </dl>
       </div>
+      <div class="consent-item">
+        <div class="promo">
+          <div class="promo-badge">30%<small>OFF</small></div>
+          <div class="promo-copy"><strong data-t="promo_title"></strong><span data-t="promo_body"></span></div>
+        </div>
+        <label class="check"><input type="checkbox" id="privacyMarketing" /><span class="mark">${ICON_CHECK}</span>
+          <span class="check-text"><span class="tag-opt" data-t="tag_opt"></span><span data-t="privacy_mkt"></span></span></label>
+        <p class="consent-detail" data-t="privacy_mkt_detail"></p>
+      </div>
     </div>
     <div class="err" role="alert">${ICON_ERR}<span data-t="err_privacy"></span></div>`;
 }
 
 function wireConsent() {
-  const all = $('#consentAll'), items = ['#privacyRequired', '#sensitiveRequired'].map(s => $(s));
+  const all = $('#consentAll'), items = ['#privacyRequired', '#sensitiveRequired', '#privacyMarketing'].map(s => $(s));
   all.addEventListener('change', () => { items.forEach(c => { c.checked = all.checked; }); $('#q-privacy').classList.remove('invalid'); });
   items.forEach(c => c.addEventListener('change', () => { all.checked = items.every(x => x.checked); $('#q-privacy').classList.remove('invalid'); }));
 }
@@ -1524,6 +1558,7 @@ async function submitForm() {
     videoConsent: checked('videoConsent')[0]?.value || '',
     privacyConsent: $('#privacyRequired').checked,
     sensitiveConsent: $('#sensitiveRequired').checked,
+    marketingConsent: $('#privacyMarketing').checked,
     tracking: TRACKING,
     scalpTest: scalpTest || undefined,
   };

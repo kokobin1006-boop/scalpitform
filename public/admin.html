@@ -592,7 +592,7 @@ function showDetail(id) {
     <div class="rows">
       ${row('관심 메뉴', list(d.desiredServices).join(', '))}
       ${row('촬영', d.videoConsent === '동의' ? '<span class="yes">✓ 촬영 희망</span>' : '<span class="no">미희망</span>', true)}
-      ${d.marketingConsent ? row('마케팅 수신', yn(d.marketingConsent), true) : ''}
+      ${row('마케팅 수신', yn(d.marketingConsent), true)}
       ${row('작성 언어', (d.lang || 'ko').toUpperCase())}
     </div>
     <div class="sec">유입 경로</div>
