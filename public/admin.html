@@ -111,22 +111,15 @@
     tbody tr:hover td { background: var(--burg-tint); }
     .td-num { color: var(--faint); font-variant-numeric: tabular-nums; }
     .td-date { color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; font-size: 12.5px; }
-    .td-visit { white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 700; color: var(--burg); }
-    .td-visit small { display: block; font-weight: 500; color: var(--text); font-size: 12.5px; margin-top: 2px; }
     .td-name { font-weight: 700; color: var(--ink); white-space: nowrap; }
     .td-name small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; margin-top: 2px; }
     .td-phone { white-space: nowrap; font-variant-numeric: tabular-nums; }
     .td-list { color: var(--muted); font-size: 12.5px; line-height: 1.6; max-width: 200px; }
 
     .tag { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 3px 8px; border-radius: 6px; margin: 0 4px 4px 0; white-space: nowrap; }
-    .tag-multi { background: var(--burg-tint); color: var(--burg); }
-    .tag-single { background: #EEF2F4; color: #33505E; }
-    .tag-detail { background: #EAF3EC; color: #26583A; }
-    .tag-heal { background: var(--cream-2); color: #6B4A2A; }
     .tag-preg { background: #FFF0E0; color: #8A4B0F; }
     .tag-lang { background: var(--ink); color: #fff; font-size: 10.5px; letter-spacing: .06em; }
     .tag-branch { background: #F1ECF7; color: #4B3470; }
-    .tag-today { background: var(--burg); color: #fff; }
     .new-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--burg); margin-right: 6px; vertical-align: middle; }
 
     .icon-btn { width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; color: var(--faint); transition: background .2s, color .2s; }
@@ -138,8 +131,7 @@
     .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
     .card-name { font-weight: 700; font-size: 16px; color: var(--ink); }
     .card-meta { font-size: 13px; color: var(--muted); margin-top: 2px; font-variant-numeric: tabular-nums; }
-    .card-visit { text-align: right; font-weight: 700; color: var(--burg); font-size: 14px; white-space: nowrap; font-variant-numeric: tabular-nums; }
-    .card-visit small { display: block; color: var(--text); font-weight: 500; font-size: 13px; }
+    .card-date { flex-shrink: 0; font-size: 12.5px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
     .card-tags { margin-top: 10px; }
     .card-line { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.6; }
 
@@ -246,33 +238,22 @@
     <div class="warn" id="storageWarn" hidden>⚠️ 지금 설문 데이터가 데이터베이스가 아닌 서버 임시 파일에 저장되고 있어요. 사이트를 업데이트하면 지워질 수 있으니, 반드시 데이터베이스(DATABASE_URL) 연결을 확인해 주세요.</div>
 
     <div class="stats">
-      <button class="stat accent" type="button" data-quick="visit-today"><div class="stat-label">오늘 방문 예정</div><div class="stat-val" id="stVisitToday">0<small>명</small></div></button>
-      <button class="stat" type="button" data-quick="today"><div class="stat-label">오늘 접수</div><div class="stat-val" id="stToday">0<small>건</small></div></button>
-      <button class="stat" type="button" data-quick="multi"><div class="stat-label">2인 이상 예약</div><div class="stat-val" id="stMulti">0<small>건</small></div></button>
-      <button class="stat" type="button" data-quick="detail"><div class="stat-label">정밀 진단 희망</div><div class="stat-val" id="stDetail">0<small>건</small></div></button>
+      <button class="stat accent" type="button" data-quick="today"><div class="stat-label">오늘 접수</div><div class="stat-val" id="stToday">0<small>건</small></div></button>
     </div>
 
     <div class="toolbar">
       <label class="search">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-        <input type="search" id="q" placeholder="이름, 연락처, 주소 검색" />
+        <input type="search" id="q" placeholder="이름 또는 연락처(뒷자리) 검색" />
       </label>
       <select class="select" id="fDate">
         <option value="">전체 기간</option>
-        <option value="visit-today">오늘 방문 예정</option>
-        <option value="visit-upcoming">앞으로 방문 예정</option>
         <option value="today">오늘 접수</option>
         <option value="7">최근 7일 접수</option>
         <option value="30">최근 30일 접수</option>
       </select>
       <select class="select" id="fBranch" hidden>
         <option value="">지점 전체</option>
-      </select>
-      <select class="select" id="fRes">
-        <option value="">예약 유형 전체</option>
-        <option value="multi">2인 이상</option>
-        <option value="single">1인</option>
-        <option value="detail">정밀 진단 희망</option>
       </select>
       <select class="select" id="fChan">
         <option value="">유입 링크 전체</option>
@@ -354,8 +335,6 @@ const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&
 const list = v => Array.isArray(v) ? v : [];
 
 // 과거(언어별 저장) 데이터까지 인식하도록 다국어 키워드로 판별
-const isMulti = d => /2인|2명|2 or more|2人|2名/.test(d.reservationType || '');
-const isDetail = d => /정밀|Detailed|精密/.test(d.consultationType || '');
 // 유입 경로 자동 기록(링크 채널 > UTM > 이전 사이트) → 사람이 읽는 이름
 const CHANNELS = { insta_profile: '인스타 프로필', insta_ad: '인스타 광고', naver_booking: '네이버 예약 안내', kakao: '카카오톡 안내', store_qr: '매장 QR', threads: '스레드', share: '일행 공유', global: '외국인용 링크' };
 const REFERRERS = [[/instagram/, '인스타그램'], [/naver/, '네이버'], [/kakao/, '카카오'], [/google/, '구글'], [/threads/, '스레드'], [/tiktok/, '틱톡'], [/youtube/, '유튜브'], [/facebook/, '페이스북']];
@@ -378,7 +357,6 @@ const nameOf = d => d.name || (d.nameBirth || '').split('/')[0].trim() || '-';
 const birthOf = d => ((d.nameBirth || '').split('/')[1] || '').trim();
 const dayKey = d => new Date(d).toLocaleDateString('sv');
 const today = () => dayKey(Date.now());
-const fmtVisit = d => d.visitDate ? d.visitDate.replace(/-/g, '.') : '';
 
 fetch('/api/branch' + branchParam).then(r => r.json()).then(b => {
   if (b.slug === 'root') return;
@@ -441,17 +419,13 @@ function logout() {
 
 function renderStats() {
   const t = today();
-  const n = (v, unit = '건') => `${v}<small>${unit}</small>`;
-  $('#stVisitToday').innerHTML = n(all.filter(d => d.visitDate === t).length, '명');
-  $('#stToday').innerHTML = n(all.filter(d => d.submittedAt && dayKey(d.submittedAt) === t).length);
-  $('#stMulti').innerHTML = n(all.filter(isMulti).length);
-  $('#stDetail').innerHTML = n(all.filter(isDetail).length);
+  $('#stToday').innerHTML = `${all.filter(d => d.submittedAt && dayKey(d.submittedAt) === t).length}<small>건</small>`;
 }
 
 function filtered() {
   const q = $('#q').value.trim().toLowerCase();
   const qDigits = q.replace(/\D/g, '');
-  const fl = $('#fLang').value, fr = $('#fRes').value, fd = $('#fDate').value, fb = $('#fBranch').value, fc = $('#fChan').value;
+  const fl = $('#fLang').value, fd = $('#fDate').value, fb = $('#fBranch').value, fc = $('#fChan').value;
   const now = Date.now(), t = today();
   let rows = all.filter(d => {
     if (q) {
@@ -463,33 +437,22 @@ function filtered() {
     if (fc === '__none' && autoChannel(d)) return false;
     if (fc && fc !== '__none' && autoChannel(d) !== fc) return false;
     if (fb && d.branch !== fb) return false;
-    if (fr === 'multi' && !isMulti(d)) return false;
-    if (fr === 'single' && isMulti(d)) return false;
-    if (fr === 'detail' && !isDetail(d)) return false;
-    if (fd === 'visit-today' && d.visitDate !== t) return false;
-    if (fd === 'visit-upcoming' && !(d.visitDate && d.visitDate >= t)) return false;
     if (fd === 'today' && (!d.submittedAt || dayKey(d.submittedAt) !== t)) return false;
     if (/^\d+$/.test(fd) && (!d.submittedAt || now - new Date(d.submittedAt) > fd * 864e5)) return false;
     return true;
   }).slice().reverse();
-  // 방문 예정 보기에서는 방문 시간순으로 정렬
-  if (fd.startsWith('visit')) rows.sort((a, b) => `${a.visitDate} ${a.visitTime}`.localeCompare(`${b.visitDate} ${b.visitTime}`));
   return rows;
 }
 
+// 관리 전 확인이 필요한 고객 표시 (임신·수유, 약, 치료·시술, 펌·염색, 붙임머리, 알레르기)
 function tags(d) {
-  return `<span class="tag ${isMulti(d) ? 'tag-multi' : 'tag-single'}">${isMulti(d) ? '2인+' : '1인'}</span>`
-       + `<span class="tag ${isDetail(d) ? 'tag-detail' : 'tag-heal'}">${isDetail(d) ? '정밀' : '힐링'}</span>`
-       + (isPregnant(d) ? `<span class="tag tag-preg">${esc(d.pregnancyStatus)}</span>` : '')
+  return (isPregnant(d) ? `<span class="tag tag-preg">${esc(d.pregnancyStatus)}</span>` : '')
        + cautionTags(d).map(c => `<span class="tag tag-preg">${esc(c)}</span>`).join('');
 }
 const fmtDate = s => s ? new Date(s).toLocaleString('ko-KR', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' }) : '-';
 const isToday = s => s && dayKey(s) === today();
-const visitCell = d => d.visitDate
-  ? `${d.visitDate === today() ? '<span class="tag tag-today">오늘</span>' : ''}${esc(fmtVisit(d))}<small>${esc(d.visitTime || '')}</small>`
-  : '<span style="color:var(--faint);font-weight:400">-</span>';
 
-const COLS = ['#', '방문 일시', '이름', '연락처', '예약 / 상담', '두피 고민', '관심 서비스', '유입 경로', ...(isRoot ? ['지점'] : []), '언어', '접수', ''];
+const COLS = ['#', '이름', '연락처', '관리 전 알림', '두피 고민', '관심 서비스', '유입 경로', ...(isRoot ? ['지점'] : []), '언어', '접수', ''];
 $('#theadRow').innerHTML = COLS.map(c => `<th>${c}</th>`).join('');
 
 function render() {
@@ -505,10 +468,9 @@ function render() {
   $('#tbody').innerHTML = rows.map(d => `
     <tr data-id="${esc(d.id)}">
       <td class="td-num">${idx.get(d.id)}</td>
-      <td class="td-visit">${visitCell(d)}</td>
       <td class="td-name">${esc(nameOf(d))}<small>${esc(birthOf(d))}</small></td>
       <td class="td-phone">${esc(d.phone || '-')}</td>
-      <td>${tags(d)}</td>
+      <td>${tags(d) || '<span style="color:var(--faint)">-</span>'}</td>
       <td class="td-list">${scalpLabel(d) ? `<span class="tag tag-scalp">자가진단 · ${esc(scalpLabel(d))}</span><br>` : ''}${esc(list(d.scalpConcerns).join(', ') || '-')}</td>
       <td class="td-list">${esc(list(d.desiredServices).join(', ') || '-')}</td>
       <td class="td-list td-src">${autoChannel(d) ? `<span class="tag tag-chan">${esc(autoChannel(d))}</span>` : ''}<small>${esc(d.visitSource || '-')}</small></td>
@@ -524,7 +486,7 @@ function render() {
     <div class="card" data-id="${esc(d.id)}">
       <div class="card-top">
         <div><div class="card-name">${esc(nameOf(d))}</div><div class="card-meta">${esc(d.phone || '-')} · ${esc(birthOf(d))}</div></div>
-        <div class="card-visit">${d.visitDate ? `${d.visitDate === today() ? '<span class="tag tag-today">오늘</span>' : ''}${esc(fmtVisit(d))}<small>${esc(d.visitTime || '')}</small>` : ''}</div>
+        <div class="card-date">${isToday(d.submittedAt) ? '<span class="new-dot"></span>' : ''}${esc(fmtDate(d.submittedAt))}</div>
       </div>
       <div class="card-tags">${tags(d)}${isRoot ? `<span class="tag tag-branch">${esc(d.branch || '본사')}</span>` : ''}<span class="tag tag-lang">${esc((d.lang || 'ko').toUpperCase())}</span></div>
       <div class="card-line">${esc(list(d.desiredServices).join(', ') || '-')}</div>
@@ -542,8 +504,7 @@ document.addEventListener('click', e => {
   const quick = e.target.closest('[data-quick]');
   if (quick) {
     const k = quick.dataset.quick;
-    $('#fDate').value = ['visit-today', 'today'].includes(k) ? k : '';
-    $('#fRes').value = ['multi', 'detail'].includes(k) ? k : '';
+    $('#fDate').value = k === 'today' ? k : '';
     render();
     $('#resultCount').scrollIntoView({ behavior:'smooth', block:'start' });
   }
@@ -557,14 +518,11 @@ function showDetail(id) {
   const row = (k, v, raw = false) => `<div class="row"><div class="row-k">${k}</div><div class="row-v">${raw ? v : esc(v || '-')}</div></div>`;
   const phone = d.phone || '';
   $('#dTitle').textContent = nameOf(d);
-  $('#dSub').textContent = [birthOf(d), d.visitDate && `방문 ${fmtVisit(d)} ${d.visitTime || ''}`, isRoot && d.branch].filter(Boolean).join(' · ');
+  $('#dSub').textContent = [birthOf(d), isRoot && d.branch].filter(Boolean).join(' · ');
   $('#dBody').innerHTML = `
-    <div class="sec">예약 정보</div>
+    <div class="sec">접수 정보</div>
     <div class="rows">
-      ${row('방문 일시', d.visitDate ? `${fmtVisit(d)} ${d.visitTime || ''}` : '')}
       ${row('지점', d.branch || '본사')}
-      ${row('예약 인원', d.reservationType)}
-      ${row('상담 유형', d.consultationType)}
       ${row('접수 일시', d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '')}
     </div>
     <div class="sec">기본 정보</div>
@@ -592,7 +550,6 @@ function showDetail(id) {
     <div class="rows">
       ${row('관심 메뉴', list(d.desiredServices).join(', '))}
       ${row('촬영', d.videoConsent === '동의' ? '<span class="yes">✓ 촬영 희망</span>' : '<span class="no">미희망</span>', true)}
-      ${row('마케팅 수신', yn(d.marketingConsent), true)}
       ${row('작성 언어', (d.lang || 'ko').toUpperCase())}
     </div>
     <div class="sec">유입 경로</div>
@@ -632,18 +589,17 @@ async function remove(id) {
 
 function exportCSV() {
   const rows = filtered();
-  const headers = ['번호','접수일시','방문날짜','방문시간','지점','이름','생년월일','연락처','주소','예약유형','상담유형','관리경험','유입경로','두피고민','펌/염색주기','샴푸횟수','탈모유전력','임신/수유여부','관리전알림','관심서비스','촬영동의','마케팅동의','언어','자동유입','민감정보동의','동의일시','자가진단결과','자가진단점수'];
+  const headers = ['번호','접수일시','지점','이름','생년월일','연락처','주소','관리경험','유입경로','두피고민','펌/염색주기','샴푸횟수','탈모유전력','임신/수유여부','관리전알림','관심서비스','촬영동의','언어','자동유입','민감정보동의','동의일시','자가진단결과','자가진단점수'];
   const body = rows.map((d, i) => [
     i + 1,
     d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '',
-    fmtVisit(d), d.visitTime || '', d.branch || '',
+    d.branch || '',
     nameOf(d), birthOf(d), d.phone || '', d.address || '',
-    d.reservationType || '', d.consultationType || '',
     list(d.treatmentHistory).join('/'), d.visitSource || '',
     list(d.scalpConcerns).join('/'), d.permFrequency || '',
     d.shampooFrequency || '', d.hairLossGenetic || '', d.pregnancyStatus || '', list(d.cautions).join('/'),
     list(d.desiredServices).join('/'),
-    d.videoConsent || '', d.marketingConsent ? 'Y' : 'N', d.lang || 'ko',
+    d.videoConsent || '', d.lang || 'ko',
     autoChannel(d), d.consents ? (d.consents.sensitive ? 'Y' : 'N') : '', d.consents ? new Date(d.consents.at).toLocaleString('ko-KR') : '',
     scalpLabel(d), scalpScores(d),
   ]);
@@ -658,7 +614,7 @@ function exportCSV() {
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 
-['#q', '#fLang', '#fRes', '#fDate', '#fBranch', '#fChan'].forEach(s => $(s).addEventListener('input', render));
+['#q', '#fLang', '#fDate', '#fBranch', '#fChan'].forEach(s => $(s).addEventListener('input', render));
 
 // ── 채널별 링크 · QR ──
 const LINK_PRESETS = [

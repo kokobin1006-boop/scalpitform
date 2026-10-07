@@ -143,14 +143,15 @@
       border: 1px solid var(--line); border-radius: var(--radius);
       padding: 22px 20px 18px; margin-bottom: 32px; box-shadow: var(--shadow);
     }
-    .date-note { font-size: 13.5px; font-weight: 600; color: var(--burg); margin-top: 8px; }
     .welcome-en { font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--gold); }
     .welcome-title { font-size: 21px; font-weight: 800; color: var(--ink); letter-spacing: -0.025em; line-height: 1.35; margin-top: 2px; word-break: keep-all; }
     .welcome-body { font-size: 14.5px; color: var(--muted); line-height: 1.65; margin-top: 6px; word-break: keep-all; }
     .welcome-chips { display: flex; gap: 6px; margin-top: 12px; }
     .welcome-chip { font-size: 12.5px; font-weight: 600; color: var(--burg); background: #fff; border: 1px solid var(--burg-line); border-radius: 999px; padding: 3px 10px; }
-    .welcome-group { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
-    .welcome-group p { font-size: 13px; color: var(--text); line-height: 1.55; word-break: keep-all; }
+    .welcome-group { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .welcome-notice strong { display: block; font-size: 13px; font-weight: 700; color: var(--burg); margin-bottom: 2px; }
+    .welcome-notice p { font-size: 13.5px; color: var(--text); line-height: 1.7; white-space: pre-line; word-break: keep-all; }
+    .welcome-group .share-btn { margin-top: 12px; }
 
     /* 이어서 쓰기 */
     .draft {
@@ -244,14 +245,7 @@
     }
     .q-block.invalid .err { display: flex; }
 
-    /* 일행 공유 */
-    .share {
-      display: none; margin-top: 10px; padding: 14px 16px;
-      border: 1px dashed var(--burg-line); border-radius: var(--radius-sm); background: #fff;
-      align-items: center; justify-content: space-between; gap: 12px;
-    }
-    .share.show { display: flex; animation: rise .3s var(--ease) both; }
-    .share-text { font-size: 13.5px; color: var(--text); line-height: 1.5; }
+    /* 일행 링크 공유 버튼 */
     .share-btn {
       flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px;
       font-size: 13px; font-weight: 600; color: #fff; background: var(--burg);
@@ -302,9 +296,6 @@
     .sub-label + .input { margin-bottom: 18px; }
     input[type="date"].input { line-height: 54px; }
     input[type="date"].input::-webkit-date-and-time-value { text-align: left; }
-    .opts.times { grid-template-columns: repeat(4, 1fr); gap: 6px; }
-    .opts.times label { min-height: 46px; padding: 10px 4px; justify-content: center; font-size: 14.5px; font-variant-numeric: tabular-nums; }
-    .opts.times .mark { display: none; }
 
     /* 메뉴판 */
     .menu { display: grid; gap: 12px; }
@@ -377,24 +368,11 @@
     .mi-price b { font-size: 16px; font-weight: 800; color: var(--burg); letter-spacing: -0.02em; }
     .mi-plain { font-size: 13px; font-weight: 400; color: var(--muted); }
     .mi-price .mi-nodisc { font-size: 12px; }
-    .menu.intl .ko-only, .menu:not(.intl) .intl-only { display: none; }
-    .menu-foot { font-size: 12px; color: var(--muted); text-align: right; }
+    /* 가격: 한국어 정상가·첫 방문가 / 일본어 정상가·初回 / 영어·중국어 정상가 · 모발클리닉은 한국어만 */
+    .menu.intl .ko-only, .menu.intl .ko-item, .menu:not(.intl) .intl-only, .menu.ja .intl-only, .menu:not(.ja) .ja-only { display: none; }
+    .mi-price b small { font-size: 11px; font-weight: 700; margin-right: 3px; letter-spacing: 0; }
+    .menu-foot { font-size: 12px; color: var(--muted); text-align: right; white-space: pre-line; }
 
-    /* 마케팅 할인 배너 */
-    html:not([lang="ko"]) .promo { display: none; }
-    .promo {
-      display: flex; align-items: center; gap: 14px; margin: 0 0 14px;
-      padding: 14px 16px; border-radius: 12px; color: #fff;
-      background: linear-gradient(135deg, var(--burg) 0%, #9C2B44 100%);
-    }
-    .promo-badge {
-      flex-shrink: 0; width: 58px; height: 58px; border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,.55); display: grid; place-content: center; text-align: center;
-      font-weight: 800; font-size: 17px; line-height: 1.05; letter-spacing: -.02em;
-    }
-    .promo-badge small { display: block; font-size: 10px; font-weight: 600; letter-spacing: .08em; }
-    .promo-copy { font-size: 13px; line-height: 1.55; color: rgba(255,255,255,.85); }
-    .promo-copy strong { display: block; color: #fff; font-size: 15.5px; font-weight: 700; }
 
     /* ── 하단 액션 바 ── */
     .actionbar {
@@ -542,7 +520,7 @@
       </button>
     </div>
   </div>
-  <div class="progress" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" id="progress"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress" role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" id="progress"><div class="progress-fill" id="progressFill"></div></div>
 </header>
 
 <main class="wrap" id="form" hidden>
@@ -556,7 +534,7 @@
     <p class="welcome-body" data-t="wel_body"></p>
     <div class="welcome-chips"><span class="welcome-chip" data-t="wel_time"></span><span class="welcome-chip" id="welSteps"></span></div>
     <div class="welcome-group">
-      <p data-t="wel_group"></p>
+      <div class="welcome-notice"><strong data-t="notice_title"></strong><p data-t="notice_body"></p></div>
       <button type="button" class="share-btn" id="welShare"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M7 8l5-5 5 5M5 14v5a2 2 0 002 2h10a2 2 0 002-2v-5"/></svg><span data-t="share_btn"></span></button>
     </div>
   </section>
@@ -591,19 +569,11 @@
 const T = {
   ko: {
     wel_title:'방문을 기다리고 있어요', wel_body:'미리 알려주시면 두피 상태에 꼭 맞는 케어를 준비해 둘게요.',
-    wel_time:'약 3분', wel_steps:'{n}단계', wel_group:'2인 이상 오시나요? 일행분도 각자 작성해 주셔야 정확한 상담이 가능해요.',
+    wel_time:'약 3분', wel_steps:'{n}단계',
+    notice_title:'안내',
+    notice_body:'2인 이상 예약하신 경우, 일행분께도 이 링크를 공유해 모두 작성 부탁드립니다.\n설문지 미작성 시 상담이 제한될 수 있습니다.',
     draft_title:'작성하던 내용이 있어요', draft_go:'이어서 쓰기', draft_new:'새로 쓰기', draft_done:'작성하던 내용을 불러왔어요.', see_detail:'보기',
-    s1_title:'예약 정보', s1_desc:'예약 인원, 상담 방식과 방문 일시를 알려주세요.',
-    q_res:'예약 인원',
-    r1:'2명 이상 함께 와요', r2:'혼자 방문해요',
-    err_res:'예약 인원을 선택해주세요.',
-    share_text:'일행분께 설문 링크를 보내주세요.', share_btn:'링크 공유', share_copied:'링크가 복사되었습니다.',
-    q_cons:'상담 유형',
-    c1:'힐링 위주, 간단한 상담만 원해요.', c2:'정밀 진단·상담 원해요.',
-    err_cons:'상담 유형을 선택해주세요.',
-    today:'오늘', tomorrow:'내일',
-    q_date:'방문 날짜', err_date:'방문 날짜를 선택해주세요.',
-    q_time:'방문 시간', err_time:'방문 시간을 선택해주세요.',
+    share_btn:'링크 공유', share_copied:'링크가 복사되었습니다.',
     s2_title:'기본 정보', s2_desc:'예약 확인과 상담을 위해 필요한 정보예요.',
     q_name:'이름', ph_name:'홍길동', err_name:'이름을 입력해주세요.',
     q_birth:'생년월일', ph_birth:'1995.03.15', err_birth:'생년월일 8자리를 정확히 입력해주세요.',
@@ -622,7 +592,7 @@ const T = {
     refuse_k:'거부 권리', refuse:'동의를 거부할 수 있으나, 거부 시 상담·관리 제공이 제한될 수 있습니다.',
     visit_title:'오시는 길', addr_copy:'주소 복사', copied:'복사되었습니다.',
     map_naver:'네이버 지도', map_kakao:'카카오맵', map_google:'Google 지도',
-    call:'전화하기', parking_k:'주차', cal_add:'캘린더에 저장', cal_title:'스칼프잇 {b} 방문',
+    call:'전화하기', parking_k:'주차',
     kakao_ch:'카카오톡 채널 추가', kakao_ch_desc:'예약 변경·문의를 카톡으로 편하게 하세요', insta:'Instagram 팔로우',
     vid_title:'스칼프잇 미리 만나보기', vid_sub:'방문 전에 스칼프잇이 어떤 곳인지 영상으로 먼저 만나보세요.', vid_label:'브랜드 소개 영상',
     faq_title:'자주 묻는 질문',
@@ -636,7 +606,7 @@ const T = {
       ['예약을 변경하거나 취소하려면요?', '예약하신 곳(네이버 예약 등)에서 변경·취소하시거나 매장으로 연락 주세요. 다른 고객님을 위해 일정 변경은 가능한 한 미리 알려주시면 감사하겠습니다.'],
       ['임신 중에도 받을 수 있나요?', '네. 임신 중에도 편안하게 받으실 수 있도록 성분과 관리 방식을 세심하게 구성한 임산부 전용 헤드스파가 있어요. 설문에 남겨주신 내용을 보고 미리 준비해 둘게요.'],
       ['생리 중이거나 두피에 상처가 있어도 되나요?', '컨디션이 괜찮으시다면 생리 중에도 받으실 수 있어요. 두피에 상처나 염증이 있거나 최근 염색·펌·두피 시술을 받으셨다면 상담 때 꼭 말씀해 주세요. 상태에 맞춰 관리 방식을 조정해 드려요.'],
-      ['둘이 함께 받을 수 있나요?', '네, 2인 예약이 가능해요. 예약·운영 상황에 따라 1인룸에서 각각 진행될 수 있고, 일행분도 이 설문을 꼭 작성해 주세요.'],
+      ['둘이 함께 받을 수 있나요?', '네, 2인 예약이 가능해요. 예약·운영 상황에 따라 1인룸에서 각각 진행될 수 있어요. 이 경우 예약 확정 전에 미리 연락드립니다. 일행분도 이 설문을 꼭 작성해 주세요.'],
     ],
     s4_title:'두피 상태', s4_desc:'편안하고 안전한 관리를 위해 알려 주세요.',
     q_scalp:'주요 두피 고민',
@@ -671,14 +641,11 @@ const T = {
     pv_purpose_k:'수집 목적', pv_purpose:'두피케어 상담 및 예약 관리',
     pv_period_k:'보유 기간', pv_period:'서비스 제공 완료 후 1년',
     privacy_link:'개인정보처리방침 전문 보기',
-    privacy_mkt:'마케팅 정보 수신 동의',
-    privacy_mkt_detail:'이벤트, 프로모션, 신규 서비스 안내를 받아보실 수 있어요.',
-    promo_title:'첫 방문 30% 할인', promo_body:'마케팅 정보 수신에 동의하시면 바로 적용돼요!',
     err_privacy:'필수 항목에 모두 동의해주세요.',
     btn_next:'다음', btn_back:'이전', btn_submit:'제출하기', btn_ing:'제출 중',
     done_title:'설문이 접수되었습니다',
     done_desc:'소중한 정보 감사합니다.\n스칼프잇에서 최적의 두피 케어를 준비하겠습니다.\n예약 당일 편안하게 방문해주세요.',
-    done_name:'이름', done_phone:'연락처', done_when:'방문 일시', done_branch:'지점', done_serv:'관심 메뉴',
+    done_name:'이름', done_phone:'연락처', done_branch:'지점', done_serv:'관심 메뉴',
     err_server:'오류가 발생했습니다. 다시 시도해주세요.',
     err_network:'서버 연결 오류입니다. 잠시 후 다시 시도해주세요.',
     err_rate:'요청이 너무 많습니다. 잠시 후 다시 시도해주세요.',
@@ -686,19 +653,11 @@ const T = {
   },
   en: {
     wel_title:"We're looking forward to your visit", wel_body:"Tell us a little in advance and we'll prepare care that suits your scalp.",
-    wel_time:'About 3 min', wel_steps:'{n} steps', wel_group:'Coming with others? Please have each person fill out this form so we can consult everyone properly.',
+    wel_time:'About 3 min', wel_steps:'{n} steps',
+    notice_title:'Notice',
+    notice_body:"If you booked for 2 or more people, please share this link with your companions so everyone can complete the form.\nConsultation may be limited if the form is not submitted.",
     draft_title:'You have an unfinished form', draft_go:'Continue', draft_new:'Start over', draft_done:'Your answers have been restored.', see_detail:'View',
-    s1_title:'Reservation', s1_desc:'Tell us the number of guests, consultation type and your visit time.',
-    q_res:'Number of Guests',
-    r1:'Coming with others (2+)', r2:'Just me',
-    err_res:'Please select the number of guests.',
-    share_text:'Send the form link to your companions.', share_btn:'Share link', share_copied:'Link copied.',
-    q_cons:'Consultation Type',
-    c1:'Relaxation-focused, light consultation only.', c2:'Detailed diagnosis & consultation.',
-    err_cons:'Please select a consultation type.',
-    today:'Today', tomorrow:'Tomorrow',
-    q_date:'Visit Date', err_date:'Please select a visit date.',
-    q_time:'Visit Time', err_time:'Please select a visit time.',
+    share_btn:'Share link', share_copied:'Link copied.',
     s2_title:'About You', s2_desc:'We need this to confirm your booking and prepare your consultation.',
     q_name:'Name', ph_name:'Jane Doe', err_name:'Please enter your name.',
     q_birth:'Date of Birth', ph_birth:'1995.03.15', err_birth:'Please enter a valid date (YYYY.MM.DD).',
@@ -717,20 +676,20 @@ const T = {
     refuse_k:'Right to refuse', refuse:'You may refuse, but consultation and care may be limited.',
     visit_title:'Getting Here', addr_copy:'Copy address', copied:'Copied.',
     map_naver:'Naver Map', map_kakao:'Kakao Map', map_google:'Google Maps',
-    call:'Call', parking_k:'Parking', cal_add:'Add to calendar', cal_title:'Scálpit {b} visit',
+    call:'Call', parking_k:'Parking',
     kakao_ch:'Add us on KakaoTalk', kakao_ch_desc:'Reschedule or ask questions easily via KakaoTalk', insta:'Follow on Instagram',
     vid_title:'Get to know Scálpit', vid_sub:'Take a look at Scálpit before your visit.', vid_label:'Brand film',
     faq_title:'FAQ',
     faq:[
       ['Do I need to choose a menu in advance?', "Not at all. We'll check your scalp first and recommend the care that suits you. You can always change what you picked in the form after the consultation."],
-      ['How long does a treatment take?', 'About 50 to 90 minutes, depending on the menu.'],
+      ['How long does a treatment take?', 'About 60 to 90 minutes, depending on the menu.'],
       ['Should I wash my hair before coming?', 'No need to wash your hair on the day. The treatment includes a nape-line (back of neck) massage, so if you wear a turtleneck or high-neck top, a light inner layer is recommended.'],
       ['Can I go out right after the treatment?', 'Yes. We dry your hair after the treatment, so you can go about your day. Oils or ampoules may be used during the care, so if you have important plans afterwards, please let us know at the consultation.'],
       ['Is parking available?', "Parking differs by branch. Please contact the store before your visit and we'll guide you.", 'parking'],
       ['How do I change or cancel my booking?', 'Please change or cancel through the platform you booked with (e.g. Naver Booking), or contact the store. We appreciate as much notice as possible for the sake of other guests.'],
       ['Can I get a treatment while pregnant?', "Yes. We offer a dedicated pregnancy head spa with carefully chosen ingredients and techniques. We'll prepare in advance based on your answers."],
       ['Can I get a treatment during my period or with a scalp wound?', "If you feel well, you can get a treatment during your period. If you have a wound or inflammation on your scalp, or recently had coloring, a perm or a scalp procedure, please tell us at the consultation and we'll adjust the care accordingly."],
-      ['Can two people be treated together?', 'Yes, you can book for two. Depending on availability, you may be treated in separate rooms. Please ask your companion to fill out this form as well.'],
+      ['Can two people be treated together?', 'Yes, you can book for two. Depending on availability, you may be treated in separate rooms. In that case, we will contact you before confirming your booking. Please ask your companion to fill out this form as well.'],
     ],
     s4_title:'Your Scalp', s4_desc:'Tell us so we can care for you comfortably and safely.',
     q_scalp:'Main Scalp Concerns',
@@ -763,13 +722,11 @@ const T = {
     pv_purpose_k:'Purpose', pv_purpose:'Scalp care consultation & booking management',
     pv_period_k:'Retention', pv_period:'1 year after service',
     privacy_link:'View full privacy policy',
-    privacy_mkt:'Receive marketing information',
-    privacy_mkt_detail:'Get notified about events, promotions and new services.',
     err_privacy:'Please agree to all required items.',
     btn_next:'Next', btn_back:'Back', btn_submit:'Submit', btn_ing:'Submitting',
     done_title:'Your form has been submitted',
     done_desc:"Thank you for sharing.\nWe'll prepare the best scalp care for you.\nWe look forward to your visit.",
-    done_name:'Name', done_phone:'Phone', done_when:'Appointment', done_branch:'Branch', done_serv:'Services',
+    done_name:'Name', done_phone:'Phone', done_branch:'Branch', done_serv:'Services',
     err_server:'An error occurred. Please try again.',
     err_network:'Network error. Please try again later.',
     err_rate:'Too many requests. Please try again shortly.',
@@ -777,19 +734,11 @@ const T = {
   },
   zh: {
     wel_title:'期待您的到来', wel_body:'提前告诉我们，我们会为您准备适合您头皮状态的护理。',
-    wel_time:'约3分钟', wel_steps:'共{n}步', wel_group:'2人以上同行吗？请每位同行者分别填写，以便为大家提供准确的咨询。',
+    wel_time:'约3分钟', wel_steps:'共{n}步',
+    notice_title:'注意事项',
+    notice_body:'如果您预约了2人或以上，请将此链接分享给同行人员，请所有人填写。\n未填写问卷可能导致咨询受限。',
     draft_title:'有未完成的问卷', draft_go:'继续填写', draft_new:'重新填写', draft_done:'已恢复您之前填写的内容。', see_detail:'查看',
-    s1_title:'预约信息', s1_desc:'请选择预约人数、咨询方式和到访时间。',
-    q_res:'预约人数',
-    r1:'2人以上同行', r2:'1人到访',
-    err_res:'请选择预约人数。',
-    share_text:'请将问卷链接发送给同行人员。', share_btn:'分享链接', share_copied:'链接已复制。',
-    q_cons:'咨询类型',
-    c1:'以放松为主，只需简单咨询。', c2:'需要精密诊断和详细咨询。',
-    err_cons:'请选择咨询类型。',
-    today:'今天', tomorrow:'明天',
-    q_date:'到访日期', err_date:'请选择到访日期。',
-    q_time:'到访时间', err_time:'请选择到访时间。',
+    share_btn:'分享链接', share_copied:'链接已复制。',
     s2_title:'基本信息', s2_desc:'用于确认预约及准备咨询。',
     q_name:'姓名', ph_name:'张三', err_name:'请输入姓名。',
     q_birth:'出生日期', ph_birth:'1995.03.15', err_birth:'请正确输入出生日期（8位数字）。',
@@ -808,20 +757,20 @@ const T = {
     refuse_k:'拒绝权利', refuse:'您可以拒绝同意，但可能会限制咨询及护理服务。',
     visit_title:'交通指南', addr_copy:'复制地址', copied:'已复制。',
     map_naver:'Naver地图', map_kakao:'Kakao地图', map_google:'Google地图',
-    call:'拨打电话', parking_k:'停车', cal_add:'添加到日历', cal_title:'Scálpit {b} 到访',
+    call:'拨打电话', parking_k:'停车',
     kakao_ch:'添加KakaoTalk频道', kakao_ch_desc:'通过KakaoTalk轻松变更预约或咨询', insta:'关注Instagram',
     vid_title:'提前认识Scálpit', vid_sub:'到访前，先通过视频了解Scálpit吧。', vid_label:'品牌介绍视频',
     faq_title:'常见问题',
     faq:[
       ['需要提前选好项目吗？', '不需要。到店后我们会先检查您的头皮状态，再为您推荐合适的护理。问卷中选择的项目在咨询后也可以随时更改。'],
-      ['护理需要多长时间？', '根据项目不同，大约50至90分钟。'],
+      ['护理需要多长时间？', '根据项目不同，大约60至90分钟。'],
       ['需要先洗头再来吗？', '当天不需要洗发，直接来访即可。护理包含后颈部按摩，如穿高领上衣，建议内搭轻薄的打底衣。'],
       ['护理后可以直接外出吗？', '可以。护理结束后我们会为您吹干头发，可直接正常活动。护理中可能会使用精油或安瓶，如之后有重要安排，请在咨询时提前告知。'],
       ['可以停车吗？', '各门店停车条件不同。到访前请联系门店，我们会为您详细说明。', 'parking'],
       ['如何变更或取消预约？', '请通过您预约的平台（如Naver预约）进行变更或取消，或直接联系门店。为了其他顾客，请尽量提前告知。'],
       ['怀孕期间可以做吗？', '可以。我们提供孕妇专属头皮护理，成分与护理方式均经过细心设计。我们会根据您在问卷中填写的内容提前做好准备。'],
       ['生理期或头皮有伤口时可以做吗？', '如果身体状况良好，生理期也可以进行护理。如头皮有伤口或炎症，或近期做过染发、烫发、头皮项目，请在咨询时告知，我们会据此调整护理方式。'],
-      ['两个人可以一起做吗？', '可以，支持2人预约。根据预约及运营情况，也可能分别在单人间进行。请同行人员也填写此问卷。'],
+      ['两个人可以一起做吗？', '可以，支持2人预约。根据预约及运营情况，也可能分别在单人间进行。如遇此情况，我们会在确认预约前提前联系您。请同行人员也填写此问卷。'],
     ],
     s4_title:'头皮状态', s4_desc:'为了让护理更舒适、更安全，请告诉我们。',
     q_scalp:'主要头皮烦恼',
@@ -854,32 +803,22 @@ const T = {
     pv_purpose_k:'收集目的', pv_purpose:'头皮护理咨询及预约管理',
     pv_period_k:'保存期限', pv_period:'服务完成后1年',
     privacy_link:'查看完整隐私政策',
-    privacy_mkt:'同意接收营销信息',
-    privacy_mkt_detail:'接收活动、促销、新服务等信息。',
     err_privacy:'请同意所有必选项目。',
     btn_next:'下一步', btn_back:'上一步', btn_submit:'提交', btn_ing:'提交中',
     done_title:'问卷已提交',
     done_desc:'感谢您提供宝贵信息。\nScálpit将为您准备最佳的头皮护理。\n期待您的到来。',
-    done_name:'姓名', done_phone:'联系电话', done_when:'预约时间', done_branch:'门店', done_serv:'感兴趣的服务',
+    done_name:'姓名', done_phone:'联系电话', done_branch:'门店', done_serv:'感兴趣的服务',
     err_server:'发生错误，请重试。', err_network:'服务器连接错误，请稍后重试。',
     err_rate:'请求过多，请稍后再试。',
     step_of:(c,t)=>`<b>${c}</b> / ${t}`,
   },
   ja: {
     wel_title:'ご来店をお待ちしています', wel_body:'事前にお知らせいただければ、頭皮の状態に合ったケアをご用意します。',
-    wel_time:'約3分', wel_steps:'全{n}ステップ', wel_group:'2名以上でご来店ですか？正確なカウンセリングのため、お連れ様もそれぞれご記入ください。',
+    wel_time:'約3分', wel_steps:'全{n}ステップ',
+    notice_title:'ご案内',
+    notice_body:'2名以上でご予約の場合は、同行の方にもこのリンクを共有し、全員ご記入ください。\nアンケート未提出の場合、カウンセリングが制限される場合があります。',
     draft_title:'入力途中の内容があります', draft_go:'続きから', draft_new:'最初から', draft_done:'入力途中の内容を復元しました。', see_detail:'表示',
-    s1_title:'予約情報', s1_desc:'予約人数、カウンセリング方法、ご来店日時を教えてください。',
-    q_res:'予約人数',
-    r1:'2名以上で来店', r2:'1名で来店',
-    err_res:'予約人数を選択してください。',
-    share_text:'同行の方にアンケートのリンクを送ってください。', share_btn:'リンク共有', share_copied:'リンクをコピーしました。',
-    q_cons:'カウンセリングタイプ',
-    c1:'リラクゼーション重視、簡単なカウンセリングのみ希望。', c2:'精密診断・カウンセリング希望。',
-    err_cons:'カウンセリングタイプを選択してください。',
-    today:'今日', tomorrow:'明日',
-    q_date:'ご来店日', err_date:'ご来店日を選択してください。',
-    q_time:'ご来店時間', err_time:'ご来店時間を選択してください。',
+    share_btn:'リンク共有', share_copied:'リンクをコピーしました。',
     s2_title:'基本情報', s2_desc:'ご予約の確認とカウンセリングの準備に使用します。',
     q_name:'お名前', ph_name:'山田花子', err_name:'お名前を入力してください。',
     q_birth:'生年月日', ph_birth:'1995.03.15', err_birth:'生年月日を正しく入力してください（8桁）。',
@@ -898,20 +837,20 @@ const T = {
     refuse_k:'拒否する権利', refuse:'同意を拒否できますが、その場合カウンセリング・施術が制限される場合があります。',
     visit_title:'アクセス', addr_copy:'住所をコピー', copied:'コピーしました。',
     map_naver:'Naverマップ', map_kakao:'Kakaoマップ', map_google:'Googleマップ',
-    call:'電話する', parking_k:'駐車場', cal_add:'カレンダーに追加', cal_title:'Scálpit {b} ご来店',
+    call:'電話する', parking_k:'駐車場',
     kakao_ch:'KakaoTalkチャンネル追加', kakao_ch_desc:'予約変更・お問い合わせをKakaoTalkで', insta:'Instagramをフォロー',
     vid_title:'Scálpitを事前にチェック', vid_sub:'ご来店前に、Scálpitがどんな場所か動画でご覧ください。', vid_label:'ブランド紹介動画',
     faq_title:'よくある質問',
     faq:[
       ['メニューは事前に決める必要がありますか？', 'いいえ、大丈夫です。ご来店後にまず頭皮の状態を確認し、お客様に合ったケアをご提案します。フォームで選んだメニューもカウンセリング後にいつでも変更できます。'],
-      ['施術時間はどのくらいですか？', 'メニューにより50〜90分程度です。'],
+      ['施術時間はどのくらいですか？', 'メニューにより60〜90分程度です。'],
       ['髪を洗ってから行くべきですか？', '当日のシャンプーは不要です。施術には首の後ろ（ネープライン）のマッサージが含まれるため、タートルネックやハイネックの場合は中に薄手のインナーをおすすめします。'],
       ['施術後すぐに外出できますか？', 'はい。施術後に髪を乾かしますので、そのままお出かけいただけます。施術中にオイルやアンプルを使用する場合があるため、大切なご予定がある場合はカウンセリング時にお知らせください。'],
       ['駐車場はありますか？', '駐車環境は店舗ごとに異なります。ご来店前に店舗へお問い合わせいただければ、詳しくご案内いたします。', 'parking'],
       ['予約の変更・キャンセルはどうすればいいですか？', 'ご予約いただいたサービス（NAVER予約など）から変更・キャンセルいただくか、店舗までご連絡ください。他のお客様のため、できるだけ早めにお知らせいただけると助かります。'],
       ['妊娠中でも受けられますか？', 'はい。妊娠中でも安心して受けられるよう、成分と施術方法を丁寧に組み立てたマタニティ専用ヘッドスパがあります。フォームのご回答をもとに事前に準備いたします。'],
       ['生理中や頭皮に傷があっても受けられますか？', '体調が問題なければ、生理中でも施術を受けられます。頭皮に傷や炎症がある場合、または最近カラー・パーマ・頭皮の施術を受けた場合は、カウンセリング時に必ずお知らせください。状態に合わせてケアを調整いたします。'],
-      ['2人で一緒に受けられますか？', 'はい、2名様でのご予約が可能です。予約・運営状況により個室で別々に施術する場合があります。お連れ様もこのフォームへのご記入をお願いします。'],
+      ['2人で一緒に受けられますか？', 'はい、2名様でのご予約が可能です。予約・運営状況により個室で別々に施術する場合があります。その場合は、予約確定前に事前にご連絡いたします。お連れ様もこのフォームへのご記入をお願いします。'],
     ],
     s4_title:'頭皮の状態', s4_desc:'快適で安全な施術のために教えてください。',
     q_scalp:'主な頭皮のお悩み',
@@ -931,7 +870,7 @@ const T = {
     test_cta:'', test_cta_desc:'', test_done:'', test_redo:'', test_sheet:'', test_close:'', test_back:'', rec_note_test:'',
     assure_title:'お気軽にどうぞ', assure:'気になるメニューは複数選んでも大丈夫です。ここで選んだもので確定にはなりません。\nご来店時にまず頭皮の状態を確認し、お客様にぴったりのケアをご提案します。', pick_menu:'メニューから選ぶ', rec_count:'おすすめ{n}件',
     rec:'おすすめ', rec_note:'ご回答内容をもとにおすすめを表示しています。', min:'分', no_disc:'',
-    col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'料金は韓国ウォン（KRW）表示です。',
+    col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'料金は韓国ウォン（KRW）表示です。\n初回価格は初めてご来店の方限定です。',
     err_serv:'一つ以上お選びいただくか、「まだ決めていません」を選択してください。',
     q_video:'記念撮影',
     video_desc:'ヘッドスパ中のお姿をお客様のスマートフォンで動画・写真撮影いたします。ご希望の場合は「はい」を選択してください。',
@@ -944,13 +883,11 @@ const T = {
     pv_purpose_k:'収集目的', pv_purpose:'頭皮ケア相談・予約管理',
     pv_period_k:'保有期間', pv_period:'サービス完了後1年',
     privacy_link:'個人情報処理方針の全文を見る',
-    privacy_mkt:'マーケティング情報の受信への同意',
-    privacy_mkt_detail:'イベント、プロモーション、新サービスのご案内をお届けします。',
     err_privacy:'必須項目すべてに同意してください。',
     btn_next:'次へ', btn_back:'戻る', btn_submit:'送信する', btn_ing:'送信中',
     done_title:'アンケートを受け付けました',
     done_desc:'貴重な情報をありがとうございます。\nScálpitで最適な頭皮ケアをご準備いたします。\nご来店をお待ちしております。',
-    done_name:'お名前', done_phone:'電話番号', done_when:'ご予約日時', done_branch:'店舗', done_serv:'ご希望サービス',
+    done_name:'お名前', done_phone:'電話番号', done_branch:'店舗', done_serv:'ご希望サービス',
     err_server:'エラーが発生しました。もう一度お試しください。',
     err_network:'サーバー接続エラーです。しばらくしてからお試しください。',
     err_rate:'リクエストが多すぎます。しばらくしてからお試しください。',
@@ -994,7 +931,7 @@ const MENU = [
       en:['Pregnancy Head Spa', 'A head spa for expecting mothers with carefully chosen ingredients'],
       zh:['孕妇头皮水疗', '精选成分与护理方式，孕期也能安心享受的专属头皮水疗'],
       ja:['マタニティ ヘッドスパ', '妊娠中でも安心して受けられるよう成分と施術を工夫した専用ヘッドスパ'] },
-    { id:'c6', min:50, reg:90000, first:null,
+    { id:'c6', min:50, reg:90000, first:null, koOnly:true, // 외국어 화면에서는 숨김 (외국인 대상 미판매)
       ko:['프리미엄 모발클리닉', '손상된 모발을 3단계로 집중 케어하고, 목·어깨 이완까지 더해 윤기와 편안함을 함께 채우는 모발 클리닉'],
       en:['Premium Hair Clinic', '3-step repair for damaged hair, plus neck & shoulder relaxation'],
       zh:['高级护发疗程', '三步集中修护受损发质，并放松颈肩'],
@@ -1063,17 +1000,9 @@ const SCALP_TEST = {
 let scalpTest = null;
 const menuName = id => id === 'undecided' ? T[lang].undecided : `${(MENU_ITEMS[id][lang] || MENU_ITEMS[id].ko)[0]} · ${MENU_ITEMS[id].min}${T[lang].min}`;
 
-const TIMES = [];
-for (let hh = 10; hh < 20; hh++) TIMES.push(`${hh}:00`, `${hh}:30`);
 
 // ── 설문 스키마 ──
 const STEPS = [
-  { en:'Reservation', title:'s1_title', desc:'s1_desc', qs:[
-    { name:'reservationType', type:'radio', label:'q_res', req:true, err:'err_res', opts:['r2','r1'], share:'r1' },
-    { name:'consultationType', type:'radio', label:'q_cons', req:true, err:'err_cons', opts:['c1','c2'] },
-    { name:'visitDate', type:'date', label:'q_date', req:true, err:'err_date' },
-    { name:'visitTime', type:'times', label:'q_time', req:true, err:'err_time' },
-  ]},
   { en:'About You', title:'s2_title', desc:'s2_desc', qs:[
     { name:'name', type:'text', label:'q_name', req:true, err:'err_name', ph:'ph_name', autocomplete:'name', maxlength:40 },
     { name:'birth', type:'text', label:'q_birth', req:true, err:'err_birth', ph:'ph_birth', inputmode:'numeric', autocomplete:'bday', maxlength:10, format:'date' },
@@ -1101,14 +1030,12 @@ const STEPS = [
 
 const ICON_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 const ICON_ERR = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>';
-const ICON_SHARE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M7 8l5-5 5 5M5 14v5a2 2 0 002 2h10a2 2 0 002-2v-5"/></svg>';
 const ICON_CHEV = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>';
 const ICON_ARROW = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const h = (tag, attrs = {}, html = '') => { const e = document.createElement(tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (html) e.innerHTML = html; return e; };
-const todayStr = () => new Date().toLocaleDateString('sv');
 
 // 지점: /cheonan → ?b=cheonan · 외국 고객용 링크는 /cheonan/global (언어 선택 화면부터 시작)
 const pathSegs = location.pathname.split('/').filter(Boolean);
@@ -1170,37 +1097,26 @@ function buildQuestion(q) {
 
   if (q.type === 'menu') {
     block.appendChild(buildMenu(q.name));
-  } else if (q.type === 'text' || q.type === 'tel' || q.type === 'date') {
+  } else if (q.type === 'text' || q.type === 'tel') {
     const input = h('input', {
       class:'input', type:q.type, id:q.name, name:q.name, 'aria-labelledby':labelId,
       autocomplete:q.autocomplete || 'off',
     });
     if (q.ph) input.setAttribute('data-tph', q.ph);
     if (q.maxlength) input.setAttribute('maxlength', q.maxlength);
-    if (q.type === 'date') input.min = todayStr();
     if (q.inputmode) input.setAttribute('inputmode', q.inputmode);
     if (q.req) input.setAttribute('aria-required', 'true');
     if (q.format) input.addEventListener('input', () => formatInput(input, q.format));
     block.appendChild(input);
-    if (q.type === 'date') {
-      block.appendChild(h('p', { class:'date-note', id:`${q.name}-note`, hidden:'' }));
-      ['input', 'change'].forEach(ev => input.addEventListener(ev, () => dateNote(input)));
-    }
   } else {
     const multi = q.type === 'checkbox';
-    const times = q.type === 'times';
-    const opts = h('div', { class:`opts${q.grid ? ' grid' : ''}${times ? ' times' : ''}`, role: multi ? 'group' : 'radiogroup', 'aria-labelledby':labelId });
-    (times ? TIMES : q.opts).forEach(o => {
-      const key = o;
-      const id = `${q.name}-${key.replace(':', '')}`;
+    const opts = h('div', { class:`opts${q.grid ? ' grid' : ''}`, role: multi ? 'group' : 'radiogroup', 'aria-labelledby':labelId });
+    q.opts.forEach(key => {
+      const id = `${q.name}-${key}`;
       const wrap = h('div', { class:`opt${multi ? ' multi' : ''}${q.wide?.includes(key) ? ' wide' : ''}` });
-      const input = h('input', { type: multi ? 'checkbox' : 'radio', name:q.name, id, value: times ? key : storedValue(key), 'data-key':key });
+      const input = h('input', { type: multi ? 'checkbox' : 'radio', name:q.name, id, value: storedValue(key), 'data-key':key });
       const label = h('label', { for:id });
-      if (times) {
-        label.innerHTML = `<span class="mark">${ICON_CHECK}</span><span>${key}</span>`;
-      } else {
-        label.innerHTML = `<span class="mark">${ICON_CHECK}</span><span data-t="${key}"></span>`;
-      }
+      label.innerHTML = `<span class="mark">${ICON_CHECK}</span><span data-t="${key}"></span>`;
       wrap.append(input, label);
       opts.appendChild(wrap);
     });
@@ -1227,13 +1143,6 @@ function buildQuestion(q) {
         detail.placeholder = T[lang][q.details[key]];
         if (!restoring && e.target.dataset.key === key) setTimeout(() => detail.focus(), 50);
       });
-    }
-    if (q.share) {
-      const share = h('div', { class:'share', id:'shareBox' });
-      share.innerHTML = `<span class="share-text" data-t="share_text"></span><button type="button" class="share-btn">${ICON_SHARE}<span data-t="share_btn"></span></button>`;
-      $('button', share).addEventListener('click', shareLink);
-      block.appendChild(share);
-      opts.addEventListener('change', () => share.classList.toggle('show', $(`#${q.name}-${q.share}`).checked));
     }
   }
 
@@ -1271,12 +1180,13 @@ function buildMenu(name) {
   MENU.forEach(tier => {
     const sec = h('section', { class:`tier tier-${tier.tier}` });
     sec.innerHTML = `<div class="tier-head"><div><span class="tier-en">${tier.en}</span><span class="tier-sub">${tier.sub}</span></div><p class="tier-desc" data-menu-desc="${tier.tier}"></p></div>`;
-    tier.items.forEach((it, i) => sec.appendChild(opt(it.id, 'mi', `
+    tier.items.forEach((it, i) => sec.appendChild(opt(it.id, it.koOnly ? 'mi ko-item' : 'mi', `
       <span class="mi-no">0${i + 1}</span>
       <span class="mi-body"><span class="mi-name"><span data-menu-name="${it.id}"></span><span class="rec" hidden data-t="rec"></span></span><span class="mi-desc" data-menu-text="${it.id}"></span></span>
       <span class="mi-meta"><span class="mi-min" data-menu-min="${it.id}"></span>
         <span class="mi-price ko-only">${it.first ? `<s>${won(it.reg)}</s><b>${won(it.first)}</b>` : `<span class="mi-plain">${won(it.reg)}</span><b class="mi-nodisc" data-t="no_disc"></b>`}</span>
-        <span class="mi-price intl-only"><b>₩${won(it.reg)}</b></span></span>`)));
+        <span class="mi-price intl-only"><b>₩${won(it.reg)}</b></span>
+        <span class="mi-price ja-only">${it.first ? `<s>₩${won(it.reg)}</s><b><small>初回</small>₩${won(it.first)}</b>` : `<b>₩${won(it.reg)}</b>`}</span></span>`)));
     list.appendChild(sec);
   });
   list.appendChild(h('p', { class:'menu-foot', id:'menuFoot' }));
@@ -1299,6 +1209,8 @@ function applyMenuLang() {
   $$('[data-menu-min]').forEach(el => { el.textContent = `${MENU_ITEMS[el.dataset.menuMin].min}${t.min}`; });
   $$('[data-menu-desc]').forEach(el => { const tier = MENU.find(x => x.tier === el.dataset.menuDesc); el.textContent = tier.desc[lang] || tier.desc.ko; });
   $('.menu').classList.toggle('intl', lang !== 'ko');
+  $('.menu').classList.toggle('ja', lang === 'ja');
+  if (lang !== 'ko') $$('.ko-item input').forEach(x => { x.checked = false; });
   $('#testCta').hidden = lang !== 'ko' || !!scalpTest;
   $('#menuFoot').textContent = lang === 'ko' ? t.price_note : t.price_intl;
 }
@@ -1313,7 +1225,6 @@ function updateRecs() {
     if (has('scalpConcerns', ['sc1']) || has('hairLossGenetic', ['hg1'])) recs.push('c4', 'p2');
     if (has('scalpConcerns', ['sc2', 'sc3', 'sc6', 'sc7'])) recs.push('c3');
     if (has('scalpConcerns', ['sc4', 'sc5', 'sc8'])) recs.push('s1');
-    if (has('consultationType', ['c1'])) recs.push('s2', 's5');
   }
   recs = [...new Set(recs)].slice(0, 3);
   $$('.mi').forEach(box => { $('.rec', box).hidden = !recs.includes(box.dataset.id); });
@@ -1417,21 +1328,12 @@ function consentHTML() {
           </dl>
         </div>
       </div>
-      <div class="consent-item">
-        <div class="promo">
-          <div class="promo-badge">30%<small>OFF</small></div>
-          <div class="promo-copy"><strong data-t="promo_title"></strong><span data-t="promo_body"></span></div>
-        </div>
-        <label class="check"><input type="checkbox" id="privacyMarketing" /><span class="mark">${ICON_CHECK}</span>
-          <span class="check-text"><span class="tag-opt" data-t="tag_opt"></span><span data-t="privacy_mkt"></span></span></label>
-        <p class="consent-detail" data-t="privacy_mkt_detail"></p>
-      </div>
     </div>
     <div class="err" role="alert">${ICON_ERR}<span data-t="err_privacy"></span></div>`;
 }
 
 function wireConsent() {
-  const all = $('#consentAll'), items = ['#privacyRequired', '#sensitiveRequired', '#privacyMarketing'].map(s => $(s));
+  const all = $('#consentAll'), items = ['#privacyRequired', '#sensitiveRequired'].map(s => $(s));
   all.addEventListener('change', () => { items.forEach(c => { c.checked = all.checked; }); $('#q-privacy').classList.remove('invalid'); });
   items.forEach(c => c.addEventListener('change', () => { all.checked = items.every(x => x.checked); $('#q-privacy').classList.remove('invalid'); }));
   // 수집 항목·목적·보유 기간은 '보기'를 누르면 펼쳐짐
@@ -1456,19 +1358,6 @@ function formatInput(input, kind) {
   }
 }
 
-function dateNote(input) {
-  const note = $(`#${input.id}-note`);
-  if (!note) return;
-  if (!input.value) { note.hidden = true; return; }
-  const [y, m, d] = input.value.split('-').map(Number);
-  const dt = new Date(y, m - 1, d);
-  const diff = Math.round((dt - new Date(new Date().toDateString())) / 864e5);
-  const rel = diff === 0 ? T[lang].today : diff === 1 ? T[lang].tomorrow : '';
-  const loc = { ko:'ko-KR', en:'en-US', zh:'zh-CN', ja:'ja-JP' }[lang];
-  note.textContent = dt.toLocaleDateString(loc, { month:'long', day:'numeric', weekday:'long' }) + (rel ? ` · ${rel}` : '');
-  note.hidden = false;
-}
-
 function validBirth(v) {
   const m = v.match(/^(\d{4})\.(\d{2})\.(\d{2})$/);
   if (!m) return false;
@@ -1491,7 +1380,6 @@ function applyLang() {
   $$('[data-tph]').forEach(el => { el.placeholder = t[el.dataset.tph] || ''; });
   if (lang === 'ko' && ADDR_EX[branchSlug]) $('#address').placeholder = ADDR_EX[branchSlug];
   $('#welSteps').textContent = t.wel_steps.replace('{n}', STEPS.length);
-  dateNote($('#visitDate'));
   $('#langPillText').textContent = lang.toUpperCase();
   applyMenuLang();
   updateRecs();
@@ -1557,7 +1445,6 @@ function checked(name) { return $$(`input[name="${name}"]:checked`); }
 function questionOk(q) {
   if (q.type === 'consent') return $('#privacyRequired').checked && $('#sensitiveRequired').checked;
   if (!q.req) return true;
-  if (q.type === 'date') { const v = $(`#${q.name}`).value; return !!v && v >= todayStr(); }
   if (q.type === 'text' || q.type === 'tel') {
     const v = $(`#${q.name}`).value.trim();
     if (q.format === 'date') return validBirth(v);
@@ -1592,7 +1479,7 @@ function onNext() {
 // ── 작성 중 자동 저장: 같은 폰으로 링크를 다시 열면 이어서 쓰기 (24시간 보관, 제출하면 삭제) ──
 // 동의 체크는 저장하지 않음 (다시 열면 새로 동의)
 const DRAFT_KEY = `scalpit-draft-${branchSlug || 'root'}`;
-const DRAFT_SKIP = /^(privacyRequired|sensitiveRequired|privacyMarketing|consentAll)$/;
+const DRAFT_SKIP = /^(privacyRequired|sensitiveRequired|consentAll)$/;
 let draftOffered = false, restoring = false, draftTimer;
 function readDraft() {
   try {
@@ -1632,7 +1519,6 @@ function restoreDraft(d) {
   // 기타 입력칸·조건부 질문·일행 공유 등 화면 상태를 답변에 맞춰 갱신
   d.c.forEach(id => document.getElementById(id)?.dispatchEvent(new Event('change', { bubbles: true })));
   setValues();
-  dateNote($('#visitDate'));
   if (d.scalpTest && SCALP_TEST[d.scalpTest.type]) { scalpTest = d.scalpTest; renderTestResult(); }
   restoring = false;
   dirty = true;
@@ -1679,10 +1565,6 @@ async function submitForm() {
   const birth = $('#birth').value.trim();
   const data = {
     lang,
-    reservationType: checked('reservationType')[0]?.value || '',
-    consultationType: checked('consultationType')[0]?.value || '',
-    visitDate: $('#visitDate').value,
-    visitTime: checked('visitTime')[0]?.value || '',
     nameBirth: `${name} / ${birth}`,
     name,
     phone: $('#phone').value.trim(),
@@ -1698,7 +1580,6 @@ async function submitForm() {
     videoConsent: checked('videoConsent')[0]?.value || '',
     privacyConsent: $('#privacyRequired').checked,
     sensitiveConsent: $('#sensitiveRequired').checked,
-    marketingConsent: $('#privacyMarketing').checked,
     tracking: TRACKING,
     scalpTest: scalpTest || undefined,
   };
@@ -1727,7 +1608,6 @@ function showDone(data) {
   const rows = [
     [t.done_name, data.name],
     [t.done_phone, data.phone],
-    [t.done_when, `${data.visitDate.replace(/-/g, '.')} ${data.visitTime}`],
     branch.slug !== 'root' && [t.done_branch, branch.name],
     [t.done_serv, label('desiredServices')],
   ].filter(Boolean);
@@ -1749,9 +1629,8 @@ function showDone(data) {
 
 const ICON_PIN = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5a7 7 0 1114 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
 const ICON_PHONE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"/></svg>';
-const ICON_CAL = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>';
 
-// 지점 주소·지도·연락처·캘린더·카카오 채널 (방문 전 노쇼를 줄이고 채널 친구를 확보)
+// 지점 주소·지도·연락처·카카오 채널 (방문 전 노쇼를 줄이고 채널 친구를 확보)
 function visitCard(data) {
   if (branch.slug === 'root') return [];
   const t = T[lang];
@@ -1776,11 +1655,6 @@ function visitCard(data) {
 
   const actions = h('div', { class: 'visit-actions' });
   if (branch.phone) { const a = h('a', { class: 'act-btn', href: `tel:${branch.phone.replace(/[^\d+]/g, '')}` }, `${ICON_PHONE}<span></span>`); a.lastChild.textContent = t.call; actions.appendChild(a); }
-  if (data.visitDate && data.visitTime) {
-    const b = h('button', { type: 'button', class: 'act-btn' }, `${ICON_CAL}<span></span>`); b.lastChild.textContent = t.cal_add;
-    b.addEventListener('click', () => downloadICS(data));
-    actions.appendChild(b);
-  }
   if (actions.children.length) card.appendChild(actions);
 
   const out = [card];
@@ -1827,26 +1701,6 @@ function brandBox() {
   });
   out.push(faq);
   return out;
-}
-
-// 방문 일정을 휴대폰 캘린더에 저장 (.ics)
-function downloadICS(data) {
-  const [y, m, d] = data.visitDate.split('-').map(Number);
-  const [hh, mm] = data.visitTime.split(':').map(Number);
-  const pad = n => String(n).padStart(2, '0');
-  const stamp = dt => `${dt.getFullYear()}${pad(dt.getMonth() + 1)}${pad(dt.getDate())}T${pad(dt.getHours())}${pad(dt.getMinutes())}00`;
-  const start = new Date(y, m - 1, d, hh, mm), end = new Date(start.getTime() + 90 * 60000);
-  const esc = v => String(v).replace(/[\\,;]/g, c => '\\' + c);
-  const ics = [
-    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Scalpit//Consultation//KO', 'BEGIN:VEVENT',
-    `UID:${Date.now()}@scalpitform.com`, `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').slice(0, 15)}Z`,
-    `DTSTART;TZID=Asia/Seoul:${stamp(start)}`, `DTEND;TZID=Asia/Seoul:${stamp(end)}`,
-    `SUMMARY:${esc(T[lang].cal_title.replace('{b}', branch.name))}`, `LOCATION:${esc(branch.address)}`,
-    'BEGIN:VALARM', 'TRIGGER:-PT2H', 'ACTION:DISPLAY', 'DESCRIPTION:Scálpit', 'END:VALARM',
-    'END:VEVENT', 'END:VCALENDAR',
-  ].join('\r\n');
-  const a = h('a', { href: 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics), download: 'scalpit.ics' });
-  document.body.appendChild(a); a.click(); a.remove();
 }
 
 // ── 초기화 ──
