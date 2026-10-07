@@ -176,29 +176,13 @@ button,input,select,textarea{font:inherit;color:inherit}
 .nums>div>span{display:block;margin-top:8px;font-size:.86rem;color:var(--mut)}
 .nums .cnt{display:inline}
 .src{font-size:.78rem;color:var(--faint);margin-top:12px;max-width:80ch}
-.rcs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2.2vw,26px);margin-top:clamp(36px,5vw,60px);padding-bottom:12px}
-.rc-wrap{filter:drop-shadow(0 20px 22px #000b);transform:rotate(var(--r,0deg));transition:transform .35s cubic-bezier(.2,.8,.2,1)}
-.rc-wrap:hover{transform:rotate(0) translateY(-8px)}
-.zz{--zs:12px;
-  -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/var(--zs) 100%;
-  mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/var(--zs) 100%}
-.rc{all:unset;box-sizing:border-box;display:block;width:100%;cursor:zoom-in;background:var(--paper) var(--tooth);color:var(--paper-ink);font-family:var(--mono);padding:22px 18px calc(var(--zs) + 18px);text-align:left}
-.rc:focus-visible{outline:3px solid var(--rose);outline-offset:4px}
-.rc .c{display:block;text-align:center}
-.rc .nm{font:700 .68rem var(--mono);letter-spacing:.34em}
-.rc .st{margin-top:6px;font:900 1.08rem/1.3 var(--font);letter-spacing:-.03em}
-.rc .dt{margin-top:2px;font:500 .74rem var(--mono);color:var(--paper-mut)}
-.rc .dash{display:block;border-top:1.5px dashed var(--paper-line);margin:13px 0}
-.rc .row{display:flex;justify-content:space-between;gap:8px;font-size:.76rem;line-height:1.7}
-.rc .row span:last-child{font-weight:600;text-align:right}
-.rc .lb{display:block;font:700 .7rem var(--mono);letter-spacing:.1em;color:var(--paper-mut)}
-.rc .am{display:block;margin-top:2px;font:600 clamp(1.5rem,2.3vw,2rem)/1.1 var(--mono);letter-spacing:-.05em;text-align:right;white-space:nowrap}
-.rc .am small{font:800 .85rem var(--font);letter-spacing:0;margin-left:2px}
-.rc .ft{display:block;text-align:center;font-size:.68rem;color:var(--paper-mut);line-height:1.5}
-.rc .barc{display:block;height:30px;margin-top:12px;background:var(--bar);opacity:.8}
-.rc .zoom{display:block;margin-top:10px;text-align:center;font:600 .68rem var(--mono);color:var(--red-d);letter-spacing:.04em}
-.js .pr .rc{clip-path:inset(0 0 100% 0);transition:clip-path 1.2s cubic-bezier(.25,.7,.2,1) var(--d,0s)}
-.js .pr.in .rc{clip-path:inset(0 0 -2px 0)}
+.pos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,2vw,26px);margin-top:clamp(32px,5vw,56px)}
+.pos>div{min-width:0}
+.pos button{all:unset;box-sizing:border-box;display:block;width:100%;cursor:zoom-in;position:relative;border-radius:6px;overflow:hidden;background:#fff;box-shadow:0 22px 40px #000a;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.pos button:hover{transform:translateY(-6px);box-shadow:0 30px 52px #000c}
+.pos button:focus-visible{outline:3px solid var(--rose);outline-offset:4px}
+.pos img{width:100%;height:auto}
+.pos .zm{position:absolute;right:12px;bottom:12px;background:#0b0909e0;color:#fff;font:600 .7rem var(--mono);letter-spacing:.04em;padding:6px 13px;border-radius:999px}
 .nav-h{margin-top:clamp(40px,6vw,72px);font-size:clamp(1.3rem,2.6vw,1.8rem);font-weight:900}
 .stats2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:22px}
 .stats2 figure{margin:0;background:#fff;border-radius:6px;overflow:hidden;color:#1a1512}
@@ -332,7 +316,7 @@ footer a{color:var(--mut)}
 /* ── reveal ────────────────────────────────────────── */
 .js .rv{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
 .js .rv.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .rv{opacity:1;transform:none;transition:none}.js .pr .rc{clip-path:none;transition:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .rv{opacity:1;transform:none;transition:none}}
 
 /* ── responsive ────────────────────────────────────── */
 @media(max-width:1020px){
@@ -342,9 +326,9 @@ footer a{color:var(--mut)}
   .vid{position:static;max-width:320px;margin-inline:auto}
   .nums{grid-template-columns:repeat(2,1fr)}
   .nums div:nth-child(3){padding-left:0;border-left:0}
-  .rcs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:18px;margin-inline:calc(var(--gutter)*-1);padding:6px var(--gutter) 28px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  .rcs::-webkit-scrollbar{display:none}
-  .rc-wrap{flex:0 0 min(74%,300px);scroll-snap-align:center}
+  .pos{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;margin-inline:calc(var(--gutter)*-1);padding:6px var(--gutter) 26px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .pos::-webkit-scrollbar{display:none}
+  .pos>div{flex:0 0 min(86%,520px);scroll-snap-align:center}
   .sticky{display:block}
   footer{padding-bottom:140px}
 }
@@ -487,7 +471,7 @@ footer a{color:var(--mut)}
   <div class="wrap">
     <span class="eyebrow rv">RECEIPTS</span>
     <h2 class="h2 rv" id="proof-h">자랑이 아니라,<br><em>영수증</em>입니다.</h2>
-    <p class="lede rv">직영점 POS에 찍힌 하루치 매출입니다. 눌러서 원본 화면을 직접 확인하세요. 이런 날이 있었다는 기록이지, 평균은 아닙니다.</p>
+    <p class="lede rv">직영점 POS에 찍힌 하루치 매출, 그대로입니다. 눌러서 크게 보세요. 이런 날이 있었다는 기록이지, 평균은 아닙니다.</p>
 
     <div class="nums rv">
       <div><b><span class="cnt" data-to="4">4</span><small>곳</small></b><span>직영점 (동탄·천안·광교·압구정로데오)</span></div>
@@ -497,27 +481,11 @@ footer a{color:var(--mut)}
     </div>
     <p class="src rv">스칼프잇 직영 4개점 자체 집계 기준.</p>
 
-    <div class="rcs" role="list" aria-label="직영점 하루 매출 POS 영수증">
-      <div class="rc-wrap pr" style="--r:-1.6deg;--d:0s" role="listitem"><button type="button" class="rc zz" data-zoom="/academy/img/pos-full-apgujeong.webp" aria-label="압구정로데오점 하루 매출 POS 화면 크게 보기">
-        <span class="c nm">SCÁLPIT</span><span class="c st">압구정로데오점</span><span class="c dt">2026.09.21 (월)</span><i class="dash"></i>
-        <span class="row"><span>총 고객</span><span>27명</span></span><span class="row"><span>정액권 판매</span><span>400만 원 포함</span></span><i class="dash"></i>
-        <span class="lb">일 총매출</span><span class="am">6,085,000<small>원</small></span><i class="dash"></i>
-        <span class="ft">특정 일자 기록 · 평균 아님</span><span class="barc" aria-hidden="true"></span><span class="zoom">POS 원본 보기 ↗</span></button></div>
-      <div class="rc-wrap pr" style="--r:1.2deg;--d:.18s" role="listitem"><button type="button" class="rc zz" data-zoom="/academy/img/pos-full-gwanggyo.webp" aria-label="광교점 하루 매출 POS 화면 크게 보기">
-        <span class="c nm">SCÁLPIT</span><span class="c st">광교점</span><span class="c dt">2026.10.03 (토)</span><i class="dash"></i>
-        <span class="row"><span>총 고객</span><span>19명</span></span><span class="row"><span>정액권 판매</span><span>300만 원 포함</span></span><i class="dash"></i>
-        <span class="lb">일 총매출</span><span class="am">5,073,000<small>원</small></span><i class="dash"></i>
-        <span class="ft">특정 일자 기록 · 평균 아님</span><span class="barc" aria-hidden="true"></span><span class="zoom">POS 원본 보기 ↗</span></button></div>
-      <div class="rc-wrap pr" style="--r:-.9deg;--d:.36s" role="listitem"><button type="button" class="rc zz" data-zoom="/academy/img/pos-full-cheonan.webp" aria-label="천안점 하루 매출 POS 화면 크게 보기">
-        <span class="c nm">SCÁLPIT</span><span class="c st">천안점</span><span class="c dt">2026.01.19 (월)</span><i class="dash"></i>
-        <span class="row"><span>총 고객</span><span>16명</span></span><span class="row"><span>회원권 판매</span><span>346.8만 원 포함</span></span><i class="dash"></i>
-        <span class="lb">일 총매출</span><span class="am">5,074,340<small>원</small></span><i class="dash"></i>
-        <span class="ft">특정 일자 기록 · 평균 아님</span><span class="barc" aria-hidden="true"></span><span class="zoom">POS 원본 보기 ↗</span></button></div>
-      <div class="rc-wrap pr" style="--r:1.5deg;--d:.54s" role="listitem"><button type="button" class="rc zz" data-zoom="/academy/img/pos-full-dongtan.webp" aria-label="동탄점 하루 매출 POS 화면 크게 보기">
-        <span class="c nm">SCÁLPIT</span><span class="c st">동탄점</span><span class="c dt">2025.07.24 (목)</span><i class="dash"></i>
-        <span class="row"><span>총 고객</span><span>16명</span></span><span class="row"><span>회원권·정액권</span><span>판매 포함</span></span><i class="dash"></i>
-        <span class="lb">일 총매출</span><span class="am">9,897,700<small>원</small></span><i class="dash"></i>
-        <span class="ft">특정 일자 기록 · 평균 아님</span><span class="barc" aria-hidden="true"></span><span class="zoom">POS 원본 보기 ↗</span></button></div>
+    <div class="pos" role="list" aria-label="직영점 하루 매출 POS 화면">
+      <div class="rv" style="transition-delay:0s" role="listitem"><button type="button" data-zoom="/academy/img/pos-full-apgujeong.webp" aria-label="압구정로데오점 하루 매출 POS 화면 크게 보기"><img src="/academy/img/pos-full-apgujeong.webp" alt="압구정로데오점 2026.09.21 일 총매출 6,085,000원 POS 화면" loading="lazy" width="1080" height="1161"><span class="zm">크게 보기 ↗</span></button></div>
+      <div class="rv" style="transition-delay:0.1s" role="listitem"><button type="button" data-zoom="/academy/img/pos-full-gwanggyo.webp" aria-label="광교점 하루 매출 POS 화면 크게 보기"><img src="/academy/img/pos-full-gwanggyo.webp" alt="광교점 2026.10.03 일 총매출 5,073,000원 POS 화면" loading="lazy" width="1080" height="1161"><span class="zm">크게 보기 ↗</span></button></div>
+      <div class="rv" style="transition-delay:0s" role="listitem"><button type="button" data-zoom="/academy/img/pos-full-cheonan.webp" aria-label="천안점 하루 매출 POS 화면 크게 보기"><img src="/academy/img/pos-full-cheonan.webp" alt="천안점 2026.01.19 일 총매출 5,074,340원 POS 화면" loading="lazy" width="1080" height="1067"><span class="zm">크게 보기 ↗</span></button></div>
+      <div class="rv" style="transition-delay:0.1s" role="listitem"><button type="button" data-zoom="/academy/img/pos-full-dongtan.webp" aria-label="동탄점 하루 매출 POS 화면 크게 보기"><img src="/academy/img/pos-full-dongtan.webp" alt="동탄점 2025.07.24 일 총매출 9,897,700원 POS 화면" loading="lazy" width="1080" height="1067"><span class="zm">크게 보기 ↗</span></button></div>
     </div>
     <p class="src rv">특정 일자의 POS 화면(핸드SOS 매출 캘린더)이며 평균 매출이 아닙니다. 정액권·회원권 판매 금액이 포함된 일 총매출입니다.</p>
 
