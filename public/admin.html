@@ -113,6 +113,7 @@
     .td-date { color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; font-size: 12.5px; }
     .td-name { font-weight: 700; color: var(--ink); white-space: nowrap; }
     .td-name small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .tag-mkt { background: #EAF3EC; color: #26583A; margin-left: 4px; vertical-align: 1px; }
     .td-phone { white-space: nowrap; font-variant-numeric: tabular-nums; }
     .td-list { color: var(--muted); font-size: 12.5px; line-height: 1.6; max-width: 200px; }
 
@@ -444,6 +445,8 @@ function filtered() {
   return rows;
 }
 
+// 첫 방문 30%: 광고성 정보 수신 동의 + 네이버 리뷰 → 결제 때 동의 여부 확인용
+const mktTag = d => d.marketingConsent ? '<span class="tag tag-mkt">광고 동의</span>' : '';
 // 관리 전 확인이 필요한 고객 표시 (임신·수유, 약, 치료·시술, 펌·염색, 붙임머리, 알레르기)
 function tags(d) {
   return (isPregnant(d) ? `<span class="tag tag-preg">${esc(d.pregnancyStatus)}</span>` : '')
@@ -468,7 +471,7 @@ function render() {
   $('#tbody').innerHTML = rows.map(d => `
     <tr data-id="${esc(d.id)}">
       <td class="td-num">${idx.get(d.id)}</td>
-      <td class="td-name">${esc(nameOf(d))}<small>${esc(birthOf(d))}</small></td>
+      <td class="td-name">${esc(nameOf(d))}${mktTag(d)}<small>${esc(birthOf(d))}</small></td>
       <td class="td-phone">${esc(d.phone || '-')}</td>
       <td>${tags(d) || '<span style="color:var(--faint)">-</span>'}</td>
       <td class="td-list">${scalpLabel(d) ? `<span class="tag tag-scalp">자가진단 · ${esc(scalpLabel(d))}</span><br>` : ''}${esc(list(d.scalpConcerns).join(', ') || '-')}</td>
@@ -485,7 +488,7 @@ function render() {
   $('#cards').innerHTML = rows.map(d => `
     <div class="card" data-id="${esc(d.id)}">
       <div class="card-top">
-        <div><div class="card-name">${esc(nameOf(d))}</div><div class="card-meta">${esc(d.phone || '-')} · ${esc(birthOf(d))}</div></div>
+        <div><div class="card-name">${esc(nameOf(d))}${mktTag(d)}</div><div class="card-meta">${esc(d.phone || '-')} · ${esc(birthOf(d))}</div></div>
         <div class="card-date">${isToday(d.submittedAt) ? '<span class="new-dot"></span>' : ''}${esc(fmtDate(d.submittedAt))}</div>
       </div>
       <div class="card-tags">${tags(d)}${isRoot ? `<span class="tag tag-branch">${esc(d.branch || '본사')}</span>` : ''}<span class="tag tag-lang">${esc((d.lang || 'ko').toUpperCase())}</span></div>
@@ -550,6 +553,7 @@ function showDetail(id) {
     <div class="rows">
       ${row('관심 메뉴', list(d.desiredServices).join(', '))}
       ${row('촬영', d.videoConsent === '동의' ? '<span class="yes">✓ 촬영 희망</span>' : '<span class="no">미희망</span>', true)}
+      ${row('광고 수신', yn(d.marketingConsent), true)}
       ${row('작성 언어', (d.lang || 'ko').toUpperCase())}
     </div>
     <div class="sec">유입 경로</div>
@@ -589,7 +593,7 @@ async function remove(id) {
 
 function exportCSV() {
   const rows = filtered();
-  const headers = ['번호','접수일시','지점','이름','생년월일','연락처','주소','관리경험','유입경로','두피고민','펌/염색주기','샴푸횟수','탈모유전력','임신/수유여부','관리전알림','관심서비스','촬영동의','언어','자동유입','민감정보동의','동의일시','자가진단결과','자가진단점수'];
+  const headers = ['번호','접수일시','지점','이름','생년월일','연락처','주소','관리경험','유입경로','두피고민','펌/염색주기','샴푸횟수','탈모유전력','임신/수유여부','관리전알림','관심서비스','촬영동의','광고수신동의','언어','자동유입','민감정보동의','동의일시','자가진단결과','자가진단점수'];
   const body = rows.map((d, i) => [
     i + 1,
     d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '',
@@ -599,7 +603,7 @@ function exportCSV() {
     list(d.scalpConcerns).join('/'), d.permFrequency || '',
     d.shampooFrequency || '', d.hairLossGenetic || '', d.pregnancyStatus || '', list(d.cautions).join('/'),
     list(d.desiredServices).join('/'),
-    d.videoConsent || '', d.lang || 'ko',
+    d.videoConsent || '', d.marketingConsent ? 'Y' : 'N', d.lang || 'ko',
     autoChannel(d), d.consents ? (d.consents.sensitive ? 'Y' : 'N') : '', d.consents ? new Date(d.consents.at).toLocaleString('ko-KR') : '',
     scalpLabel(d), scalpScores(d),
   ]);

@@ -72,7 +72,7 @@ const BRAND = {
 };
 
 // 동의 문구가 바뀌면 버전을 올려서, 고객이 어떤 문구에 동의했는지 기록으로 남김
-const CONSENT_VERSION = '2026-10-07';
+const CONSENT_VERSION = '2026-10-07b';
 
 // 본사 관리자 비밀번호는 환경변수로만 설정 (미설정 시 본사 관리자 로그인 불가)
 const ROOT_PASSWORD = process.env.ADMIN_PASSWORD || '';

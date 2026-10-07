@@ -373,6 +373,22 @@
     .mi-price b small { font-size: 11px; font-weight: 700; margin-right: 3px; letter-spacing: 0; }
     .menu-foot { font-size: 12px; color: var(--muted); text-align: right; white-space: pre-line; }
 
+    /* 첫 방문 30% 배너 + 광고성 정보 수신 동의: 국내(한국어) 고객에게만 */
+    html:not([lang="ko"]) .mkt-item { display: none; }
+    .promo {
+      display: flex; align-items: center; gap: 14px; margin: 0 0 14px;
+      padding: 14px 16px; border-radius: 12px; color: #fff;
+      background: linear-gradient(135deg, var(--burg) 0%, #9C2B44 100%);
+    }
+    .promo-badge {
+      flex-shrink: 0; width: 58px; height: 58px; border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,.55); display: grid; place-content: center; text-align: center;
+      font-weight: 800; font-size: 17px; line-height: 1.05; letter-spacing: -.02em;
+    }
+    .promo-badge small { display: block; font-size: 10px; font-weight: 600; letter-spacing: .08em; }
+    .promo-copy { font-size: 13px; line-height: 1.55; color: rgba(255,255,255,.85); word-break: keep-all; }
+    .promo-copy strong { display: block; color: #fff; font-size: 15.5px; font-weight: 700; }
+
 
     /* ── 하단 액션 바 ── */
     .actionbar {
@@ -628,7 +644,7 @@ const T = {
     rec_note_test:'두피 자가진단 결과({t}) 기준으로 추천 표시를 해드렸어요.',
     assure_title:'부담 갖지 마세요', assure:'관심 있는 메뉴를 여러 개 골라도 괜찮아요. 여기서 고른 메뉴로 확정되지 않아요.\n방문하시면 두피 상태를 먼저 확인한 뒤, 고객님께 딱 맞는 관리로 추천해 드릴게요.', pick_menu:'메뉴를 직접 고를게요', rec_count:'추천 {n}개',
     rec:'추천', rec_note:'앞서 답해주신 내용을 바탕으로 추천 표시를 해드렸어요.', min:'분', no_disc:'할인 제외',
-    col_min:'시간', col_reg:'정상가', col_first:'첫 방문가', price_note:'가격 단위: 원 · 첫 방문가는 첫 방문 고객 한정', price_intl:'',
+    col_min:'시간', col_reg:'정상가', col_first:'첫 방문가', price_note:'가격 단위: 원\n첫 방문가는 광고성 정보 수신 동의 + 네이버 리뷰 작성 시 적용', price_intl:'',
     err_serv:'관심 메뉴를 하나 이상 골라주세요. 아직 모르시면 \'상담 후 결정\'을 선택해주세요.',
     q_video:'기념 영상 촬영',
     video_desc:'헤드스파 받으시는 모습을 고객님 휴대폰으로 동영상·사진 촬영해드려요. 원하시면 \'네\'를 선택해주세요.',
@@ -641,6 +657,9 @@ const T = {
     pv_purpose_k:'수집 목적', pv_purpose:'두피케어 상담 및 예약 관리',
     pv_period_k:'보유 기간', pv_period:'서비스 제공 완료 후 1년',
     privacy_link:'개인정보처리방침 전문 보기',
+    promo_title:'첫 방문 30% 할인', promo_body:'광고성 정보 수신 동의 + 방문 후 네이버 리뷰 작성 시 적용돼요!',
+    privacy_mkt:'광고성 정보(이벤트·혜택) 수신 동의',
+    privacy_mkt_detail:'이벤트·할인·신규 서비스 소식을 문자·카카오톡으로 보내드려요. 언제든 수신을 거부할 수 있어요.',
     err_privacy:'필수 항목에 모두 동의해주세요.',
     btn_next:'다음', btn_back:'이전', btn_submit:'제출하기', btn_ing:'제출 중',
     done_title:'설문이 접수되었습니다',
@@ -1210,6 +1229,7 @@ function applyMenuLang() {
   $$('[data-menu-desc]').forEach(el => { const tier = MENU.find(x => x.tier === el.dataset.menuDesc); el.textContent = tier.desc[lang] || tier.desc.ko; });
   $('.menu').classList.toggle('intl', lang !== 'ko');
   $('.menu').classList.toggle('ja', lang === 'ja');
+  if (lang !== 'ko') { $('#privacyMarketing').checked = false; syncConsentAll(); }
   if (lang !== 'ko') $$('.ko-item input').forEach(x => { x.checked = false; });
   $('#testCta').hidden = lang !== 'ko' || !!scalpTest;
   $('#menuFoot').textContent = lang === 'ko' ? t.price_note : t.price_intl;
@@ -1328,14 +1348,26 @@ function consentHTML() {
           </dl>
         </div>
       </div>
+      <div class="consent-item mkt-item">
+        <div class="promo">
+          <div class="promo-badge">30%<small>OFF</small></div>
+          <div class="promo-copy"><strong data-t="promo_title"></strong><span data-t="promo_body"></span></div>
+        </div>
+        <label class="check"><input type="checkbox" id="privacyMarketing" /><span class="mark">${ICON_CHECK}</span>
+          <span class="check-text"><span class="tag-opt" data-t="tag_opt"></span><span data-t="privacy_mkt"></span></span></label>
+        <p class="consent-detail" data-t="privacy_mkt_detail"></p>
+      </div>
     </div>
     <div class="err" role="alert">${ICON_ERR}<span data-t="err_privacy"></span></div>`;
 }
 
+// 광고성 정보 수신 동의는 국내(한국어) 고객에게만 받음
+const consentItems = () => ['#privacyRequired', '#sensitiveRequired', ...(lang === 'ko' ? ['#privacyMarketing'] : [])].map(s => $(s));
+function syncConsentAll() { $('#consentAll').checked = consentItems().every(x => x.checked); }
 function wireConsent() {
-  const all = $('#consentAll'), items = ['#privacyRequired', '#sensitiveRequired'].map(s => $(s));
-  all.addEventListener('change', () => { items.forEach(c => { c.checked = all.checked; }); $('#q-privacy').classList.remove('invalid'); });
-  items.forEach(c => c.addEventListener('change', () => { all.checked = items.every(x => x.checked); $('#q-privacy').classList.remove('invalid'); }));
+  const all = $('#consentAll');
+  all.addEventListener('change', () => { consentItems().forEach(c => { c.checked = all.checked; }); $('#q-privacy').classList.remove('invalid'); });
+  ['#privacyRequired', '#sensitiveRequired', '#privacyMarketing'].forEach(s => $(s).addEventListener('change', () => { syncConsentAll(); $('#q-privacy').classList.remove('invalid'); }));
   // 수집 항목·목적·보유 기간은 '보기'를 누르면 펼쳐짐
   $$('.consent-toggle').forEach(b => b.addEventListener('click', () => {
     const box = $(`#${b.getAttribute('aria-controls')}`);
@@ -1479,7 +1511,7 @@ function onNext() {
 // ── 작성 중 자동 저장: 같은 폰으로 링크를 다시 열면 이어서 쓰기 (24시간 보관, 제출하면 삭제) ──
 // 동의 체크는 저장하지 않음 (다시 열면 새로 동의)
 const DRAFT_KEY = `scalpit-draft-${branchSlug || 'root'}`;
-const DRAFT_SKIP = /^(privacyRequired|sensitiveRequired|consentAll)$/;
+const DRAFT_SKIP = /^(privacyRequired|sensitiveRequired|privacyMarketing|consentAll)$/;
 let draftOffered = false, restoring = false, draftTimer;
 function readDraft() {
   try {
@@ -1580,6 +1612,7 @@ async function submitForm() {
     videoConsent: checked('videoConsent')[0]?.value || '',
     privacyConsent: $('#privacyRequired').checked,
     sensitiveConsent: $('#sensitiveRequired').checked,
+    marketingConsent: lang === 'ko' && $('#privacyMarketing').checked,
     tracking: TRACKING,
     scalpTest: scalpTest || undefined,
   };
