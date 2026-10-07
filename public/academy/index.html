@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>스칼프잇이 처음으로 가르칩니다 | 헤드스파 원데이 클래스 1기</title>
-<meta name="description" content="“스칼프잇이 교육을 한다고?” 네, 처음입니다. 직영 4곳을 키운 이채연 대표원장이 두피 진단·상담·수기·운영을 하루에 직접 가르칩니다. 10/20·10/27 회차당 6명, 1기 29만원.">
+<meta name="description" content="“스칼프잇이 교육을 한다고?” 네, 처음입니다. 직영 4곳을 키운 이채연 대표원장이 두피 진단·상담·수기·운영을 하루에 직접 가르칩니다. 10/20·10/27 회차당 6명.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="스칼프잇이 처음으로 가르칩니다 · 원데이 클래스 1기">
-<meta property="og:description" content="직영 4곳을 키운 대표원장이 직접 여는 원데이 클래스. 회차당 6명, 1기 29만원.">
+<meta property="og:description" content="직영 4곳을 키운 대표원장이 직접 여는 원데이 클래스. 10/20·10/27, 회차당 6명.">
 <meta property="og:image" content="/academy/img/og.jpg">
 <meta name="theme-color" content="#0b0909">
 <link rel="icon" href="/scalpit-logo.png">
@@ -127,6 +127,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 .t-price span{display:grid;gap:3px;padding-bottom:4px;font-size:.78rem;color:var(--paper-mut);line-height:1.4}
 .t-price s{color:#8a7d70}
 .t-price em{font-style:normal;font-weight:800;color:var(--paper-ink)}
+.t-dates{margin-top:12px;font:700 clamp(2.3rem,3.9vw,3.1rem)/.95 var(--mono);letter-spacing:-.06em;color:var(--red-d)}
+.t-sub{margin-top:8px;font:500 .78rem var(--mono);color:var(--paper-mut);letter-spacing:.01em}
 .flow{font:500 .72rem var(--mono);color:var(--paper-mut);letter-spacing:.02em}
 .fld{display:grid;gap:6px;margin-top:14px;border:0;padding:0;min-width:0}
 .fld>label,.fld>legend{font-size:.82rem;font-weight:800;padding:0}
@@ -157,18 +159,6 @@ button,input,select,textarea{font:inherit;color:inherit}
 .follow{margin-top:14px;padding-top:14px;border-top:1.5px dashed var(--paper-line)}
 .follow p{font-size:.86rem;font-weight:800;margin-bottom:8px}
 .follow .done-msg{color:var(--red-d);font-weight:800;font-size:.86rem;display:none}
-
-/* ── honest ────────────────────────────────────────── */
-.honest{background:var(--bg)}
-.ans{display:grid;grid-template-columns:clamp(150px,24vw,300px) 1fr;gap:clamp(8px,4vw,56px);padding:clamp(26px,4vw,44px) 0;border-top:1px solid var(--line);align-items:start}
-.ans:last-of-type{border-bottom:1px solid var(--line)}
-.ans .yn{font:400 clamp(3.6rem,7.4vw,6.2rem)/.9 var(--brush);color:var(--rose);letter-spacing:0;transform:rotate(-3deg);transform-origin:0 80%}
-.ans.no .yn{color:var(--ink)}
-.ans .qq{font:500 .78rem var(--mono);color:var(--faint);letter-spacing:.04em}
-.ans h3{font-size:clamp(1.3rem,2.7vw,1.95rem);font-weight:900;margin:8px 0 12px}
-.ans p{color:var(--mut);max-width:58ch}
-.ans p b{color:var(--ink);font-weight:700}
-.ans-list{margin-top:clamp(28px,4vw,48px)}
 
 /* ── proof / receipts ──────────────────────────────── */
 .proof{background:var(--bg2);border-block:1px solid var(--line);position:relative}
@@ -254,15 +244,16 @@ button,input,select,textarea{font:inherit;color:inherit}
 .quote small{display:block;margin-top:12px;font:400 .95rem/1.7 var(--font);color:var(--mut)}
 .quote a{color:var(--rose)}
 
-/* ── value (29만원 receipt + 5 questions) ───────────── */
-.val-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,6vw,84px);align-items:start;margin-top:10px}
-.pick{list-style:none;margin:30px 0 0;padding:0;border-top:2px solid var(--ink)}
-.pick li{display:grid;grid-template-columns:50px 1fr;gap:14px;padding:22px 0;border-bottom:1px solid var(--line)}
-.pick b{font:600 1.8rem/1 var(--serif);color:var(--rose)}
-.pick h3{font-size:1.14rem;font-weight:900}
+/* ── pick (다른 곳과의 차이) ──────────────────────── */
+.pick{list-style:none;margin:34px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:2px solid var(--ink)}
+.pick li{display:grid;grid-template-columns:52px 1fr;gap:14px;padding:28px 28px 28px 0;border-bottom:1px solid var(--line)}
+.pick li:nth-child(even){padding-left:28px;padding-right:0;border-left:1px solid var(--line)}
+.pick b{font:600 1.9rem/1 var(--serif);color:var(--rose)}
+.pick h3{font-size:1.2rem;font-weight:900}
 .pick p{margin-top:6px;color:var(--mut)}
-.val-rc{position:sticky;top:92px;margin-top:30px}
-.vr-wrap{filter:drop-shadow(0 26px 34px #000c);transform:rotate(1.2deg)}
+
+/* ── 29만원 영수증 (신청 영역) ───────────────────────── */
+.vr-wrap{filter:drop-shadow(0 26px 34px #000c);transform:rotate(.9deg);max-width:460px;margin-top:28px}
 .vr{--zs:12px;background:var(--paper) var(--tooth);color:var(--paper-ink);font-family:var(--mono);padding:30px clamp(18px,3vw,28px) calc(var(--zs) + 24px);position:relative;
   -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/var(--zs) 100%;
   mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/var(--zs) 100%}
@@ -279,32 +270,11 @@ button,input,select,textarea{font:inherit;color:inherit}
 .vr .tot{display:flex;justify-content:space-between;align-items:baseline;font-weight:700}
 .vr .tot span{font-size:.82rem}
 .vr .tot b{font:700 clamp(1.8rem,3vw,2.3rem) var(--mono);letter-spacing:-.06em}
-.vr .cr{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;color:var(--red-d);font-weight:700;font-size:.86rem}
-.vr .stamp{display:block;width:max-content;margin:14px 6px 0 auto;transform:rotate(-8deg);border:3px solid var(--red-d);border-radius:8px;padding:4px 12px;color:var(--red-d);font:900 1.15rem/1.2 var(--font);letter-spacing:.06em;mix-blend-mode:multiply;opacity:.88;text-align:center}
+.vr .cr{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;color:var(--paper-mut);font-weight:600;font-size:.78rem}
+.vr .stamp{display:block;width:max-content;margin:14px 6px 0 auto;transform:rotate(-8deg);border:3px solid var(--red-d);border-radius:8px;padding:4px 14px;color:var(--red-d);font:900 1.15rem/1.2 var(--font);letter-spacing:.06em;mix-blend-mode:multiply;opacity:.88;text-align:center}
 .vr .stamp small{display:block;font:700 .6rem var(--mono);letter-spacing:.18em}
 .vr .foot{margin-top:12px;font-size:.68rem;line-height:1.6;color:var(--paper-mut);text-align:center}
 .vr .barc{display:block;height:34px;margin-top:14px;background:var(--bar);opacity:.8}
-
-/* ── next step ─────────────────────────────────────── */
-.steps{display:grid;grid-template-columns:repeat(3,1fr);margin-top:36px;position:relative}
-.steps li{list-style:none;position:relative;padding:14px 12px 0 0}
-.steps{padding:0}
-.steps::before{content:"";position:absolute;left:0;right:0;top:10px;border-top:2px dashed var(--line)}
-.steps li::before{content:"";position:absolute;left:0;top:3px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:3px solid var(--faint)}
-.steps li.now::before{background:var(--red);border-color:var(--red);box-shadow:0 0 0 6px #d1283f33}
-.steps b{display:block;margin-top:22px;font-size:1.05rem}
-.steps small{display:block;font:500 .72rem var(--mono);color:var(--faint);letter-spacing:.04em}
-.steps li.now small{color:var(--rose)}
-.path{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:34px}
-.path article{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:28px 26px;display:flex;flex-direction:column;gap:8px}
-.path .tag{font:600 .68rem var(--mono);letter-spacing:.2em;color:var(--rose)}
-.path h3{font-size:1.4rem;font-weight:900}
-.path .meta{color:var(--ink);font-weight:700;font-size:.9rem}
-.path ul{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:8px;color:var(--mut);font-size:.9rem}
-.path ul li::before{content:"— ";color:var(--rose)}
-.path .for{margin-top:auto;padding-top:14px;border-top:1px dashed var(--line);font-size:.82rem;color:var(--faint)}
-.credit{margin-top:14px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px 20px;background:var(--red);border-radius:6px;padding:20px 26px;font-weight:900;font-size:1.1rem}
-.credit small{font-weight:500;font-size:.82rem;opacity:.92}
 
 /* ── faq ───────────────────────────────────────────── */
 .faq{margin-top:30px;border-top:1px solid var(--line);counter-reset:q}
@@ -362,26 +332,23 @@ footer a{color:var(--mut)}
 @media(max-width:1020px){
   .hero-grid{grid-template-columns:1fr;grid-template-areas:"copy" "pass" "tk";gap:0}
   .card{margin-top:30px}
-  .dir-grid,.apply-grid,.cur,.val-grid{grid-template-columns:1fr}
+  .dir-grid,.apply-grid,.cur{grid-template-columns:1fr}
   .vid{position:static;max-width:320px;margin-inline:auto}
-  .val-rc{position:static}
-  .vr-wrap{max-width:460px;margin-inline:auto}
   .nums{grid-template-columns:repeat(2,1fr)}
   .nums div:nth-child(3){padding-left:0;border-left:0}
   .rcs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:18px;margin-inline:calc(var(--gutter)*-1);padding:6px var(--gutter) 28px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .rcs::-webkit-scrollbar{display:none}
   .rc-wrap{flex:0 0 min(74%,300px);scroll-snap-align:center}
-  .path{grid-template-columns:1fr 1fr}
   .sticky{display:block}
   footer{padding-bottom:140px}
 }
 @media(max-width:700px){
-  .ans{grid-template-columns:1fr}
-  .ans .yn{margin-bottom:6px}
+  .pick{grid-template-columns:1fr}
+  .pick li,.pick li:nth-child(even){padding:22px 0;border-left:0}
   .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
   .facts div:nth-child(3){padding-left:0;border-left:0}
   .facts div:nth-child(n+3){border-top:1px solid #ffffff1f}
-  .path,.creds,.stats2{grid-template-columns:1fr}
+  .creds,.stats2{grid-template-columns:1fr}
   .strip{grid-template-columns:1fr 1fr}
   .strip .f1{grid-row:auto;grid-column:1/3;aspect-ratio:4/3}
   .strip .f2{grid-column:1/3}
@@ -392,13 +359,11 @@ footer a{color:var(--mut)}
   .bar .btn.sm{display:none}
   .brand-line .ed{margin-left:0}
   .mini{display:none}
-  .steps b{font-size:.92rem}
   .srow{grid-template-columns:78px 1fr;}
   .srow .sc{display:none}
   .srow .sd i{width:22px}
   .faq summary{grid-template-columns:38px 1fr 20px}
   .faq p{padding-left:46px}
-  .credit{padding:18px 20px}
 }
 /* 세리프 숫자는 라이닝 숫자로 (font 단축 속성이 변형 값을 초기화하므로 마지막에 둔다) */
 .nums b,.cur li>b,.pick b{font-variant-numeric:lining-nums}
@@ -446,13 +411,13 @@ footer a{color:var(--mut)}
 
     <div class="card" id="heroCard">
       <div class="t-stub">
-        <div class="t-top"><span>ADMIT ONE</span><span>1기 · 10.20 / 10.27</span></div>
-        <h2 class="t-h">원데이 클래스 1기 신청</h2>
-        <div class="t-price"><b>29<small>만원</small></b><span><s>2기부터 39만원</s><em>다음 과정 등록 시 전액 차감</em></span></div>
+        <div class="t-top"><span>ADMIT ONE</span><span>1기 · 원데이 클래스</span></div>
+        <div class="t-dates">10.20 · 10.27</div>
+        <p class="t-sub">화 13:00–18:30 · 압구정로데오 · 회차당 6명</p>
       </div>
       <div class="t-body">
         <div class="form">
-          <p class="flow">신청서 → 담당자 연락 → 결제 → 자리 확정</p>
+          <p class="flow">신청서 → 담당자 연락 → 자리 확정</p>
           <form data-lead-form data-origin="hero" novalidate>
             <fieldset class="fld"><legend>희망 날짜</legend>
               <div class="pills">
@@ -467,10 +432,10 @@ footer a{color:var(--mut)}
             <div class="hp" aria-hidden="true"><label>웹사이트<input name="website" tabindex="-1" autocomplete="off"></label></div>
             <label class="consent"><input type="checkbox" name="consent" required><span>[필수] 신청 확인과 안내 연락을 위한 개인정보 수집·이용에 동의합니다.
               <span class="more"><details><summary>수집 내용 보기</summary><p>수집 항목: 성함, 연락처, 희망 날짜 · 목적: 원데이 클래스 신청 확인과 안내 연락 · 보관: 1기 교육 종료 후 3개월 뒤 파기. 동의를 거부할 수 있으나 신청이 제한됩니다.</p></details></span></span></label>
-            <label class="consent"><input type="checkbox" name="marketing"><span>[선택] 실전반·창업반 등 스칼프잇 교육 과정 안내를 받겠습니다.</span></label>
+            <label class="consent"><input type="checkbox" name="marketing"><span>[선택] 이후 스칼프잇 교육 일정·소식 안내를 받겠습니다.</span></label>
             <p class="err" role="alert" aria-live="assertive"></p>
-            <button class="btn" type="submit" data-track="submit_hero">1기 29만원 신청하기</button>
-            <p class="reassure">이름·연락처만 1분. 신청만으로는 결제되지 않으며, 환불·취소 규정은 결제 전에 먼저 안내합니다.</p>
+            <button class="btn" type="submit" data-track="submit_hero">1기 신청하기</button>
+            <p class="reassure">이름·연락처만 1분 · 신청만으로는 결제되지 않아요.</p>
           </form>
         </div>
         <div class="ok" role="status" tabindex="-1">
@@ -495,25 +460,11 @@ footer a{color:var(--mut)}
   </div>
   <div class="wrap">
     <dl class="facts">
-      <div><dt>DATE</dt><dd>10/20 · 10/27(화) 13:00–18:30</dd></div>
+      <div><dt>DATE</dt><dd>10/20 · 10/27(화)</dd></div>
+      <div><dt>TIME</dt><dd>13:00–18:30</dd></div>
       <div><dt>PLACE</dt><dd>압구정로데오 직영점</dd></div>
-      <div><dt>SEATS</dt><dd>회차당 6명 · 결제 순 확정</dd></div>
-      <div><dt>FEE</dt><dd>1기 29만원<s>2기 39만원</s></dd></div>
+      <div><dt>SEATS</dt><dd>회차당 6명 · 소수 정원</dd></div>
     </dl>
-  </div>
-</section>
-
-<!-- 3. 솔직하게 -->
-<section class="sec honest" aria-labelledby="hn-h">
-  <div class="wrap">
-    <span class="eyebrow rv">BEFORE ANYTHING ELSE</span>
-    <h2 class="h2 rv" id="hn-h">의심부터 받겠습니다.</h2>
-    <p class="lede rv">“결국 비싼 다음 과정 팔려는 입구 아니야?” 이렇게 생각하셨을 겁니다. 돌려 말하지 않고, 있는 그대로 답합니다.</p>
-    <div class="ans-list">
-      <article class="ans rv"><span class="yn" aria-hidden="true">네.</span><div><p class="qq">Q. 결국 다음 과정을 파는 거죠?</p><h3>다음 과정이 있습니다. 숨기지 않습니다.</h3><p>실전 기술반(3일)과 창업 풀코스(3주)가 이어집니다. 이 하루는 그 입구가 맞습니다. 그래서 이날은 <b>제품·장비를 한 개도 팔지 않습니다.</b> 다음 과정은 원하시는 분께만 안내하고, 등록하시면 <b>29만원은 전액 차감</b>됩니다. 하루만 듣고 끝내셔도 됩니다.</p></div></article>
-      <article class="ans rv"><span class="yn" aria-hidden="true">네.</span><div><p class="qq">Q. 스칼프잇도 사람이 필요한 거죠?</p><h3>같이 일할 사람을 찾습니다.</h3><p>수업에서 확인된 실력과 태도를 기준으로, 우수 수료생에게 <b>스칼프잇 직영점 채용 면접 기회</b>를 드립니다. 취업을 보장하지는 않습니다. 대신 하루 동안 서로를 가장 정확하게 확인할 수 있는 자리입니다.</p></div></article>
-      <article class="ans no rv"><span class="yn" aria-hidden="true">아니요.</span><div><p class="qq">Q. 하루 만에 기술이 완성되나요?</p><h3>하루에 마스터할 수는 없습니다.</h3><p>이 하루는 <b>기준과 순서를 잡고, 잘못 든 손버릇을 1:1로 바로잡는 시간</b>입니다. 숙달은 교재로 복습하시고, 더 깊이 배우고 싶다면 실전 기술반이 이어집니다. 하루 만에 다 된다고 말하는 교육을 오히려 의심하세요.</p></div></article>
-    </div>
   </div>
 </section>
 
@@ -617,85 +568,33 @@ footer a{color:var(--mut)}
   </div>
 </section>
 
-<!-- 7. 결제 전 5가지 + 29만원 영수증 -->
+<!-- 7. 다른 곳과의 차이 -->
 <section class="sec" aria-labelledby="pick-h">
   <div class="wrap">
-    <span class="eyebrow rv">BEFORE YOU PAY</span>
-    <h2 class="h2 rv" id="pick-h">결제 전에,<br>이 5가지는 <em>꼭</em> 물어보세요.</h2>
-    <p class="lede rv">어느 교육을 고르시든 똑같이요. 스칼프잇의 답은 이렇습니다.</p>
-    <div class="val-grid">
-      <ol class="pick">
-        <li class="rv"><b>01</b><div><h3>누가 가르치나요?</h3><p>직영 4곳을 직접 운영하는 대표원장이 5시간 반 내내 가르칩니다. 조교에게 넘기지 않습니다.</p></div></li>
-        <li class="rv"><b>02</b><div><h3>몇 명이 함께 듣나요?</h3><p>회차당 6명. 한 명씩 손을 잡고 교정하려면 이 인원이 한계입니다.</p></div></li>
-        <li class="rv"><b>03</b><div><h3>내 손으로 직접 해보나요?</h3><p>시연을 본 뒤 2인 1조로 직접 관리합니다. 손 위치·압·각도·리듬을 1:1로 잡아드립니다.</p></div></li>
-        <li class="rv"><b>04</b><div><h3>기술만 배우나요, 운영 구조까지 배우나요?</h3><p>진단 → 상담 → 회원권으로 이어지는 흐름과 가격, 상담 스크립트까지 다룹니다.</p></div></li>
-        <li class="rv"><b>05</b><div><h3>끝난 뒤에는 어떻게 되나요?</h3><p>당일 1:1 상담, 다음 과정, 우수 수료생 채용 면접 기회가 이어집니다. 제품·장비 판매는 없습니다.</p></div></li>
-      </ol>
-      <div class="val-rc rv">
-        <div class="vr-wrap"><div class="vr">
-          <div class="hd"><b>SCÁLPIT ACADEMY</b><span>ONE-DAY CLASS 1기<br>압구정로데오점 · 10/20 · 10/27 13:00–18:30</span></div>
-          <i class="dash"></i>
-          <ul>
-            <li><span>대표원장 직접 강의 5.5시간</span><i></i><em>포함</em></li>
-            <li><span>소수 정원 (회차당 6명)</span><i></i><em>포함</em></li>
-            <li><span>2인 1조 실습 · 1:1 교정</span><i></i><em>포함</em></li>
-            <li><span>두피 진단 장비 실습</span><i></i><em>포함</em></li>
-            <li><span>실습 재료 일체</span><i></i><em>포함</em></li>
-            <li><span>워크북 · 체크시트 · 상담 Flow</span><i></i><em>포함</em></li>
-            <li><span>당일 1:1 상담</span><i></i><em>포함</em></li>
-            <li><span>스칼프잇 수료증</span><i></i><em>포함</em></li>
-          </ul>
-          <i class="dash"></i>
-          <ul>
-            <li class="z"><span>제품·장비 판매</span><i></i><em>0원</em></li>
-            <li class="z"><span>추가 결제</span><i></i><em>0원</em></li>
-          </ul>
-          <i class="dash"></i>
-          <div class="tot"><span>수강료</span><b>290,000원</b></div>
-          <div class="cr"><span>다음 과정 등록 시 차감</span><span>-290,000원</span></div>
-          <div class="stamp" aria-hidden="true">전액 차감<small>NEXT COURSE</small></div>
-          <p class="foot">결제는 담당자 안내 후 진행됩니다.<br>환불·취소 규정은 결제 전에 안내합니다.</p>
-          <span class="barc" aria-hidden="true"></span>
-        </div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 8. 다음 단계 -->
-<section class="sec proof" aria-labelledby="next-h">
-  <div class="wrap">
-    <span class="eyebrow rv">NEXT STEP</span>
-    <h2 class="h2 rv" id="next-h">하루 해보고 맞으면,<br>그다음은 이렇게.</h2>
-    <p class="lede rv">원데이 클래스 이후, 원하는 분에 한해 다음 과정이 열립니다.</p>
-    <ol class="steps rv" aria-label="교육 과정 순서">
-      <li class="now"><b>원데이 클래스</b><small>YOU ARE HERE · 지금 신청 가능</small></li>
-      <li><b>실전 기술반</b><small>3일 집중 · 최대 4인</small></li>
-      <li class="only-a"><b>창업 풀코스</b><small>3주 6회</small></li>
+    <span class="eyebrow rv">THE DIFFERENCE</span>
+    <h2 class="h2 rv" id="pick-h">어디서 배우든,<br>이 4가지는 <em>꼭</em> 물어보세요.</h2>
+    <p class="lede rv">스칼프잇의 답은 이렇습니다.</p>
+    <ol class="pick">
+      <li class="rv"><b>01</b><div><h3>누가 가르치나요?</h3><p>직영 4곳을 직접 운영하는 대표원장이 5시간 반 내내 가르칩니다. 조교에게 넘기지 않습니다.</p></div></li>
+      <li class="rv"><b>02</b><div><h3>몇 명이 함께 듣나요?</h3><p>회차당 6명. 한 명씩 손을 잡고 교정하려면 이 인원이 한계입니다.</p></div></li>
+      <li class="rv"><b>03</b><div><h3>내 손으로 직접 해보나요?</h3><p>시연을 본 뒤 2인 1조로 직접 관리합니다. 손 위치·압·각도·리듬을 1:1로 잡아드립니다.</p></div></li>
+      <li class="rv"><b>04</b><div><h3>기술만 배우나요, 운영 구조까지 배우나요?</h3><p>진단 → 상담 → 회원권으로 이어지는 흐름과 가격, 상담 스크립트까지 다룹니다.</p></div></li>
     </ol>
-    <div class="path">
-      <article class="rv"><span class="tag">PROFESSIONAL</span><h3>실전 기술반</h3><span class="meta">3일 집중 · 최대 4인</span><ul><li>이론과 실습을 매일 함께, 기술 완벽 습득</li><li>스칼프잇 풀 프로토콜 · 수기 테크닉 심화</li><li>CS 교육 + 직영점 현장 실습</li></ul><p class="for">취업 · 1인샵을 준비하는 분</p></article>
-      <article class="rv only-a"><span class="tag">START-UP</span><h3>창업 풀코스</h3><span class="meta">3주 6회</span><ul><li>직영점 4곳을 움직이는 시스템 구조 노하우</li><li>예약·마케팅·메뉴·가격 등 매장 운영 실무</li><li>1:1 창업 컨설팅</li></ul><p class="for">헤드스파 창업을 준비하는 분</p></article>
-      <article class="rv"><span class="tag">CAREER</span><h3>스칼프잇 채용 연계</h3><span class="meta">직영점 임직원</span><ul><li>수업에서 확인된 실력과 태도를 기준으로</li><li>우수 수료생에게 직영점 채용 면접 기회</li></ul><p class="for">현장에서 일하고 싶은 분 · 선발 기준은 별도 안내</p></article>
-    </div>
-    <div class="credit rv"><span>원데이 클래스 수강료 29만원, 다음 과정 등록 시 전액 차감</span><small>과정별 상세 안내와 가격은 원데이 클래스 현장에서 드립니다.</small></div>
   </div>
 </section>
 
 <!-- 9. FAQ -->
-<section class="sec" aria-labelledby="faq-h">
+<section class="sec proof" aria-labelledby="faq-h">
   <div class="wrap">
     <span class="eyebrow rv">FAQ</span>
     <h2 class="h2 rv" id="faq-h">신청 전, 가장 많이 묻는 질문</h2>
     <div class="faq rv">
-      <details><summary>원데이만 듣고 끝내도 되나요?</summary><p>네. 다음 과정은 원하시는 분께만 안내합니다. 하루만 듣고 마무리하셔도 아무 문제 없습니다.</p></details>
       <details><summary>비전공자, 완전 초보도 들을 수 있나요?</summary><p>네. 두피 기초 이론부터 시작하고, 6명 소수 정원이라 한 명씩 직접 교정해드립니다.</p></details>
       <details><summary>다른 두피·헤드스파 교육과 무엇이 다른가요?</summary><p>위의 5가지 기준으로 비교해 보세요. 스칼프잇은 직영 4곳을 운영하는 대표원장이 직접, 6명에게, 손을 잡고 가르칩니다. 기술뿐 아니라 상담·회원권 같은 운영 구조까지 다루고, 수업 후 제품이나 장비를 권하지 않습니다.</p></details>
       <details><summary>평일 낮 수업인데, 직장인도 들을 수 있나요?</summary><p>1기는 10/20·10/27 평일 13:00–18:30, 두 회차뿐입니다. 일정이 어렵다면 신청서에서 ‘일정이 어려워요 · 2기 알림’을 선택해 주세요. 2기 일정이 정해지면 가장 먼저 알려드립니다.</p></details>
-      <details><summary>하루 만에 다 배울 수 있나요?</summary><p>하루에 모든 기술이 숙달되지는 않습니다. 이 하루는 기준과 순서를 잡고, 틀린 습관을 1:1로 바로잡는 시간입니다. 이후 복습은 교재로 하시고, 더 깊이 배우고 싶다면 실전 기술반이 이어집니다.</p></details>
+      <details><summary>하루 만에 다 배울 수 있나요?</summary><p>하루에 모든 기술이 숙달되지는 않습니다. 이 하루는 기준과 순서를 잡고, 틀린 습관을 1:1로 바로잡는 시간입니다. 이후 복습은 교재로 하시면 됩니다.</p></details>
       <details><summary>자격증이 나오나요?</summary><p>스칼프잇 아카데미 수료증이 발급됩니다. 국가자격증 시험을 준비하는 과정은 아닙니다.</p></details>
       <details><summary>끝나고 제품이나 장비를 사야 하나요?</summary><p>아니요. 제품·장비 판매는 전혀 없습니다.</p></details>
-      <details><summary>수업 후 취업이 가능한가요?</summary><p>취업을 보장하지는 않습니다. 수업에서 확인된 실력과 태도를 기준으로 우수 수료생에게 스칼프잇 직영점 채용 면접 기회를 드립니다. 선발 기준은 별도로 안내합니다.</p></details>
       <details><summary>샵을 운영 중인데, 바로 적용할 수 있나요?</summary><p>진단·상담 흐름, 스케일링·수기 테크닉, 메뉴 구성까지 다음 날부터 매장에 쓸 수 있는 기준으로 알려드립니다.</p></details>
       <details><summary>준비물이 있나요? 실습은 누구 머리로 하나요?</summary><p>실습 재료와 교재는 모두 제공됩니다. 편한 복장으로 오시면 됩니다. 실습은 2인 1조로 수강생끼리 서로 관리해봅니다. 직접 받아보면 압과 리듬이 훨씬 빨리 잡힙니다.</p></details>
       <details><summary>결제와 환불은 어떻게 하나요?</summary><p>신청서를 남기시면 담당자가 연락드려 결제 방법과 환불·취소 규정을 결제 전에 안내드립니다. 신청만으로는 결제되지 않으며, 자리는 결제 완료 순으로 확정됩니다.</p></details>
@@ -709,16 +608,36 @@ footer a{color:var(--mut)}
     <div class="rv">
       <span class="eyebrow">1ST CLASS · EARLY BIRD</span>
       <h2 class="h2" id="apply-h">12자리.<br>왜 6명씩일까요?</h2>
-      <p class="lede">대표원장이 한 명씩 손을 잡고 교정하려면 6명이 한계입니다. 1기는 10/20·10/27 두 번, 전체 12자리뿐이고 결제 순으로 마감됩니다. 2기부터는 39만원입니다.</p>
+      <p class="lede">대표원장이 한 명씩 손을 잡고 교정하려면 6명이 한계입니다. 1기는 10/20·10/27 두 번, 전체 12자리뿐이고 결제 순으로 마감됩니다.</p>
       <div class="seats" aria-label="1기 좌석 12석">
         <div class="srow" data-s="1020"><span class="sl">10.20 TUE</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">6 SEATS</span></div>
         <div class="srow" data-s="1027"><span class="sl">10.27 TUE</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">6 SEATS</span></div>
       </div>
-      <dl class="info">
-        <div><dt>일시</dt><dd>10월 20일(화) · 10월 27일(화)<small>13:00–18:30 · 회차당 6자리 · 결제 순 마감</small></dd></div>
-        <div><dt>장소</dt><dd>스칼프잇 압구정로데오점<small>서울 강남구 신사동 644-3 3층</small></dd></div>
-        <div><dt>포함</dt><dd>실습 재료 · 스칼프잇 워크북 · 두피 유형 체크시트<small>프로토콜 체크리스트 · 상담 Flow · 수료증</small></dd></div>
-      </dl>
+      <div class="vr-wrap"><div class="vr">
+        <div class="hd"><b>SCÁLPIT ACADEMY</b><span>ONE-DAY CLASS 1기<br>압구정로데오점 · 10/20 · 10/27 13:00–18:30</span></div>
+        <i class="dash"></i>
+        <ul>
+          <li><span>대표원장 직접 강의 5.5시간</span><i></i><em>포함</em></li>
+          <li><span>소수 정원 (회차당 6명)</span><i></i><em>포함</em></li>
+          <li><span>2인 1조 실습 · 1:1 교정</span><i></i><em>포함</em></li>
+          <li><span>두피 진단 장비 실습</span><i></i><em>포함</em></li>
+          <li><span>실습 재료 일체</span><i></i><em>포함</em></li>
+          <li><span>워크북 · 체크시트 · 상담 Flow</span><i></i><em>포함</em></li>
+          <li><span>당일 1:1 상담</span><i></i><em>포함</em></li>
+          <li><span>스칼프잇 수료증</span><i></i><em>포함</em></li>
+        </ul>
+        <i class="dash"></i>
+        <ul>
+          <li class="z"><span>제품·장비 판매</span><i></i><em>0원</em></li>
+          <li class="z"><span>추가 결제</span><i></i><em>0원</em></li>
+        </ul>
+        <i class="dash"></i>
+        <div class="tot"><span>수강료</span><b>290,000원</b></div>
+        <div class="cr"><span>1기 가격 · 2기부터</span><span>390,000원</span></div>
+        <div class="stamp" aria-hidden="true">1기 가격<small>EARLY BIRD</small></div>
+        <p class="foot">결제는 담당자 안내 후 진행됩니다.<br>환불·취소 규정은 결제 전에 안내합니다.</p>
+        <span class="barc" aria-hidden="true"></span>
+      </div></div>
       <div class="deadline"><span>1기 신청 마감 10/17(토) 23:59까지</span><span class="cd"><span><i data-cd="d">00</i><small>일</small></span><span><i data-cd="h">00</i><small>시간</small></span><span><i data-cd="m">00</i><small>분</small></span><span><i data-cd="s">00</i><small>초</small></span></span></div>
     </div>
 
@@ -726,7 +645,7 @@ footer a{color:var(--mut)}
       <div class="t-stub">
         <div class="t-top"><span>ADMIT ONE</span><span>1기 · 10.20 / 10.27</span></div>
         <h2 class="t-h">헤드스파 원데이 클래스 1기 신청</h2>
-        <div class="t-price"><b>29<small>만원</small></b><span><s>2기부터 39만원</s><em>다음 과정 등록 시 전액 차감</em></span></div>
+        <div class="t-price"><b>29<small>만원</small></b><span><s>2기부터 39만원</s><em>1기 가격 · 결제는 담당자 안내 후</em></span></div>
       </div>
       <div class="t-body">
         <div class="form">
@@ -754,7 +673,7 @@ footer a{color:var(--mut)}
             <div class="hp" aria-hidden="true"><label>웹사이트<input name="website" tabindex="-1" autocomplete="off"></label></div>
             <label class="consent"><input type="checkbox" name="consent" required><span>[필수] 신청 확인과 안내 연락을 위한 개인정보 수집·이용에 동의합니다.
               <span class="more"><details><summary>수집 내용 보기</summary><p>수집 항목: 성함, 연락처, 희망 날짜, 활용 목적(선택) · 목적: 원데이 클래스 신청 확인과 안내 연락 · 보관: 1기 교육 종료 후 3개월 뒤 파기. 동의를 거부할 수 있으나 신청이 제한됩니다.</p></details></span></span></label>
-            <label class="consent"><input type="checkbox" name="marketing"><span>[선택] 실전반·창업반 등 스칼프잇 교육 과정 안내를 받겠습니다. 동의하지 않아도 신청할 수 있습니다.</span></label>
+            <label class="consent"><input type="checkbox" name="marketing"><span>[선택] 이후 스칼프잇 교육 일정·소식 안내를 받겠습니다. 동의하지 않아도 신청할 수 있습니다.</span></label>
             <p class="err" role="alert" aria-live="assertive"></p>
             <button class="btn" type="submit" data-track="submit_bottom">1기 29만원 신청하기</button>
             <p class="reassure">이름·연락처만 1분. 신청만으로는 결제되지 않으며, 환불·취소 규정은 결제 전에 먼저 안내합니다.</p>
@@ -769,7 +688,7 @@ footer a{color:var(--mut)}
       </div>
     </div>
   </div>
-  <div class="wrap"><p class="note rv">본 교육은 기술 습득을 위한 과정이며 취업·창업·소득을 보장하지 않습니다. 회차별 6명은 결제 완료 순으로 확정되며, 결제 방법과 환불·취소 규정은 연락 시 결제 전에 안내드립니다.</p></div>
+  <div class="wrap"><p class="note rv">본 교육은 기술 습득을 위한 과정이며, 수료 후 성과를 보장하지 않습니다. 회차별 6명은 결제 완료 순으로 확정되며, 결제 방법과 환불·취소 규정은 연락 시 결제 전에 안내드립니다.</p></div>
 </section>
 </main>
 
@@ -781,7 +700,7 @@ footer a{color:var(--mut)}
   </div>
 </footer>
 
-<div class="sticky" id="sticky"><small>10/17 마감 · 회차당 6명 · 신청만으로 결제되지 않아요</small><a class="btn" href="#apply" data-track="cta_sticky">1기 29만원 신청하기</a></div>
+<div class="sticky" id="sticky"><small>10/17 마감 · 회차당 6명 · 신청만으로 결제되지 않아요</small><a class="btn" href="#apply" data-track="cta_sticky">1기 신청하기</a></div>
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="POS 원본 화면"><button type="button" aria-label="닫기" id="modalClose">×</button><img id="modalImg" alt="직영점 하루 매출 POS 원본 화면"></div>
 <!--@TRACKING_BODY-->
 
@@ -792,11 +711,8 @@ footer a{color:var(--mut)}
   var PREVIEW=!!window.__PREVIEW__;
   var REDUCE=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* A/B: ?v=b 는 창업반 카드를 숨깁니다 */
+  /* ?v=b 는 DB에 B안으로만 표시됩니다(별도 시안을 붙일 때 사용) */
   var q=new URLSearchParams(location.search), variant=(q.get('v')||'a').toLowerCase()==='b'?'b':'a';
-  if(variant==='b') $$('.only-a').forEach(function(e){e.style.display='none'});
-  var pathCards=$('.path'); if(variant==='b'&&pathCards) pathCards.style.gridTemplateColumns='repeat(2,minmax(0,1fr))';
-  var stepsEl=$('.steps'); if(variant==='b'&&stepsEl) stepsEl.style.gridTemplateColumns='repeat(2,1fr)';
 
   /* 헤드라인 A/B: ?lead=person 은 대표원장을 주어로 */
   var LEAD=(q.get('lead')||'brand').toLowerCase()==='person'?'person':'brand';
@@ -808,7 +724,7 @@ footer a{color:var(--mut)}
   /* 유입 경로 */
   var ANG=(q.get('angle')||'').toLowerCase(); var ANGLES={
     money:{b:'직영 4곳 실제 매출 공개',s:'헤드스파가 정말 돈이 되는지, 직영점 4곳의 실제 POS 화면과 객단가를 올리는 상담·회원권 구조로 보여드립니다.'},
-    career:{b:'취업·이직 준비 · 실습 중심',s:'현장에서 매일 쓰는 두피 관리 기술을 직접 해보고, 수업에서 실력이 확인되면 스칼프잇 직영점 채용 면접 기회까지 이어집니다.'},
+    career:{b:'취업·이직 준비 · 실습 중심',s:'직영점에서 매일 쓰는 두피 관리 기술을 5시간 반 동안 내 손으로 직접 해봅니다. 보는 수업이 아니라, 하는 수업입니다.'},
     startup:{b:'헤드스파 창업 준비',s:'잘되는 매장은 무엇이 다른지, 직영점 4곳을 키운 대표원장이 진단·상담·회원권 구조까지 하루에 보여드립니다. 창업 전에 먼저 확인하세요.'}
   };
   if(ANGLES[ANG]){var hb=$('#heroBadge'),hs=$('#heroSub');if(hb){hb.innerHTML='<span class="one"></span>';$('.one',hb).textContent=ANGLES[ANG].b}if(hs)hs.textContent=ANGLES[ANG].s}
