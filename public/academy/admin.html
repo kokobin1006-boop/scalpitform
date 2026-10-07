@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>아카데미 신청 DB</title>
+<style>
+:root{--bg:#0f0d0d;--card:#1a1516;--line:#2e2526;--ink:#f3eee8;--mut:#b8aea6;--red:#d1283f;--ok:#43b581;--warn:#e0a43c}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+.wrap{max-width:1280px;margin:0 auto;padding:20px}
+h1{font-size:1.3rem;margin:0}
+.top{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin-bottom:16px}
+button,select,input{font:inherit;color:inherit}
+.btn{background:var(--red);border:0;color:#fff;font-weight:700;padding:9px 16px;border-radius:10px;cursor:pointer}
+.btn.ghost{background:transparent;border:1px solid var(--line)}
+input,select{background:#120f10;border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.login{max-width:360px;margin:18vh auto;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px;display:grid;gap:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.stat b{display:block;font-size:1.6rem;line-height:1.2}
+.stat span{color:var(--mut);font-size:.78rem}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:1040px;font-size:.88rem}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{position:sticky;top:0;background:#171213;color:var(--mut);font-size:.74rem;white-space:nowrap}
+tr.dup td:first-child{box-shadow:inset 3px 0 var(--warn)}
+td small{display:block;color:var(--mut)}
+.tag{display:inline-block;padding:1px 8px;border-radius:999px;background:#2a2122;font-size:.74rem}
+.tag.m{background:#1d3a2c;color:#8be0b3}
+td input[type=text]{width:150px}
+a{color:#f0657a}
+@media(max-width:640px){.wrap{padding:12px}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <form class="login" id="login"><h1>아카데미 신청 DB</h1><input id="pw" type="password" placeholder="관리자 비밀번호" autocomplete="current-password" required><button class="btn" type="submit">열기</button><p id="loginErr" style="color:#f08a8a;margin:0;min-height:1.2em"></p></form>
+  <div id="main" hidden>
+    <div class="top"><h1>아카데미 원데이 1기 신청 <span id="total" style="color:var(--mut);font-weight:400"></span></h1><div><button class="btn ghost" id="refresh">새로고침</button> <button class="btn" id="csv">CSV 내려받기</button></div></div>
+    <div class="stats" id="stats"></div>
+    <div class="filters"><input id="q" placeholder="이름·연락처 검색"><select id="fs"><option value="">희망 날짜 전체</option><option value="1020">10/20</option><option value="1027">10/27</option><option value="both">둘 다 가능</option></select><select id="fp"><option value="">목적 전체</option><option>기술 습득</option><option>취업</option><option>1인샵 창업</option><option>헤드스파 창업</option><option>아직 모르겠음</option><option value="__none">미응답</option></select><select id="fst"><option value="">상태 전체</option><option value="new">신규</option><option value="contacted">연락함</option><option value="paid">결제</option><option value="confirmed">자리 확정</option><option value="cancelled">취소</option></select></div>
+    <div class="tw"><table><thead><tr><th>접수</th><th>이름</th><th>연락처</th><th>희망 날짜</th><th>목적</th><th>수신동의</th><th>유입</th><th>상태</th><th>메모</th></tr></thead><tbody id="rows"></tbody></table></div>
+  </div>
+</div>
+<script>
+(function(){
+  var $=function(s){return document.querySelector(s)}, pw=sessionStorage.getItem('acad_pw')||'', all=[];
+  var SES={'1020':'10/20','1027':'10/27','both':'둘 다'}, ST={new:'신규',contacted:'연락함',paid:'결제',confirmed:'자리 확정',cancelled:'취소'};
+  function api(path,opt){opt=opt||{};opt.headers=Object.assign({'x-admin-password':pw,'Content-Type':'application/json'},opt.headers||{});return fetch(path,opt).then(function(r){return r.json().then(function(j){if(!r.ok)throw j;return j})})}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function fmtPhone(p){p=String(p);return p.length===11?p.slice(0,3)+'-'+p.slice(3,7)+'-'+p.slice(7):p.length===10?p.slice(0,3)+'-'+p.slice(3,6)+'-'+p.slice(6):p}
+  function kst(d){var t=new Date(d);return isNaN(t)?'':t.toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})}
+  function load(){return api('/api/academy/leads').then(function(j){all=j.data;$('#login').hidden=true;$('#main').hidden=false;render()}).catch(function(){sessionStorage.removeItem('acad_pw');$('#login').hidden=false;$('#main').hidden=true;$('#loginErr').textContent='비밀번호가 올바르지 않습니다.'})}
+  function filtered(){var q=$('#q').value.trim().toLowerCase(),s=$('#fs').value,p=$('#fp').value,st=$('#fst').value;return all.filter(function(l){
+    if(q&&!(l.name.toLowerCase().indexOf(q)>-1||String(l.phone).indexOf(q.replace(/\D/g,'')||'~~')>-1))return false;
+    if(s&&l.session!==s)return false; if(p==='__none'){if(l.purpose)return false}else if(p&&l.purpose!==p)return false; if(st&&l.status!==st)return false;return true})}
+  function stats(list){
+    var today=new Date().toLocaleDateString('ko-KR',{timeZone:'Asia/Seoul'}),t=list.filter(function(l){return new Date(l.createdAt).toLocaleDateString('ko-KR',{timeZone:'Asia/Seoul'})===today}).length;
+    var by=function(k,v){return list.filter(function(l){return l[k]===v}).length};
+    var items=[['전체',list.length],['오늘',t],['10/20 희망',by('session','1020')],['10/27 희망',by('session','1027')],['둘 다 가능',by('session','both')],['취업',by('purpose','취업')],['창업(1인샵·헤드스파)',by('purpose','1인샵 창업')+by('purpose','헤드스파 창업')],['수신동의',list.filter(function(l){return l.marketing}).length],['중복 번호',list.filter(function(l){return l.dup}).length]];
+    $('#stats').innerHTML=items.map(function(i){return '<div class="stat"><b>'+i[1]+'</b><span>'+i[0]+'</span></div>'}).join('');
+  }
+  function render(){
+    var list=filtered(); $('#total').textContent='('+list.length+'/'+all.length+')'; stats(all);
+    $('#rows').innerHTML=list.map(function(l){var a=l.attr||{};var src=[a.utm_source,a.utm_campaign,a.utm_content].filter(Boolean).join(' / ')||(a.referrer?'ref':'직접');
+      return '<tr class="'+(l.dup?'dup':'')+'" data-id="'+l.id+'"><td>'+kst(l.createdAt)+'<small>'+esc(l.origin==='hero'?'상단 폼':'하단 폼')+(l.variant==='b'?' · B안':'')+'</small></td><td>'+esc(l.name)+(l.dup?'<small style="color:var(--warn)">중복 번호</small>':'')+'</td><td><a href="tel:'+esc(l.phone)+'">'+esc(fmtPhone(l.phone))+'</a></td><td>'+(SES[l.session]||'')+'</td><td>'+(l.purpose?'<span class="tag">'+esc(l.purpose)+'</span>':'<span style="color:var(--mut)">-</span>')+'</td><td>'+(l.marketing?'<span class="tag m">동의</span>':'-')+'</td><td>'+esc(src)+'</td><td><select data-f="status">'+Object.keys(ST).map(function(k){return '<option value="'+k+'"'+(l.status===k?' selected':'')+'>'+ST[k]+'</option>'}).join('')+'</select></td><td><input type="text" data-f="note" value="'+esc(l.note)+'" maxlength="1000" placeholder="메모"></td></tr>'}).join('')||'<tr><td colspan="9" style="color:var(--mut);padding:30px">아직 신청이 없습니다.</td></tr>';
+  }
+  $('#rows').addEventListener('change',function(e){var t=e.target,tr=t.closest('tr');if(!tr||!t.dataset.f)return;var body={};body[t.dataset.f]=t.value;api('/api/academy/leads/'+tr.dataset.id,{method:'PATCH',body:JSON.stringify(body)}).then(function(){var l=all.find(function(x){return String(x.id)===tr.dataset.id});if(l)l[t.dataset.f]=t.value}).catch(function(){alert('저장하지 못했습니다.')})});
+  ['#q','#fs','#fp','#fst'].forEach(function(s){$(s).addEventListener('input',render)});
+  $('#refresh').addEventListener('click',load);
+  $('#login').addEventListener('submit',function(e){e.preventDefault();pw=$('#pw').value;sessionStorage.setItem('acad_pw',pw);load()});
+  $('#csv').addEventListener('click',function(){
+    var head=['접수시각','이름','연락처','희망날짜','목적','수신동의','폼','A/B안','utm_source','utm_medium','utm_campaign','utm_content','utm_term','유입경로','상태','메모','중복번호'];
+    var rows=filtered().map(function(l){var a=l.attr||{};return [l.createdAt,l.name,l.phone,SES[l.session]||'',l.purpose,l.marketing?'Y':'N',l.origin,l.variant,a.utm_source,a.utm_medium,a.utm_campaign,a.utm_content,a.utm_term,a.referrer,ST[l.status]||l.status,l.note,l.dup?'Y':'']});
+    var csv='﻿'+[head].concat(rows).map(function(r){return r.map(function(c){c=String(c==null?'':c);return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c}).join(',')}).join('\r\n');
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='academy_leads_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+  });
+  if(pw)load();
+})();
+</script>
+</body>
+</html>

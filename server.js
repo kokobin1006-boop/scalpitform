@@ -92,6 +92,26 @@ async function initDB() {
       submitted_at TIMESTAMPTZ DEFAULT NOW(),
       data JSONB NOT NULL
     );
+    CREATE TABLE IF NOT EXISTS academy_leads (
+      id BIGSERIAL PRIMARY KEY,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      name TEXT NOT NULL,
+      phone TEXT NOT NULL,
+      session TEXT NOT NULL DEFAULT 'both',
+      purpose TEXT NOT NULL DEFAULT '',
+      marketing BOOLEAN NOT NULL DEFAULT FALSE,
+      consent_at TIMESTAMPTZ,
+      origin TEXT NOT NULL DEFAULT '',
+      variant TEXT NOT NULL DEFAULT 'a',
+      attr JSONB NOT NULL DEFAULT '{}'::jsonb,
+      landing TEXT NOT NULL DEFAULT '',
+      ua TEXT NOT NULL DEFAULT '',
+      status TEXT NOT NULL DEFAULT 'new',
+      note TEXT NOT NULL DEFAULT '',
+      token TEXT NOT NULL DEFAULT '',
+      dup BOOLEAN NOT NULL DEFAULT FALSE
+    );
+    CREATE INDEX IF NOT EXISTS academy_leads_phone_idx ON academy_leads (phone);
   `);
 }
 
@@ -142,6 +162,184 @@ app.get('/apply/ko', (req, res) => res.sendFile(path.join(__dirname, 'public/app
 app.get('/apply/ja', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/ja.html')));
 app.get('/apply/zh', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/zh.html')));
 app.get('/apply/admin', (req, res) => res.sendFile(path.join(__dirname, 'public/apply/admin.html')));
+
+
+// ───────────────────────────────────────────────────────────────────────────
+// 아카데미 원데이 클래스 랜딩 (/academy) — DB(리드) 수집
+//   - 랜딩: GET /academy        (환경변수 GTM_ID, META_PIXEL_ID 가 있으면 추적 코드를 주입)
+//   - 신청: POST /api/academy/lead, 접수 직후 목적 보완: PATCH /api/academy/lead/:id (토큰)
+//   - 관리: GET /academy/admin, GET /api/academy/leads, PATCH /api/academy/leads/:id (x-admin-password)
+// ───────────────────────────────────────────────────────────────────────────
+const crypto = require('crypto');
+const ACADEMY_FILE = path.join(DATA_DIR, 'academy_leads.json');
+const LEAD_STATUS = ['new', 'contacted', 'paid', 'confirmed', 'cancelled'];
+const LEAD_SESSIONS = ['1020', '1027', 'both'];
+const LEAD_PURPOSES = ['', '기술 습득', '취업', '1인샵 창업', '헤드스파 창업', '아직 모르겠음'];
+
+function readAcademyJson() {
+  if (!fs.existsSync(ACADEMY_FILE)) return [];
+  try { return JSON.parse(fs.readFileSync(ACADEMY_FILE, 'utf8')); } catch { return []; }
+}
+function writeAcademyJson(list) { fs.writeFileSync(ACADEMY_FILE, JSON.stringify(list, null, 2), 'utf8'); }
+
+function rowToLead(r) {
+  return {
+    id: Number(r.id), createdAt: r.created_at, name: r.name, phone: r.phone, session: r.session, purpose: r.purpose,
+    marketing: r.marketing, consentAt: r.consent_at, origin: r.origin, variant: r.variant, attr: r.attr || {},
+    landing: r.landing, status: r.status, note: r.note, dup: r.dup,
+  };
+}
+
+async function academyFindByPhone(phone) {
+  if (pool) { const r = await pool.query('SELECT id FROM academy_leads WHERE phone=$1 LIMIT 1', [phone]); return r.rows.length > 0; }
+  return readAcademyJson().some(l => l.phone === phone);
+}
+
+async function academyInsert(lead) {
+  if (pool) {
+    const r = await pool.query(
+      `INSERT INTO academy_leads (name, phone, session, purpose, marketing, consent_at, origin, variant, attr, landing, ua, token, dup)
+       VALUES ($1,$2,$3,$4,$5,NOW(),$6,$7,$8,$9,$10,$11,$12) RETURNING id`,
+      [lead.name, lead.phone, lead.session, lead.purpose, lead.marketing, lead.origin, lead.variant, JSON.stringify(lead.attr), lead.landing, lead.ua, lead.token, lead.dup]);
+    return Number(r.rows[0].id);
+  }
+  const list = readAcademyJson();
+  const id = list.reduce((m, l) => Math.max(m, l.id || 0), 0) + 1;
+  list.push({ id, createdAt: new Date().toISOString(), consentAt: new Date().toISOString(), status: 'new', note: '', ...lead });
+  writeAcademyJson(list);
+  return id;
+}
+
+async function academyList() {
+  if (pool) {
+    const r = await pool.query('SELECT * FROM academy_leads ORDER BY id DESC');
+    return r.rows.map(rowToLead);
+  }
+  return readAcademyJson().slice().reverse().map(({ token, ua, ...rest }) => rest);
+}
+
+async function academyGetToken(id) {
+  if (pool) { const r = await pool.query('SELECT token FROM academy_leads WHERE id=$1', [id]); return r.rows[0] ? r.rows[0].token : null; }
+  const l = readAcademyJson().find(x => x.id === id); return l ? l.token : null;
+}
+
+async function academyPatch(id, patch) {
+  const allowed = ['purpose', 'status', 'note'];
+  const keys = Object.keys(patch).filter(k => allowed.includes(k) && patch[k] !== undefined);
+  if (!keys.length) return false;
+  if (pool) {
+    const sets = keys.map((k, i) => `${k}=$${i + 2}`).join(', ');
+    const r = await pool.query(`UPDATE academy_leads SET ${sets} WHERE id=$1`, [id, ...keys.map(k => patch[k])]);
+    return r.rowCount > 0;
+  }
+  const list = readAcademyJson(); const l = list.find(x => x.id === id); if (!l) return false;
+  keys.forEach(k => { l[k] = patch[k]; }); writeAcademyJson(list); return true;
+}
+
+// IP 단위 간단한 속도 제한(메모리): 10분에 8회
+const leadHits = new Map();
+function tooMany(ip) {
+  const now = Date.now(), win = 10 * 60 * 1000;
+  const arr = (leadHits.get(ip) || []).filter(t => now - t < win);
+  arr.push(now); leadHits.set(ip, arr);
+  if (leadHits.size > 5000) { for (const [k, v] of leadHits) if (!v.some(t => now - t < win)) leadHits.delete(k); }
+  return arr.length > 8;
+}
+function clientIp(req) { return ((req.headers['x-forwarded-for'] || '').split(',')[0].trim()) || req.socket.remoteAddress || ''; }
+function safeEq(a, b) {
+  const x = Buffer.from(String(a || '')), y = Buffer.from(String(b || ''));
+  return x.length === y.length && crypto.timingSafeEqual(x, y);
+}
+function adminOk(req) { return safeEq(req.headers['x-admin-password'], ROOT_PASSWORD); }
+function clip(v, n) { return String(v == null ? '' : v).slice(0, n); }
+
+function trackingHtml() {
+  const gtm = (process.env.GTM_ID || '').replace(/[^A-Za-z0-9-]/g, '');
+  const pixel = (process.env.META_PIXEL_ID || '').replace(/[^0-9]/g, '');
+  let head = '', body = '';
+  if (gtm) {
+    head += `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtm}');</script>`;
+    body += `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${gtm}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`;
+  }
+  if (pixel) {
+    head += `<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${pixel}');fbq('track','PageView');</script>`;
+  }
+  return { head, body };
+}
+
+function sendAcademyPage(req, res) {
+  fs.readFile(path.join(__dirname, 'public/academy/index.html'), 'utf8', (err, html) => {
+    if (err) return res.status(500).send('landing not found');
+    const t = trackingHtml();
+    res.set('Cache-Control', 'no-cache');
+    res.type('html').send(html.replace('<!--@TRACKING_HEAD-->', t.head).replace('<!--@TRACKING_BODY-->', t.body));
+  });
+}
+app.get(['/academy', '/academy/', '/academy/index.html'], sendAcademyPage);
+app.get('/academy/admin', (req, res) => res.sendFile(path.join(__dirname, 'public/academy/admin.html')));
+
+app.post('/api/academy/lead', async (req, res) => {
+  try {
+    const b = req.body || {};
+    // 허니팟: 봇은 성공한 것처럼 응답하고 저장하지 않음
+    if (b.website) return res.json({ ok: true, id: 0, token: '' });
+    if (tooMany(clientIp(req))) return res.status(429).json({ ok: false, message: '잠시 후 다시 시도해 주세요.' });
+
+    const name = clip(b.name, 20).trim();
+    const phone = String(b.phone || '').replace(/\D/g, '');
+    if (name.length < 2) return res.status(400).json({ ok: false, message: '성함을 입력해 주세요.' });
+    if (!/^01[016789]\d{7,8}$/.test(phone)) return res.status(400).json({ ok: false, message: '연락처를 확인해 주세요.' });
+    if (b.consent !== true) return res.status(400).json({ ok: false, message: '개인정보 수집·이용에 동의해 주세요.' });
+
+    const attrIn = b.attr && typeof b.attr === 'object' ? b.attr : {};
+    const attr = {};
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'n_media', 'n_query', 'n_ad', 'referrer'].forEach(k => {
+      if (attrIn[k]) attr[k] = clip(attrIn[k], 300);
+    });
+    const lead = {
+      name, phone,
+      session: LEAD_SESSIONS.includes(b.session) ? b.session : 'both',
+      purpose: LEAD_PURPOSES.includes(b.purpose) ? b.purpose : '',
+      marketing: b.marketing === true,
+      origin: ['hero', 'bottom'].includes(b.origin) ? b.origin : 'bottom',
+      variant: b.variant === 'b' ? 'b' : 'a',
+      attr, landing: clip(b.landing, 300), ua: clip(req.headers['user-agent'], 300),
+      token: crypto.randomBytes(12).toString('hex'),
+      dup: await academyFindByPhone(phone),
+    };
+    const id = await academyInsert(lead);
+    res.json({ ok: true, id, token: lead.token });
+  } catch (e) {
+    console.error('academy lead save failed:', e.message);
+    res.status(500).json({ ok: false, message: '일시적으로 접수가 어렵습니다. 잠시 후 다시 시도해 주세요.' });
+  }
+});
+
+app.patch('/api/academy/lead/:id', async (req, res) => {
+  try {
+    const id = Number(req.params.id); const b = req.body || {};
+    const token = await academyGetToken(id);
+    if (!token || !safeEq(token, b.token)) return res.status(403).json({ ok: false });
+    if (!LEAD_PURPOSES.includes(b.purpose)) return res.status(400).json({ ok: false });
+    await academyPatch(id, { purpose: b.purpose });
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ ok: false }); }
+});
+
+app.get('/api/academy/leads', async (req, res) => {
+  if (!adminOk(req)) return res.status(401).json({ success: false, message: '비밀번호가 올바르지 않습니다.' });
+  const data = await academyList();
+  res.json({ success: true, data, total: data.length });
+});
+
+app.patch('/api/academy/leads/:id', async (req, res) => {
+  if (!adminOk(req)) return res.status(401).json({ success: false });
+  const b = req.body || {}; const patch = {};
+  if (b.status !== undefined) { if (!LEAD_STATUS.includes(b.status)) return res.status(400).json({ success: false }); patch.status = b.status; }
+  if (b.note !== undefined) patch.note = clip(b.note, 1000);
+  const ok = await academyPatch(Number(req.params.id), patch);
+  res.json({ success: ok });
+});
 
 app.use(express.static(path.join(__dirname, 'public')));
 
