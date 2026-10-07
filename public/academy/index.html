@@ -179,7 +179,6 @@ button,input,select,textarea{font:inherit;color:inherit}
 .nums b small{font:800 .4em var(--font);margin-left:4px;color:var(--rose)}
 .nums>div>span{display:block;margin-top:8px;font-size:.86rem;color:var(--mut)}
 .nums .cnt{display:inline}
-.nums b,.cur li>b,.pick b{font-variant-numeric:lining-nums tabular-nums}
 .src{font-size:.78rem;color:var(--faint);margin-top:12px;max-width:80ch}
 .rcs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2.2vw,26px);margin-top:clamp(36px,5vw,60px);padding-bottom:12px}
 .rc-wrap{filter:drop-shadow(0 20px 22px #000b);transform:rotate(var(--r,0deg));transition:transform .35s cubic-bezier(.2,.8,.2,1)}
@@ -401,6 +400,9 @@ footer a{color:var(--mut)}
   .faq p{padding-left:46px}
   .credit{padding:18px 20px}
 }
+/* 세리프 숫자는 라이닝 숫자로 (font 단축 속성이 변형 값을 초기화하므로 마지막에 둔다) */
+.nums b,.cur li>b,.pick b{font-variant-numeric:lining-nums}
+.nums b{font-variant-numeric:lining-nums tabular-nums}
 </style>
 </head>
 <body>
