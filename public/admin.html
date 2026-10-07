@@ -354,7 +354,7 @@ const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&
 const list = v => Array.isArray(v) ? v : [];
 
 // 과거(언어별 저장) 데이터까지 인식하도록 다국어 키워드로 판별
-const isMulti = d => /2인|2 or more|2人|2名/.test(d.reservationType || '');
+const isMulti = d => /2인|2명|2 or more|2人|2名/.test(d.reservationType || '');
 const isDetail = d => /정밀|Detailed|精密/.test(d.consultationType || '');
 // 유입 경로 자동 기록(링크 채널 > UTM > 이전 사이트) → 사람이 읽는 이름
 const CHANNELS = { insta_profile: '인스타 프로필', insta_ad: '인스타 광고', naver_booking: '네이버 예약 안내', kakao: '카카오톡 안내', store_qr: '매장 QR', threads: '스레드', share: '일행 공유', global: '외국인용 링크' };

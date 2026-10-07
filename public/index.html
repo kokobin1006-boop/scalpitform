@@ -137,18 +137,31 @@
     /* ── 레이아웃 ── */
     .wrap { max-width: 600px; margin: 0 auto; padding: 32px 20px calc(var(--bar-h) + 48px + env(safe-area-inset-bottom)); }
 
-    .notice {
-      display: flex; gap: 12px; align-items: flex-start;
-      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-      padding: 16px 18px; margin-bottom: 32px; box-shadow: var(--shadow);
+    /* 첫 화면 인사 (전날 받은 링크를 열었을 때 처음 보이는 부분) */
+    .welcome {
+      background: linear-gradient(160deg, var(--burg-tint) 0%, var(--card) 65%);
+      border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 22px 20px 18px; margin-bottom: 32px; box-shadow: var(--shadow);
     }
-    .notice-icon {
-      flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
-      background: var(--burg-tint); color: var(--burg);
-      display: grid; place-items: center;
+    .date-note { font-size: 13.5px; font-weight: 600; color: var(--burg); margin-top: 8px; }
+    .welcome-en { font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--gold); }
+    .welcome-title { font-size: 21px; font-weight: 800; color: var(--ink); letter-spacing: -0.025em; line-height: 1.35; margin-top: 2px; word-break: keep-all; }
+    .welcome-body { font-size: 14.5px; color: var(--muted); line-height: 1.65; margin-top: 6px; word-break: keep-all; }
+    .welcome-chips { display: flex; gap: 6px; margin-top: 12px; }
+    .welcome-chip { font-size: 12.5px; font-weight: 600; color: var(--burg); background: #fff; border: 1px solid var(--burg-line); border-radius: 999px; padding: 3px 10px; }
+    .welcome-group { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .welcome-group p { font-size: 13px; color: var(--text); line-height: 1.55; word-break: keep-all; }
+
+    /* 이어서 쓰기 */
+    .draft {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 14px; padding: 12px 14px; border-radius: var(--radius-sm);
+      background: var(--ink); color: #fff; font-size: 13.5px; font-weight: 600;
     }
-    .notice-title { font-size: 13px; font-weight: 700; color: var(--burg); margin-bottom: 2px; }
-    .notice-body { font-size: 13.5px; color: var(--text); line-height: 1.7; white-space: pre-line; }
+    .draft-btns { display: flex; gap: 6px; }
+    .draft-btns button { font-size: 12.5px; font-weight: 700; border-radius: 999px; padding: 6px 12px; }
+    .draft-new { color: rgba(255,255,255,.8); border: 1px solid rgba(255,255,255,.3) !important; }
+    .draft-go { background: #fff !important; color: var(--ink); }
 
     /* ── 단계 ── */
     .step { display: none; }
@@ -257,7 +270,7 @@
     .check input:checked + .mark { background: var(--burg); border-color: var(--burg); }
     .check input:checked + .mark svg { opacity: 1; transform: none; }
     .check input:focus-visible + .mark { outline: 2px solid var(--burg); outline-offset: 2px; }
-    .check-text { font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.45; }
+    .check-text { font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.45; word-break: keep-all; }
     .consent-all .check-text { font-weight: 700; }
     .tag-req, .tag-opt { font-size: 12px; font-weight: 600; margin-right: 4px; }
     .tag-req { color: var(--burg); }
@@ -266,6 +279,11 @@
     .consent-detail dt { font-weight: 600; color: var(--text); display: inline; }
     .consent-detail dd { display: inline; }
     .consent-detail dd::after { content: ''; display: block; }
+    .consent-row { display: flex; align-items: flex-start; gap: 8px; }
+    .consent-row .check { flex: 1; min-width: 0; }
+    .consent-toggle { flex-shrink: 0; display: inline-flex; align-items: center; gap: 2px; font-size: 12.5px; font-weight: 600; color: var(--muted); padding: 2px 0 2px 6px; }
+    .consent-toggle svg { transition: transform .2s; }
+    .consent-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
     .consent-link { display: inline-flex; margin: 8px 0 0 32px; font-size: 12.5px; font-weight: 600; color: var(--burg); text-decoration: underline; text-underline-offset: 3px; }
     #q-privacy > .err { margin: 10px 0 0 4px; }
 
@@ -528,10 +546,20 @@
 </header>
 
 <main class="wrap" id="form" hidden>
-  <div class="notice" id="notice">
-    <div class="notice-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg></div>
-    <div><div class="notice-title" data-t="notice_title"></div><div class="notice-body" data-t="notice_body"></div></div>
+  <div class="draft" id="draftBar" hidden>
+    <span data-t="draft_title"></span>
+    <span class="draft-btns"><button type="button" class="draft-new" id="draftNew" data-t="draft_new"></button><button type="button" class="draft-go" id="draftGo" data-t="draft_go"></button></span>
   </div>
+  <section class="welcome" id="welcome">
+    <div class="welcome-en">Welcome</div>
+    <h2 class="welcome-title" data-t="wel_title"></h2>
+    <p class="welcome-body" data-t="wel_body"></p>
+    <div class="welcome-chips"><span class="welcome-chip" data-t="wel_time"></span><span class="welcome-chip" id="welSteps"></span></div>
+    <div class="welcome-group">
+      <p data-t="wel_group"></p>
+      <button type="button" class="share-btn" id="welShare"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M7 8l5-5 5 5M5 14v5a2 2 0 002 2h10a2 2 0 002-2v-5"/></svg><span data-t="share_btn"></span></button>
+    </div>
+  </section>
   <div id="steps"></div>
   <p class="biz" id="biz" hidden></p>
 </main>
@@ -562,16 +590,18 @@
 <script>
 const T = {
   ko: {
-    notice_title:'안내',
-    notice_body:'2인 이상 예약하신 경우, 일행분께도 이 링크를 공유해 모두 작성 부탁드립니다.\n설문지 미작성 시 상담이 제한될 수 있습니다.',
+    wel_title:'방문을 기다리고 있어요', wel_body:'미리 알려주시면 두피 상태에 꼭 맞는 케어를 준비해 둘게요.',
+    wel_time:'약 3분', wel_steps:'{n}단계', wel_group:'2인 이상 오시나요? 일행분도 각자 작성해 주셔야 정확한 상담이 가능해요.',
+    draft_title:'작성하던 내용이 있어요', draft_go:'이어서 쓰기', draft_new:'새로 쓰기', draft_done:'작성하던 내용을 불러왔어요.', see_detail:'보기',
     s1_title:'예약 정보', s1_desc:'예약 인원, 상담 방식과 방문 일시를 알려주세요.',
     q_res:'예약 인원',
-    r1:'2인 이상 예약입니다. (일행 링크 공유 완료!)', r2:'1인 예약입니다.',
+    r1:'2명 이상 함께 와요', r2:'혼자 방문해요',
     err_res:'예약 인원을 선택해주세요.',
     share_text:'일행분께 설문 링크를 보내주세요.', share_btn:'링크 공유', share_copied:'링크가 복사되었습니다.',
     q_cons:'상담 유형',
     c1:'힐링 위주, 간단한 상담만 원해요.', c2:'정밀 진단·상담 원해요.',
     err_cons:'상담 유형을 선택해주세요.',
+    today:'오늘', tomorrow:'내일',
     q_date:'방문 날짜', err_date:'방문 날짜를 선택해주세요.',
     q_time:'방문 시간', err_time:'방문 시간을 선택해주세요.',
     s2_title:'기본 정보', s2_desc:'예약 확인과 상담을 위해 필요한 정보예요.',
@@ -584,7 +614,7 @@ const T = {
     q_src:'방문 경로',
     vs1:'Instagram', vs2:'YouTube', vs3:'네이버 검색', vs4:'네이버 카페 / 블로그', vs5:'지인 소개', vs6:'간판 / 현수막',
     err_src:'방문 경로를 선택해주세요.',
-    vs7:'네이버 지도 / 플레이스', vs8:'카카오맵', vs12:'Google', vs9:'TikTok', vs10:'재방문', vs11:'기타',
+    vs7:'네이버 지도 / 플레이스', vs8:'카카오맵', vs12:'Google', vs9:'TikTok', vs11:'기타',
     ph_referrer:'소개해 주신 분 성함 (선택)',
     privacy_sens:'민감정보(건강정보) 처리 동의',
     sv_items:'두피·모발 상태, 탈모 유전력, 임신·수유 여부, 복용 약·병원 치료·시술 이력, 알레르기·피부 질환',
@@ -655,29 +685,31 @@ const T = {
     step_of:(c,t)=>`<b>${c}</b> / ${t}`,
   },
   en: {
-    notice_title:'Notice',
-    notice_body:"If you booked for 2 or more people, please share this link with your companions so everyone can complete the form.\nConsultation may be limited if the form is not submitted.",
+    wel_title:"We're looking forward to your visit", wel_body:"Tell us a little in advance and we'll prepare care that suits your scalp.",
+    wel_time:'About 3 min', wel_steps:'{n} steps', wel_group:'Coming with others? Please have each person fill out this form so we can consult everyone properly.',
+    draft_title:'You have an unfinished form', draft_go:'Continue', draft_new:'Start over', draft_done:'Your answers have been restored.', see_detail:'View',
     s1_title:'Reservation', s1_desc:'Tell us the number of guests, consultation type and your visit time.',
     q_res:'Number of Guests',
-    r1:'2 or more people (link shared with companions!)', r2:'Just me (1 person)',
+    r1:'Coming with others (2+)', r2:'Just me',
     err_res:'Please select the number of guests.',
     share_text:'Send the form link to your companions.', share_btn:'Share link', share_copied:'Link copied.',
     q_cons:'Consultation Type',
     c1:'Relaxation-focused, light consultation only.', c2:'Detailed diagnosis & consultation.',
     err_cons:'Please select a consultation type.',
+    today:'Today', tomorrow:'Tomorrow',
     q_date:'Visit Date', err_date:'Please select a visit date.',
     q_time:'Visit Time', err_time:'Please select a visit time.',
     s2_title:'About You', s2_desc:'We need this to confirm your booking and prepare your consultation.',
     q_name:'Name', ph_name:'Jane Doe', err_name:'Please enter your name.',
     q_birth:'Date of Birth', ph_birth:'1995.03.15', err_birth:'Please enter a valid date (YYYY.MM.DD).',
     q_phone:'Phone Number', ph_phone:'010-1234-5678', err_phone:'Please enter a valid phone number.',
-    q_addr:'Address', q_addr_hint:'Neighborhood only', ph_addr:'e.g. Buldang-dong, Cheonan', err_addr:'Please enter your address.',
+    q_addr:'Address', q_addr_hint:'Area only', ph_addr:'e.g. Gangnam, Seoul (your hotel area is fine)', err_addr:'Please enter your address.',
     q_treat:'Previous Scalp Care', multi:'Multiple', optional:'Optional',
     th1:'Another scalp care shop', th2:'Scalp care at a hair salon', th3:'Home care (scalp shampoo / ampoule)', th4:'This is my first time',
     q_src:'How did you find us?',
     vs1:'Instagram', vs2:'YouTube', vs3:'Naver Search', vs4:'Naver Cafe / Blog', vs5:'Referral from a friend', vs6:'Signage / Banner',
     err_src:'Please select how you found us.',
-    vs7:'Naver Map / Place', vs8:'Kakao Map', vs12:'Google', vs9:'TikTok', vs10:'Returning customer', vs11:'Other',
+    vs7:'Naver Map / Place', vs8:'Kakao Map', vs12:'Google', vs9:'TikTok', vs11:'Other',
     ph_referrer:"Referrer's name (optional)",
     privacy_sens:'Processing of sensitive (health) information',
     sv_items:'Scalp & hair condition, family history of hair loss, pregnancy/breastfeeding, medication/hospital treatment/procedure history, allergies/skin conditions',
@@ -744,29 +776,31 @@ const T = {
     step_of:(c,t)=>`<b>${c}</b> / ${t}`,
   },
   zh: {
-    notice_title:'注意事项',
-    notice_body:'如果您预约了2人或以上，请将此链接分享给同行人员，请所有人填写。\n未填写问卷可能导致咨询受限。',
+    wel_title:'期待您的到来', wel_body:'提前告诉我们，我们会为您准备适合您头皮状态的护理。',
+    wel_time:'约3分钟', wel_steps:'共{n}步', wel_group:'2人以上同行吗？请每位同行者分别填写，以便为大家提供准确的咨询。',
+    draft_title:'有未完成的问卷', draft_go:'继续填写', draft_new:'重新填写', draft_done:'已恢复您之前填写的内容。', see_detail:'查看',
     s1_title:'预约信息', s1_desc:'请选择预约人数、咨询方式和到访时间。',
     q_res:'预约人数',
-    r1:'2人或以上（已共享链接给同行！）', r2:'1人预约',
+    r1:'2人以上同行', r2:'1人到访',
     err_res:'请选择预约人数。',
     share_text:'请将问卷链接发送给同行人员。', share_btn:'分享链接', share_copied:'链接已复制。',
     q_cons:'咨询类型',
     c1:'以放松为主，只需简单咨询。', c2:'需要精密诊断和详细咨询。',
     err_cons:'请选择咨询类型。',
+    today:'今天', tomorrow:'明天',
     q_date:'到访日期', err_date:'请选择到访日期。',
     q_time:'到访时间', err_time:'请选择到访时间。',
     s2_title:'基本信息', s2_desc:'用于确认预约及准备咨询。',
     q_name:'姓名', ph_name:'张三', err_name:'请输入姓名。',
     q_birth:'出生日期', ph_birth:'1995.03.15', err_birth:'请正确输入出生日期（8位数字）。',
     q_phone:'联系电话', ph_phone:'010-1234-5678', err_phone:'请正确输入联系电话。',
-    q_addr:'地址', q_addr_hint:'至街道即可', ph_addr:'例) 天安市 不当洞', err_addr:'请输入地址。',
+    q_addr:'地址', q_addr_hint:'至街道即可', ph_addr:'例）首尔江南（填写酒店所在区域即可）', err_addr:'请输入地址。',
     q_treat:'以往头皮护理经历', multi:'可多选', optional:'选填',
     th1:'其他头皮护理店', th2:'美发店头皮护理', th3:'居家护理（头皮洗发水·安瓶）', th4:'第一次',
     q_src:'来访途径',
     vs1:'Instagram', vs2:'YouTube', vs3:'Naver搜索', vs4:'Naver Cafe/博客', vs5:'朋友介绍', vs6:'招牌/横幅',
     err_src:'请选择来访途径。',
-    vs7:'Naver地图', vs8:'Kakao地图', vs12:'Google', vs9:'TikTok', vs10:'回头客', vs11:'其他',
+    vs7:'Naver地图', vs8:'Kakao地图', vs12:'Google', vs9:'TikTok', vs11:'其他',
     ph_referrer:'介绍人姓名（选填）',
     privacy_sens:'同意处理敏感信息（健康信息）',
     sv_items:'头皮·毛发状况、脱发遗传史、妊娠·哺乳状态、用药·医院治疗·项目史、过敏·皮肤疾病',
@@ -832,29 +866,31 @@ const T = {
     step_of:(c,t)=>`<b>${c}</b> / ${t}`,
   },
   ja: {
-    notice_title:'ご案内',
-    notice_body:'2名以上でご予約の場合は、同行の方にもこのリンクを共有し、全員ご記入ください。\nアンケート未提出の場合、カウンセリングが制限される場合があります。',
+    wel_title:'ご来店をお待ちしています', wel_body:'事前にお知らせいただければ、頭皮の状態に合ったケアをご用意します。',
+    wel_time:'約3分', wel_steps:'全{n}ステップ', wel_group:'2名以上でご来店ですか？正確なカウンセリングのため、お連れ様もそれぞれご記入ください。',
+    draft_title:'入力途中の内容があります', draft_go:'続きから', draft_new:'最初から', draft_done:'入力途中の内容を復元しました。', see_detail:'表示',
     s1_title:'予約情報', s1_desc:'予約人数、カウンセリング方法、ご来店日時を教えてください。',
     q_res:'予約人数',
-    r1:'2名以上のご予約（同行者へのリンク共有済み！）', r2:'1名でのご予約',
+    r1:'2名以上で来店', r2:'1名で来店',
     err_res:'予約人数を選択してください。',
     share_text:'同行の方にアンケートのリンクを送ってください。', share_btn:'リンク共有', share_copied:'リンクをコピーしました。',
     q_cons:'カウンセリングタイプ',
     c1:'リラクゼーション重視、簡単なカウンセリングのみ希望。', c2:'精密診断・カウンセリング希望。',
     err_cons:'カウンセリングタイプを選択してください。',
+    today:'今日', tomorrow:'明日',
     q_date:'ご来店日', err_date:'ご来店日を選択してください。',
     q_time:'ご来店時間', err_time:'ご来店時間を選択してください。',
     s2_title:'基本情報', s2_desc:'ご予約の確認とカウンセリングの準備に使用します。',
     q_name:'お名前', ph_name:'山田花子', err_name:'お名前を入力してください。',
     q_birth:'生年月日', ph_birth:'1995.03.15', err_birth:'生年月日を正しく入力してください（8桁）。',
     q_phone:'電話番号', ph_phone:'010-1234-5678', err_phone:'電話番号を正しく入力してください。',
-    q_addr:'ご住所', q_addr_hint:'町名まで', ph_addr:'例) 天安市 不当洞', err_addr:'ご住所を入力してください。',
+    q_addr:'ご住所', q_addr_hint:'町名まで', ph_addr:'例）ソウル江南（ホテルのエリアでも可）', err_addr:'ご住所を入力してください。',
     q_treat:'これまでの頭皮ケア経験', multi:'複数選択可', optional:'任意',
     th1:'他の頭皮ケア専門店', th2:'美容室の頭皮ケア', th3:'ホームケア（頭皮用シャンプー・アンプル）', th4:'初めてです',
     q_src:'来店経路',
     vs1:'Instagram', vs2:'YouTube', vs3:'Naver検索', vs4:'Naver Cafe / ブログ', vs5:'知人の紹介', vs6:'看板 / バナー',
     err_src:'来店経路を選択してください。',
-    vs7:'Naverマップ', vs8:'Kakaoマップ', vs12:'Google', vs9:'TikTok', vs10:'再来店', vs11:'その他',
+    vs7:'Naverマップ', vs8:'Kakaoマップ', vs12:'Google', vs9:'TikTok', vs11:'その他',
     ph_referrer:'ご紹介者のお名前（任意）',
     privacy_sens:'センシティブ情報（健康情報）の取扱いへの同意',
     sv_items:'頭皮・毛髪の状態、脱毛の遺伝歴、妊娠・授乳の有無、服薬・通院・施術歴、アレルギー・皮膚疾患',
@@ -1033,7 +1069,7 @@ for (let hh = 10; hh < 20; hh++) TIMES.push(`${hh}:00`, `${hh}:30`);
 // ── 설문 스키마 ──
 const STEPS = [
   { en:'Reservation', title:'s1_title', desc:'s1_desc', qs:[
-    { name:'reservationType', type:'radio', label:'q_res', req:true, err:'err_res', opts:['r1','r2'], share:'r1' },
+    { name:'reservationType', type:'radio', label:'q_res', req:true, err:'err_res', opts:['r2','r1'], share:'r1' },
     { name:'consultationType', type:'radio', label:'q_cons', req:true, err:'err_cons', opts:['c1','c2'] },
     { name:'visitDate', type:'date', label:'q_date', req:true, err:'err_date' },
     { name:'visitTime', type:'times', label:'q_time', req:true, err:'err_time' },
@@ -1044,7 +1080,7 @@ const STEPS = [
     { name:'phone', type:'tel', label:'q_phone', req:true, err:'err_phone', ph:'ph_phone', inputmode:'tel', autocomplete:'tel', maxlength:20, format:'phone' },
     { name:'address', type:'text', label:'q_addr', chip:'q_addr_hint', req:true, err:'err_addr', ph:'ph_addr', maxlength:100 },
     { name:'visitSource', type:'radio', label:'q_src', req:true, err:'err_src', grid:true,
-      opts:['vs1','vs2','vs3','vs7','vs4','vs8','vs12','vs9','vs5','vs6','vs10','vs11'], details:{ vs5:'ph_referrer', vs11:'ph_other' } },
+      opts:['vs1','vs2','vs3','vs7','vs4','vs8','vs12','vs9','vs5','vs6','vs11'], wide:['vs11'], details:{ vs5:'ph_referrer', vs11:'ph_other' } },
   ]},
   { en:'Your Scalp', title:'s4_title', desc:'s4_desc', qs:[
     { name:'scalpConcerns', type:'checkbox', label:'q_scalp', chip:'multi', req:true, err:'err_scalp', grid:true,
@@ -1066,6 +1102,7 @@ const STEPS = [
 const ICON_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 const ICON_ERR = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>';
 const ICON_SHARE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M7 8l5-5 5 5M5 14v5a2 2 0 002 2h10a2 2 0 002-2v-5"/></svg>';
+const ICON_CHEV = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>';
 const ICON_ARROW = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
 const $ = (s, el = document) => el.querySelector(s);
@@ -1145,6 +1182,10 @@ function buildQuestion(q) {
     if (q.req) input.setAttribute('aria-required', 'true');
     if (q.format) input.addEventListener('input', () => formatInput(input, q.format));
     block.appendChild(input);
+    if (q.type === 'date') {
+      block.appendChild(h('p', { class:'date-note', id:`${q.name}-note`, hidden:'' }));
+      ['input', 'change'].forEach(ev => input.addEventListener(ev, () => dateNote(input)));
+    }
   } else {
     const multi = q.type === 'checkbox';
     const times = q.type === 'times';
@@ -1184,7 +1225,7 @@ function buildQuestion(q) {
         if (!key) return;
         detail.dataset.tph = q.details[key];
         detail.placeholder = T[lang][q.details[key]];
-        if (e.target.dataset.key === key) setTimeout(() => detail.focus(), 50);
+        if (!restoring && e.target.dataset.key === key) setTimeout(() => detail.focus(), 50);
       });
     }
     if (q.share) {
@@ -1315,6 +1356,7 @@ window.addEventListener('message', e => {
   if (!SCALP_TEST[r.type]) return;
   scalpTest = { type: r.type, scores: r.scores || null };
   dirty = true;
+  queueDraft();
   renderTestResult();
   updateRecs();
   $('#testFoot').hidden = false;
@@ -1345,25 +1387,35 @@ function consentHTML() {
         <label class="check"><input type="checkbox" id="consentAll" /><span class="mark">${ICON_CHECK}</span><span class="check-text" data-t="consent_all"></span></label>
       </div>
       <div class="consent-item">
-        <label class="check"><input type="checkbox" id="privacyRequired" /><span class="mark">${ICON_CHECK}</span>
-          <span class="check-text"><span class="tag-req" data-t="tag_req"></span><span data-t="privacy_req"></span></span></label>
-        <dl class="consent-detail">
-          <dt data-t="pv_items_k"></dt> · <dd data-t="pv_items"></dd>
-          <dt data-t="pv_purpose_k"></dt> · <dd data-t="pv_purpose"></dd>
-          <dt data-t="pv_period_k"></dt> · <dd data-t="pv_period"></dd>
-          <dt data-t="refuse_k"></dt> · <dd data-t="refuse"></dd>
-        </dl>
-        <a class="consent-link" href="/scalpit-privacy.html" target="_blank" rel="noopener" data-t="privacy_link"></a>
+        <div class="consent-row">
+          <label class="check"><input type="checkbox" id="privacyRequired" /><span class="mark">${ICON_CHECK}</span>
+            <span class="check-text"><span class="tag-req" data-t="tag_req"></span><span data-t="privacy_req"></span></span></label>
+          <button type="button" class="consent-toggle" aria-expanded="false" aria-controls="pvMore"><span data-t="see_detail"></span>${ICON_CHEV}</button>
+        </div>
+        <div class="consent-more" id="pvMore" hidden>
+          <dl class="consent-detail">
+            <dt data-t="pv_items_k"></dt> · <dd data-t="pv_items"></dd>
+            <dt data-t="pv_purpose_k"></dt> · <dd data-t="pv_purpose"></dd>
+            <dt data-t="pv_period_k"></dt> · <dd data-t="pv_period"></dd>
+            <dt data-t="refuse_k"></dt> · <dd data-t="refuse"></dd>
+          </dl>
+          <a class="consent-link" href="/scalpit-privacy.html" target="_blank" rel="noopener" data-t="privacy_link"></a>
+        </div>
       </div>
       <div class="consent-item">
-        <label class="check"><input type="checkbox" id="sensitiveRequired" /><span class="mark">${ICON_CHECK}</span>
-          <span class="check-text"><span class="tag-req" data-t="tag_req"></span><span data-t="privacy_sens"></span></span></label>
-        <dl class="consent-detail">
-          <dt data-t="pv_items_k"></dt> · <dd data-t="sv_items"></dd>
-          <dt data-t="pv_purpose_k"></dt> · <dd data-t="sv_purpose"></dd>
-          <dt data-t="pv_period_k"></dt> · <dd data-t="pv_period"></dd>
-          <dt data-t="refuse_k"></dt> · <dd data-t="refuse"></dd>
-        </dl>
+        <div class="consent-row">
+          <label class="check"><input type="checkbox" id="sensitiveRequired" /><span class="mark">${ICON_CHECK}</span>
+            <span class="check-text"><span class="tag-req" data-t="tag_req"></span><span data-t="privacy_sens"></span></span></label>
+          <button type="button" class="consent-toggle" aria-expanded="false" aria-controls="svMore"><span data-t="see_detail"></span>${ICON_CHEV}</button>
+        </div>
+        <div class="consent-more" id="svMore" hidden>
+          <dl class="consent-detail">
+            <dt data-t="pv_items_k"></dt> · <dd data-t="sv_items"></dd>
+            <dt data-t="pv_purpose_k"></dt> · <dd data-t="sv_purpose"></dd>
+            <dt data-t="pv_period_k"></dt> · <dd data-t="pv_period"></dd>
+            <dt data-t="refuse_k"></dt> · <dd data-t="refuse"></dd>
+          </dl>
+        </div>
       </div>
       <div class="consent-item">
         <div class="promo">
@@ -1382,6 +1434,12 @@ function wireConsent() {
   const all = $('#consentAll'), items = ['#privacyRequired', '#sensitiveRequired', '#privacyMarketing'].map(s => $(s));
   all.addEventListener('change', () => { items.forEach(c => { c.checked = all.checked; }); $('#q-privacy').classList.remove('invalid'); });
   items.forEach(c => c.addEventListener('change', () => { all.checked = items.every(x => x.checked); $('#q-privacy').classList.remove('invalid'); }));
+  // 수집 항목·목적·보유 기간은 '보기'를 누르면 펼쳐짐
+  $$('.consent-toggle').forEach(b => b.addEventListener('click', () => {
+    const box = $(`#${b.getAttribute('aria-controls')}`);
+    box.hidden = !box.hidden;
+    b.setAttribute('aria-expanded', String(!box.hidden));
+  }));
 }
 
 // ── 입력 포맷 ──
@@ -1396,6 +1454,19 @@ function formatInput(input, kind) {
     input.value = s.length > 7 ? `${s.slice(0,3)}-${s.slice(3, s.length - 4)}-${s.slice(-4)}`
       : s.length > 3 ? `${s.slice(0,3)}-${s.slice(3)}` : s;
   }
+}
+
+function dateNote(input) {
+  const note = $(`#${input.id}-note`);
+  if (!note) return;
+  if (!input.value) { note.hidden = true; return; }
+  const [y, m, d] = input.value.split('-').map(Number);
+  const dt = new Date(y, m - 1, d);
+  const diff = Math.round((dt - new Date(new Date().toDateString())) / 864e5);
+  const rel = diff === 0 ? T[lang].today : diff === 1 ? T[lang].tomorrow : '';
+  const loc = { ko:'ko-KR', en:'en-US', zh:'zh-CN', ja:'ja-JP' }[lang];
+  note.textContent = dt.toLocaleDateString(loc, { month:'long', day:'numeric', weekday:'long' }) + (rel ? ` · ${rel}` : '');
+  note.hidden = false;
 }
 
 function validBirth(v) {
@@ -1418,6 +1489,9 @@ function applyLang() {
   document.documentElement.lang = lang;
   $$('[data-t]').forEach(el => { const v = t[el.dataset.t]; if (typeof v === 'string') el.textContent = v; });
   $$('[data-tph]').forEach(el => { el.placeholder = t[el.dataset.tph] || ''; });
+  if (lang === 'ko' && ADDR_EX[branchSlug]) $('#address').placeholder = ADDR_EX[branchSlug];
+  $('#welSteps').textContent = t.wel_steps.replace('{n}', STEPS.length);
+  dateNote($('#visitDate'));
   $('#langPillText').textContent = lang.toUpperCase();
   applyMenuLang();
   updateRecs();
@@ -1432,6 +1506,7 @@ function selectLang(l) {
   $('#intro').classList.add('hidden');
   ['#header', '#form', '#actionbar'].forEach(s => $(s).hidden = false);
   if (!$('.step.active')) showStep(0, false);
+  offerDraft();
 }
 
 // ── 지점 정보 ──
@@ -1467,7 +1542,9 @@ function updateNav() {
 function showStep(n, focus = true) {
   $$('.step').forEach(s => s.classList.remove('active'));
   $(`#step${n + 1}`).classList.add('active');
-  $('#notice').hidden = n !== 0;
+  $('#welcome').hidden = n !== 0;
+  $('#draftBar').hidden = true;
+  queueDraft();
   if (n === STEPS.length - 1) updateRecs();
   current = n;
   updateNav();
@@ -1477,19 +1554,23 @@ function showStep(n, focus = true) {
 
 function checked(name) { return $$(`input[name="${name}"]:checked`); }
 
+function questionOk(q) {
+  if (q.type === 'consent') return $('#privacyRequired').checked && $('#sensitiveRequired').checked;
+  if (!q.req) return true;
+  if (q.type === 'date') { const v = $(`#${q.name}`).value; return !!v && v >= todayStr(); }
+  if (q.type === 'text' || q.type === 'tel') {
+    const v = $(`#${q.name}`).value.trim();
+    if (q.format === 'date') return validBirth(v);
+    if (q.format === 'phone') return v.replace(/\D/g, '').length >= 9;
+    return v.length > 0;
+  }
+  return checked(q.name).length > 0;
+}
+
 function validateStep(i) {
   const bad = [];
   STEPS[i].qs.forEach(q => {
-    let ok = true;
-    if (q.type === 'consent') ok = $('#privacyRequired').checked && $('#sensitiveRequired').checked;
-    else if (!q.req) ok = true;
-    else if (q.type === 'date') { const v = $(`#${q.name}`).value; ok = !!v && v >= todayStr(); }
-    else if (q.type === 'text' || q.type === 'tel') {
-      const v = $(`#${q.name}`).value.trim();
-      if (q.format === 'date') ok = validBirth(v);
-      else if (q.format === 'phone') ok = v.replace(/\D/g, '').length >= 9;
-      else ok = v.length > 0;
-    } else ok = checked(q.name).length > 0;
+    const ok = questionOk(q);
     $(`#q-${q.name}`).classList.toggle('invalid', !ok);
     if (!ok) bad.push($(`#q-${q.name}`));
   });
@@ -1507,6 +1588,65 @@ function onNext() {
   if (current < STEPS.length - 1) showStep(current + 1);
   else submitForm();
 }
+
+// ── 작성 중 자동 저장: 같은 폰으로 링크를 다시 열면 이어서 쓰기 (24시간 보관, 제출하면 삭제) ──
+// 동의 체크는 저장하지 않음 (다시 열면 새로 동의)
+const DRAFT_KEY = `scalpit-draft-${branchSlug || 'root'}`;
+const DRAFT_SKIP = /^(privacyRequired|sensitiveRequired|privacyMarketing|consentAll)$/;
+let draftOffered = false, restoring = false, draftTimer;
+function readDraft() {
+  try {
+    const d = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null');
+    if (d && Date.now() - d.at < 864e5) return d;
+    localStorage.removeItem(DRAFT_KEY);
+  } catch {}
+  return null;
+}
+function clearDraft() { try { localStorage.removeItem(DRAFT_KEY); } catch {} }
+function saveDraft() {
+  if (!dirty || restoring || submitting) return;
+  const d = { at: Date.now(), step: current, v: {}, c: [], scalpTest };
+  $$('#steps input').forEach(el => {
+    if (!el.id || DRAFT_SKIP.test(el.id)) return;
+    if (el.type === 'radio' || el.type === 'checkbox') { if (el.checked) d.c.push(el.id); }
+    else if (el.value) d.v[el.id] = el.value;
+  });
+  try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch {}
+}
+function queueDraft() { clearTimeout(draftTimer); draftTimer = setTimeout(saveDraft, 400); }
+function offerDraft() {
+  if (draftOffered) return;
+  draftOffered = true;
+  const d = readDraft();
+  if (!d || (!d.c.length && !Object.keys(d.v).length)) return;
+  $('#draftBar').hidden = false;
+  window.scrollTo({ top: 0 });
+  $('#draftGo').onclick = () => restoreDraft(d);
+  $('#draftNew').onclick = () => { clearDraft(); $('#draftBar').hidden = true; };
+}
+function restoreDraft(d) {
+  restoring = true;
+  const setValues = () => Object.entries(d.v).forEach(([id, v]) => { const el = document.getElementById(id); if (el) el.value = v; });
+  setValues();
+  d.c.forEach(id => { const el = document.getElementById(id); if (el) el.checked = true; });
+  // 기타 입력칸·조건부 질문·일행 공유 등 화면 상태를 답변에 맞춰 갱신
+  d.c.forEach(id => document.getElementById(id)?.dispatchEvent(new Event('change', { bubbles: true })));
+  setValues();
+  dateNote($('#visitDate'));
+  if (d.scalpTest && SCALP_TEST[d.scalpTest.type]) { scalpTest = d.scalpTest; renderTestResult(); }
+  restoring = false;
+  dirty = true;
+  // 저장된 단계로 가되, 앞 단계에 빠진 답(지난 날짜 등)이 있으면 그 단계로
+  let target = Math.min(d.step || 0, STEPS.length - 1);
+  for (let i = 0; i < target; i++) if (!STEPS[i].qs.every(questionOk)) { target = i; break; }
+  showStep(target, false);
+  if (target < (d.step || 0)) validateStep(target); // 고쳐야 할 답을 표시
+  updateRecs();
+  toast(T[lang].draft_done);
+}
+
+// 지점별 주소 입력 예시 (한국어)
+const ADDR_EX = { cheonan:'예) 천안시 불당동', dongtan:'예) 화성시 청계동', gwanggyo:'예) 수원시 이의동', apgujeong:'예) 강남구 신사동' };
 
 // ── 공유 ──
 async function shareLink() {
@@ -1572,6 +1712,7 @@ async function submitForm() {
     const json = await res.json().catch(() => ({}));
     if (!res.ok || !json.success) throw new Error('server');
     dirty = false;
+    clearDraft();
     showDone(data);
   } catch (e) {
     toast(e.message === 'rate' ? t.err_rate : e.message === 'server' ? t.err_server : t.err_network);
@@ -1709,17 +1850,26 @@ function downloadICS(data) {
 }
 
 // ── 초기화 ──
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 buildForm();
 wireConsent();
 loadBranch();
 $$('.lang-btn').forEach(b => b.addEventListener('click', () => selectLang(b.dataset.lang)));
 $('#langPill').addEventListener('click', () => { document.documentElement.classList.remove('direct'); $('#intro').classList.remove('hidden'); });
 $('#btnNext').addEventListener('click', onNext);
+$('#welShare').addEventListener('click', shareLink);
+$('#form').addEventListener('input', queueDraft);
+$('#form').addEventListener('change', queueDraft);
 $('#btnBack').addEventListener('click', () => current > 0 && showStep(current - 1));
 $('#form').addEventListener('keydown', e => {
   if (e.key === 'Enter' && e.target.matches('input.input')) { e.preventDefault(); onNext(); }
 });
-window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+// 다른 앱으로 넘어가거나 창을 닫는 순간 바로 저장 (다시 열면 '이어서 쓰기')
+window.addEventListener('pagehide', saveDraft);
+document.addEventListener('visibilitychange', () => { if (document.hidden) saveDraft(); });
+// 저장이 안 되는 환경(사생활 보호 모드 등)에서만 나가기 전 확인
+const canStore = (() => { try { localStorage.setItem('scalpit-t', '1'); localStorage.removeItem('scalpit-t'); return true; } catch { return false; } })();
+window.addEventListener('beforeunload', e => { if (dirty && !canStore) { e.preventDefault(); e.returnValue = ''; } });
 try {
   const saved = localStorage.getItem('scalpit-lang');
   if (saved) $(`.lang-btn[data-lang="${saved}"]`)?.classList.add('recent');
