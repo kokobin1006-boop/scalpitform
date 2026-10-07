@@ -42,14 +42,14 @@ a{color:#f0657a}
   <div id="main" hidden>
     <div class="top"><h1>아카데미 원데이 1기 신청 <span id="total" style="color:var(--mut);font-weight:400"></span></h1><div><button class="btn ghost" id="refresh">새로고침</button> <button class="btn" id="csv">CSV 내려받기</button></div></div>
     <div class="stats" id="stats"></div>
-    <div class="filters"><input id="q" placeholder="이름·연락처 검색"><select id="fs"><option value="">희망 날짜 전체</option><option value="1020">10/20</option><option value="1027">10/27</option><option value="both">둘 다 가능</option></select><select id="fp"><option value="">목적 전체</option><option>기술 습득</option><option>취업</option><option>1인샵 창업</option><option>헤드스파 창업</option><option>아직 모르겠음</option><option value="__none">미응답</option></select><select id="fst"><option value="">상태 전체</option><option value="new">신규</option><option value="contacted">연락함</option><option value="paid">결제</option><option value="confirmed">자리 확정</option><option value="cancelled">취소</option></select></div>
+    <div class="filters"><input id="q" placeholder="이름·연락처 검색"><select id="fs"><option value="">희망 날짜 전체</option><option value="1020">10/20</option><option value="1027">10/27</option><option value="both">둘 다 가능</option><option value="waitlist">2기 알림(일정 불가)</option></select><select id="fp"><option value="">목적 전체</option><option>기술 습득</option><option>취업</option><option>1인샵 창업</option><option>헤드스파 창업</option><option>아직 모르겠음</option><option value="__none">미응답</option></select><select id="fst"><option value="">상태 전체</option><option value="new">신규</option><option value="contacted">연락함</option><option value="paid">결제</option><option value="confirmed">자리 확정</option><option value="cancelled">취소</option></select></div>
     <div class="tw"><table><thead><tr><th>접수</th><th>이름</th><th>연락처</th><th>희망 날짜</th><th>목적</th><th>수신동의</th><th>유입</th><th>상태</th><th>메모</th></tr></thead><tbody id="rows"></tbody></table></div>
   </div>
 </div>
 <script>
 (function(){
   var $=function(s){return document.querySelector(s)}, pw=sessionStorage.getItem('acad_pw')||'', all=[];
-  var SES={'1020':'10/20','1027':'10/27','both':'둘 다'}, ST={new:'신규',contacted:'연락함',paid:'결제',confirmed:'자리 확정',cancelled:'취소'};
+  var SES={'1020':'10/20','1027':'10/27','both':'둘 다','waitlist':'2기 알림'}, ST={new:'신규',contacted:'연락함',paid:'결제',confirmed:'자리 확정',cancelled:'취소'};
   function api(path,opt){opt=opt||{};opt.headers=Object.assign({'x-admin-password':pw,'Content-Type':'application/json'},opt.headers||{});return fetch(path,opt).then(function(r){return r.json().then(function(j){if(!r.ok)throw j;return j})})}
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
   function fmtPhone(p){p=String(p);return p.length===11?p.slice(0,3)+'-'+p.slice(3,7)+'-'+p.slice(7):p.length===10?p.slice(0,3)+'-'+p.slice(3,6)+'-'+p.slice(6):p}
@@ -61,7 +61,7 @@ a{color:#f0657a}
   function stats(list){
     var today=new Date().toLocaleDateString('ko-KR',{timeZone:'Asia/Seoul'}),t=list.filter(function(l){return new Date(l.createdAt).toLocaleDateString('ko-KR',{timeZone:'Asia/Seoul'})===today}).length;
     var by=function(k,v){return list.filter(function(l){return l[k]===v}).length};
-    var items=[['전체',list.length],['오늘',t],['10/20 희망',by('session','1020')],['10/27 희망',by('session','1027')],['둘 다 가능',by('session','both')],['취업',by('purpose','취업')],['창업(1인샵·헤드스파)',by('purpose','1인샵 창업')+by('purpose','헤드스파 창업')],['수신동의',list.filter(function(l){return l.marketing}).length],['중복 번호',list.filter(function(l){return l.dup}).length]];
+    var items=[['전체',list.length],['오늘',t],['10/20 희망',by('session','1020')],['10/27 희망',by('session','1027')],['둘 다 가능',by('session','both')],['2기 알림',by('session','waitlist')],['취업',by('purpose','취업')],['창업(1인샵·헤드스파)',by('purpose','1인샵 창업')+by('purpose','헤드스파 창업')],['수신동의',list.filter(function(l){return l.marketing}).length],['중복 번호',list.filter(function(l){return l.dup}).length]];
     $('#stats').innerHTML=items.map(function(i){return '<div class="stat"><b>'+i[1]+'</b><span>'+i[0]+'</span></div>'}).join('');
   }
   function render(){
@@ -74,8 +74,8 @@ a{color:#f0657a}
   $('#refresh').addEventListener('click',load);
   $('#login').addEventListener('submit',function(e){e.preventDefault();pw=$('#pw').value;sessionStorage.setItem('acad_pw',pw);load()});
   $('#csv').addEventListener('click',function(){
-    var head=['접수시각','이름','연락처','희망날짜','목적','수신동의','폼','A/B안','utm_source','utm_medium','utm_campaign','utm_content','utm_term','유입경로','상태','메모','중복번호'];
-    var rows=filtered().map(function(l){var a=l.attr||{};return [l.createdAt,l.name,l.phone,SES[l.session]||'',l.purpose,l.marketing?'Y':'N',l.origin,l.variant,a.utm_source,a.utm_medium,a.utm_campaign,a.utm_content,a.utm_term,a.referrer,ST[l.status]||l.status,l.note,l.dup?'Y':'']});
+    var head=['접수시각','이름','연락처','희망날짜','목적','수신동의','폼','A/B안','utm_source','utm_medium','utm_campaign','utm_content','utm_term','앵글','유입경로','상태','메모','중복번호'];
+    var rows=filtered().map(function(l){var a=l.attr||{};return [l.createdAt,l.name,l.phone,SES[l.session]||'',l.purpose,l.marketing?'Y':'N',l.origin,l.variant,a.utm_source,a.utm_medium,a.utm_campaign,a.utm_content,a.utm_term,a.angle,a.referrer,ST[l.status]||l.status,l.note,l.dup?'Y':'']});
     var csv='﻿'+[head].concat(rows).map(function(r){return r.map(function(c){c=String(c==null?'':c);return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c}).join(',')}).join('\r\n');
     var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='academy_leads_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
   });

@@ -69,10 +69,11 @@ button,input,select,textarea{font:inherit;color:inherit}
 .brand-line{display:flex;align-items:baseline;gap:12px;margin-bottom:22px}
 .brand-line .wm{font:600 1.7rem/1 var(--serif)}
 .brand-line .ac{font-size:.78rem;font-weight:700;letter-spacing:.3em;color:var(--mut)}
+.first{display:inline-block;margin-bottom:12px;padding:5px 14px;border:1px solid var(--rose);border-radius:999px;color:var(--rose);font-size:.8rem;font-weight:800;letter-spacing:.04em}
 .chip{display:inline-block;padding:8px 18px;background:var(--red);border-radius:999px;font-weight:800;font-size:clamp(.9rem,1.6vw,1.1rem)}
 .hero h1{margin-top:22px;font-size:clamp(1.3rem,2.6vw,1.9rem);font-weight:800;line-height:1.35}
-.hero .brush{display:block;font:400 clamp(3.2rem,8.4vw,6.6rem)/1.02 var(--brush);color:var(--rose);margin-top:4px;letter-spacing:0}
-.hero .big{display:block;font-size:clamp(2.1rem,5.6vw,4.3rem);font-weight:900;line-height:1.12;letter-spacing:-.04em;margin-top:6px}
+.hero .brush{display:block;white-space:nowrap;font:400 clamp(2.7rem,5.6vw,4.7rem)/1.1 var(--brush);color:var(--rose);margin-top:2px;letter-spacing:0}
+.hero .big{display:block;font-size:clamp(2rem,4.6vw,3.7rem);font-weight:900;line-height:1.14;letter-spacing:-.04em;margin-top:4px}
 .hero .sub{margin-top:20px;color:#e6dcd4;font-size:clamp(1rem,1.6vw,1.15rem);max-width:46ch}
 .facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin:0 0 clamp(28px,5vw,56px);background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
 .who-badge{display:flex;align-items:center;gap:14px;margin-top:24px}
@@ -111,6 +112,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .more p{margin-top:6px;line-height:1.6}
 .card .btn{width:100%;margin-top:16px;min-height:56px;font-size:1.06rem}
 .err{margin-top:12px;color:#b3122a;font-size:.86rem;font-weight:700;min-height:1.2em}
+.reassure{margin-top:10px;text-align:center;font-size:.8rem;color:#6a5a55}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .ok{display:none;text-align:left}
 .ok h3{font-size:1.5rem;font-weight:900}
@@ -156,6 +158,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .who ul{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:12px}
 .who li{display:grid;grid-template-columns:22px 1fr;gap:10px;color:#e9dfd7}
 .who li::before{content:"✓";color:var(--rose);font-weight:900}
+.notfit{margin-top:16px;font-size:.88rem;color:var(--faint);padding-left:14px;border-left:2px solid var(--line)}
 .q3{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:30px;border-top:1px solid var(--line)}
 .q3 div{padding:24px 24px 24px 0;border-bottom:1px solid var(--line)}
 .q3 div+div{padding-left:24px;border-left:1px solid var(--line)}
@@ -183,10 +186,17 @@ button,input,select,textarea{font:inherit;color:inherit}
 .cur li{display:grid;grid-template-columns:48px 1fr;gap:14px;padding:18px 0;border-bottom:1px solid var(--line)}
 .cur li>b{font:600 1.6rem/1 var(--serif);color:var(--rose)}
 .cur h3{font-size:1.1rem;font-weight:800}
+.cur .out{display:block;margin-top:8px;font-size:.84rem;font-weight:700;color:var(--rose)}
 .cur p{margin-top:4px;color:var(--mut);font-size:.9rem;line-height:1.6}
 .vid{position:sticky;top:96px}
 .vid video{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:22px;background:#000;box-shadow:0 24px 60px #000a}
 .vid p{margin-top:10px;font-size:.82rem;color:var(--faint);text-align:center}
+
+.pick{list-style:none;margin:30px 0 0;padding:0;border-top:2px solid var(--ink)}
+.pick li{display:grid;grid-template-columns:52px 1fr;gap:14px;padding:22px 0;border-bottom:1px solid var(--line)}
+.pick b{font:600 1.7rem/1 var(--serif);color:var(--rose)}
+.pick h3{font-size:1.15rem;font-weight:800}
+.pick p{margin-top:6px;color:var(--mut)}
 
 /* ── director ──────────────────────────────────────── */
 .dir{background:var(--bg2);border-block:1px solid var(--line)}
@@ -308,12 +318,13 @@ footer a{color:var(--mut)}
   <div class="wrap hero-grid">
     <div>
       <div class="brand-line"><span class="wm">Scálpit</span><span class="ac">ACADEMY</span></div>
+      <span class="first" id="heroBadge">스칼프잇 최초 교육 · 외부 첫 공개</span>
       <span class="chip">26.10.20(화) · 10.27(화) 13:00 · 회차당 6명</span>
       <h1 id="h1">1년 만에 직영 4곳 · 누적 매출 20억
         <span class="brush">직접 키운 대표원장이</span>
         <span class="big">직접 여는 원데이 클래스</span>
       </h1>
-      <p class="sub">두피 진단·상담·수기 프로토콜부터 매장 운영까지. 7년 현장에서 만든 방식을 하루, 5시간 반에 직접 가르칩니다.</p>
+      <p class="sub" id="heroSub">스칼프잇이 처음으로 여는 교육입니다. 직영 4곳이 매일 쓰는 두피 진단·상담·수기 프로토콜을, 하루 5시간 반 · 소수 정원으로 직접 가르칩니다.</p>
       <div class="who-badge"><img src="/academy/img/director.webp" alt="" width="68" height="68"><div><b>이채연 대표원장</b><span>두피샵 7년 · 직영점 4곳 직접 운영</span></div></div>
     </div>
 
@@ -328,6 +339,7 @@ footer a{color:var(--mut)}
               <label class="pill"><input type="radio" name="session" value="1020"><span>10/20(화) 13:00</span></label>
               <label class="pill"><input type="radio" name="session" value="1027"><span>10/27(화) 13:00</span></label>
               <label class="pill"><input type="radio" name="session" value="both" checked><span>둘 다 가능</span></label>
+              <label class="pill"><input type="radio" name="session" value="waitlist"><span>일정이 어려워요 · 2기 알림</span></label>
             </div>
           </fieldset>
           <div class="fld"><label for="h-name">성함</label><input id="h-name" name="name" type="text" autocomplete="name" maxlength="20" placeholder="이름을 입력해 주세요" required></div>
@@ -338,6 +350,7 @@ footer a{color:var(--mut)}
           <label class="consent"><input type="checkbox" name="marketing"><span>[선택] 실전반·창업반 등 스칼프잇 교육 과정 안내를 받겠습니다.</span></label>
           <p class="err" role="alert" aria-live="assertive"></p>
           <button class="btn" type="submit" data-track="submit_hero">1기 29만원 신청하기</button>
+          <p class="reassure">신청만으로 결제되지 않습니다. 결제 전에 환불·취소 규정을 안내드립니다.</p>
         </form>
       </div>
       <div class="ok" role="status" tabindex="-1">
@@ -374,6 +387,7 @@ footer a{color:var(--mut)}
   <div class="wrap">
     <span class="eyebrow rv">PROOF</span>
     <h2 class="h2 rv" id="proof-h">스칼프잇은 주장하지 않습니다.<br>증명합니다.</h2>
+    <p class="lede rv">강의를 위해 만든 노하우가 아닙니다. 직영점 4곳이 매일 쓰는 방식을 그대로 가르칩니다.</p>
     <div class="nums rv">
       <div><b>4<small>곳</small></b><span>직영점 (동탄·천안·광교·압구정로데오)</span></div>
       <div><b>20<small>억</small></b><span>1년 누적 매출</span></div>
@@ -406,6 +420,7 @@ footer a{color:var(--mut)}
       <div class="who rv"><h3>처음 시작하는 분</h3><ul><li>“이거 진짜 돈 돼?” 직접 보고 판단하고 싶은 분</li><li>취업·1인샵·창업 중 내 길을 정하고 싶은 분</li><li>수백만 원 교육 결제 전에, 하루로 먼저 확인하고 싶은 분</li></ul></div>
       <div class="who rv"><h3>샵을 운영 중인 원장님</h3><ul><li>에스테틱·피부·뷰티샵에 헤드스파 메뉴를 더하고 싶은 분</li><li>객단가와 재방문율을 올리고 싶은 분</li><li>두피 상담을 자신 있게 하고 싶은 분</li></ul></div>
     </div>
+    <p class="notfit rv">국가자격증 취득 자체가 목적이라면 이 클래스는 맞지 않습니다. 시험이 아니라, 현장에서 쓰는 기술과 운영 구조를 배우는 하루입니다.</p>
     <div class="q3">
       <div class="rv"><b>Q1</b><h3>헤드스파, 진짜 돈이 될까?</h3><p>직영점 4곳, 월평균 예약 1,500건. 내국인부터 외국인까지, 수요를 실제 숫자로 보여드립니다.</p></div>
       <div class="rv"><b>Q2</b><h3>잘되는 매장은 무엇이 다를까?</h3><p>진단이 바뀌면 상담이 바뀌고, 상담이 바뀌면 재방문이 바뀝니다. 그 프로토콜을 직접 해봅니다.</p></div>
@@ -438,18 +453,34 @@ footer a{color:var(--mut)}
     <h2 class="h2 rv" id="cur-h">이론 → 진단 → 경혈 → 수기 → 실습 → 운영,<br>하루에 처음부터 끝까지</h2>
     <div class="cur">
       <ol class="rv">
-        <li><b>01</b><div><h3>헤드스파 이론</h3><p>헤드스파의 정의와 효과 · 헤드스파 vs 두피관리의 차이 · 두피·모발 구조 기초</p></div></li>
-        <li><b>02</b><div><h3>두피 진단</h3><p>두피 측정 장비 사용법 · 정상·지성·건성·지루성·민감성 구분 · 유형별 관리 방향</p></div></li>
-        <li><b>03</b><div><h3>두피 경혈점</h3><p>두정부(신정·상성·백회) · 측두부(솔곡·각손) · 후두부(뇌호·풍부)</p></div></li>
-        <li><b>04</b><div><h3>두피 매니퓰레이션</h3><p>혈점의 이해와 누르는 방법 · 경찰법·강찰법·유념법·압박법·고타법 · 두상 혈점 누르기</p></div></li>
-        <li><b>05</b><div><h3>스칼프잇 프로토콜 실습</h3><p>브러싱 → 스케일링 → 스팀 → 샴푸 → 워터테라피 → 수기 → 마무리 · 손 위치·압·각도·리듬 1:1 교정</p></div></li>
-        <li><b>06</b><div><h3>매장 운영 실전</h3><p>프로그램 구성·가격·상담 스크립트 · 회원권·재방문·업셀링 · 스칼프잇 두피 교재 제공</p></div></li>
+        <li><b>01</b><div><h3>헤드스파 이론</h3><p>헤드스파의 정의와 효과 · 헤드스파 vs 두피관리의 차이 · 두피·모발 구조 기초</p><span class="out">끝나면 → 고객에게 헤드스파와 두피관리의 차이를 설명할 수 있습니다.</span></div></li>
+        <li><b>02</b><div><h3>두피 진단</h3><p>두피 측정 장비 사용법 · 정상·지성·건성·지루성·민감성 구분 · 유형별 관리 방향</p><span class="out">끝나면 → 장비 화면으로 두피 유형을 구분하고 고객에게 설명할 수 있습니다.</span></div></li>
+        <li><b>03</b><div><h3>두피 경혈점</h3><p>두정부(신정·상성·백회) · 측두부(솔곡·각손) · 후두부(뇌호·풍부)</p><span class="out">끝나면 → 주요 혈점의 위치와 누르는 방향을 익힙니다.</span></div></li>
+        <li><b>04</b><div><h3>두피 매니퓰레이션</h3><p>혈점의 이해와 누르는 방법 · 경찰법·강찰법·유념법·압박법·고타법 · 두상 혈점 누르기</p><span class="out">끝나면 → 다섯 가지 수기 기법을 순서대로 시연할 수 있습니다.</span></div></li>
+        <li><b>05</b><div><h3>스칼프잇 프로토콜 실습</h3><p>브러싱 → 스케일링 → 스팀 → 샴푸 → 워터테라피 → 수기 → 마무리 · 손 위치·압·각도·리듬 1:1 교정</p><span class="out">끝나면 → 스칼프잇 관리 순서를 처음부터 끝까지 한 번 완주합니다.</span></div></li>
+        <li><b>06</b><div><h3>매장 운영 실전</h3><p>프로그램 구성·가격·상담 스크립트 · 회원권·재방문·업셀링 · 스칼프잇 두피 교재 제공</p><span class="out">끝나면 → 내 매장(또는 내 계획)의 메뉴·가격·상담 흐름을 잡아 갑니다.</span></div></li>
       </ol>
       <div class="vid rv">
         <video id="classVideo" src="/academy/img/class.mp4" poster="/academy/img/class-poster.webp" muted loop playsinline preload="none" aria-label="스칼프잇 아카데미 수업 현장 영상"></video>
         <p>수업 현장 · 대표원장 직접 시연</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- 6-2. 교육 고르는 기준 -->
+<section class="sec" aria-labelledby="pick-h">
+  <div class="wrap">
+    <span class="eyebrow rv">BEFORE YOU PAY</span>
+    <h2 class="h2 rv" id="pick-h">어디서 배우든,<br>결제 전에 이 5가지는 물어보세요.</h2>
+    <p class="lede rv">스칼프잇의 답은 이렇습니다.</p>
+    <ol class="pick">
+      <li class="rv"><b>01</b><div><h3>누가 가르치나요?</h3><p>직영 4곳을 직접 운영하는 대표원장이 5시간 반 내내 가르칩니다. 조교에게 넘기지 않습니다.</p></div></li>
+      <li class="rv"><b>02</b><div><h3>몇 명이 함께 듣나요?</h3><p>회차당 6명. 한 명씩 손을 잡고 교정하려면 이 인원이 한계입니다.</p></div></li>
+      <li class="rv"><b>03</b><div><h3>내 손으로 직접 해보나요?</h3><p>시연을 본 뒤 2인 1조로 직접 관리합니다. 손 위치·압·각도·리듬을 1:1로 잡아드립니다.</p></div></li>
+      <li class="rv"><b>04</b><div><h3>기술만 배우나요, 운영 구조까지 배우나요?</h3><p>진단 → 상담 → 회원권으로 이어지는 흐름과 가격, 상담 스크립트까지 다룹니다.</p></div></li>
+      <li class="rv"><b>05</b><div><h3>끝난 뒤에는 어떻게 되나요?</h3><p>당일 1:1 상담, 다음 과정, 우수 수료생 채용 면접 기회가 이어집니다. 제품·장비 판매는 없습니다.</p></div></li>
+    </ol>
   </div>
 </section>
 
@@ -499,12 +530,16 @@ footer a{color:var(--mut)}
     <h2 class="h2 rv" id="faq-h">신청 전, 가장 많이 묻는 질문</h2>
     <div class="faq rv">
       <details><summary>비전공자, 완전 초보도 들을 수 있나요?</summary><p>네. 두피 기초 이론부터 시작하고, 6명 소수 정원이라 한 명씩 직접 교정해드립니다.</p></details>
-      <details><summary>샵을 운영 중인데, 바로 적용할 수 있나요?</summary><p>진단·상담 흐름, 스케일링·수기 테크닉, 메뉴 구성까지 다음 날부터 매장에 쓸 수 있는 기준으로 알려드립니다.</p></details>
+      <details><summary>다른 두피·헤드스파 교육과 무엇이 다른가요?</summary><p>위의 5가지 기준으로 비교해 보세요. 스칼프잇은 직영 4곳을 운영하는 대표원장이 직접, 6명에게, 손을 잡고 가르칩니다. 기술뿐 아니라 상담·회원권 같은 운영 구조까지 다루고, 수업 후 제품이나 장비를 권하지 않습니다.</p></details>
+      <details><summary>평일 낮 수업인데, 직장인도 들을 수 있나요?</summary><p>1기는 10/20·10/27 평일 13:00–18:30, 두 회차뿐입니다. 일정이 어렵다면 신청서에서 ‘일정이 어려워요 · 2기 알림’을 선택해 주세요. 2기 일정이 정해지면 가장 먼저 알려드립니다.</p></details>
+      <details><summary>자격증이 나오나요?</summary><p>스칼프잇 아카데미 수료증이 발급됩니다. 국가자격증 시험을 준비하는 과정은 아닙니다.</p></details>
+      <details><summary>하루 만에 다 배울 수 있나요?</summary><p>하루에 모든 기술이 숙달되지는 않습니다. 이 하루는 기준과 순서를 잡고, 틀린 습관을 1:1로 바로잡는 시간입니다. 이후 복습은 교재로 하시고, 더 깊이 배우고 싶다면 실전 기술반이 이어집니다.</p></details>
       <details><summary>끝나고 제품이나 장비를 사야 하나요?</summary><p>아니요. 제품 판매는 전혀 없습니다.</p></details>
+      <details><summary>수업 후 취업이 가능한가요?</summary><p>취업을 보장하지는 않습니다. 수업에서 확인된 실력과 태도를 기준으로 우수 수료생에게 스칼프잇 직영점 채용 면접 기회를 드립니다. 선발 기준은 별도로 안내합니다.</p></details>
+      <details><summary>샵을 운영 중인데, 바로 적용할 수 있나요?</summary><p>진단·상담 흐름, 스케일링·수기 테크닉, 메뉴 구성까지 다음 날부터 매장에 쓸 수 있는 기준으로 알려드립니다.</p></details>
       <details><summary>준비물이 있나요?</summary><p>실습 재료와 교재는 모두 제공됩니다. 편한 복장으로 오시면 됩니다.</p></details>
-      <details><summary>수료증이 나오나요?</summary><p>스칼프잇 아카데미 수료증이 발급됩니다.</p></details>
       <details><summary>실습은 누구 머리로 하나요?</summary><p>2인 1조로 수강생끼리 서로 관리해봅니다. 직접 받아보면 압과 리듬이 훨씬 빨리 잡힙니다.</p></details>
-      <details><summary>결제와 환불은 어떻게 하나요?</summary><p>신청서를 남기시면 담당자가 연락드려 결제 방법과 환불·취소 규정을 결제 전에 안내드립니다. 자리는 결제 완료 순으로 확정됩니다.</p></details>
+      <details><summary>결제와 환불은 어떻게 하나요?</summary><p>신청서를 남기시면 담당자가 연락드려 결제 방법과 환불·취소 규정을 결제 전에 안내드립니다. 신청만으로는 결제되지 않으며, 자리는 결제 완료 순으로 확정됩니다.</p></details>
     </div>
   </div>
 </section>
@@ -535,6 +570,7 @@ footer a{color:var(--mut)}
               <label class="pill"><input type="radio" name="session" value="1020"><span>10/20(화) 13:00</span></label>
               <label class="pill"><input type="radio" name="session" value="1027"><span>10/27(화) 13:00</span></label>
               <label class="pill"><input type="radio" name="session" value="both" checked><span>둘 다 가능</span></label>
+              <label class="pill"><input type="radio" name="session" value="waitlist"><span>일정이 어려워요 · 2기 알림</span></label>
             </div>
           </fieldset>
           <div class="fld"><label for="b-name">성함</label><input id="b-name" name="name" type="text" autocomplete="name" maxlength="20" placeholder="이름을 입력해 주세요" required></div>
@@ -554,6 +590,7 @@ footer a{color:var(--mut)}
           <label class="consent"><input type="checkbox" name="marketing"><span>[선택] 실전반·창업반 등 스칼프잇 교육 과정 안내를 받겠습니다. 동의하지 않아도 신청할 수 있습니다.</span></label>
           <p class="err" role="alert" aria-live="assertive"></p>
           <button class="btn" type="submit" data-track="submit_bottom">1기 29만원 신청하기</button>
+          <p class="reassure">신청만으로 결제되지 않습니다. 결제 전에 환불·취소 규정을 안내드립니다.</p>
         </form>
       </div>
       <div class="ok" role="status" tabindex="-1">
@@ -592,8 +629,15 @@ footer a{color:var(--mut)}
   var pathCards=$('.path'); if(variant==='b'&&pathCards) pathCards.style.gridTemplateColumns='repeat(2,minmax(0,1fr))';
 
   /* 유입 경로 */
+  var ANG=(q.get('angle')||'').toLowerCase(); var ANGLES={
+    money:{b:'직영 4곳 실제 매출 공개',s:'헤드스파가 정말 돈이 되는지, 직영점 4곳의 실제 POS 화면과 객단가를 올리는 상담·회원권 구조로 보여드립니다.'},
+    career:{b:'취업·이직 준비 · 실습 중심',s:'현장에서 매일 쓰는 두피 관리 기술을 직접 해보고, 수업에서 실력이 확인되면 스칼프잇 직영점 채용 면접 기회까지 이어집니다.'},
+    startup:{b:'헤드스파 창업 준비',s:'잘되는 매장은 무엇이 다른지, 직영점 4곳을 키운 대표원장이 진단·상담·회원권 구조까지 하루에 보여드립니다. 창업 전에 먼저 확인하세요.'}
+  };
+  if(ANGLES[ANG]){var hb=$('#heroBadge'),hs=$('#heroSub');if(hb)hb.textContent=ANGLES[ANG].b;if(hs)hs.textContent=ANGLES[ANG].s}
   var P=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','n_media','n_query','n_ad'];
   var attr={}; try{var saved=JSON.parse(sessionStorage.getItem('acad_attr')||'{}');attr=saved}catch(e){}
+  if(ANGLES[ANG]) attr.angle=ANG;
   P.forEach(function(k){var v=q.get(k); if(v) attr[k]=String(v).slice(0,200)});
   if(!attr.referrer&&document.referrer) attr.referrer=document.referrer.slice(0,300);
   try{sessionStorage.setItem('acad_attr',JSON.stringify(attr))}catch(e){}
@@ -662,8 +706,10 @@ footer a{color:var(--mut)}
       btn.disabled=true; var label=btn.textContent; btn.textContent='접수 중…';
       var done=function(res){
         lastLead=res||null; card.classList.add('done');
-        var okEl=$('.ok',card); if(okEl) okEl.focus();
-        var fol=$('[data-follow]',card); if(fol&&form.getAttribute('data-origin')!=='hero') fol.style.display='none';
+        var okEl=$('.ok',card);
+        if(okEl&&body.session==='waitlist'){okEl.innerHTML='<h3>2기 알림 신청이 접수되었습니다</h3><p style="margin-top:10px">2기 일정이 정해지면 가장 먼저 연락드립니다. 문의는 <a class="tel" href="tel:01058717336">010-5871-7336</a></p>'}
+        if(okEl) okEl.focus();
+        var fol=$('[data-follow]',card); if(fol&&(form.getAttribute('data-origin')!=='hero'||body.session==='waitlist')) fol.style.display='none';
         track('academy_lead',{origin:body.origin,variant:variant,session:body.session,purpose:body.purpose,utm_source:attr.utm_source||'',utm_campaign:attr.utm_campaign||'',utm_content:attr.utm_content||''});
         try{if(window.fbq)window.fbq('track','Lead',{content_name:'academy_oneday_1',value:290000,currency:'KRW'})}catch(e){}
       };

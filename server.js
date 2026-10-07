@@ -173,7 +173,7 @@ app.get('/apply/admin', (req, res) => res.sendFile(path.join(__dirname, 'public/
 const crypto = require('crypto');
 const ACADEMY_FILE = path.join(DATA_DIR, 'academy_leads.json');
 const LEAD_STATUS = ['new', 'contacted', 'paid', 'confirmed', 'cancelled'];
-const LEAD_SESSIONS = ['1020', '1027', 'both'];
+const LEAD_SESSIONS = ['1020', '1027', 'both', 'waitlist'];
 const LEAD_PURPOSES = ['', '기술 습득', '취업', '1인샵 창업', '헤드스파 창업', '아직 모르겠음'];
 
 function readAcademyJson() {
@@ -293,7 +293,7 @@ app.post('/api/academy/lead', async (req, res) => {
 
     const attrIn = b.attr && typeof b.attr === 'object' ? b.attr : {};
     const attr = {};
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'n_media', 'n_query', 'n_ad', 'referrer'].forEach(k => {
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'n_media', 'n_query', 'n_ad', 'referrer', 'angle'].forEach(k => {
       if (attrIn[k]) attr[k] = clip(attrIn[k], 300);
     });
     const lead = {
