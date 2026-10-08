@@ -54,6 +54,7 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { -webkit-text-size-adjust: 100%; }
+    html:lang(ko) body { word-break: keep-all; overflow-wrap: break-word; }
     body {
       font-family: var(--sans);
       background: var(--cream);
@@ -144,13 +145,13 @@
       padding: 22px 20px 18px; margin-bottom: 32px; box-shadow: var(--shadow);
     }
     .welcome-en { font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--gold); }
-    .welcome-title { font-size: 21px; font-weight: 800; color: var(--ink); letter-spacing: -0.025em; line-height: 1.35; margin-top: 2px; word-break: keep-all; }
-    .welcome-body { font-size: 14.5px; color: var(--muted); line-height: 1.65; margin-top: 6px; word-break: keep-all; }
+    .welcome-title { font-size: 21px; font-weight: 800; color: var(--ink); letter-spacing: -0.025em; line-height: 1.35; margin-top: 2px; }
+    .welcome-body { font-size: 14.5px; color: var(--muted); line-height: 1.65; margin-top: 6px; }
     .welcome-chips { display: flex; gap: 6px; margin-top: 12px; }
     .welcome-chip { font-size: 12.5px; font-weight: 600; color: var(--burg); background: #fff; border: 1px solid var(--burg-line); border-radius: 999px; padding: 3px 10px; }
     .welcome-group { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
     .welcome-notice strong { display: block; font-size: 13px; font-weight: 700; color: var(--burg); margin-bottom: 2px; }
-    .welcome-notice p { font-size: 13.5px; color: var(--text); line-height: 1.7; white-space: pre-line; word-break: keep-all; }
+    .welcome-notice p { font-size: 13.5px; color: var(--text); line-height: 1.7; white-space: pre-line; }
     .welcome-group .share-btn { margin-top: 12px; }
 
     /* 이어서 쓰기 */
@@ -264,7 +265,7 @@
     .check input:checked + .mark { background: var(--burg); border-color: var(--burg); }
     .check input:checked + .mark svg { opacity: 1; transform: none; }
     .check input:focus-visible + .mark { outline: 2px solid var(--burg); outline-offset: 2px; }
-    .check-text { font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.45; word-break: keep-all; }
+    .check-text { font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.45; }
     .consent-all .check-text { font-weight: 700; }
     .tag-req, .tag-opt { font-size: 12px; font-weight: 600; margin-right: 4px; }
     .tag-req { color: var(--burg); }
@@ -386,7 +387,7 @@
       font-weight: 800; font-size: 17px; line-height: 1.05; letter-spacing: -.02em;
     }
     .promo-badge small { display: block; font-size: 10px; font-weight: 600; letter-spacing: .08em; }
-    .promo-copy { font-size: 13px; line-height: 1.55; color: rgba(255,255,255,.85); word-break: keep-all; }
+    .promo-copy { font-size: 13px; line-height: 1.55; color: rgba(255,255,255,.85); }
     .promo-copy strong { display: block; color: #fff; font-size: 15.5px; font-weight: 700; }
 
 
@@ -433,7 +434,7 @@
     .summary-row { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
     .summary-row:last-child { border-bottom: none; }
     .summary-key { color: var(--muted); flex-shrink: 0; }
-    .summary-val { font-weight: 600; color: var(--ink); text-align: right; word-break: keep-all; }
+    .summary-val { font-weight: 600; color: var(--ink); text-align: right; }
     .done-logo { width: 96px; margin: 40px auto 0; display: block; opacity: .85; }
 
     /* ── 오시는 길 ── */
@@ -444,9 +445,13 @@
     .visit-branch { font-size: 13px; font-weight: 600; color: var(--burg); }
     .visit-addr { display: flex; align-items: flex-start; gap: 8px; font-size: 14px; color: var(--text); line-height: 1.55; }
     .visit-addr svg { flex-shrink: 0; margin-top: 2px; color: var(--burg); }
-    .visit-addr span { flex: 1; word-break: keep-all; }
+    .visit-addr > span { flex: 1; word-break: keep-all; }
+    .visit-addr .nw { white-space: nowrap; }
     .mini-btn { flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--muted); border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px 10px; }
-    .visit-note { font-size: 13px; color: var(--muted); margin: 8px 0 0 24px; }
+    .visit-info { display: grid; grid-template-columns: auto 1fr; gap: 7px 14px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 13.5px; line-height: 1.6; }
+    .visit-info dt { color: var(--muted); font-weight: 600; white-space: nowrap; }
+    .visit-info dd { color: var(--text); }
+    .dir-video { margin-top: 10px; }
     .map-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 14px; }
     .map-btn { display: flex; align-items: center; justify-content: center; height: 42px; border-radius: 10px; font-size: 13px; font-weight: 700; text-decoration: none; border: 1px solid var(--line); color: var(--ink); background: #fff; }
     .map-naver { color: #03A94D; }
@@ -463,18 +468,18 @@
     /* ── 브랜드 영상 · 자주 묻는 질문 ── */
     #brandBox { display: grid; gap: 28px; margin-top: 36px; text-align: left; }
     .brand-title { font-size: 17px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; }
-    .brand-sub { font-size: 13.5px; color: var(--muted); margin-top: 2px; word-break: keep-all; }
+    .brand-sub { font-size: 13.5px; color: var(--muted); margin-top: 2px; }
     .video { position: relative; display: block; margin-top: 12px; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; background: linear-gradient(140deg, #5A1020, var(--burg)); box-shadow: var(--shadow); }
     .video img, .video iframe { width: 100%; height: 100%; display: block; border: 0; object-fit: cover; }
     .video-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 58px; height: 58px; border-radius: 50%; background: rgba(255,255,255,.94); color: var(--burg); display: grid; place-items: center; padding-left: 3px; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
     .video-label { position: absolute; left: 12px; bottom: 12px; font-size: 12px; font-weight: 600; color: #fff; background: rgba(30,18,20,.62); padding: 4px 10px; border-radius: 999px; }
     .faq { margin-top: 12px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
     .faq details + details { border-top: 1px solid var(--line); }
-    .faq summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; font-size: 14.5px; font-weight: 650; color: var(--ink); line-height: 1.45; word-break: keep-all; }
+    .faq summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; font-size: 14.5px; font-weight: 650; color: var(--ink); line-height: 1.45; }
     .faq summary::-webkit-details-marker { display: none; }
     .faq summary::after { content: ''; flex-shrink: 0; width: 7px; height: 7px; margin-right: 2px; border-right: 2px solid var(--faint); border-bottom: 2px solid var(--faint); transform: translateY(-2px) rotate(45deg); transition: transform .2s; }
     .faq details[open] summary::after { transform: translateY(2px) rotate(-135deg); }
-    .faq details p { padding: 0 18px 16px; font-size: 14px; color: var(--muted); line-height: 1.7; word-break: keep-all; }
+    .faq details p { padding: 0 18px 16px; font-size: 14px; color: var(--muted); line-height: 1.7; }
 
     /* ── 토스트 ── */
     .toast {
@@ -589,7 +594,7 @@ const T = {
     notice_title:'안내',
     notice_body:'2인 이상 예약하신 경우, 일행분께도 이 링크를 공유해 모두 작성 부탁드립니다.\n설문지 미작성 시 상담이 제한될 수 있습니다.',
     draft_title:'작성하던 내용이 있어요', draft_go:'이어서 쓰기', draft_new:'새로 쓰기', draft_done:'작성하던 내용을 불러왔어요.', see_detail:'보기',
-    share_btn:'링크 공유', share_copied:'링크가 복사되었습니다.',
+    share_btn:'링크 공유', share_copied:'링크를 복사했어요.',
     s2_title:'기본 정보', s2_desc:'예약 확인과 상담을 위해 필요한 정보예요.',
     q_name:'이름', ph_name:'홍길동', err_name:'이름을 입력해주세요.',
     q_birth:'생년월일', ph_birth:'1995.03.15', err_birth:'생년월일 8자리를 정확히 입력해주세요.',
@@ -606,9 +611,9 @@ const T = {
     sv_items:'두피·모발 상태, 탈모 유전력, 임신·수유 여부, 복용 약·병원 치료·시술 이력, 알레르기·피부 질환',
     sv_purpose:'안전하고 정확한 맞춤 관리 제공',
     refuse_k:'거부 권리', refuse:'동의를 거부할 수 있으나, 거부 시 상담·관리 제공이 제한될 수 있습니다.',
-    visit_title:'오시는 길', addr_copy:'주소 복사', copied:'복사되었습니다.',
+    visit_title:'오시는 길', addr_copy:'주소 복사', copied:'복사했어요.',
     map_naver:'네이버 지도', map_kakao:'카카오맵', map_google:'Google 지도',
-    call:'전화하기', parking_k:'주차',
+    call:'전화하기', parking_k:'주차', transit_k:'대중교통', closed_k:'휴무', dir_video:'찾아오는 길 영상',
     kakao_ch:'카카오톡 채널 추가', kakao_ch_desc:'예약 변경·문의를 카톡으로 편하게 하세요', insta:'Instagram 팔로우',
     vid_title:'스칼프잇 미리 만나보기', vid_sub:'방문 전에 스칼프잇이 어떤 곳인지 영상으로 먼저 만나보세요.', vid_label:'브랜드 소개 영상',
     faq_title:'자주 묻는 질문',
@@ -619,7 +624,7 @@ const T = {
       ['머리를 감고 가야 하나요?', '당일 샴푸는 하지 않고 오셔도 괜찮아요. 관리 중 목 뒤(네이프라인) 마사지가 있어서, 목폴라나 하이넥을 입으신다면 안에 가벼운 이너를 추천드려요.'],
       ['관리 후 바로 외출해도 되나요?', '네, 관리 후 모발을 말려드려서 바로 일상생활이 가능해요. 관리 중 오일이나 앰플을 사용할 수 있으니, 중요한 일정이 있으시면 상담 때 미리 말씀해 주세요.'],
       ['주차할 수 있나요?', '지점마다 주차 환경이 달라요. 방문 전 매장으로 문의해 주시면 자세히 안내해 드릴게요.', 'parking'],
-      ['예약을 변경하거나 취소하려면요?', '예약하신 곳(네이버 예약 등)에서 변경·취소하시거나 매장으로 연락 주세요. 다른 고객님을 위해 일정 변경은 가능한 한 미리 알려주시면 감사하겠습니다.'],
+      ['예약을 변경하거나 취소하려면요?', '예약하신 곳(네이버 예약 등)에서 변경·취소하시거나 매장으로 연락 주세요. 다른 고객님 예약을 위해 일정 변경은 가능한 한 미리 알려주세요.'],
       ['임신 중에도 받을 수 있나요?', '네. 임신 중에도 편안하게 받으실 수 있도록 성분과 관리 방식을 세심하게 구성한 임산부 전용 헤드스파가 있어요. 설문에 남겨주신 내용을 보고 미리 준비해 둘게요.'],
       ['생리 중이거나 두피에 상처가 있어도 되나요?', '컨디션이 괜찮으시다면 생리 중에도 받으실 수 있어요. 두피에 상처나 염증이 있거나 최근 염색·펌·두피 시술을 받으셨다면 상담 때 꼭 말씀해 주세요. 상태에 맞춰 관리 방식을 조정해 드려요.'],
       ['둘이 함께 받을 수 있나요?', '네, 2인 예약이 가능해요. 예약·운영 상황에 따라 1인룸에서 각각 진행될 수 있어요. 이 경우 예약 확정 전에 미리 연락드립니다. 일행분도 이 설문을 꼭 작성해 주세요.'],
@@ -645,10 +650,10 @@ const T = {
     assure_title:'부담 갖지 마세요', assure:'관심 있는 메뉴를 여러 개 골라도 괜찮아요. 여기서 고른 메뉴로 확정되지 않아요.\n방문하시면 두피 상태를 먼저 확인한 뒤, 고객님께 딱 맞는 관리로 추천해 드릴게요.', pick_menu:'메뉴를 직접 고를게요', rec_count:'추천 {n}개',
     rec:'추천', rec_note:'앞서 답해주신 내용을 바탕으로 추천 표시를 해드렸어요.', min:'분', no_disc:'할인 제외',
     col_min:'시간', col_reg:'정상가', col_first:'첫 방문가', price_note:'가격 단위: 원\n첫 방문가는 광고성 정보 수신 동의 + 네이버 리뷰 작성 시 적용', price_intl:'',
-    err_serv:'관심 메뉴를 하나 이상 골라주세요. 아직 모르시면 \'상담 후 결정\'을 선택해주세요.',
+    err_serv:'관심 메뉴를 하나 이상 골라주세요. 아직 모르시면 \'상담 후 결정할게요\'를 선택해주세요.',
     q_video:'기념 영상 촬영',
     video_desc:'헤드스파 받으시는 모습을 고객님 휴대폰으로 동영상·사진 촬영해드려요. 원하시면 \'네\'를 선택해주세요.',
-    vc1:'네, 촬영 원합니다.', vc2:'아니오, 촬영 원하지 않습니다.',
+    vc1:'네, 촬영해 주세요', vc2:'아니요, 괜찮아요',
     err_video:'촬영 희망 여부를 선택해주세요.',
     consent_all:'약관 전체 동의',
     tag_req:'[필수]', tag_opt:'[선택]',
@@ -662,12 +667,12 @@ const T = {
     privacy_mkt_detail:'이벤트·할인·신규 서비스 소식을 문자·카카오톡으로 보내드려요. 언제든 수신을 거부할 수 있어요.',
     err_privacy:'필수 항목에 모두 동의해주세요.',
     btn_next:'다음', btn_back:'이전', btn_submit:'제출하기', btn_ing:'제출 중',
-    done_title:'설문이 접수되었습니다',
-    done_desc:'소중한 정보 감사합니다.\n스칼프잇에서 최적의 두피 케어를 준비하겠습니다.\n예약 당일 편안하게 방문해주세요.',
+    done_title:'설문이 접수됐어요',
+    done_desc:'꼼꼼하게 알려주셔서 감사해요.\n남겨주신 내용으로 맞춤 케어를 미리 준비해 둘게요.\n예약하신 날 편안한 마음으로 오세요.',
     done_name:'이름', done_phone:'연락처', done_branch:'지점', done_serv:'관심 메뉴',
-    err_server:'오류가 발생했습니다. 다시 시도해주세요.',
-    err_network:'서버 연결 오류입니다. 잠시 후 다시 시도해주세요.',
-    err_rate:'요청이 너무 많습니다. 잠시 후 다시 시도해주세요.',
+    err_server:'일시적인 오류가 생겼어요. 다시 시도해 주세요.',
+    err_network:'연결이 불안정해요. 잠시 후 다시 시도해 주세요.',
+    err_rate:'요청이 많아요. 잠시 후 다시 시도해 주세요.',
     step_of:(c,t)=>`<b>${c}</b> / ${t}`,
   },
   en: {
@@ -695,7 +700,7 @@ const T = {
     refuse_k:'Right to refuse', refuse:'You may refuse, but consultation and care may be limited.',
     visit_title:'Getting Here', addr_copy:'Copy address', copied:'Copied.',
     map_naver:'Naver Map', map_kakao:'Kakao Map', map_google:'Google Maps',
-    call:'Call', parking_k:'Parking',
+    call:'Call', parking_k:'Parking', transit_k:'Transit', closed_k:'Closed', dir_video:'How to find us (video)',
     kakao_ch:'Add us on KakaoTalk', kakao_ch_desc:'Reschedule or ask questions easily via KakaoTalk', insta:'Follow on Instagram',
     vid_title:'Get to know Scálpit', vid_sub:'Take a look at Scálpit before your visit.', vid_label:'Brand film',
     faq_title:'FAQ',
@@ -729,7 +734,7 @@ const T = {
     assure_title:'No pressure', assure:"Feel free to pick as many as you like — nothing is final.\nWe'll check your scalp first and recommend the care that suits you best.", pick_menu:'I want to pick from the menu', rec_count:'{n} recommended for you',
     rec:'Recommended', rec_note:'We marked recommendations based on your answers.', min:'min', no_disc:'',
     col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'Prices in Korean won (KRW).',
-    err_serv:"Please pick at least one, or choose 'Not sure yet'.",
+    err_serv:"Please pick at least one, or choose “I'll decide at the consultation”.",
     q_video:'Souvenir Video',
     video_desc:"We can record photos & video of your head spa on your phone. Select 'Yes' if you'd like that.",
     vc1:'Yes, please record.', vc2:'No, thank you.',
@@ -776,7 +781,7 @@ const T = {
     refuse_k:'拒绝权利', refuse:'您可以拒绝同意，但可能会限制咨询及护理服务。',
     visit_title:'交通指南', addr_copy:'复制地址', copied:'已复制。',
     map_naver:'Naver地图', map_kakao:'Kakao地图', map_google:'Google地图',
-    call:'拨打电话', parking_k:'停车',
+    call:'拨打电话', parking_k:'停车', transit_k:'交通', closed_k:'休息日', dir_video:'到店路线视频',
     kakao_ch:'添加KakaoTalk频道', kakao_ch_desc:'通过KakaoTalk轻松变更预约或咨询', insta:'关注Instagram',
     vid_title:'提前认识Scálpit', vid_sub:'到访前，先通过视频了解Scálpit吧。', vid_label:'品牌介绍视频',
     faq_title:'常见问题',
@@ -810,7 +815,7 @@ const T = {
     assure_title:'不用有负担', assure:'感兴趣的项目可以多选，这里的选择并不是最终决定。\n到店后我们会先检查您的头皮状态，再为您推荐最合适的护理。', pick_menu:'我想自己选择项目', rec_count:'为您推荐{n}项',
     rec:'推荐', rec_note:'已根据您的回答标注推荐项目。', min:'分钟', no_disc:'',
     col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'价格单位：韩元（KRW）',
-    err_serv:'请至少选择一项，或选择“还不确定”。',
+    err_serv:'请至少选择一项，或选择“咨询后再决定”。',
     q_video:'纪念视频拍摄',
     video_desc:"可用您的手机为您拍摄头皮水疗过程的视频和照片。如需要，请选择'是'。",
     vc1:'是，我希望拍摄。', vc2:'否，不需要拍摄。',
@@ -856,7 +861,7 @@ const T = {
     refuse_k:'拒否する権利', refuse:'同意を拒否できますが、その場合カウンセリング・施術が制限される場合があります。',
     visit_title:'アクセス', addr_copy:'住所をコピー', copied:'コピーしました。',
     map_naver:'Naverマップ', map_kakao:'Kakaoマップ', map_google:'Googleマップ',
-    call:'電話する', parking_k:'駐車場',
+    call:'電話する', parking_k:'駐車場', transit_k:'最寄り駅', closed_k:'定休日', dir_video:'アクセス動画',
     kakao_ch:'KakaoTalkチャンネル追加', kakao_ch_desc:'予約変更・お問い合わせをKakaoTalkで', insta:'Instagramをフォロー',
     vid_title:'Scálpitを事前にチェック', vid_sub:'ご来店前に、Scálpitがどんな場所か動画でご覧ください。', vid_label:'ブランド紹介動画',
     faq_title:'よくある質問',
@@ -890,7 +895,7 @@ const T = {
     assure_title:'お気軽にどうぞ', assure:'気になるメニューは複数選んでも大丈夫です。ここで選んだもので確定にはなりません。\nご来店時にまず頭皮の状態を確認し、お客様にぴったりのケアをご提案します。', pick_menu:'メニューから選ぶ', rec_count:'おすすめ{n}件',
     rec:'おすすめ', rec_note:'ご回答内容をもとにおすすめを表示しています。', min:'分', no_disc:'',
     col_min:'', col_reg:'', col_first:'', price_note:'', price_intl:'料金は韓国ウォン（KRW）表示です。\n初回価格は初めてご来店の方限定です。',
-    err_serv:'一つ以上お選びいただくか、「まだ決めていません」を選択してください。',
+    err_serv:'一つ以上お選びいただくか、「カウンセリングで決めます」を選択してください。',
     q_video:'記念撮影',
     video_desc:'ヘッドスパ中のお姿をお客様のスマートフォンで動画・写真撮影いたします。ご希望の場合は「はい」を選択してください。',
     vc1:'はい、撮影を希望します。', vc2:'いいえ、希望しません。',
@@ -970,7 +975,7 @@ const MENU = [
       zh:['放松水疗', '以温热黄铜器护理与头皮指压，从头皮到颈肩全面放松'],
       ja:['リラックススパ', '温かい真鍮（パンチャ）ケアと指圧で、頭皮から首・肩までほぐすスパ'] },
     { id:'s3', min:80, reg:180000, first:125000,
-      ko:['릴렉스 스파', '릴렉스 케어에 두피 컨디션별 맞춤 앰플 케어를 더해 한층 더 깊고 섬세하게 관리하는 스파'],
+      ko:['릴렉스 스파 + 앰플', '릴렉스 케어에 두피 컨디션별 맞춤 앰플 케어를 더해 한층 더 깊고 섬세하게 관리하는 스파'],
       en:['Relax Spa + Ampoule', 'Relax care plus a tailored ampoule for your scalp condition'],
       zh:['放松水疗 + 安瓶', '在放松护理上加入按头皮状态定制的安瓶护理'],
       ja:['リラックススパ ＋ アンプル', 'リラックスケアに頭皮状態別のアンプルケアを加えたスパ'] },
@@ -1413,6 +1418,7 @@ function applyLang() {
   if (lang === 'ko' && ADDR_EX[branchSlug]) $('#address').placeholder = ADDR_EX[branchSlug];
   $('#welSteps').textContent = t.wel_steps.replace('{n}', STEPS.length);
   $('#langPillText').textContent = lang.toUpperCase();
+  paintBranch();
   applyMenuLang();
   updateRecs();
   updateNav();
@@ -1430,12 +1436,21 @@ function selectLang(l) {
 }
 
 // ── 지점 정보 ──
+// 외국어 화면에서는 지점명·방문 안내를 그 언어로 보여줌 (저장되는 지점명은 한국어 그대로)
+const bname = () => (lang !== 'ko' && branch.names && branch.names[lang]) || branch.name;
+const binfo = v => !v ? '' : typeof v === 'string' ? v : (v[lang] || v.ko || '');
+function paintBranch() {
+  if (branch.slug === 'root') return;
+  const en = branch.names && branch.names.en;
+  $('#introBranch').textContent = en ? `${branch.name} · ${en}` : branch.name; $('#introBranch').hidden = false;
+  $('#headerBranch').textContent = bname(); $('#headerBranch').hidden = false;
+}
+
 function loadBranch() {
   fetch('/api/branch' + branchParam).then(r => r.json()).then(b => {
     branch = b;
     if (b.slug !== 'root') {
-      $('#introBranch').textContent = b.name; $('#introBranch').hidden = false;
-      $('#headerBranch').textContent = b.name; $('#headerBranch').hidden = false;
+      paintBranch();
       document.title = `Scálpit ${b.name} | 사전 상담 설문지`;
     }
     if (b.bizNo && b.address) {
@@ -1641,7 +1656,7 @@ function showDone(data) {
   const rows = [
     [t.done_name, data.name],
     [t.done_phone, data.phone],
-    branch.slug !== 'root' && [t.done_branch, branch.name],
+    branch.slug !== 'root' && [t.done_branch, bname()],
     [t.done_serv, label('desiredServices')],
   ].filter(Boolean);
   const box = $('#summary'); box.innerHTML = '';
@@ -1661,6 +1676,7 @@ function showDone(data) {
 }
 
 const ICON_PIN = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5a7 7 0 1114 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+const ICON_PLAY_SM = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 001.5.86l10.5-6.5a1 1 0 000-1.72L9.5 4.64A1 1 0 008 5.5z"/></svg>';
 const ICON_PHONE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"/></svg>';
 
 // 지점 주소·지도·연락처·카카오 채널 (방문 전 노쇼를 줄이고 채널 친구를 확보)
@@ -1671,14 +1687,22 @@ function visitCard(data) {
   const card = h('div', { class: 'visit-card' });
   const head = h('div', { class: 'visit-head' });
   head.append(h('span', { class: 'visit-title' }), h('span', { class: 'visit-branch' }));
-  head.children[0].textContent = t.visit_title; head.children[1].textContent = branch.name;
+  head.children[0].textContent = t.visit_title; head.children[1].textContent = bname();
+  const address = branch.visitAddress || branch.address;
   const addr = h('div', { class: 'visit-addr' }, ICON_PIN);
-  const addrText = h('span'); addrText.textContent = branch.address;
+  // 주소는 띄어쓰기 단위로만 줄바꿈 ('86-10'이 '86-'/'10'으로 잘리지 않게)
+  const addrText = h('span');
+  address.split(' ').forEach((w, i) => { const s = h('span', { class: 'nw' }); s.textContent = w; addrText.append(...(i ? [' ', s] : [s])); });
   const copy = h('button', { type: 'button', class: 'mini-btn' }); copy.textContent = t.addr_copy;
-  copy.addEventListener('click', async () => { try { await navigator.clipboard.writeText(branch.address); toast(t.copied); } catch { prompt('', branch.address); } });
+  copy.addEventListener('click', async () => { try { await navigator.clipboard.writeText(address); toast(t.copied); } catch { prompt('', address); } });
   addr.append(addrText, copy);
   card.append(head, addr);
-  if (branch.parking) { const p = h('p', { class: 'visit-note' }); p.textContent = `${t.parking_k} · ${branch.parking}`; card.appendChild(p); }
+  const info = [[t.transit_k, binfo(branch.transit)], [t.parking_k, binfo(branch.parking)], [t.closed_k, binfo(branch.closed)]].filter(r => r[1]);
+  if (info.length) {
+    const dl = h('dl', { class: 'visit-info' });
+    info.forEach(([k, v]) => { const dt = h('dt'), dd = h('dd'); dt.textContent = k; dd.textContent = v; dl.append(dt, dd); });
+    card.appendChild(dl);
+  }
 
   const maps = [['naver', branch.naverMapUrl, t.map_naver], ['kakao', branch.kakaoMapUrl, t.map_kakao], ['google', branch.googleMapUrl, t.map_google]];
   if (lang !== 'ko') maps.unshift(maps.pop()); // 외국인은 구글 지도를 먼저
@@ -1687,7 +1711,25 @@ function visitCard(data) {
   card.appendChild(mapRow);
 
   const actions = h('div', { class: 'visit-actions' });
-  if (branch.phone) { const a = h('a', { class: 'act-btn', href: `tel:${branch.phone.replace(/[^\d+]/g, '')}` }, `${ICON_PHONE}<span></span>`); a.lastChild.textContent = t.call; actions.appendChild(a); }
+  if (branch.phone) {
+    // +82 형식이라 해외 번호로도 바로 걸 수 있음
+    const digits = branch.phone.replace(/[^\d+]/g, '');
+    const a = h('a', { class: 'act-btn', href: `tel:${digits.startsWith('0') ? '+82' + digits.slice(1) : digits}`, 'aria-label': `${t.call} ${branch.phone}` }, `${ICON_PHONE}<span></span>`);
+    a.lastChild.textContent = branch.phone; actions.appendChild(a);
+  }
+  if (branch.directionsVideo) {
+    const id = branch.directionsVideo;
+    const v = link('act-btn', `https://youtu.be/${id}`, `${ICON_PLAY_SM}<span></span>`);
+    v.lastChild.textContent = t.dir_video;
+    v.addEventListener('click', e => {
+      if (!VIDEO_INLINE) return;
+      e.preventDefault();
+      const box = h('div', { class: 'video dir-video' });
+      box.appendChild(h('iframe', { src: `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&playsinline=1&rel=0`, title: t.dir_video, allow: 'autoplay; encrypted-media; picture-in-picture; fullscreen', allowfullscreen: '' }));
+      card.appendChild(box); v.remove();
+    });
+    actions.appendChild(v);
+  }
   if (actions.children.length) card.appendChild(actions);
 
   const out = [card];
@@ -1729,7 +1771,7 @@ function brandBox() {
   t.faq.forEach(([q, a, id]) => {
     const d = h('details', {}, '<summary></summary><p></p>');
     // 지점 주차 안내가 등록돼 있으면 그 내용으로 답변
-    $('summary', d).textContent = q; $('p', d).textContent = id === 'parking' && lang === 'ko' && branch.parking ? branch.parking : a;
+    $('summary', d).textContent = q; $('p', d).textContent = (id === 'parking' && binfo(branch.parking)) || a;
     $('.faq', faq).appendChild(d);
   });
   out.push(faq);

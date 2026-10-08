@@ -15,9 +15,17 @@ const BRANCHES = {
     passwordHash: 'scrypt$f72a4740164f016b801d045841919860$d5924b2b6a5b93a504e73464eca888420bc45faf94c3431edab4c9b07e8cfa39',
     bizNo: '657-01-03945',
     address: '충청남도 천안시 서북구 불당21로 67-8, 2층 208,209호',
-    // 방문 안내·리뷰 링크 (비어 있으면 지점명으로 지도 검색 링크를 자동 생성)
-    phone: '',
-    parking: '',
+    // 외국어 화면에 보이는 지점명
+    names: { en: 'Cheonan', zh: '天安店', ja: '天安店' },
+    // 방문 안내 (설문 완료 화면 '오시는 길'·자주 묻는 질문). 지도 링크가 비어 있으면 지점명으로 검색 링크를 자동 생성
+    phone: '070-4027-6788',
+    visitAddress: '충남 천안시 서북구 불당21로 67-8 정석프라자 4차 2층 (롯데시네마 건물)',
+    parking: {
+      ko: '롯데시네마 건물 지하주차장을 이용해 주세요. 최대 2시간 무료예요. 혼잡할 수 있으니 20분 일찍 출발해 주세요.',
+      en: 'Please use the underground parking of the Lotte Cinema building (free for up to 2 hours). It can get busy, so please leave 20 minutes early.',
+      zh: '请使用乐天影院大楼的地下停车场（最多免费2小时）。可能比较拥挤，建议提前20分钟出发。',
+      ja: 'ロッテシネマの建物の地下駐車場をご利用ください（最大2時間無料）。混雑する場合がありますので、20分ほど早めにお出かけください。',
+    },
     naverPlaceUrl: '',
     kakaoPlaceUrl: '',
     googlePlaceUrl: '',
@@ -29,9 +37,17 @@ const BRANCHES = {
     passwordHash: 'scrypt$36c6c18d6693f6b66ceb1bde61013355$5a2b3dcbe5244cf13d2274f38b81643efff41b232ca2d183974062e912ae5f49',
     bizNo: '501-75-00684',
     address: '경기도 화성시 동탄오산로 86-10, 4층 405호',
-    // 방문 안내·리뷰 링크 (비어 있으면 지점명으로 지도 검색 링크를 자동 생성)
-    phone: '',
-    parking: '',
+    names: { en: 'Dongtan', zh: '东滩店', ja: '東灘店' },
+    phone: '031-372-7336',
+    visitAddress: '경기 화성시 동탄오산로 86-10 동탄역 리코빌 4층 405호',
+    transit: { ko: '동탄역 2번 출구에서 걸어서 5분', en: '5-minute walk from Dongtan Station Exit 2', zh: '东滩站2号出口步行5分钟', ja: '東灘駅2番出口から徒歩5分' },
+    parking: {
+      ko: "건물 지하주차장을 이용해 주세요. '제주 오니네집 냉동삼겹살' 간판 왼쪽 입구로 들어오시면 돼요. 최대 2시간 무료예요.",
+      en: "Please use the building's underground parking. The entrance is to the left of the '제주 오니네집 냉동삼겹살' (pork BBQ restaurant) sign. Free for up to 2 hours.",
+      zh: '请使用大楼地下停车场，入口在“제주 오니네집 냉동삼겹살”（烤五花肉店）招牌的左侧。最多免费2小时。',
+      ja: '建物の地下駐車場をご利用ください。「제주 오니네집 냉동삼겹살」（サムギョプサル店）の看板の左側が入口です。最大2時間無料です。',
+    },
+    closed: { ko: '매주 화요일', en: 'Every Tuesday', zh: '每周二', ja: '毎週火曜日' },
     naverPlaceUrl: '',
     kakaoPlaceUrl: '',
     googlePlaceUrl: '',
@@ -43,9 +59,16 @@ const BRANCHES = {
     passwordHash: 'scrypt$adaf958f51f1f6935561994a568b89a4$68553de157b9630b41d409d7e727d05cb227abcd9f9298dc3f28595c841a6317',
     bizNo: '213-35-98664',
     address: '경기도 수원시 영통구 법조로 25(하동) 1114~1116호',
-    // 방문 안내·리뷰 링크 (비어 있으면 지점명으로 지도 검색 링크를 자동 생성)
-    phone: '',
-    parking: '',
+    names: { en: 'Gwanggyo', zh: '光教店', ja: '光教店' },
+    phone: '070-5066-2041',
+    visitAddress: '경기 수원시 영통구 법조로 25, 광교 SK VIEW Lake A동 11층 1114~1116호',
+    parking: {
+      ko: '2시간 무료예요. 혼잡할 수 있으니 20분 일찍 출발해 주세요.',
+      en: 'Free for 2 hours. It can get busy, so please leave 20 minutes early.',
+      zh: '免费停车2小时。可能比较拥挤，建议提前20分钟出发。',
+      ja: '2時間無料です。混雑する場合がありますので、20分ほど早めにお出かけください。',
+    },
+    directionsVideo: 'hkUj69Wk9T8', // 찾아오는 길 영상 (YouTube 영상 ID)
     naverPlaceUrl: '',
     kakaoPlaceUrl: '',
     googlePlaceUrl: '',
@@ -57,9 +80,15 @@ const BRANCHES = {
     passwordHash: 'scrypt$984371ab84d61fb1a479e16a46dd4c3b$b073ec5d1c3bdb14a203118aeec4235a2c6e29bb2875d3f1cf7ebe6aaec51d63',
     bizNo: '407-11-65011',
     address: '서울특별시 강남구 신사동 644-3 세화빌딩 3층 (CU건물 3층)',
-    // 방문 안내·리뷰 링크 (비어 있으면 지점명으로 지도 검색 링크를 자동 생성)
-    phone: '',
-    parking: '',
+    names: { en: 'Apgujeong Rodeo', zh: '狎鸥亭罗德奥店', ja: '狎鴎亭ロデオ店' },
+    phone: '070-4010-4428',
+    visitAddress: '서울 강남구 언주로168길 15, 3층',
+    parking: {
+      ko: '압구정로42길 35 CU 옆 발렛부스를 이용해 주세요. 2시간 5,000원(유료)이에요. 붐빌 수 있으니 20분 일찍 출발해 주세요.',
+      en: 'Please use the valet booth next to CU at 35 Apgujeong-ro 42-gil (paid, ₩5,000 for 2 hours). It can get busy, so please leave 20 minutes early.',
+      zh: '请使用狎鸥亭路42街35号CU便利店旁的代客泊车亭（收费，2小时5,000韩元）。可能比较拥挤，建议提前20分钟出发。',
+      ja: '狎鴎亭路42ギル35のCU横にあるバレーパーキングをご利用ください（有料・2時間5,000ウォン）。混雑する場合がありますので、20分ほど早めにお出かけください。',
+    },
     naverPlaceUrl: '',
     kakaoPlaceUrl: '',
     googlePlaceUrl: '',
@@ -255,10 +284,28 @@ app.use((req, res, next) => {
 });
 app.use(express.json({ limit: '50kb' }));
 
+// 카톡·문자 링크 미리보기에 지점명이 보이도록 설문 페이지의 제목·OG 태그를 지점별로 바꿔서 응답
+const FORM_HTML = fs.readFileSync(path.join(__dirname, 'public', 'index.html'), 'utf8');
+const escAttr = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+function branchFormHtml(slug, global) {
+  const b = BRANCHES[slug];
+  const title = global ? `Scálpit ${(b.names && b.names.en) || b.name} | Pre-visit Form` : `Scálpit ${b.name} | 사전 상담 설문지`;
+  const desc = global
+    ? 'Please fill out this 3-minute form before your visit. English · 中文 · 日本語 · 한국어'
+    : '방문 전 3분, 나에게 맞는 두피 케어를 위한 사전 설문을 작성해주세요.';
+  const url = `https://scalpitform.com/${slug}${global ? '/global' : ''}`;
+  return FORM_HTML
+    .replace(/<title>[^<]*<\/title>/, `<title>${escAttr(title)}</title>`)
+    .replace(/(<meta property="og:title" content=")[^"]*/, `$1${escAttr(title)}`)
+    .replace(/(<meta property="og:description" content=")[^"]*/, `$1${escAttr(desc)}`)
+    .replace(/(<meta property="og:url" content=")[^"]*/, `$1${url}`);
+}
+
 // 매장별 경로 라우팅
 Object.keys(BRANCHES).forEach(slug => {
-  app.get(`/${slug}`, (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
-  app.get(`/${slug}/global`, (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html'))); // 외국 고객용(언어 선택부터)
+  const koHtml = branchFormHtml(slug, false), globalHtml = branchFormHtml(slug, true);
+  app.get(`/${slug}`, (req, res) => res.type('html').send(koHtml));
+  app.get(`/${slug}/global`, (req, res) => res.type('html').send(globalHtml)); // 외국 고객용(언어 선택부터)
   app.get(`/${slug}/admin`, (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
 });
 
@@ -278,16 +325,22 @@ app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] })
 function publicBranch(branch) {
   if (!branch) return { slug: 'root', name: '스칼프잇', bizNo: '', address: '', ...BRAND };
   const q = encodeURIComponent(`스칼프잇 ${branch.name}`);
+  const visitAddress = branch.visitAddress || branch.address;
   return {
     slug: branch.slug,
     name: branch.name,
+    names: branch.names || {},
     bizNo: branch.bizNo,
     address: branch.address,
+    visitAddress,
     phone: branch.phone,
-    parking: branch.parking,
+    parking: branch.parking || null,
+    transit: branch.transit || null,
+    closed: branch.closed || null,
+    directionsVideo: branch.directionsVideo || '',
     naverMapUrl: branch.naverPlaceUrl || `https://map.naver.com/p/search/${q}`,
     kakaoMapUrl: branch.kakaoPlaceUrl || `https://map.kakao.com/link/search/${q}`,
-    googleMapUrl: branch.googlePlaceUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branch.address)}`,
+    googleMapUrl: branch.googlePlaceUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(visitAddress)}`,
     ...BRAND,
   };
 }
