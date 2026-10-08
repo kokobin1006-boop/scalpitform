@@ -112,6 +112,10 @@ async function initDB() {
       dup BOOLEAN NOT NULL DEFAULT FALSE
     );
     CREATE INDEX IF NOT EXISTS academy_leads_phone_idx ON academy_leads (phone);
+    ALTER TABLE academy_leads
+      ADD COLUMN IF NOT EXISTS slot TEXT NOT NULL DEFAULT '',
+      ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ,
+      ADD COLUMN IF NOT EXISTS updated_by TEXT NOT NULL DEFAULT '';
   `);
 }
 
@@ -187,6 +191,7 @@ function rowToLead(r) {
     id: Number(r.id), createdAt: r.created_at, name: r.name, phone: r.phone, session: r.session, purpose: r.purpose,
     marketing: r.marketing, consentAt: r.consent_at, origin: r.origin, variant: r.variant, attr: r.attr || {},
     landing: r.landing, status: r.status, note: r.note, dup: r.dup,
+    slot: r.slot || '', updatedAt: r.updated_at || null, updatedBy: r.updated_by || '',
   };
 }
 
@@ -223,17 +228,24 @@ async function academyGetToken(id) {
   const l = readAcademyJson().find(x => x.id === id); return l ? l.token : null;
 }
 
-async function academyPatch(id, patch) {
-  const allowed = ['purpose', 'status', 'note'];
+// patch 가능한 값만 반영합니다. by 가 있으면(관리자 수정) 마지막 수정 시각·수정자를 함께 기록하고,
+// 수정된 신청을 돌려줍니다(없으면 null).
+async function academyPatch(id, patch, by) {
+  const allowed = ['purpose', 'status', 'note', 'slot'];
   const keys = Object.keys(patch).filter(k => allowed.includes(k) && patch[k] !== undefined);
-  if (!keys.length) return false;
+  if (!keys.length) return null;
   if (pool) {
-    const sets = keys.map((k, i) => `${k}=$${i + 2}`).join(', ');
-    const r = await pool.query(`UPDATE academy_leads SET ${sets} WHERE id=$1`, [id, ...keys.map(k => patch[k])]);
-    return r.rowCount > 0;
+    const sets = keys.map((k, i) => `${k}=$${i + 2}`);
+    const vals = keys.map(k => patch[k]);
+    if (by !== undefined) { sets.push('updated_at=NOW()', `updated_by=$${keys.length + 2}`); vals.push(by); }
+    const r = await pool.query(`UPDATE academy_leads SET ${sets.join(', ')} WHERE id=$1 RETURNING *`, [id, ...vals]);
+    return r.rows[0] ? rowToLead(r.rows[0]) : null;
   }
-  const list = readAcademyJson(); const l = list.find(x => x.id === id); if (!l) return false;
-  keys.forEach(k => { l[k] = patch[k]; }); writeAcademyJson(list); return true;
+  const list = readAcademyJson(); const l = list.find(x => x.id === id); if (!l) return null;
+  keys.forEach(k => { l[k] = patch[k]; });
+  if (by !== undefined) { l.updatedAt = new Date().toISOString(); l.updatedBy = by; }
+  writeAcademyJson(list);
+  const { token, ua, ...rest } = l; return rest;
 }
 
 // IP 단위 간단한 속도 제한(메모리): 10분에 8회
@@ -251,6 +263,9 @@ function safeEq(a, b) {
   return x.length === y.length && crypto.timingSafeEqual(x, y);
 }
 function adminOk(req) { return safeEq(req.headers['x-admin-password'], ROOT_PASSWORD); }
+function adminName(req) {
+  try { return clip(decodeURIComponent(req.headers['x-admin-name'] || ''), 20).trim() || '관리자'; } catch { return '관리자'; }
+}
 function clip(v, n) { return String(v == null ? '' : v).slice(0, n); }
 
 function trackingHtml() {
@@ -329,7 +344,7 @@ app.patch('/api/academy/lead/:id', async (req, res) => {
 app.get('/api/academy/leads', async (req, res) => {
   if (!adminOk(req)) return res.status(401).json({ success: false, message: '비밀번호가 올바르지 않습니다.' });
   const data = await academyList();
-  res.json({ success: true, data, total: data.length });
+  res.json({ success: true, data, total: data.length, serverTime: new Date().toISOString() });
 });
 
 app.patch('/api/academy/leads/:id', async (req, res) => {
@@ -337,8 +352,9 @@ app.patch('/api/academy/leads/:id', async (req, res) => {
   const b = req.body || {}; const patch = {};
   if (b.status !== undefined) { if (!LEAD_STATUS.includes(b.status)) return res.status(400).json({ success: false }); patch.status = b.status; }
   if (b.note !== undefined) patch.note = clip(b.note, 1000);
-  const ok = await academyPatch(Number(req.params.id), patch);
-  res.json({ success: ok });
+  if (b.slot !== undefined) { if (!['', '1020', '1027'].includes(b.slot)) return res.status(400).json({ success: false }); patch.slot = b.slot; }
+  const lead = await academyPatch(Number(req.params.id), patch, adminName(req));
+  res.json({ success: !!lead, lead: lead || undefined });
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
