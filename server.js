@@ -144,9 +144,11 @@ function authPassword(req) {
 
 let pool = null;
 if (process.env.DATABASE_URL) {
+  // Railway 내부망(postgres.railway.internal)은 SSL 미지원 → 내부면 SSL 끔, 외부면 SSL 사용
+  const isInternal = /\.railway\.internal(?:[:\/]|$)/.test(process.env.DATABASE_URL);
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
+    ssl: isInternal ? false : { rejectUnauthorized: false },
   });
 }
 
