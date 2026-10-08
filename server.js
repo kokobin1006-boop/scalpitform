@@ -19,7 +19,7 @@ const BRANCHES = {
     names: { en: 'Cheonan', zh: '天安店', ja: '天安店' },
     // 방문 안내 (설문 완료 화면 '오시는 길'·자주 묻는 질문). 지도 링크가 비어 있으면 지점명으로 검색 링크를 자동 생성
     phone: '070-4027-6788',
-    visitAddress: '충남 천안시 서북구 불당21로 67-8 정석프라자 4차 2층 (롯데시네마 건물)',
+    visitAddress: '충청남도 천안시 서북구 불당21로 67-8, 2층 208,209호 (불당동 롯데시네마 2층)',
     parking: {
       ko: '롯데시네마 건물 지하주차장을 이용해 주세요. 최대 2시간 무료예요. 혼잡할 수 있으니 20분 일찍 출발해 주세요.',
       en: 'Please use the underground parking of the Lotte Cinema building (free for up to 2 hours). It can get busy, so please leave 20 minutes early.',
@@ -559,7 +559,7 @@ function publicBranch(branch) {
     directionsVideo: branch.directionsVideo || '',
     naverMapUrl: branch.naverPlaceUrl || `https://map.naver.com/p/search/${q}`,
     kakaoMapUrl: branch.kakaoPlaceUrl || `https://map.kakao.com/link/search/${q}`,
-    googleMapUrl: branch.googlePlaceUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(visitAddress)}`,
+    googleMapUrl: branch.googlePlaceUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(visitAddress.replace(/\s*\([^)]*\)/g, ''))}`,
     ...BRAND,
   };
 }
