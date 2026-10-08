@@ -282,8 +282,10 @@ function rateLimit({ windowMs, max }) {
   }, windowMs).unref();
   return (req, res, next) => {
     const now = Date.now();
-    const h = hits.get(req.ip);
-    if (!h || now - h.start > windowMs) { hits.set(req.ip, { start: now, count: 1 }); return next(); }
+    // Cloudflare를 거쳐 들어오면 req.ip는 Cloudflare 서버 주소라 여러 손님이 한 주소로 묶임 → 실제 손님 주소 사용
+    const ip = req.headers['cf-connecting-ip'] || req.ip;
+    const h = hits.get(ip);
+    if (!h || now - h.start > windowMs) { hits.set(ip, { start: now, count: 1 }); return next(); }
     if (++h.count > max) return res.status(429).json({ success: false, message: '요청이 너무 많습니다. 잠시 후 다시 시도해주세요.' });
     next();
   };
