@@ -26,6 +26,7 @@ const BRANCHES = {
       zh: '请使用乐天影院大楼的地下停车场（最多免费2小时）。可能比较拥挤，建议提前20分钟出发。',
       ja: 'ロッテシネマの建物の地下駐車場をご利用ください（最大2時間無料）。混雑する場合がありますので、20分ほど早めにお出かけください。',
     },
+    closed: { ko: '매주 화요일', en: 'Every Tuesday', zh: '每周二', ja: '毎週火曜日' },
     naverPlaceUrl: '',
     kakaoPlaceUrl: '',
     googlePlaceUrl: '',
@@ -82,7 +83,7 @@ const BRANCHES = {
     address: '서울특별시 강남구 신사동 644-3 세화빌딩 3층 (CU건물 3층)',
     names: { en: 'Apgujeong Rodeo', zh: '狎鸥亭罗德奥店', ja: '狎鴎亭ロデオ店' },
     phone: '070-4010-4428',
-    visitAddress: '서울 강남구 언주로168길 15, 3층',
+    visitAddress: '서울 강남구 언주로168길 15, 세화빌딩 3층',
     parking: {
       ko: '압구정로42길 35 CU 옆 발렛부스를 이용해 주세요. 2시간 5,000원(유료)이에요. 붐빌 수 있으니 20분 일찍 출발해 주세요.',
       en: 'Please use the valet booth next to CU at 35 Apgujeong-ro 42-gil (paid, ₩5,000 for 2 hours). It can get busy, so please leave 20 minutes early.',
