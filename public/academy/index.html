@@ -303,6 +303,18 @@ footer .wm small{font:600 .66rem var(--mono);letter-spacing:.3em;color:var(--mut
 footer p{margin-top:8px;line-height:1.7}
 footer a{color:var(--mut)}
 
+/* ── 따라다니는 신청 버튼(데스크톱 우측 하단) ─────────── */
+.fab{position:fixed;right:clamp(14px,2vw,28px);bottom:clamp(16px,3vh,30px);z-index:56;display:flex;align-items:center;gap:12px;padding:11px 20px 11px 12px;border-radius:999px;background:linear-gradient(135deg,#e4364d,#b01f33);color:#fff;text-decoration:none;box-shadow:0 18px 40px #000a,inset 0 0 0 1px #ffffff30;opacity:0;transform:translateY(16px) scale(.96);pointer-events:none;transition:opacity .3s,transform .3s,box-shadow .2s}
+.fab.on{opacity:1;transform:none;pointer-events:auto;animation:fabPulse 2.8s 1s infinite}
+.fab:hover{box-shadow:0 24px 50px #000c,inset 0 0 0 1px #ffffff48;transform:translateY(-3px)}
+.fab-ic{width:42px;height:42px;border-radius:50%;background:#ffffff26;display:grid;place-items:center;flex:none}
+.fab-tx b{display:block;font-weight:900;font-size:1.02rem;letter-spacing:-.025em;line-height:1.25}
+.fab-tx small{display:block;font:500 .68rem var(--mono);opacity:.92;letter-spacing:.02em;margin-top:1px}
+.fab-ar{font-weight:900;font-size:1.1rem;transition:transform .2s}
+.fab:hover .fab-ar{transform:translateX(4px)}
+@keyframes fabPulse{0%{box-shadow:0 18px 40px #000a,inset 0 0 0 1px #ffffff30,0 0 0 0 #d1283f99}70%{box-shadow:0 18px 40px #000a,inset 0 0 0 1px #ffffff30,0 0 0 18px #d1283f00}100%{box-shadow:0 18px 40px #000a,inset 0 0 0 1px #ffffff30,0 0 0 0 #d1283f00}}
+@media (prefers-reduced-motion:reduce){.fab.on{animation:none}}
+
 /* ── sticky mobile cta + modal ─────────────────────── */
 .sticky{position:fixed;left:0;right:0;bottom:0;z-index:55;padding:10px var(--gutter) calc(10px + env(safe-area-inset-bottom,0));background:#0b0909f2;border-top:1px solid var(--line);backdrop-filter:blur(8px);display:none;transform:translateY(110%);transition:transform .3s}
 .sticky.on{transform:none}
@@ -330,6 +342,7 @@ footer a{color:var(--mut)}
   .pos::-webkit-scrollbar{display:none}
   .pos>div{flex:0 0 min(86%,520px);scroll-snap-align:center}
   .sticky{display:block}
+  .fab{display:none}
   footer{padding-bottom:140px}
 }
 @media(max-width:700px){
@@ -682,6 +695,11 @@ footer a{color:var(--mut)}
   </div>
 </footer>
 
+<a class="fab" id="fab" href="#apply" data-track="cta_fab" aria-label="1기 신청하러 가기">
+  <span class="fab-ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2.5a2.5 2.5 0 0 0 0 5V17a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2.5a2.5 2.5 0 0 0 0-5z"/><path d="M14.5 6.5v11" stroke-dasharray="1.6 2.6"/></svg></span>
+  <span class="fab-tx"><b>1기 신청하러 가기</b><small>회차당 6명 · 10/17 마감</small></span>
+  <span class="fab-ar" aria-hidden="true">→</span>
+</a>
 <div class="sticky" id="sticky"><small>10/17 마감 · 회차당 6명 · 신청만으로 결제되지 않아요</small><a class="btn" href="#apply" data-track="cta_sticky">1기 신청하기</a></div>
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="POS 원본 화면"><button type="button" aria-label="닫기" id="modalClose">×</button><img id="modalImg" alt="직영점 하루 매출 POS 원본 화면"></div>
 <!--@TRACKING_BODY-->
@@ -750,11 +768,13 @@ footer a{color:var(--mut)}
   } else $$('.rv,.pr').forEach(function(e){e.classList.add('in')});
 
   /* 모바일 하단 CTA: 히어로 카드와 신청 섹션이 보일 땐 숨김 */
-  var sticky=$('#sticky'), hidden={};
+  var sticky=$('#sticky'), fab=$('#fab'), hidden={};
   if('IntersectionObserver' in window&&sticky){
-    var so=new IntersectionObserver(function(es){es.forEach(function(e){hidden[e.target.id]=e.isIntersecting});sticky.classList.toggle('on',!(hidden.heroCard||hidden.apply))},{threshold:.15});
+    var so=new IntersectionObserver(function(es){es.forEach(function(e){hidden[e.target.id]=e.isIntersecting});var on=!(hidden.heroCard||hidden.apply);sticky.classList.toggle('on',on);if(fab)fab.classList.toggle('on',on)},{threshold:.15});
     so.observe($('#heroCard'));so.observe($('#apply'));
-  }
+  } else { sticky.classList.add('on'); if(fab)fab.classList.add('on') }
+  /* 따라다니는 버튼을 누르면 하단 신청서로 이동하고, 이름 칸에 커서를 둔다(터치 기기는 키보드가 뜨지 않게 제외) */
+  $$('#fab,#sticky .btn').forEach(function(a){a.addEventListener('click',function(){setTimeout(function(){var n=$('#b-name');if(n&&!(window.matchMedia&&matchMedia('(pointer:coarse)').matches))n.focus({preventScroll:true})},700)})});
 
   /* 수업 영상: 화면에 들어오면 재생 */
   var vid=$('#classVideo');
