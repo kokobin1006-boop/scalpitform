@@ -822,7 +822,7 @@ footer a{color:var(--mut)}
         if(okEl) okEl.focus();
         var fol=$('[data-follow]',card); if(fol&&(form.getAttribute('data-origin')!=='hero'||body.session==='waitlist')) fol.style.display='none';
         track('academy_lead',{origin:body.origin,variant:variant,lead:LEAD,session:body.session,purpose:body.purpose,utm_source:attr.utm_source||'',utm_campaign:attr.utm_campaign||'',utm_content:attr.utm_content||''});
-        try{if(window.fbq)window.fbq('track','Lead',{content_name:'academy_oneday_1',value:290000,currency:'KRW'})}catch(e){}
+        try{if(window.fbq)window.fbq('track','Lead',{content_name:'academy_oneday_1'})}catch(e){}
       };
       if(PREVIEW){setTimeout(function(){done({ok:true,id:0,token:'preview'})},400);return}
       fetch(endpoint('/api/academy/lead'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
