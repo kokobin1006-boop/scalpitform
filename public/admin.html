@@ -115,6 +115,11 @@
     .td-name small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; margin-top: 2px; }
     .tag-mkt { background: #EAF3EC; color: #26583A; margin-left: 4px; vertical-align: 1px; }
     .td-phone { white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .td-visit { white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 700; color: var(--burg); }
+    .td-visit small { display: block; font-weight: 700; color: var(--ink); font-size: 13.5px; margin-top: 2px; }
+    .td-visit .none { color: var(--faint); font-weight: 400; }
+    .tag-today { background: var(--burg); color: #fff; padding: 2px 7px; font-size: 11px; margin: 0 6px 2px 0; }
+    .tag-tomorrow { background: var(--burg-tint); color: var(--burg); padding: 2px 7px; font-size: 11px; margin: 0 6px 2px 0; }
     .td-list { color: var(--muted); font-size: 12.5px; line-height: 1.6; max-width: 200px; }
 
     .tag { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 3px 8px; border-radius: 6px; margin: 0 4px 4px 0; white-space: nowrap; }
@@ -133,6 +138,8 @@
     .card-name { font-weight: 700; font-size: 16px; color: var(--ink); }
     .card-meta { font-size: 13px; color: var(--muted); margin-top: 2px; font-variant-numeric: tabular-nums; }
     .card-date { flex-shrink: 0; font-size: 12.5px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .card-visit { flex-shrink: 0; text-align: right; font-weight: 700; color: var(--burg); font-size: 14px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .card-visit small { display: block; color: var(--ink); font-weight: 700; font-size: 15px; margin-top: 1px; }
     .card-tags { margin-top: 10px; }
     .card-line { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.6; }
 
@@ -239,7 +246,9 @@
     <div class="warn" id="storageWarn" hidden>⚠️ 지금 설문 데이터가 데이터베이스가 아닌 서버 임시 파일에 저장되고 있어요. 사이트를 업데이트하면 지워질 수 있으니, 반드시 데이터베이스(DATABASE_URL) 연결을 확인해 주세요.</div>
 
     <div class="stats">
-      <button class="stat accent" type="button" data-quick="today"><div class="stat-label">오늘 접수</div><div class="stat-val" id="stToday">0<small>건</small></div></button>
+      <button class="stat accent" type="button" data-quick="visit-today"><div class="stat-label">오늘 방문 예정</div><div class="stat-val" id="stVisitToday">0<small>명</small></div></button>
+      <button class="stat" type="button" data-quick="visit-tomorrow"><div class="stat-label">내일 방문 예정</div><div class="stat-val" id="stVisitTomorrow">0<small>명</small></div></button>
+      <button class="stat" type="button" data-quick="today"><div class="stat-label">오늘 접수</div><div class="stat-val" id="stToday">0<small>건</small></div></button>
     </div>
 
     <div class="toolbar">
@@ -249,6 +258,9 @@
       </label>
       <select class="select" id="fDate">
         <option value="">전체 기간</option>
+        <option value="visit-today">오늘 방문 예정</option>
+        <option value="visit-tomorrow">내일 방문 예정</option>
+        <option value="visit-upcoming">앞으로 방문 예정</option>
         <option value="today">오늘 접수</option>
         <option value="7">최근 7일 접수</option>
         <option value="30">최근 30일 접수</option>
@@ -419,7 +431,9 @@ function logout() {
 }
 
 function renderStats() {
-  const t = today();
+  const t = today(), tm = tomorrow();
+  $('#stVisitToday').innerHTML = `${all.filter(d => d.visitDate === t).length}<small>명</small>`;
+  $('#stVisitTomorrow').innerHTML = `${all.filter(d => d.visitDate === tm).length}<small>명</small>`;
   $('#stToday').innerHTML = `${all.filter(d => d.submittedAt && dayKey(d.submittedAt) === t).length}<small>건</small>`;
 }
 
@@ -439,9 +453,13 @@ function filtered() {
     if (fc && fc !== '__none' && autoChannel(d) !== fc) return false;
     if (fb && d.branch !== fb) return false;
     if (fd === 'today' && (!d.submittedAt || dayKey(d.submittedAt) !== t)) return false;
+    if (fd === 'visit-today' && d.visitDate !== t) return false;
+    if (fd === 'visit-tomorrow' && d.visitDate !== tomorrow()) return false;
+    if (fd === 'visit-upcoming' && !(d.visitDate && d.visitDate >= t)) return false;
     if (/^\d+$/.test(fd) && (!d.submittedAt || now - new Date(d.submittedAt) > fd * 864e5)) return false;
     return true;
   }).slice().reverse();
+  if (fd.startsWith('visit')) rows.sort((a, b) => `${a.visitDate}${timeKey(a.visitTime)}`.localeCompare(`${b.visitDate}${timeKey(b.visitTime)}`));
   return rows;
 }
 
@@ -454,8 +472,19 @@ function tags(d) {
 }
 const fmtDate = s => s ? new Date(s).toLocaleString('ko-KR', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' }) : '-';
 const isToday = s => s && dayKey(s) === today();
+const tomorrow = () => dayKey(Date.now() + 864e5);
+const timeKey = s => { const m = /^(\d{1,2}):(\d{2})/.exec(s || ''); return m ? m[1].padStart(2, '0') + m[2] : '9999'; };
+const WEEK = ['일', '월', '화', '수', '목', '금', '토'];
+// 예약하신 날짜·시간 (고객이 설문에 입력) → '10.10 (금)'
+const fmtVisit = d => {
+  if (!d.visitDate) return '';
+  const [y, m, dd] = d.visitDate.split('-').map(Number);
+  return `${m}.${String(dd).padStart(2, '0')} (${WEEK[new Date(y, m - 1, dd).getDay()]})`;
+};
+const dayTag = d => d.visitDate === today() ? '<span class="tag tag-today">오늘</span>' : d.visitDate === tomorrow() ? '<span class="tag tag-tomorrow">내일</span>' : '';
+const visitCell = d => d.visitDate ? `${dayTag(d)}${esc(fmtVisit(d))}<small>${esc(d.visitTime || '')}</small>` : '<span class="none">-</span>';
 
-const COLS = ['#', '이름', '연락처', '관리 전 알림', '두피 고민', '관심 서비스', '유입 경로', ...(isRoot ? ['지점'] : []), '언어', '접수', ''];
+const COLS = ['#', '방문 일시', '이름', '연락처', '관리 전 알림', '두피 고민', '관심 서비스', '유입 경로', ...(isRoot ? ['지점'] : []), '언어', '접수', ''];
 $('#theadRow').innerHTML = COLS.map(c => `<th>${c}</th>`).join('');
 
 function render() {
@@ -471,6 +500,7 @@ function render() {
   $('#tbody').innerHTML = rows.map(d => `
     <tr data-id="${esc(d.id)}">
       <td class="td-num">${idx.get(d.id)}</td>
+      <td class="td-visit">${visitCell(d)}</td>
       <td class="td-name">${esc(nameOf(d))}${mktTag(d)}<small>${esc(birthOf(d))}</small></td>
       <td class="td-phone">${esc(d.phone || '-')}</td>
       <td>${tags(d) || '<span style="color:var(--faint)">-</span>'}</td>
@@ -489,7 +519,9 @@ function render() {
     <div class="card" data-id="${esc(d.id)}">
       <div class="card-top">
         <div><div class="card-name">${esc(nameOf(d))}${mktTag(d)}</div><div class="card-meta">${esc(d.phone || '-')} · ${esc(birthOf(d))}</div></div>
-        <div class="card-date">${isToday(d.submittedAt) ? '<span class="new-dot"></span>' : ''}${esc(fmtDate(d.submittedAt))}</div>
+        ${d.visitDate
+          ? `<div class="card-visit">${dayTag(d)}${esc(fmtVisit(d))}<small>${esc(d.visitTime || '')}</small></div>`
+          : `<div class="card-date">${isToday(d.submittedAt) ? '<span class="new-dot"></span>' : ''}${esc(fmtDate(d.submittedAt))}</div>`}
       </div>
       <div class="card-tags">${tags(d)}${isRoot ? `<span class="tag tag-branch">${esc(d.branch || '본사')}</span>` : ''}<span class="tag tag-lang">${esc((d.lang || 'ko').toUpperCase())}</span></div>
       <div class="card-line">${esc(list(d.desiredServices).join(', ') || '-')}</div>
@@ -507,7 +539,7 @@ document.addEventListener('click', e => {
   const quick = e.target.closest('[data-quick]');
   if (quick) {
     const k = quick.dataset.quick;
-    $('#fDate').value = k === 'today' ? k : '';
+    $('#fDate').value = ['visit-today', 'visit-tomorrow', 'today'].includes(k) ? k : '';
     render();
     $('#resultCount').scrollIntoView({ behavior:'smooth', block:'start' });
   }
@@ -521,10 +553,11 @@ function showDetail(id) {
   const row = (k, v, raw = false) => `<div class="row"><div class="row-k">${k}</div><div class="row-v">${raw ? v : esc(v || '-')}</div></div>`;
   const phone = d.phone || '';
   $('#dTitle').textContent = nameOf(d);
-  $('#dSub').textContent = [birthOf(d), isRoot && d.branch].filter(Boolean).join(' · ');
+  $('#dSub').textContent = [birthOf(d), d.visitDate && `방문 ${fmtVisit(d)} ${d.visitTime || ''}`.trim(), isRoot && d.branch].filter(Boolean).join(' · ');
   $('#dBody').innerHTML = `
     <div class="sec">접수 정보</div>
     <div class="rows">
+      ${row('방문 일시', d.visitDate ? `${fmtVisit(d)} ${d.visitTime || ''}`.trim() : '')}
       ${row('지점', d.branch || '본사')}
       ${row('접수 일시', d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '')}
     </div>
@@ -593,10 +626,11 @@ async function remove(id) {
 
 function exportCSV() {
   const rows = filtered();
-  const headers = ['번호','접수일시','지점','이름','생년월일','연락처','주소','관리경험','유입경로','두피고민','펌/염색주기','샴푸횟수','탈모유전력','임신/수유여부','관리전알림','관심서비스','촬영동의','광고수신동의','언어','자동유입','민감정보동의','동의일시','자가진단결과','자가진단점수'];
+  const headers = ['번호','접수일시','방문일','방문시간','지점','이름','생년월일','연락처','주소','관리경험','유입경로','두피고민','펌/염색주기','샴푸횟수','탈모유전력','임신/수유여부','관리전알림','관심서비스','촬영동의','광고수신동의','언어','자동유입','민감정보동의','동의일시','자가진단결과','자가진단점수'];
   const body = rows.map((d, i) => [
     i + 1,
     d.submittedAt ? new Date(d.submittedAt).toLocaleString('ko-KR') : '',
+    d.visitDate || '', d.visitTime || '',
     d.branch || '',
     nameOf(d), birthOf(d), d.phone || '', d.address || '',
     list(d.treatmentHistory).join('/'), d.visitSource || '',

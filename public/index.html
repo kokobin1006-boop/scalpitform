@@ -191,6 +191,10 @@
     /* 옵션 카드 */
     .opts { display: grid; gap: 8px; }
     .opts.grid { grid-template-columns: 1fr 1fr; }
+    .opts.times { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .opts.times label { min-height: 46px; padding: 10px 4px; justify-content: center; font-size: 14.5px; font-variant-numeric: tabular-nums; }
+    .opts.times .mark { display: none; }
+    .date-note { font-size: 13.5px; font-weight: 600; color: var(--burg); margin-top: 8px; }
     .opts.grid .opt label { height: 100%; }
     .opt { position: relative; }
     .opt input { position: absolute; opacity: 0; pointer-events: none; }
@@ -599,6 +603,7 @@ const T = {
     q_name:'이름', ph_name:'홍길동', err_name:'이름을 입력해주세요.',
     q_birth:'생년월일', ph_birth:'1995.03.15', err_birth:'생년월일 8자리를 정확히 입력해주세요.',
     q_phone:'연락처', ph_phone:'010-1234-5678', err_phone:'연락처를 정확히 입력해주세요.',
+    q_date:'예약하신 날짜', err_date:'예약하신 날짜를 선택해주세요.', q_time:'예약하신 시간', err_time:'예약하신 시간을 선택해주세요.', today:'오늘', tomorrow:'내일',
     q_addr:'주소', q_addr_hint:'동까지만', ph_addr:'예) 천안시 불당동', err_addr:'주소를 입력해주세요.',
     q_treat:'이전 두피 관리 경험', multi:'복수 선택', optional:'선택',
     th1:'다른 두피 관리샵', th2:'미용실 두피 케어', th3:'홈케어 (두피 샴푸·앰플)', th4:'처음이에요',
@@ -658,7 +663,7 @@ const T = {
     consent_all:'약관 전체 동의',
     tag_req:'[필수]', tag_opt:'[선택]',
     privacy_req:'개인정보 수집·이용 동의',
-    pv_items_k:'수집 항목', pv_items:'성명, 생년월일, 연락처, 주소, 두피 상태 정보',
+    pv_items_k:'수집 항목', pv_items:'성명, 생년월일, 연락처, 예약 일시, 주소, 두피 상태 정보',
     pv_purpose_k:'수집 목적', pv_purpose:'두피케어 상담 및 예약 관리',
     pv_period_k:'보유 기간', pv_period:'서비스 제공 완료 후 1년',
     privacy_link:'개인정보처리방침 전문 보기',
@@ -686,6 +691,7 @@ const T = {
     q_name:'Name', ph_name:'Jane Doe', err_name:'Please enter your name.',
     q_birth:'Date of Birth', ph_birth:'1995.03.15', err_birth:'Please enter a valid date (YYYY.MM.DD).',
     q_phone:'Phone Number', ph_phone:'010-1234-5678', err_phone:'Please enter a valid phone number.',
+    q_date:'Booking Date', err_date:'Please select your booking date.', q_time:'Booking Time', err_time:'Please select your booking time.', today:'Today', tomorrow:'Tomorrow',
     q_addr:'Address', q_addr_hint:'Area only', ph_addr:'e.g. Gangnam, Seoul (your hotel area is fine)', err_addr:'Please enter your address.',
     q_treat:'Previous Scalp Care', multi:'Multiple', optional:'Optional',
     th1:'Another scalp care shop', th2:'Scalp care at a hair salon', th3:'Home care (scalp shampoo / ampoule)', th4:'This is my first time',
@@ -742,7 +748,7 @@ const T = {
     consent_all:'Agree to all',
     tag_req:'[Required]', tag_opt:'[Optional]',
     privacy_req:'Collection & use of personal information',
-    pv_items_k:'Items', pv_items:'Name, date of birth, phone, address, scalp condition',
+    pv_items_k:'Items', pv_items:'Name, date of birth, phone, booking date/time, address, scalp condition',
     pv_purpose_k:'Purpose', pv_purpose:'Scalp care consultation & booking management',
     pv_period_k:'Retention', pv_period:'1 year after service',
     privacy_link:'View full privacy policy',
@@ -767,6 +773,7 @@ const T = {
     q_name:'姓名', ph_name:'张三', err_name:'请输入姓名。',
     q_birth:'出生日期', ph_birth:'1995.03.15', err_birth:'请正确输入出生日期（8位数字）。',
     q_phone:'联系电话', ph_phone:'010-1234-5678', err_phone:'请正确输入联系电话。',
+    q_date:'预约日期', err_date:'请选择预约日期。', q_time:'预约时间', err_time:'请选择预约时间。', today:'今天', tomorrow:'明天',
     q_addr:'地址', q_addr_hint:'至街道即可', ph_addr:'例）首尔江南（填写酒店所在区域即可）', err_addr:'请输入地址。',
     q_treat:'以往头皮护理经历', multi:'可多选', optional:'选填',
     th1:'其他头皮护理店', th2:'美发店头皮护理', th3:'居家护理（头皮洗发水·安瓶）', th4:'第一次',
@@ -823,7 +830,7 @@ const T = {
     consent_all:'全部同意',
     tag_req:'[必选]', tag_opt:'[可选]',
     privacy_req:'同意收集和使用个人信息',
-    pv_items_k:'收集项目', pv_items:'姓名、出生日期、联系方式、地址、头皮状况',
+    pv_items_k:'收集项目', pv_items:'姓名、出生日期、联系方式、预约日期和时间、地址、头皮状况',
     pv_purpose_k:'收集目的', pv_purpose:'头皮护理咨询及预约管理',
     pv_period_k:'保存期限', pv_period:'服务完成后1年',
     privacy_link:'查看完整隐私政策',
@@ -847,6 +854,7 @@ const T = {
     q_name:'お名前', ph_name:'山田花子', err_name:'お名前を入力してください。',
     q_birth:'生年月日', ph_birth:'1995.03.15', err_birth:'生年月日を正しく入力してください（8桁）。',
     q_phone:'電話番号', ph_phone:'010-1234-5678', err_phone:'電話番号を正しく入力してください。',
+    q_date:'ご予約日', err_date:'ご予約日を選択してください。', q_time:'ご予約時間', err_time:'ご予約時間を選択してください。', today:'今日', tomorrow:'明日',
     q_addr:'ご住所', q_addr_hint:'町名まで', ph_addr:'例）ソウル江南（ホテルのエリアでも可）', err_addr:'ご住所を入力してください。',
     q_treat:'これまでの頭皮ケア経験', multi:'複数選択可', optional:'任意',
     th1:'他の頭皮ケア専門店', th2:'美容室の頭皮ケア', th3:'ホームケア（頭皮用シャンプー・アンプル）', th4:'初めてです',
@@ -903,7 +911,7 @@ const T = {
     consent_all:'すべてに同意する',
     tag_req:'[必須]', tag_opt:'[任意]',
     privacy_req:'個人情報の収集・利用への同意',
-    pv_items_k:'収集項目', pv_items:'氏名、生年月日、連絡先、住所、頭皮状態',
+    pv_items_k:'収集項目', pv_items:'氏名、生年月日、連絡先、ご予約日時、住所、頭皮状態',
     pv_purpose_k:'収集目的', pv_purpose:'頭皮ケア相談・予約管理',
     pv_period_k:'保有期間', pv_period:'サービス完了後1年',
     privacy_link:'個人情報処理方針の全文を見る',
@@ -1026,11 +1034,19 @@ const menuName = id => id === 'undecided' ? T[lang].undecided : `${(MENU_ITEMS[i
 
 
 // ── 설문 스키마 ──
+// 예약하신 시간 (10:00~21:00, 30분 단위)
+const TIMES = [];
+for (let hh = 10; hh <= 21; hh++) TIMES.push(`${hh}:00`, ...(hh < 21 ? [`${hh}:30`] : []));
+const todayStr = () => new Date().toLocaleDateString('sv');
+
 const STEPS = [
   { en:'About You', title:'s2_title', desc:'s2_desc', qs:[
     { name:'name', type:'text', label:'q_name', req:true, err:'err_name', ph:'ph_name', autocomplete:'name', maxlength:40 },
     { name:'birth', type:'text', label:'q_birth', req:true, err:'err_birth', ph:'ph_birth', inputmode:'numeric', autocomplete:'bday', maxlength:10, format:'date' },
     { name:'phone', type:'tel', label:'q_phone', req:true, err:'err_phone', ph:'ph_phone', inputmode:'tel', autocomplete:'tel', maxlength:20, format:'phone' },
+    // 매장에서 날짜·시간·이름·번호로 예약 손님을 바로 찾을 수 있게 (관리자 화면 '방문 일시')
+    { name:'visitDate', type:'date', label:'q_date', req:true, err:'err_date' },
+    { name:'visitTime', type:'times', label:'q_time', req:true, err:'err_time' },
     { name:'address', type:'text', label:'q_addr', chip:'q_addr_hint', req:true, err:'err_addr', ph:'ph_addr', maxlength:100 },
     { name:'visitSource', type:'radio', label:'q_src', req:true, err:'err_src', grid:true,
       opts:['vs1','vs2','vs3','vs7','vs4','vs8','vs12','vs9','vs5','vs6','vs11'], wide:['vs11'], details:{ vs5:'ph_referrer', vs11:'ph_other' } },
@@ -1121,26 +1137,32 @@ function buildQuestion(q) {
 
   if (q.type === 'menu') {
     block.appendChild(buildMenu(q.name));
-  } else if (q.type === 'text' || q.type === 'tel') {
+  } else if (q.type === 'text' || q.type === 'tel' || q.type === 'date') {
     const input = h('input', {
       class:'input', type:q.type, id:q.name, name:q.name, 'aria-labelledby':labelId,
       autocomplete:q.autocomplete || 'off',
     });
     if (q.ph) input.setAttribute('data-tph', q.ph);
     if (q.maxlength) input.setAttribute('maxlength', q.maxlength);
+    if (q.type === 'date') input.min = todayStr();
     if (q.inputmode) input.setAttribute('inputmode', q.inputmode);
     if (q.req) input.setAttribute('aria-required', 'true');
     if (q.format) input.addEventListener('input', () => formatInput(input, q.format));
     block.appendChild(input);
+    if (q.type === 'date') {
+      block.appendChild(h('p', { class:'date-note', id:`${q.name}-note`, hidden:'' }));
+      ['input', 'change'].forEach(ev => input.addEventListener(ev, () => dateNote(input)));
+    }
   } else {
     const multi = q.type === 'checkbox';
-    const opts = h('div', { class:`opts${q.grid ? ' grid' : ''}`, role: multi ? 'group' : 'radiogroup', 'aria-labelledby':labelId });
-    q.opts.forEach(key => {
-      const id = `${q.name}-${key}`;
+    const times = q.type === 'times';
+    const opts = h('div', { class:`opts${q.grid ? ' grid' : ''}${times ? ' times' : ''}`, role: multi ? 'group' : 'radiogroup', 'aria-labelledby':labelId });
+    (times ? TIMES : q.opts).forEach(key => {
+      const id = `${q.name}-${key.replace(':', '')}`;
       const wrap = h('div', { class:`opt${multi ? ' multi' : ''}${q.wide?.includes(key) ? ' wide' : ''}` });
-      const input = h('input', { type: multi ? 'checkbox' : 'radio', name:q.name, id, value: storedValue(key), 'data-key':key });
+      const input = h('input', { type: multi ? 'checkbox' : 'radio', name:q.name, id, value: times ? key : storedValue(key), 'data-key':key });
       const label = h('label', { for:id });
-      label.innerHTML = `<span class="mark">${ICON_CHECK}</span><span data-t="${key}"></span>`;
+      label.innerHTML = times ? `<span class="mark">${ICON_CHECK}</span><span>${key}</span>` : `<span class="mark">${ICON_CHECK}</span><span data-t="${key}"></span>`;
       wrap.append(input, label);
       opts.appendChild(wrap);
     });
@@ -1395,6 +1417,19 @@ function formatInput(input, kind) {
   }
 }
 
+function dateNote(input) {
+  const note = input && $(`#${input.id}-note`);
+  if (!note) return;
+  if (!input.value) { note.hidden = true; return; }
+  const [y, m, d] = input.value.split('-').map(Number);
+  const dt = new Date(y, m - 1, d);
+  const diff = Math.round((dt - new Date(new Date().toDateString())) / 864e5);
+  const rel = diff === 0 ? T[lang].today : diff === 1 ? T[lang].tomorrow : '';
+  const loc = { ko:'ko-KR', en:'en-US', zh:'zh-CN', ja:'ja-JP' }[lang];
+  note.textContent = dt.toLocaleDateString(loc, { month:'long', day:'numeric', weekday:'long' }) + (rel ? ` · ${rel}` : '');
+  note.hidden = false;
+}
+
 function validBirth(v) {
   const m = v.match(/^(\d{4})\.(\d{2})\.(\d{2})$/);
   if (!m) return false;
@@ -1417,6 +1452,7 @@ function applyLang() {
   $$('[data-tph]').forEach(el => { el.placeholder = t[el.dataset.tph] || ''; });
   if (lang === 'ko' && ADDR_EX[branchSlug]) $('#address').placeholder = ADDR_EX[branchSlug];
   $('#welSteps').textContent = t.wel_steps.replace('{n}', STEPS.length);
+  dateNote($('#visitDate'));
   $('#langPillText').textContent = lang.toUpperCase();
   paintBranch();
   applyMenuLang();
@@ -1492,6 +1528,7 @@ function checked(name) { return $$(`input[name="${name}"]:checked`); }
 function questionOk(q) {
   if (q.type === 'consent') return $('#privacyRequired').checked && $('#sensitiveRequired').checked;
   if (!q.req) return true;
+  if (q.type === 'date') { const v = $(`#${q.name}`).value; return !!v && v >= todayStr(); }
   if (q.type === 'text' || q.type === 'tel') {
     const v = $(`#${q.name}`).value.trim();
     if (q.format === 'date') return validBirth(v);
@@ -1566,6 +1603,7 @@ function restoreDraft(d) {
   // 기타 입력칸·조건부 질문·일행 공유 등 화면 상태를 답변에 맞춰 갱신
   d.c.forEach(id => document.getElementById(id)?.dispatchEvent(new Event('change', { bubbles: true })));
   setValues();
+  dateNote($('#visitDate'));
   if (d.scalpTest && SCALP_TEST[d.scalpTest.type]) { scalpTest = d.scalpTest; renderTestResult(); }
   restoring = false;
   dirty = true;
@@ -1615,6 +1653,8 @@ async function submitForm() {
     nameBirth: `${name} / ${birth}`,
     name,
     phone: $('#phone').value.trim(),
+    visitDate: $('#visitDate').value,
+    visitTime: checked('visitTime')[0]?.value || '',
     address: $('#address').value.trim(),
     treatmentHistory: checked('treatmentHistory').map(x => x.value),
     visitSource: withDetail('visitSource')[0] || '',
