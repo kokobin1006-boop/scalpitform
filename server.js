@@ -196,6 +196,25 @@ async function initDB() {
       ADD COLUMN IF NOT EXISTS slot TEXT NOT NULL DEFAULT '',
       ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ,
       ADD COLUMN IF NOT EXISTS updated_by TEXT NOT NULL DEFAULT '';
+    CREATE TABLE IF NOT EXISTS join_applications (
+      id BIGSERIAL PRIMARY KEY,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      name TEXT NOT NULL,
+      phone TEXT NOT NULL,
+      branches JSONB NOT NULL DEFAULT '[]'::jsonb,
+      career TEXT NOT NULL DEFAULT '',
+      field TEXT NOT NULL DEFAULT '',
+      consent_at TIMESTAMPTZ,
+      attr JSONB NOT NULL DEFAULT '{}'::jsonb,
+      landing TEXT NOT NULL DEFAULT '',
+      ua TEXT NOT NULL DEFAULT '',
+      status TEXT NOT NULL DEFAULT 'new',
+      note TEXT NOT NULL DEFAULT '',
+      dup BOOLEAN NOT NULL DEFAULT FALSE,
+      updated_at TIMESTAMPTZ,
+      updated_by TEXT NOT NULL DEFAULT ''
+    );
+    CREATE INDEX IF NOT EXISTS join_applications_phone_idx ON join_applications (phone);
   `);
 }
 
@@ -539,6 +558,133 @@ app.patch('/api/academy/leads/:id', async (req, res) => {
   if (b.slot !== undefined) { if (!['', '1020', '1027'].includes(b.slot)) return res.status(400).json({ success: false }); patch.slot = b.slot; }
   const lead = await academyPatch(Number(req.params.id), patch, adminName(req));
   res.json({ success: !!lead, lead: lead || undefined });
+});
+
+// ───────────────────────────────────────────────────────────────────────────
+// 채용 랜딩 (/join) — 지원서 수집
+// ───────────────────────────────────────────────────────────────────────────
+const JOIN_STATUS = ['new', 'contacted', 'interview', 'hired', 'rejected', 'cancelled'];
+const JOIN_BRANCHES = ['dongtan', 'cheonan', 'gwanggyo', 'apgujeong', 'any'];
+const JOIN_CAREER = ['none', 'under1', 'under3', '1to3', 'over3'];
+const JOIN_FILE = path.join(DATA_DIR, 'join_applications.json');
+
+function readJoinJson() {
+  if (!fs.existsSync(JOIN_FILE)) return [];
+  try { return JSON.parse(fs.readFileSync(JOIN_FILE, 'utf8')); } catch { return []; }
+}
+function writeJoinJson(list) { fs.writeFileSync(JOIN_FILE, JSON.stringify(list, null, 2), 'utf8'); }
+
+function joinRowToApp(r) {
+  return {
+    id: Number(r.id), createdAt: r.created_at, name: r.name, phone: r.phone,
+    branches: Array.isArray(r.branches) ? r.branches : [],
+    career: r.career, field: r.field, consentAt: r.consent_at,
+    attr: r.attr || {}, landing: r.landing, status: r.status, note: r.note, dup: r.dup,
+    updatedAt: r.updated_at || null, updatedBy: r.updated_by || '',
+  };
+}
+
+async function joinFindByPhone(phone) {
+  if (pool) { const r = await pool.query('SELECT id FROM join_applications WHERE phone=$1 LIMIT 1', [phone]); return r.rows.length > 0; }
+  return readJoinJson().some(a => a.phone === phone);
+}
+
+async function joinInsert(app) {
+  if (pool) {
+    const r = await pool.query(
+      `INSERT INTO join_applications (name, phone, branches, career, field, consent_at, attr, landing, ua, dup)
+       VALUES ($1,$2,$3,$4,$5,NOW(),$6,$7,$8,$9) RETURNING id`,
+      [app.name, app.phone, JSON.stringify(app.branches), app.career, app.field, JSON.stringify(app.attr), app.landing, app.ua, app.dup]);
+    return Number(r.rows[0].id);
+  }
+  const list = readJoinJson();
+  const id = list.reduce((m, a) => Math.max(m, a.id || 0), 0) + 1;
+  list.push({ id, createdAt: new Date().toISOString(), consentAt: new Date().toISOString(), status: 'new', note: '', ...app });
+  writeJoinJson(list);
+  return id;
+}
+
+async function joinList() {
+  if (pool) { const r = await pool.query('SELECT * FROM join_applications ORDER BY id DESC'); return r.rows.map(joinRowToApp); }
+  return readJoinJson().slice().reverse();
+}
+
+async function joinPatch(id, patch, by) {
+  const sets = []; const vals = [];
+  Object.keys(patch).forEach(k => { sets.push(`${k.replace(/[^a-z_]/g, '')}=$${vals.length + 2}`); vals.push(patch[k]); });
+  if (!sets.length) return null;
+  sets.push(`updated_at=NOW()`, `updated_by=$${vals.length + 2}`); vals.push(by || '');
+  if (pool) {
+    const r = await pool.query(`UPDATE join_applications SET ${sets.join(', ')} WHERE id=$1 RETURNING *`, [id, ...vals]);
+    return r.rows[0] ? joinRowToApp(r.rows[0]) : null;
+  }
+  const list = readJoinJson();
+  const i = list.findIndex(a => Number(a.id) === Number(id));
+  if (i < 0) return null;
+  list[i] = { ...list[i], ...patch, updatedAt: new Date().toISOString(), updatedBy: by || '' };
+  writeJoinJson(list); return list[i];
+}
+
+function sendJoinPage(req, res) {
+  fs.readFile(path.join(__dirname, 'public/join/index.html'), 'utf8', (err, html) => {
+    if (err) return res.status(500).send('landing not found');
+    const t = trackingHtml();
+    res.set('Cache-Control', 'no-cache');
+    res.type('html').send(html.replace('<!--@TRACKING_HEAD-->', t.head));
+  });
+}
+app.get(['/join', '/join/', '/join/index.html'], sendJoinPage);
+app.get('/join/admin', (req, res) => res.sendFile(path.join(__dirname, 'public/join/admin.html')));
+
+app.post('/api/join/application', async (req, res) => {
+  try {
+    const b = req.body || {};
+    if (b.website) return res.json({ ok: true, id: 0 });
+    if (tooMany(clientIp(req))) return res.status(429).json({ ok: false, message: '잠시 후 다시 시도해 주세요.' });
+
+    const name = clip(b.name, 20).trim();
+    const phone = String(b.phone || '').replace(/\D/g, '');
+    if (name.length < 2) return res.status(400).json({ ok: false, message: '성함을 입력해 주세요.' });
+    if (!/^01[016789]\d{7,8}$/.test(phone)) return res.status(400).json({ ok: false, message: '연락처를 확인해 주세요.' });
+    if (b.consent !== true) return res.status(400).json({ ok: false, message: '개인정보 수집·이용에 동의해 주세요.' });
+    const branches = Array.isArray(b.branches) ? b.branches.filter(v => JOIN_BRANCHES.includes(v)).slice(0, 5) : [];
+    if (branches.length === 0) return res.status(400).json({ ok: false, message: '희망 지점을 하나 이상 선택해 주세요.' });
+    const career = JOIN_CAREER.includes(b.career) ? b.career : '';
+    if (!career) return res.status(400).json({ ok: false, message: '경력을 선택해 주세요.' });
+
+    const attrIn = b.attr && typeof b.attr === 'object' ? b.attr : {};
+    const attr = {};
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'referrer', 'angle'].forEach(k => {
+      if (attrIn[k]) attr[k] = clip(attrIn[k], 300);
+    });
+
+    const application = {
+      name, phone, branches, career,
+      field: clip(b.field, 100),
+      attr, landing: clip(b.landing, 300), ua: clip(req.headers['user-agent'], 300),
+      dup: await joinFindByPhone(phone),
+    };
+    const id = await joinInsert(application);
+    res.json({ ok: true, id, dup: application.dup });
+  } catch (e) {
+    console.error('join application save failed:', e.message);
+    res.status(500).json({ ok: false, message: '일시적으로 접수가 어렵습니다. 잠시 후 다시 시도해 주세요.' });
+  }
+});
+
+app.get('/api/join/applications', async (req, res) => {
+  if (!adminOk(req)) return res.status(401).json({ success: false, message: '비밀번호가 올바르지 않습니다.' });
+  const data = await joinList();
+  res.json({ success: true, data, total: data.length, serverTime: new Date().toISOString() });
+});
+
+app.patch('/api/join/applications/:id', async (req, res) => {
+  if (!adminOk(req)) return res.status(401).json({ success: false });
+  const b = req.body || {}; const patch = {};
+  if (b.status !== undefined) { if (!JOIN_STATUS.includes(b.status)) return res.status(400).json({ success: false }); patch.status = b.status; }
+  if (b.note !== undefined) patch.note = clip(b.note, 1000);
+  const app = await joinPatch(Number(req.params.id), patch, adminName(req));
+  res.json({ success: !!app, application: app || undefined });
 });
 
 app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
