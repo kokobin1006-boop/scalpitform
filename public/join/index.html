@@ -8,7 +8,9 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Scálpit 채용 — 당신의 다음 커리어">
 <meta property="og:description" content="두피 웰니스 브랜드 Scálpit 테라피스트·상담·점장 채용. 동탄·천안·광교·압구정 직영 4개점.">
-<meta property="og:image" content="/join/assets/brand/scalpit-wordmark.jpg">
+<meta property="og:image" content="https://scalpitform.com/join/assets/brand/scalpit-wordmark.jpg">
+<meta property="og:url" content="https://scalpitform.com/join">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#681b30">
 <link rel="icon" href="/join/assets/brand/scalpit-symbol.jpg">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -98,6 +100,18 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hero-meta button:active{transform:scale(.9)}
 @media(max-width:430px){.hero h1{font-size:clamp(2.4rem,10vw,3.2rem)}.hero .btn{padding:10px 10px 10px 22px;font-size:.95rem}.hero .btn .ic{width:32px;height:32px}}
 
+/* ───── 핵심 숫자 스트립 ───── */
+.facts{background:var(--wine);color:#faf5ef;padding:clamp(32px,5vw,56px) 0;border-bottom:1px solid #4d1424}
+.facts-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(24px,4vw,40px) clamp(16px,3vw,28px)}
+@media(min-width:900px){.facts-grid{grid-template-columns:repeat(4,1fr)}}
+.facts-grid li{padding:0;position:relative}
+.facts-grid li.hot .f-n{color:var(--gold)}
+.facts-grid li.hot .f-l{color:#faf5ef}
+.facts-grid .f-n{font-family:var(--display);font-weight:800;font-size:clamp(2.6rem,5vw,4.2rem);line-height:1;letter-spacing:-.035em;color:#faf5ef;display:flex;align-items:baseline;gap:4px}
+.facts-grid .f-n small{font-weight:500;font-size:clamp(.9rem,1.4vw,1.1rem);letter-spacing:0;color:#f8f0e8c0}
+.facts-grid .f-l{margin-top:12px;font-size:.95rem;line-height:1.5;color:#faf5ef;font-weight:500}
+.facts-grid .f-l small{display:block;margin-top:4px;font-size:.78rem;font-weight:400;color:#f8f0e8a0;letter-spacing:0}
+
 /* ───── 공통 섹션 헤더 ───── */
 .sec-head{display:grid;grid-template-columns:1fr;gap:28px;margin-bottom:clamp(40px,6vw,72px)}
 @media(min-width:900px){.sec-head{grid-template-columns:1.3fr .9fr;align-items:end;gap:48px}}
@@ -140,7 +154,12 @@ button,input,select,textarea{font:inherit;color:inherit}
 .role-body p{color:var(--mut);font-size:.98rem;line-height:1.75;max-width:52ch}
 .role-tasks{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px}
 .role-tasks span{padding:4px 11px;border:1px solid var(--line2);border-radius:999px;font:500 .78rem var(--font);color:var(--mut)}
-.role-meta{display:flex;flex-direction:column;gap:4px;color:var(--wine);font-size:.86rem;font-weight:600;text-align:left}
+.role-must{margin-top:16px;padding:10px 14px;background:#f1ece5;border-left:3px solid var(--wine);font-size:.88rem;color:var(--ink);line-height:1.6}
+.role-must b{color:var(--wine);font-weight:700;margin-right:6px}
+.role-meta{display:flex;flex-direction:column;gap:4px;text-align:left}
+.role-meta .pay{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,2.4vw,2rem);color:var(--wine);letter-spacing:-.03em;line-height:1}
+.role-meta .pay small{font-weight:500;font-size:.7rem;color:var(--mut);letter-spacing:0;margin-left:4px}
+.role-meta .meta-lbl{color:var(--mut);font-size:.78rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
 @media(min-width:720px){.role-meta{text-align:right}}
 
 /* ───── Section 03 — 성장 ───── */
@@ -153,6 +172,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .grow-row .time small{display:block;margin-top:6px;font:500 .76rem var(--font);letter-spacing:.14em;color:var(--faint);text-transform:uppercase}
 .grow-row .path{font-size:1.1rem;line-height:1.6;color:var(--ink);font-weight:500}
 .grow-row .path span{color:var(--wine);margin:0 6px;font-weight:400}
+.grow-row .path em.pay-note-row{display:block;margin-top:10px;padding:6px 10px;background:#fff;border:1px solid var(--line);border-radius:4px;color:var(--wine);font-style:normal;font-weight:600;font-size:.85rem;letter-spacing:-.01em;width:fit-content}
 .grow-row .desc{color:var(--mut);font-size:.94rem;line-height:1.7}
 .grow-foot{margin-top:28px;color:var(--faint);font-size:.86rem;font-style:italic}
 
@@ -186,6 +206,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 .pay-rows .pr .r{font-family:var(--display);font-weight:800;font-size:1.5rem;color:var(--wine);white-space:nowrap;align-self:center;letter-spacing:-.025em}
 .pay-rows .pr.plus .r{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
 .pay-rows .pr.plus .r .inc{font-family:var(--font);font-size:.72rem;font-weight:600;color:var(--wine);background:#fff;border:1px solid var(--wine);padding:3px 10px;border-radius:999px;letter-spacing:.06em}
+.pay-case{margin-top:14px;padding:14px 16px;background:var(--wine);color:#faf5ef;border-radius:4px;font-size:.9rem;line-height:1.6}
+.pay-case b{color:var(--gold);font-weight:700}
 .terms-note{margin-top:28px;color:var(--mut);font-size:.86rem;line-height:1.65}
 
 /* ───── Section 06 — 함께 일할 공간 ───── */
@@ -328,12 +350,213 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
   </div>
 </section>
 
+<!-- ───── 핵심 숫자 스트립 ───── -->
+<section class="facts rv">
+  <div class="wrap">
+    <ul class="facts-grid">
+      <li>
+        <div class="f-n">240<small>만원~</small></div>
+        <p class="f-l">신입 월 급여<small>세전 · 교육 7일 포함</small></p>
+      </li>
+      <li>
+        <div class="f-n">7<small>일</small></div>
+        <p class="f-l">신입 교육 후 현장 투입<small>교육 기간 급여 지급</small></p>
+      </li>
+      <li>
+        <div class="f-n">3<small>개월</small></div>
+        <p class="f-l">입사 3개월, 월 300~400만원<small>실제 매니저 승급 사례</small></p>
+      </li>
+      <li class="hot">
+        <div class="f-n">10<small>개월</small></div>
+        <p class="f-l">입사 10개월, 점장까지<small>테라피스트→매니저→실장→교육팀장→점장</small></p>
+      </li>
+    </ul>
+  </div>
+</section>
+<!-- ───── 05 근무 조건 ───── -->
+<section class="sec terms">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <p class="k-num">01 — 급여 및 근무 조건</p>
+        <h2 class="sec-h">급여 · 근무 조건</h2>
+      </div>
+      <p class="sec-lede">아래는 운영 중인 기본 조건입니다. 지점 · 직무별 세부 조건은 면접 시 최종 안내드립니다.</p>
+    </div>
+
+    <div class="terms-tbl rv">
+      <div class="terms-row">
+        <div class="k">월 급여 (세전)</div>
+        <div class="v">
+          <div class="pay-rows">
+            <div class="pr"><div class="l">테라피스트 신입<small>무경력 가능 · 입사 7일 교육도 급여</small></div><div class="r">240만원~</div></div>
+            <div class="pr"><div class="l">테라피스트 경력<small>관련 경력 6개월 이상</small></div><div class="r">280만원~</div></div>
+            <div class="pr plus">
+              <div class="l">상담 · 매니저 · 실장 · 점장<small>상담 · 매출 · 재방문 관리</small></div>
+              <div class="r">300만원~<span class="inc">+ 인센티브</span></div>
+            </div>
+          </div>
+          <p class="pay-case">💡 실수령 사례 · 입사 3개월 매니저가 기여도에 따라 <b>월 300~400만원 이상</b> 받은 케이스 있음 (채윤 매니저)</p>
+        </div>
+      </div>
+      <div class="terms-row">
+        <div class="k">근무 형태</div>
+        <div class="v"><b>정규직</b> · 수습 1~3개월</div>
+      </div>
+      <div class="terms-row">
+        <div class="k">근무 시간</div>
+        <div class="v"><b>주 5일 · 하루 8시간</b> (휴게 1시간 별도) · 지점별 교대 운영, 세부 시간은 면접 시 안내 · 예약 상황에 따라 조기 퇴근</div>
+      </div>
+      <div class="terms-row">
+        <div class="k">근무지</div>
+        <div class="v">동탄 · 천안 · 광교 · 압구정로데오 중 희망 지점</div>
+      </div>
+      <div class="terms-row">
+        <div class="k">복리후생</div>
+        <div class="v">주 5일 · 4대 보험 · 법정 연차 · 명절 상여 · 교육 기간 급여 지급 · 직원가 구매 · 관리·상담·판매 인센티브</div>
+      </div>
+      <div class="terms-row">
+        <div class="k">자격 요건</div>
+        <div class="v"><b>테라피스트</b> · 미용사(피부 또는 일반) 면허 보유 <b>필수</b> (공중위생관리법상 미용 업무를 위해 필요)<br><span style="color:var(--mut)">※ 상담 · 매니저 · 점장은 면허 비필수</span></div>
+      </div>
+      <div class="terms-row">
+        <div class="k">우대 사항</div>
+        <div class="v">동종 업계 경력 · 장기 근무 가능자 · 두피/뷰티 분야 교육 이수자</div>
+      </div>
+    </div>
+    <p class="terms-note">※ 급여는 월 세전 기준. 수습 기간 급여 세부 조건과 인센티브 구조는 면접 시 안내하며 근로계약·관련 법령을 따릅니다.</p>
+  </div>
+</section>
+<!-- ───── 02 승급 사례 — 기회의 속도 ───── -->
+<section class="sec grow-sec">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <p class="k-num">02 — 성장 기회</p>
+        <h2 class="sec-h">스칼프잇은<br>승급이 빠릅니다.</h2>
+      </div>
+      <p class="sec-lede"><b style="color:var(--ink)">1년 사이에 직영 4개점을 열었습니다.</b> 매장이 늘어나는 만큼 매니저·실장·점장 자리도 함께 열립니다. 지금 스칼프잇에서 실제로 있었던 승급 사례예요.</p>
+    </div>
+
+    <div class="grow-grid rv-stagger">
+      <div class="grow-row">
+        <div class="time">10개월<small>입사 후</small></div>
+        <div class="path">테라피스트 <span>→</span> 매니저 <span>→</span> 실장 <span>→</span> 교육팀장 <span>→</span> 점장</div>
+        <div class="desc">1년 안쪽에 테라피스트부터 점장까지. 스칼프잇이 1호점에서 4호점까지 가는 속도만큼, 사람도 함께 올라간 사례입니다.</div>
+      </div>
+      <div class="grow-row">
+        <div class="time">3개월<small>입사 후</small></div>
+        <div class="path">테라피스트 <span>→</span> 매니저 <span>→</span> 실장<br><em class="pay-note-row">기여도에 따라 월 300~400만원 이상 (채윤 매니저 케이스)</em></div>
+        <div class="desc">상담·운영을 책임지는 실장 자리까지 3개월. 열심히 하는 만큼 급여도 바로 올라간 실제 케이스입니다.</div>
+      </div>
+      <div class="grow-row">
+        <div class="time">1개월<small>입사 후</small></div>
+        <div class="path">테라피스트 <span>→</span> 매니저</div>
+        <div class="desc">입사 한 달 만에 매니저. 매장 운영에 바로 투입할 수 있다고 판단되면 다음 자리를 바로 엽니다.</div>
+      </div>
+    </div>
+    <p class="grow-foot">※ 사례는 실제 재직 중인 구성원의 성장 경로입니다. 승급·직책은 개인 역량·평가·회사 운영 계획에 따라 개별 결정됩니다.</p>
+  </div>
+</section>
+<!-- ───── 03 어떤 일을 하나 ───── -->
+<section id="roles" class="sec roles">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <p class="k-num">03 — 채용 분야</p>
+        <h2 class="sec-h">모집 중인 포지션</h2>
+      </div>
+      <p class="sec-lede">현재 아래 세 포지션을 상시 모집합니다. 지원 시 희망 직무를 하나 또는 복수로 선택할 수 있습니다.</p>
+    </div>
+
+    <div class="role-list rv-stagger">
+      <article class="role">
+        <div class="role-no">01 · Therapist</div>
+        <div class="role-body">
+          <h3>테라피스트</h3>
+          <p>두피 분석·측정과 1:1 프라이빗 관리. 상담부터 홈케어 안내까지 한 고객을 끝까지 책임집니다. 신입도 입사 초기 7일 교육을 받고 현장에 투입돼요.</p>
+          <div class="role-tasks"><span>두피 분석·측정</span><span>헤드스파 수기</span><span>홈케어 상담</span><span>HMS 측정</span></div>
+          <p class="role-must"><b>필수</b> · 미용사(피부 또는 일반) 면허 보유 · 공중위생관리법상 미용 업무를 위해 필요합니다.</p>
+        </div>
+        <div class="role-meta">
+          <div class="pay">240<small>만원~</small></div>
+          <div class="meta-lbl">신입 · 경력</div>
+        </div>
+      </article>
+      <article class="role">
+        <div class="role-no">02 · Consultant</div>
+        <div class="role-body">
+          <h3>상담 · 고객관리</h3>
+          <p>첫 방문 상담부터 재방문 설계까지. 고객의 관리 흐름을 책임지고, 매장의 매출과 재방문율을 함께 올리는 포지션이에요.</p>
+          <div class="role-tasks"><span>신규 상담</span><span>코스 설계</span><span>재방문 관리</span><span>CRM</span></div>
+        </div>
+        <div class="role-meta">
+          <div class="pay">300<small>만원~</small></div>
+          <div class="meta-lbl">경력 · 내부 승진 · +α</div>
+        </div>
+      </article>
+      <article class="role">
+        <div class="role-no">03 · Store Lead</div>
+        <div class="role-body">
+          <h3>점장</h3>
+          <p>지점 운영 전체를 책임집니다. 테라피스트·상담팀 관리, 매출·운영 지표, 본사와의 조율. 매장 수가 늘수록 자리는 함께 늘어나요.</p>
+          <div class="role-tasks"><span>인력 운영</span><span>매출 관리</span><span>교육·평가</span><span>본사 커뮤니케이션</span></div>
+        </div>
+        <div class="role-meta">
+          <div class="pay">300<small>만원~</small></div>
+          <div class="meta-lbl">경력 · 내부 승진 · +α</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+<!-- ───── 04 어떻게 배우나 ───── -->
+<section class="sec learn">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <p class="k-num">04 — 신입 교육</p>
+        <h2 class="sec-h">무경력도<br>7일 교육 후 현장 투입</h2>
+      </div>
+      <p class="sec-lede">입사 첫 7일 동안 두피 이론 · 실기 · 상담 · 운영을 집중 교육합니다. 교육 기간에도 급여가 그대로 지급됩니다.</p>
+    </div>
+
+    <div class="learn-grid rv-stagger">
+      <article class="learn-card">
+        <figure><img src="/join/assets/care/care-scaling-real.webp" alt="두피 측정·실기 교육 장면" loading="lazy"></figure>
+        <p class="lb-no">01 · Theory</p>
+        <h3>두피 기초 이론</h3>
+        <p>두피 구조 · 유형 · 분석 원리. 왜 이렇게 관리하는지부터 시작합니다.</p>
+      </article>
+      <article class="learn-card">
+        <figure><img src="/join/assets/care/care-ampoule.webp" alt="앰플·수기 실기" loading="lazy"></figure>
+        <p class="lb-no">02 · Practice</p>
+        <h3>관리 실기</h3>
+        <p>샴푸 · 스케일링 · 수기 테크닉 · 기기 실습. 손의 압과 리듬을 몸에 익힙니다.</p>
+      </article>
+      <article class="learn-card">
+        <figure><img src="/join/assets/care/care-diagnosis-real.webp" alt="고객 상담 장면" loading="lazy"></figure>
+        <p class="lb-no">03 · Consult</p>
+        <h3>고객 상담</h3>
+        <p>분석 결과 설명 · 코스 안내 · 홈케어 상담. 스칼프잇의 언어로 전달합니다.</p>
+      </article>
+      <article class="learn-card">
+        <figure><img src="/join/assets/care/care-ritual-real.webp" alt="실무 피드백 장면" loading="lazy"></figure>
+        <p class="lb-no">04 · Grow</p>
+        <h3>실무 성장</h3>
+        <p>관리 피드백과 직급별 역량 교육. 입사 후에도 멈추지 않는 성장을 지원합니다.</p>
+      </article>
+    </div>
+
+    <p class="learn-note">※ 교육 세부 일정과 월별 커리큘럼은 입사자별로 달라질 수 있어요. 면접 시 상세 안내.</p>
+  </div>
+</section>
 <!-- ───── 01 어떤 브랜드인가 ───── -->
 <section class="sec about">
   <div class="wrap">
     <div class="sec-head rv">
       <div>
-        <p class="k-num">01 — 브랜드 소개</p>
+        <p class="k-num">05 — 브랜드 소개</p>
         <h2 class="sec-h">직영 4개점을<br>1년 사이에 열었습니다.</h2>
       </div>
       <p class="sec-lede">스칼프잇은 가맹 없이 본사가 전 지점을 직접 운영하는 두피 웰니스 브랜드입니다. 어느 지점에서 일해도 같은 시스템과 같은 교육을 받습니다.</p>
@@ -357,192 +580,24 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
         <p class="store-desc">오렌지 톤 리셉션. 신규 고객 유입이 꾸준한 활발한 지점이에요.</p>
       </article>
       <article class="store">
-        <figure><img src="/join/assets/branches/gwanggyo.webp" alt="스칼프잇 광교점 공간" loading="lazy"></figure>
+        <figure><img src="/join/assets/branches/gwanggyo-lounge.jpg" alt="스칼프잇 광교점 호수뷰 라운지" loading="lazy"></figure>
         <div class="store-head">
           <h3 class="store-name">광교</h3>
           <span class="store-when">2026.07 · 3호점</span>
         </div>
-        <p class="store-desc">대리석 상담실과 긴 복도. 프리미엄 고객층이 안정적으로 들어오는 지점이에요.</p>
+        <p class="store-desc">호수가 내려다보이는 통창 라운지. 프리미엄 고객층이 안정적으로 들어오는 지점이에요.</p>
       </article>
       <article class="store">
-        <figure><img src="/join/assets/branches/apgujeong-space.webp" alt="스칼프잇 압구정로데오점 공간" loading="lazy"></figure>
+        <figure><img src="/join/assets/branches/apgujeong-headspa.jpg" alt="스칼프잇 압구정로데오점 헤드스파룸" loading="lazy"></figure>
         <div class="store-head">
           <h3 class="store-name">압구정로데오</h3>
           <span class="store-when">2026.07 · Flagship</span>
         </div>
-        <p class="store-desc">플래그십. 레드 톤 입구와 브랜드 라이트박스. 지금 가장 많은 자리가 열리고 있는 지점입니다.</p>
+        <p class="store-desc">플래그십. 레드 톤 조명의 헤드스파룸과 브랜드 라이트박스. 지금 가장 많은 자리가 열리고 있는 지점입니다.</p>
       </article>
     </div>
   </div>
 </section>
-
-<!-- ───── 02 승급 사례 — 기회의 속도 ───── -->
-<section class="sec grow-sec">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div>
-        <p class="k-num">02 — 실제 승급 사례</p>
-        <h2 class="sec-h">스칼프잇에서 있었던<br>실제 승급 기록입니다.</h2>
-      </div>
-      <p class="sec-lede">모두가 이 속도로 올라간다는 뜻은 아닙니다. <b style="color:var(--ink)">이런 사례가 나올 만큼 승급 자리가 자주, 빠르게 열린다</b>는 걸 보여드리고 싶었어요. 지점이 늘어난 1년 사이에 있었던 실제 사례입니다.</p>
-    </div>
-
-    <div class="grow-grid rv-stagger">
-      <div class="grow-row">
-        <div class="time">1개월<small>입사 후</small></div>
-        <div class="path">테라피스트 <span>→</span> 매니저</div>
-        <div class="desc">입사 한 달 만에 매니저로 올라간 분이 있습니다. 매장 운영에 바로 투입할 수 있다고 판단되면 다음 자리를 바로 엽니다.</div>
-      </div>
-      <div class="grow-row">
-        <div class="time">3개월<small>입사 후</small></div>
-        <div class="path">테라피스트 <span>→</span> 실장</div>
-        <div class="desc">상담·운영을 책임지는 실장 자리까지 3개월. 신규 지점 오픈 타이밍에 실력이 보이면 승급 결정이 빠릅니다.</div>
-      </div>
-      <div class="grow-row">
-        <div class="time">10개월<small>입사 후</small></div>
-        <div class="path">테라피스트 <span>→</span> 매니저 <span>→</span> 실장 <span>→</span> 교육팀장 <span>→</span> 점장</div>
-        <div class="desc">1년 안쪽에 테라피스트부터 점장까지. 스칼프잇이 1호점부터 4호점까지 가는 속도만큼, 사람도 함께 올라갈 수 있었던 사례입니다.</div>
-      </div>
-    </div>
-    <p class="grow-foot">※ 사례는 실제 재직 중인 구성원의 성장 경로입니다. 승급·직책은 개인 역량·평가·회사 운영 계획에 따라 개별 결정됩니다.</p>
-  </div>
-</section>
-
-<!-- ───── 03 어떤 일을 하나 ───── -->
-<section id="roles" class="sec roles">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div>
-        <p class="k-num">03 — 채용 분야</p>
-        <h2 class="sec-h">모집 중인 포지션</h2>
-      </div>
-      <p class="sec-lede">현재 아래 세 포지션을 상시 모집합니다. 지원 시 희망 직무를 하나 또는 복수로 선택할 수 있습니다.</p>
-    </div>
-
-    <div class="role-list rv-stagger">
-      <article class="role">
-        <div class="role-no">01 · Therapist</div>
-        <div class="role-body">
-          <h3>테라피스트</h3>
-          <p>두피 진단과 1:1 프라이빗 관리. 상담부터 홈케어 안내까지 한 고객을 끝까지 책임집니다. 신입은 입사 초기 7일 교육을 받고 현장에 투입돼요.</p>
-          <div class="role-tasks"><span>두피 진단</span><span>헤드스파 수기</span><span>홈케어 상담</span><span>HMS 측정</span></div>
-        </div>
-        <div class="role-meta">신입 · 경력<br>월 240만원~</div>
-      </article>
-      <article class="role">
-        <div class="role-no">02 · Consultant</div>
-        <div class="role-body">
-          <h3>상담 · 고객관리</h3>
-          <p>첫 방문 상담부터 재방문 설계까지. 고객의 관리 흐름을 책임지고, 매장의 매출과 재방문율을 함께 올리는 포지션이에요.</p>
-          <div class="role-tasks"><span>신규 상담</span><span>코스 설계</span><span>재방문 관리</span><span>CRM</span></div>
-        </div>
-        <div class="role-meta">경력 우대<br>월 280만원~</div>
-      </article>
-      <article class="role">
-        <div class="role-no">03 · Store Lead</div>
-        <div class="role-body">
-          <h3>점장</h3>
-          <p>지점 운영 전체를 책임집니다. 테라피스트·상담팀 관리, 매출·운영 지표, 본사와의 조율. 매장 수가 늘수록 자리는 함께 늘어나요.</p>
-          <div class="role-tasks"><span>인력 운영</span><span>매출 관리</span><span>교육·평가</span><span>본사 커뮤니케이션</span></div>
-        </div>
-        <div class="role-meta">경력 · 내부 승진<br>월 300만원~ +α</div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ───── 04 어떻게 배우나 ───── -->
-<section class="sec learn">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div>
-        <p class="k-num">04 — 신입 교육</p>
-        <h2 class="sec-h">무경력도<br>7일 교육 후 현장 투입</h2>
-      </div>
-      <p class="sec-lede">입사 첫 7일 동안 두피 이론 · 실기 · 상담 · 운영을 집중 교육합니다. 교육 기간에도 급여가 그대로 지급되며, 미용 자격증이 없어도 지원 가능합니다.</p>
-    </div>
-
-    <div class="learn-grid rv-stagger">
-      <article class="learn-card">
-        <figure><img src="/join/assets/care/care-diagnosis-real.webp" alt="두피 진단 장면" loading="lazy"></figure>
-        <p class="lb-no">01 · Theory</p>
-        <h3>두피 기초 이론</h3>
-        <p>두피 구조 · 유형 · 관리 원리. 왜 이렇게 관리하는지부터 시작합니다.</p>
-      </article>
-      <article class="learn-card">
-        <figure><img src="/join/assets/care/care-scaling-real.webp" alt="두피 스케일링 실기" loading="lazy"></figure>
-        <p class="lb-no">02 · Practice</p>
-        <h3>관리 실기</h3>
-        <p>샴푸 · 스케일링 · 수기 테크닉 · 기기 실습. 손의 압과 리듬을 몸에 익힙니다.</p>
-      </article>
-      <article class="learn-card">
-        <figure><img src="/join/assets/care/care-ritual-real.webp" alt="고객 상담 장면" loading="lazy"></figure>
-        <p class="lb-no">03 · Consult</p>
-        <h3>고객 상담</h3>
-        <p>진단 결과 설명 · 코스 안내 · 홈케어 상담. 스칼프잇의 언어로 전달합니다.</p>
-      </article>
-      <article class="learn-card">
-        <figure><img src="/join/assets/care/care-ampoule.webp" alt="앰플 적용 장면" loading="lazy"></figure>
-        <p class="lb-no">04 · Grow</p>
-        <h3>실무 성장</h3>
-        <p>관리 피드백과 직급별 역량 교육. 입사 후에도 멈추지 않는 성장을 지원합니다.</p>
-      </article>
-    </div>
-
-    <p class="learn-note">※ 교육 세부 일정과 월별 커리큘럼은 입사자별로 달라질 수 있어요. 면접 시 상세 안내.</p>
-  </div>
-</section>
-
-<!-- ───── 05 근무 조건 ───── -->
-<section class="sec terms">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div>
-        <p class="k-num">05 — 급여 및 근무 조건</p>
-        <h2 class="sec-h">급여 · 근무 조건</h2>
-      </div>
-      <p class="sec-lede">아래는 운영 중인 기본 조건입니다. 지점 · 직무별 세부 조건은 면접 시 최종 안내드립니다.</p>
-    </div>
-
-    <div class="terms-tbl rv">
-      <div class="terms-row">
-        <div class="k">월 급여 (세전)</div>
-        <div class="v">
-          <div class="pay-rows">
-            <div class="pr"><div class="l">테라피스트 신입<small>무경력 가능 · 입사 7일 교육도 급여</small></div><div class="r">240만원~</div></div>
-            <div class="pr"><div class="l">테라피스트 경력<small>관련 경력 6개월 이상</small></div><div class="r">280만원~</div></div>
-            <div class="pr plus">
-              <div class="l">상담 · 매니저 · 실장 · 점장<small>상담 · 매출 · 재방문 관리</small></div>
-              <div class="r">300만원~<span class="inc">+ 인센티브</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="terms-row">
-        <div class="k">근무 형태</div>
-        <div class="v"><b>정규직</b> · 수습 1~3개월</div>
-      </div>
-      <div class="terms-row">
-        <div class="k">근무 시간</div>
-        <div class="v"><b>10:00 ~ 20:00</b> · 지점별 상이, 예약 상황에 따라 조기 퇴근</div>
-      </div>
-      <div class="terms-row">
-        <div class="k">근무지</div>
-        <div class="v">동탄 · 천안 · 광교 · 압구정로데오 중 희망 지점</div>
-      </div>
-      <div class="terms-row">
-        <div class="k">복리후생</div>
-        <div class="v">주 5일 · 4대 보험 · 법정 연차 · 명절 상여 · 교육 기간 급여 지급 · 직원가 구매 · 관리·상담·판매 인센티브</div>
-      </div>
-      <div class="terms-row">
-        <div class="k">우대 사항</div>
-        <div class="v">피부미용사 또는 미용사(일반) 면허 · 동종 업계 경력 · 장기 근무 가능자</div>
-      </div>
-    </div>
-    <p class="terms-note">※ 급여는 월 세전 기준. 수습 기간 급여 세부 조건과 인센티브 구조는 면접 시 안내하며 근로계약·관련 법령을 따릅니다.</p>
-  </div>
-</section>
-
 <!-- ───── 06 지원 절차 ───── -->
 <section class="sec flow">
   <div class="wrap">
@@ -561,7 +616,6 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
     </div>
   </div>
 </section>
-
 <!-- ───── FAQ ───── -->
 <section class="sec faq">
   <div class="wrap">
@@ -575,7 +629,7 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
     <div class="faq-list rv-stagger">
       <details><summary>지원 후 언제쯤 연락이 오나요?</summary><div class="faq-a">영업일 기준 1~2일 안에 담당자가 연락드립니다. 밤·주말 접수는 다음 영업일에 연락될 수 있어요.</div></details>
       <details><summary>면접은 어디서 보나요?</summary><div class="faq-a">기본적으로 희망하신 지점에서 봅니다. 압구정로데오(플래그십)에서 통합 면접을 보기도 하니, 통화 시 조율해 드려요.</div></details>
-      <details><summary>신입(무경력)도 괜찮나요?</summary><div class="faq-a">네. 입사 초기 7일은 급여를 지급하면서 두피 이론·실기·상담을 가르칩니다. 미용 자격증·관련 경험이 없어도 지원 가능합니다.</div></details>
+      <details><summary>신입(무경력)도 지원 가능한가요?</summary><div class="faq-a">네, 경력 없어도 지원 가능합니다. 입사 초기 7일은 급여를 지급하면서 두피 이론·실기·상담을 가르칩니다. <b>단, 테라피스트 포지션은 공중위생관리법상 미용사(피부 또는 일반) 면허가 필요합니다.</b> 상담·매니저·점장은 면허 비필수입니다.</div></details>
       <details><summary>수습 기간 급여는요?</summary><div class="faq-a">수습 1~3개월이며, 수습 기간 급여 세부 조건은 면접 시 안내드립니다. 근로계약과 관련 법령을 따릅니다.</div></details>
       <details><summary>지금 몇 명을 뽑고 있나요?</summary><div class="faq-a">지점이 빠르게 늘고 있어 상시 채용 중입니다. 좋은 분이 지원하시면 결정도 빠르게 진행합니다.</div></details>
       <details><summary>복장이나 유니폼은?</summary><div class="faq-a">근무복은 매장에서 제공합니다. 처음부터 사비로 준비하실 필요 없어요.</div></details>
@@ -583,7 +637,6 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
     </div>
   </div>
 </section>
-
 <!-- ───── APPLY ───── -->
 <section id="apply" class="sec apply">
   <div class="wrap">
@@ -629,7 +682,7 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
       </div>
       <label class="consent">
         <input id="f-consent" type="checkbox" required>
-        <span>개인정보(이름 · 연락처 · 지원 내용) 수집·이용에 동의합니다. 수집 목적은 채용 전형 진행이며, 미채용 시 즉시 파기합니다.</span>
+        <span><b>개인정보 수집·이용 동의</b><br>· 수집 항목: 이름 · 연락처 · 지원 내용 (희망 지점·경력·관련 경력)<br>· 수집 목적: 채용 전형 진행 및 결과 안내<br>· 보유 기간: 채용 전형 종료 후 즉시 파기 (채용 시 근로계약 기간)<br>· 동의를 거부할 수 있으나, 거부 시 지원이 어렵습니다.</span>
       </label>
       <div class="submit">
         <button class="btn" id="submitBtn" type="submit"><span id="submitLabel">지원서 보내기</span><span class="ic" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 8h10M8 3l5 5-5 5"/></svg></span></button>
