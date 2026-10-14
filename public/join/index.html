@@ -11,9 +11,7 @@
 <meta property="og:image" content="/join/assets/brand/scalpit-wordmark.jpg">
 <meta name="theme-color" content="#681b30">
 <link rel="icon" href="/join/assets/brand/scalpit-symbol.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <!--@TRACKING_HEAD-->
 <style>
 :root{
@@ -29,14 +27,16 @@
   --wine-l:#8a2a44;
   --cream:#f7f3eb;
   --gold:#d8b990;
-  --gutter:clamp(20px,5vw,56px);
-  --wrap:1180px;
-  --font:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
-  --serif:"Playfair Display",Georgia,"Noto Serif KR",serif;
+  --gutter:clamp(20px,5vw,64px);
+  --wrap:1240px;
+  --font:"Pretendard Variable","Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --display:"Pretendard Variable","Pretendard","Apple SD Gothic Neo",sans-serif;
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+  --ease-spring:cubic-bezier(0.32,0.72,0,1);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:72px;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-weight:400;font-size:16px;line-height:1.75;word-break:keep-all;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-weight:400;font-size:16px;line-height:1.7;word-break:keep-all;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 1,"ss01" 1}
 main{overflow-x:clip}
 img,video{display:block;max-width:100%;height:auto}
 a{color:inherit;text-decoration:none}
@@ -55,59 +55,79 @@ button,input,select,textarea{font:inherit;color:inherit}
 .k-num{font:500 .9rem var(--font);letter-spacing:.22em;color:var(--faint)}
 .sec-pad{padding-block:clamp(72px,10vw,140px)}
 
-/* ───── Top bar ───── */
-.bar{position:sticky;top:0;z-index:60;background:#faf5efd8;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.bar-in{max-width:var(--wrap);margin-inline:auto;padding:14px var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:16px}
-.bar-logo{display:flex;align-items:center;gap:12px}
-.bar-logo img{width:28px;height:28px;border-radius:3px;object-fit:cover}
-.bar-logo span{font:600 .72rem var(--font);letter-spacing:.2em;color:var(--mut);text-transform:uppercase}
-.bar-cta{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:var(--wine);color:#fff;border-radius:999px;font-weight:600;font-size:.86rem;transition:background .2s}
+/* ───── Floating island nav ───── */
+.bar{position:fixed;top:16px;left:0;right:0;z-index:60;pointer-events:none;transition:transform .4s var(--ease-out)}
+.bar.hide{transform:translateY(-120%)}
+.bar-in{pointer-events:auto;margin-inline:auto;max-width:min(640px,calc(100vw - 32px));padding:8px 10px 8px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:#faf5efe8;backdrop-filter:blur(16px);border:1px solid #ffffff80;border-radius:999px;box-shadow:0 10px 40px -10px #68182028,0 2px 10px -2px #40262e18}
+.bar-logo{display:flex;align-items:baseline;gap:8px}
+.bar-brand{font:700 1.02rem var(--font);letter-spacing:-.015em;color:var(--wine)}
+.bar-sep{color:var(--line2);font-size:.9rem;line-height:1}
+.bar-sub{font:600 .74rem var(--font);letter-spacing:.1em;color:var(--mut)}
+.bar-cta{display:inline-flex;align-items:center;gap:4px;padding:8px 8px 8px 16px;background:var(--wine);color:#fff;border-radius:999px;font-weight:600;font-size:.84rem;transition:background .3s var(--ease-out),transform .2s var(--ease-out)}
 .bar-cta:hover{background:var(--wine-d)}
+.bar-cta:active{transform:scale(.96)}
+.bar-cta .ic{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#ffffff22;border-radius:50%;transition:transform .3s var(--ease-spring)}
+.bar-cta:hover .ic{transform:translateX(2px)}
+@media(max-width:430px){.bar-sep,.bar-sub{display:none}.bar-in{padding:7px 8px 7px 14px}}
 
 /* ───── Hero ───── */
-.hero{position:relative;isolation:isolate;overflow:hidden;background:#1a0e13;color:#f8f0e8;min-height:min(92vh,780px);display:flex;align-items:flex-end}
+.hero{position:relative;isolation:isolate;overflow:hidden;background:#1a0e13;color:#f8f0e8;min-height:min(100svh,920px);display:flex;align-items:flex-end;padding-top:72px}
 .hero-media{position:absolute;inset:0;z-index:0}
 .hero-media video,.hero-media img{width:100%;height:100%;object-fit:cover;object-position:center}
-.hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0b06084d 0%,#0b060880 50%,#0b0608 100%)}
-.hero-in{position:relative;z-index:1;width:100%;padding-block:clamp(32px,6vw,80px)}
-.hero-logo{display:block;margin-bottom:clamp(28px,5vw,52px)}
-.hero-logo img{width:clamp(84px,16vw,160px);height:auto;border-radius:4px;box-shadow:0 20px 60px #0004}
-.hero-badge{display:inline-flex;align-items:center;gap:10px;margin-bottom:22px;padding:7px 14px;border:1px solid #fff3;border-radius:999px;font:500 .72rem var(--font);letter-spacing:.26em;color:#f8f0e8cc;text-transform:uppercase}
+.hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0b060820 0%,#0b060860 42%,#0b0608 100%)}
+.hero-in{position:relative;z-index:1;width:100%;padding-block:clamp(40px,7vw,100px)}
+.hero-logo{display:block;margin-bottom:clamp(32px,6vw,64px)}
+.hero-logo img{width:clamp(72px,13vw,140px);height:auto;border-radius:4px;box-shadow:0 20px 60px #0005}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;margin-bottom:26px;padding:7px 16px;border:1px solid #faf5ef33;border-radius:999px;font:500 .68rem var(--font);letter-spacing:.3em;color:#f8f0e8d0;text-transform:uppercase;background:#faf5ef08;backdrop-filter:blur(10px)}
 .hero-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
-.hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(2.4rem,6.5vw,4.8rem);line-height:1.08;letter-spacing:-.015em;color:#faf5ef}
-.hero h1 em{font-style:italic;color:var(--gold)}
-.hero .sub{margin-top:22px;max-width:52ch;color:#eadfd4;font-size:clamp(1.02rem,1.5vw,1.18rem);font-weight:400}
-.hero-cta-row{margin-top:clamp(32px,5vw,52px);display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-.hero .btn{display:inline-flex;align-items:center;gap:10px;padding:16px 32px;background:var(--cream);color:var(--wine);border:0;border-radius:999px;font-weight:700;font-size:1rem;transition:transform .2s,box-shadow .2s;cursor:pointer}
-.hero .btn:hover{background:#fff;box-shadow:0 14px 40px #d8b99055}
-.hero .btn .arrow{display:inline-block;transition:transform .2s}
-.hero .btn:hover .arrow{transform:translateX(4px)}
-.hero .btn.ghost{background:transparent;color:#f8f0e8;border:1px solid #fff6}
-.hero .btn.ghost:hover{background:#ffffff10}
-.hero-meta{position:absolute;bottom:24px;right:var(--gutter);z-index:2;display:flex;align-items:center;gap:12px;font:500 .66rem var(--font);letter-spacing:.3em;color:#f8f0e880;text-transform:uppercase}
-.hero-meta button{background:transparent;border:1px solid #fff4;border-radius:999px;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;color:#f8f0e8;cursor:pointer}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2.6rem,8vw,6.4rem);line-height:1.04;letter-spacing:-.035em;color:#faf5ef;max-width:14ch;font-feature-settings:"ss01" 1}
+.hero h1 em{font-style:normal;color:var(--gold);font-weight:800;letter-spacing:-.03em}
+.hero .sub{margin-top:28px;max-width:48ch;color:#eadfd4;font-size:clamp(1.04rem,1.5vw,1.22rem);font-weight:400;line-height:1.6}
+.hero-cta-row{margin-top:clamp(40px,6vw,64px);display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.hero .btn{display:inline-flex;align-items:center;gap:12px;padding:12px 12px 12px 28px;background:var(--cream);color:var(--wine);border:0;border-radius:999px;font-weight:700;font-size:1rem;cursor:pointer;transition:background .3s var(--ease-out),transform .2s var(--ease-out),box-shadow .3s var(--ease-out)}
+.hero .btn:hover{background:#fff;box-shadow:0 18px 50px #d8b99055}
+.hero .btn:active{transform:scale(.97)}
+.hero .btn .ic{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:var(--wine);color:var(--cream);border-radius:50%;transition:transform .35s var(--ease-spring)}
+.hero .btn:hover .ic{transform:translateX(3px) rotate(-8deg)}
+.hero .btn.ghost{background:transparent;color:#f8f0e8;border:1px solid #faf5ef44;padding:12px 24px;font-weight:500}
+.hero .btn.ghost:hover{background:#faf5ef10;box-shadow:none}
+.hero .btn.ghost:active{transform:scale(.97)}
+.hero-meta{position:absolute;bottom:24px;right:var(--gutter);z-index:2;display:flex;align-items:center;gap:12px;font:500 .64rem var(--font);letter-spacing:.32em;color:#f8f0e880;text-transform:uppercase}
+.hero-meta button{background:transparent;border:1px solid #fff4;border-radius:999px;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;color:#f8f0e8;cursor:pointer;transition:background .2s var(--ease-out),transform .2s var(--ease-out)}
 .hero-meta button:hover{background:#ffffff15}
+.hero-meta button:active{transform:scale(.9)}
+@media(max-width:430px){.hero h1{font-size:clamp(2.4rem,10vw,3.2rem)}.hero .btn{padding:10px 10px 10px 22px;font-size:.95rem}.hero .btn .ic{width:32px;height:32px}}
 
 /* ───── 공통 섹션 헤더 ───── */
-.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(32px,5vw,56px);flex-wrap:wrap}
-.sec-h{font-family:var(--serif);font-weight:500;font-size:clamp(1.8rem,4.4vw,3rem);line-height:1.15;letter-spacing:-.015em;color:var(--ink);max-width:22ch}
-.sec-h em{font-style:italic;color:var(--wine)}
-.sec-lede{color:var(--mut);max-width:46ch;font-size:1rem;line-height:1.75}
+.sec-head{display:grid;grid-template-columns:1fr;gap:28px;margin-bottom:clamp(40px,6vw,72px)}
+@media(min-width:900px){.sec-head{grid-template-columns:1.3fr .9fr;align-items:end;gap:48px}}
+.sec-h{font-family:var(--display);font-weight:800;font-size:clamp(1.95rem,5vw,3.8rem);line-height:1.08;letter-spacing:-.032em;color:var(--ink);max-width:17ch}
+.sec-h em{font-style:normal;color:var(--wine);font-weight:800}
+.sec-lede{color:var(--mut);max-width:42ch;font-size:1.02rem;line-height:1.7;padding-bottom:6px}
 
 /* ───── Section 01 — 어떤 브랜드인가 ───── */
 .about{background:var(--bg);padding-top:clamp(72px,10vw,140px)}
 .about .k-num{color:var(--wine)}
-.about-grid{margin-top:clamp(40px,6vw,72px);display:grid;grid-template-columns:1fr;gap:clamp(28px,4vw,48px)}
-@media(min-width:720px){.about-grid{grid-template-columns:repeat(2,1fr);column-gap:clamp(28px,4vw,56px);row-gap:clamp(40px,5vw,72px)}}
-.store{display:flex;flex-direction:column;gap:16px}
-.store figure{margin:0;overflow:hidden;background:#eaddd0;aspect-ratio:4/5}
-.store figure img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
-.store:hover figure img{transform:scale(1.03)}
+.about-grid{margin-top:clamp(40px,6vw,80px);display:grid;grid-template-columns:1fr;gap:clamp(32px,5vw,56px)}
+@media(min-width:720px){.about-grid{grid-template-columns:repeat(12,1fr);column-gap:clamp(20px,3vw,40px);row-gap:clamp(48px,6vw,88px)}}
+.store{display:flex;flex-direction:column;gap:18px}
+@media(min-width:720px){
+  .store:nth-child(1){grid-column:1/span 6}
+  .store:nth-child(2){grid-column:7/span 6;margin-top:clamp(32px,6vw,56px)}
+  .store:nth-child(3){grid-column:1/span 5}
+  .store:nth-child(4){grid-column:6/span 7;margin-top:clamp(32px,6vw,56px)}
+  .store:nth-child(4) figure{aspect-ratio:4/3}
+}
+.store figure{margin:0;overflow:hidden;background:#eaddd0;aspect-ratio:4/5;position:relative}
+.store figure img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease-out),filter .8s var(--ease-out)}
+.store:hover figure img{transform:scale(1.04);filter:brightness(1.03)}
+.store figure::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,#0b060830 100%);pointer-events:none}
 .store .store-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-top:4px}
-.store .store-name{font-family:var(--serif);font-weight:500;font-size:1.55rem;letter-spacing:-.01em;color:var(--ink)}
-.store .store-when{font:500 .76rem var(--font);letter-spacing:.14em;color:var(--faint);text-transform:uppercase;white-space:nowrap}
-.store .store-desc{color:var(--mut);font-size:.95rem;line-height:1.7}
-.store .store-tag{display:inline-block;margin-top:4px;color:var(--wine);font:600 .76rem var(--font);letter-spacing:.1em;text-transform:uppercase}
+.store .store-name{font-family:var(--display);font-weight:700;font-size:clamp(1.4rem,2.4vw,1.75rem);letter-spacing:-.025em;color:var(--ink)}
+.store:nth-child(4) .store-name{color:var(--wine)}
+.store .store-when{font:500 .72rem var(--font);letter-spacing:.18em;color:var(--faint);text-transform:uppercase;white-space:nowrap}
+.store .store-desc{color:var(--mut);font-size:.98rem;line-height:1.7;max-width:38ch}
+.store .store-tag{display:inline-block;margin-top:4px;color:var(--wine);font:600 .74rem var(--font);letter-spacing:.14em;text-transform:uppercase}
 
 /* ───── Section 02 — 어떤 일을 하나 ───── */
 .roles{background:var(--cream);padding-block:clamp(72px,10vw,140px)}
@@ -116,7 +136,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .role{display:grid;grid-template-columns:1fr;gap:14px;padding:clamp(28px,4vw,40px) 0;border-bottom:1px solid var(--line)}
 @media(min-width:720px){.role{grid-template-columns:200px 1fr auto;gap:36px;align-items:start}}
 .role-no{font:500 .78rem var(--font);letter-spacing:.2em;color:var(--wine);text-transform:uppercase}
-.role-body h3{font-family:var(--serif);font-weight:500;font-size:1.55rem;letter-spacing:-.01em;color:var(--ink);margin-bottom:10px}
+.role-body h3{font-family:var(--display);font-weight:700;font-size:clamp(1.4rem,2.2vw,1.75rem);letter-spacing:-.025em;color:var(--ink);margin-bottom:12px}
 .role-body p{color:var(--mut);font-size:.98rem;line-height:1.75;max-width:52ch}
 .role-tasks{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px}
 .role-tasks span{padding:4px 11px;border:1px solid var(--line2);border-radius:999px;font:500 .78rem var(--font);color:var(--mut)}
@@ -129,7 +149,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .grow-grid{margin-top:clamp(32px,5vw,56px);display:grid;grid-template-columns:1fr;gap:0;border-top:1px solid var(--line2)}
 .grow-row{display:grid;grid-template-columns:1fr;gap:14px;padding:clamp(28px,4vw,36px) 0;border-bottom:1px solid var(--line);align-items:center}
 @media(min-width:720px){.grow-row{grid-template-columns:160px 1fr 1.1fr;gap:36px}}
-.grow-row .time{font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,3vw,2.1rem);color:var(--wine);letter-spacing:-.01em;line-height:1}
+.grow-row .time{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,3.4vw,2.6rem);color:var(--wine);letter-spacing:-.03em;line-height:1}
 .grow-row .time small{display:block;margin-top:6px;font:500 .76rem var(--font);letter-spacing:.14em;color:var(--faint);text-transform:uppercase}
 .grow-row .path{font-size:1.1rem;line-height:1.6;color:var(--ink);font-weight:500}
 .grow-row .path span{color:var(--wine);margin:0 6px;font-weight:400}
@@ -146,7 +166,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .learn-card figure{margin:0;overflow:hidden;background:var(--bg2);aspect-ratio:1/1}
 .learn-card figure img{width:100%;height:100%;object-fit:cover}
 .learn-card .lb-no{font:500 .76rem var(--font);letter-spacing:.2em;color:var(--wine);text-transform:uppercase}
-.learn-card h3{font-family:var(--serif);font-weight:500;font-size:1.2rem;letter-spacing:-.01em;color:var(--ink)}
+.learn-card h3{font-family:var(--display);font-weight:700;font-size:1.15rem;letter-spacing:-.02em;color:var(--ink)}
 .learn-card p{color:var(--mut);font-size:.9rem;line-height:1.7}
 .learn-note{margin-top:28px;color:var(--mut);font-size:.86rem;line-height:1.65;padding:16px 20px;border-left:3px solid var(--wine);background:#faf5ef}
 
@@ -163,7 +183,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .pay-rows .pr{display:flex;justify-content:space-between;gap:12px;padding:14px 18px;background:var(--cream);border-radius:3px}
 .pay-rows .pr .l{font-weight:500;color:var(--ink)}
 .pay-rows .pr .l small{display:block;color:var(--mut);font-size:.82rem;font-weight:400;margin-top:2px}
-.pay-rows .pr .r{font-family:var(--serif);font-weight:500;font-size:1.3rem;color:var(--wine);white-space:nowrap;align-self:center}
+.pay-rows .pr .r{font-family:var(--display);font-weight:800;font-size:1.5rem;color:var(--wine);white-space:nowrap;align-self:center;letter-spacing:-.025em}
 .pay-rows .pr.plus .r{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
 .pay-rows .pr.plus .r .inc{font-family:var(--font);font-size:.72rem;font-weight:600;color:var(--wine);background:#fff;border:1px solid var(--wine);padding:3px 10px;border-radius:999px;letter-spacing:.06em}
 .terms-note{margin-top:28px;color:var(--mut);font-size:.86rem;line-height:1.65}
@@ -191,7 +211,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 @media(min-width:720px){.flow-step{padding:28px 24px 0}}
 .flow-step::before{content:"";position:absolute;top:0;left:0;width:28px;height:2px;background:var(--wine)}
 .flow-step .no{font:500 .74rem var(--font);letter-spacing:.22em;color:var(--wine);text-transform:uppercase;margin-bottom:12px}
-.flow-step h3{font-family:var(--serif);font-weight:500;font-size:1.2rem;color:var(--ink);margin-bottom:8px}
+.flow-step h3{font-family:var(--display);font-weight:700;font-size:1.15rem;color:var(--ink);margin-bottom:8px;letter-spacing:-.02em}
 .flow-step p{color:var(--mut);font-size:.9rem;line-height:1.7}
 .flow-step .when{display:inline-block;margin-top:10px;color:var(--wine);font:600 .78rem var(--font);letter-spacing:.08em}
 
@@ -229,18 +249,27 @@ button,input,select,textarea{font:inherit;color:inherit}
 .consent{display:flex;align-items:flex-start;gap:12px;padding:16px 18px;border:1px dashed #faf5ef44;background:#4d132299;font-size:.88rem;line-height:1.65;color:#f8f0e8;letter-spacing:0;text-transform:none;font-weight:400;cursor:pointer}
 .consent input{margin-top:3px;transform:scale(1.1);accent-color:var(--gold)}
 .submit{margin-top:36px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-.submit .btn{display:inline-flex;align-items:center;gap:10px;padding:18px 40px;background:var(--cream);color:var(--wine);border:0;border-radius:999px;font-weight:700;font-size:1.02rem;cursor:pointer;transition:background .2s,transform .2s}
-.submit .btn:hover{background:#fff}
+.submit .btn{display:inline-flex;align-items:center;gap:14px;padding:12px 12px 12px 32px;background:var(--cream);color:var(--wine);border:0;border-radius:999px;font-weight:700;font-size:1.02rem;cursor:pointer;transition:background .3s var(--ease-out),transform .2s var(--ease-out),box-shadow .3s var(--ease-out)}
+.submit .btn:hover{background:#fff;box-shadow:0 18px 50px #d8b99055}
+.submit .btn:active{transform:scale(.97)}
 .submit .btn:disabled{opacity:.6;cursor:wait}
+.submit .btn .ic{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;background:var(--wine);color:var(--cream);border-radius:50%;transition:transform .35s var(--ease-spring)}
+.submit .btn:hover .ic{transform:translateX(3px) rotate(-8deg)}
 .submit .msg{color:#f8f0e8;font-size:.9rem}
 .submit .msg.ok{color:var(--gold);font-weight:600}
 
 /* ───── Footer ───── */
-footer{background:#1a0e13;color:#eadfd4;padding:40px var(--gutter);text-align:center;font-size:.84rem}
-footer .wm{display:inline-block;margin-bottom:14px}
-footer .wm img{width:36px;height:36px;border-radius:3px;display:inline-block}
-footer .ft-k{color:#f8f0e8;font-weight:500;letter-spacing:.14em;text-transform:uppercase;font-size:.76rem;margin-bottom:8px}
+footer{background:#1a0e13;color:#eadfd4;padding:48px var(--gutter);text-align:center;font-size:.84rem}
+footer .ft-brand{font:800 1.4rem var(--font);letter-spacing:-.02em;color:#faf5ef;margin-bottom:10px}
+footer .ft-k{color:#f8f0e8;font-weight:500;font-size:.86rem;margin-bottom:8px}
 footer .ft-a{color:#eadfd4a0;margin-top:8px}
+
+/* ───── Scroll reveal ───── */
+.rv{opacity:0;transform:translateY(28px);filter:blur(4px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out),filter .9s var(--ease-out)}
+.rv.in{opacity:1;transform:none;filter:none}
+.rv-stagger > *{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out);transition-delay:calc(var(--i,0) * 80ms)}
+.rv-stagger.in > *{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv,.rv-stagger > *{opacity:1!important;transform:none!important;filter:none!important}}
 
 /* ───── Sticky mobile CTA ───── */
 .sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:55;padding:12px var(--gutter) calc(12px + env(safe-area-inset-bottom,0));background:#faf5efea;backdrop-filter:blur(12px);border-top:1px solid var(--line);display:none}
@@ -261,13 +290,14 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
 </head>
 <body>
 
-<header class="bar">
+<header class="bar" id="topBar">
   <div class="bar-in">
-    <a href="/join" class="bar-logo" aria-label="Scálpit 홈">
-      <img src="/join/assets/brand/scalpit-symbol.jpg" alt="" width="28" height="28">
-      <span>Scálpit · Recruit</span>
+    <a href="/join" class="bar-logo" aria-label="Scálpit 채용 홈">
+      <span class="bar-brand">Scálpit</span>
+      <span class="bar-sep" aria-hidden="true">·</span>
+      <span class="bar-sub">채용</span>
     </a>
-    <a href="#apply" class="bar-cta">지원하기 <span aria-hidden="true">→</span></a>
+    <a href="#apply" class="bar-cta">지원하기<span class="ic" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h6M6 3l3 3-3 3"/></svg></span></a>
   </div>
 </header>
 
@@ -282,14 +312,11 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
     </video>
   </div>
   <div class="wrap hero-in">
-    <a class="hero-logo" href="/join" aria-label="Scálpit">
-      <img src="/join/assets/brand/scalpit-wordmark.jpg" alt="Scálpit">
-    </a>
-    <span class="hero-badge">Scalpit — Recruit 2026</span>
-    <h1>당신의 다음 커리어,<br><em>Scálpit</em>.</h1>
-    <p class="sub">두피 웰니스 브랜드 Scálpit에서 함께 성장할 테라피스트·상담·점장을 찾습니다.<br>동탄 · 천안 · 광교 · 압구정로데오, 직영 4개점.</p>
+    <span class="hero-badge">Scálpit · 2026 Recruit</span>
+    <h1>스칼프잇과 함께할<br><em>두피 전문가</em>를<br>모십니다.</h1>
+    <p class="sub">두피 웰니스 브랜드 Scálpit · 직영 4개점(동탄 · 천안 · 광교 · 압구정로데오)에서 테라피스트 · 상담 · 점장을 상시 모집합니다. 신입 · 경력 모두 지원 가능합니다.</p>
     <div class="hero-cta-row">
-      <a href="#apply" class="btn">지원하기 <span class="arrow" aria-hidden="true">→</span></a>
+      <a href="#apply" class="btn">지원하기<span class="ic" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h8M7 3l4 4-4 4"/></svg></span></a>
       <a href="#roles" class="btn ghost">어떤 일을 하나요?</a>
     </div>
   </div>
@@ -304,22 +331,22 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
 <!-- ───── 01 어떤 브랜드인가 ───── -->
 <section class="sec about">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div>
-        <p class="k-num">01 — The Brand</p>
-        <h2 class="sec-h">두피를 다시 정의하는<br><em>직영 4개점</em>.</h2>
+        <p class="k-num">01 — 브랜드 소개</p>
+        <h2 class="sec-h">직영 4개점을<br>1년 사이에 열었습니다.</h2>
       </div>
-      <p class="sec-lede">약 1년 만에 네 곳. 가맹 없이 본사가 직접 운영합니다. 어느 지점에서 일해도 같은 시스템, 같은 교육, 같은 기준.</p>
+      <p class="sec-lede">스칼프잇은 가맹 없이 본사가 전 지점을 직접 운영하는 두피 웰니스 브랜드입니다. 어느 지점에서 일해도 같은 시스템과 같은 교육을 받습니다.</p>
     </div>
 
-    <div class="about-grid">
+    <div class="about-grid rv-stagger">
       <article class="store">
         <figure><img src="/join/assets/branches/dongtan.webp" alt="스칼프잇 동탄점 공간" loading="lazy"></figure>
         <div class="store-head">
           <h3 class="store-name">동탄</h3>
           <span class="store-when">2025.07 · 1호점</span>
         </div>
-        <p class="store-desc">아이보리 톤 상담실과 헤드스파룸. 조용히 집중하기 좋은 공간. 스칼프잇의 기준이 세워진 곳.</p>
+        <p class="store-desc">스칼프잇이 처음 문을 연 곳. 아이보리 톤 상담실과 헤드스파룸. 모든 매뉴얼의 기준이 세워진 지점.</p>
       </article>
       <article class="store">
         <figure><img src="/join/assets/branches/cheonan.webp" alt="스칼프잇 천안점 공간" loading="lazy"></figure>
@@ -327,7 +354,7 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
           <h3 class="store-name">천안</h3>
           <span class="store-when">2025.12 · 2호점</span>
         </div>
-        <p class="store-desc">오렌지 톤 리셉션과 파우더룸. 신규 고객이 많이 들어오는 활발한 지점.</p>
+        <p class="store-desc">오렌지 톤 리셉션. 신규 고객 유입이 꾸준한 활발한 지점이에요.</p>
       </article>
       <article class="store">
         <figure><img src="/join/assets/branches/gwanggyo.webp" alt="스칼프잇 광교점 공간" loading="lazy"></figure>
@@ -335,7 +362,7 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
           <h3 class="store-name">광교</h3>
           <span class="store-when">2026.07 · 3호점</span>
         </div>
-        <p class="store-desc">대리석 상담실과 긴 복도. 프리미엄 고객층이 안정적으로 유입되는 지점.</p>
+        <p class="store-desc">대리석 상담실과 긴 복도. 프리미엄 고객층이 안정적으로 들어오는 지점이에요.</p>
       </article>
       <article class="store">
         <figure><img src="/join/assets/branches/apgujeong-space.webp" alt="스칼프잇 압구정로데오점 공간" loading="lazy"></figure>
@@ -343,29 +370,61 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
           <h3 class="store-name">압구정로데오</h3>
           <span class="store-when">2026.07 · Flagship</span>
         </div>
-        <p class="store-desc">레드 톤 입구와 브랜드 라이트박스. 플래그십. 가장 큰 성장 기회가 열리는 지점.</p>
+        <p class="store-desc">플래그십. 레드 톤 입구와 브랜드 라이트박스. 지금 가장 많은 자리가 열리고 있는 지점입니다.</p>
       </article>
     </div>
   </div>
 </section>
 
-<!-- ───── 02 어떤 일을 하나 ───── -->
-<section id="roles" class="sec roles">
+<!-- ───── 02 승급 사례 — 기회의 속도 ───── -->
+<section class="sec grow-sec">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div>
-        <p class="k-num">02 — Roles</p>
-        <h2 class="sec-h">우리가 지금<br><em>찾는 사람</em>.</h2>
+        <p class="k-num">02 — 실제 승급 사례</p>
+        <h2 class="sec-h">스칼프잇에서 있었던<br>실제 승급 기록입니다.</h2>
       </div>
-      <p class="sec-lede">직무가 명확합니다. 처음부터 어떤 역할로 성장할지 함께 그립니다.</p>
+      <p class="sec-lede">모두가 이 속도로 올라간다는 뜻은 아닙니다. <b style="color:var(--ink)">이런 사례가 나올 만큼 승급 자리가 자주, 빠르게 열린다</b>는 걸 보여드리고 싶었어요. 지점이 늘어난 1년 사이에 있었던 실제 사례입니다.</p>
     </div>
 
-    <div class="role-list">
+    <div class="grow-grid rv-stagger">
+      <div class="grow-row">
+        <div class="time">1개월<small>입사 후</small></div>
+        <div class="path">테라피스트 <span>→</span> 매니저</div>
+        <div class="desc">입사 한 달 만에 매니저로 올라간 분이 있습니다. 매장 운영에 바로 투입할 수 있다고 판단되면 다음 자리를 바로 엽니다.</div>
+      </div>
+      <div class="grow-row">
+        <div class="time">3개월<small>입사 후</small></div>
+        <div class="path">테라피스트 <span>→</span> 실장</div>
+        <div class="desc">상담·운영을 책임지는 실장 자리까지 3개월. 신규 지점 오픈 타이밍에 실력이 보이면 승급 결정이 빠릅니다.</div>
+      </div>
+      <div class="grow-row">
+        <div class="time">10개월<small>입사 후</small></div>
+        <div class="path">테라피스트 <span>→</span> 매니저 <span>→</span> 실장 <span>→</span> 교육팀장 <span>→</span> 점장</div>
+        <div class="desc">1년 안쪽에 테라피스트부터 점장까지. 스칼프잇이 1호점부터 4호점까지 가는 속도만큼, 사람도 함께 올라갈 수 있었던 사례입니다.</div>
+      </div>
+    </div>
+    <p class="grow-foot">※ 사례는 실제 재직 중인 구성원의 성장 경로입니다. 승급·직책은 개인 역량·평가·회사 운영 계획에 따라 개별 결정됩니다.</p>
+  </div>
+</section>
+
+<!-- ───── 03 어떤 일을 하나 ───── -->
+<section id="roles" class="sec roles">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <p class="k-num">03 — 채용 분야</p>
+        <h2 class="sec-h">모집 중인 포지션</h2>
+      </div>
+      <p class="sec-lede">현재 아래 세 포지션을 상시 모집합니다. 지원 시 희망 직무를 하나 또는 복수로 선택할 수 있습니다.</p>
+    </div>
+
+    <div class="role-list rv-stagger">
       <article class="role">
         <div class="role-no">01 · Therapist</div>
         <div class="role-body">
           <h3>테라피스트</h3>
-          <p>두피 진단과 1:1 프라이빗 관리. 상담부터 홈케어 안내까지 한 고객을 끝까지 책임집니다. 신입은 입사 초기 7일 교육을 받고 현장에 투입됩니다.</p>
+          <p>두피 진단과 1:1 프라이빗 관리. 상담부터 홈케어 안내까지 한 고객을 끝까지 책임집니다. 신입은 입사 초기 7일 교육을 받고 현장에 투입돼요.</p>
           <div class="role-tasks"><span>두피 진단</span><span>헤드스파 수기</span><span>홈케어 상담</span><span>HMS 측정</span></div>
         </div>
         <div class="role-meta">신입 · 경력<br>월 240만원~</div>
@@ -374,7 +433,7 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
         <div class="role-no">02 · Consultant</div>
         <div class="role-body">
           <h3>상담 · 고객관리</h3>
-          <p>첫 방문 상담부터 재방문 설계까지. 고객의 관리 흐름을 책임지고, 매장의 매출과 재방문율을 함께 올리는 포지션입니다.</p>
+          <p>첫 방문 상담부터 재방문 설계까지. 고객의 관리 흐름을 책임지고, 매장의 매출과 재방문율을 함께 올리는 포지션이에요.</p>
           <div class="role-tasks"><span>신규 상담</span><span>코스 설계</span><span>재방문 관리</span><span>CRM</span></div>
         </div>
         <div class="role-meta">경력 우대<br>월 280만원~</div>
@@ -383,7 +442,7 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
         <div class="role-no">03 · Store Lead</div>
         <div class="role-body">
           <h3>점장</h3>
-          <p>지점 운영 전체를 책임집니다. 테라피스트·상담팀 관리, 매출·운영 지표 관리, 본사와의 조율. 스칼프잇이 매장 수를 늘릴수록 자리는 함께 늘어납니다.</p>
+          <p>지점 운영 전체를 책임집니다. 테라피스트·상담팀 관리, 매출·운영 지표, 본사와의 조율. 매장 수가 늘수록 자리는 함께 늘어나요.</p>
           <div class="role-tasks"><span>인력 운영</span><span>매출 관리</span><span>교육·평가</span><span>본사 커뮤니케이션</span></div>
         </div>
         <div class="role-meta">경력 · 내부 승진<br>월 300만원~ +α</div>
@@ -392,50 +451,18 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
   </div>
 </section>
 
-<!-- ───── 03 성장 — 승진 사례 ───── -->
-<section class="sec grow-sec">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <p class="k-num">03 — Rise</p>
-        <h2 class="sec-h">실제로 <em>이렇게 성장</em>합니다.</h2>
-      </div>
-      <p class="sec-lede">지점이 늘어나는 만큼 자리가 열립니다. 아래는 과장 없이 실제 스칼프잇 구성원의 성장 경로예요.</p>
-    </div>
-
-    <div class="grow-grid">
-      <div class="grow-row">
-        <div class="time">1달<small>입사 후</small></div>
-        <div class="path">테라피스트 <span>→</span> 부매니저 · 매니저</div>
-        <div class="desc">입사 한 달 만에 매니저 승급. 역량이 보이면 바로 다음 자리를 엽니다.</div>
-      </div>
-      <div class="grow-row">
-        <div class="time">3개월<small>입사 후</small></div>
-        <div class="path">테라피스트 <span>→</span> 실장</div>
-        <div class="desc">상담·운영을 책임지는 자리로 올라간 사례. 입사 3개월.</div>
-      </div>
-      <div class="grow-row">
-        <div class="time">10개월<small>입사 후</small></div>
-        <div class="path">테라피스트 <span>→</span> 매니저 <span>→</span> 실장 <span>→</span> 교육팀장 <span>→</span> 점장</div>
-        <div class="desc">10개월 만에 전체 커리어 트랙을 밟고 점장까지. 스칼프잇이 커지는 속도만큼 기회가 열렸습니다.</div>
-      </div>
-    </div>
-    <p class="grow-foot">※ 승진·직책은 개인 역량·평가·회사 운영 계획에 따라 결정됩니다.</p>
-  </div>
-</section>
-
 <!-- ───── 04 어떻게 배우나 ───── -->
 <section class="sec learn">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div>
-        <p class="k-num">04 — Learn</p>
-        <h2 class="sec-h">처음이어도 괜찮아요.<br><em>제대로 배울 수 있다면.</em></h2>
+        <p class="k-num">04 — 신입 교육</p>
+        <h2 class="sec-h">무경력도<br>7일 교육 후 현장 투입</h2>
       </div>
-      <p class="sec-lede">두피 이론과 실기, 상담, 운영. 스칼프잇이 7일 동안 집중해서 가르칩니다. 교육 기간에도 급여가 지급됩니다.</p>
+      <p class="sec-lede">입사 첫 7일 동안 두피 이론 · 실기 · 상담 · 운영을 집중 교육합니다. 교육 기간에도 급여가 그대로 지급되며, 미용 자격증이 없어도 지원 가능합니다.</p>
     </div>
 
-    <div class="learn-grid">
+    <div class="learn-grid rv-stagger">
       <article class="learn-card">
         <figure><img src="/join/assets/care/care-diagnosis-real.webp" alt="두피 진단 장면" loading="lazy"></figure>
         <p class="lb-no">01 · Theory</p>
@@ -469,15 +496,15 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
 <!-- ───── 05 근무 조건 ───── -->
 <section class="sec terms">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div>
-        <p class="k-num">05 — Terms</p>
-        <h2 class="sec-h">조건은 투명하게,<br><em>숫자</em>로.</h2>
+        <p class="k-num">05 — 급여 및 근무 조건</p>
+        <h2 class="sec-h">급여 · 근무 조건</h2>
       </div>
-      <p class="sec-lede">실제 지점·직무별 조건은 면접 시 최종 안내드립니다. 아래는 운영 중인 기본 조건이에요.</p>
+      <p class="sec-lede">아래는 운영 중인 기본 조건입니다. 지점 · 직무별 세부 조건은 면접 시 최종 안내드립니다.</p>
     </div>
 
-    <div class="terms-tbl">
+    <div class="terms-tbl rv">
       <div class="terms-row">
         <div class="k">월 급여 (세전)</div>
         <div class="v">
@@ -516,39 +543,21 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
   </div>
 </section>
 
-<!-- ───── 06 함께 일할 공간 ───── -->
-<section class="sec spaces">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <p class="eye">Spaces</p>
-        <h2 class="sec-h">출근하고 싶은 곳<br><em>에서 일하세요</em>.</h2>
-      </div>
-      <p class="sec-lede">호텔 같은 공간, 1:1 프라이빗 룸, 정돈된 상담실. 일하는 사람이 먼저 자부심을 느끼는 공간입니다.</p>
-    </div>
-    <div class="space-gal">
-      <figure><img src="/join/assets/branches/apgujeong-reception.webp" alt="압구정로데오점 리셉션" loading="lazy"><figcaption>Apgujeong · Reception</figcaption></figure>
-      <figure><img src="/join/assets/branches/gwanggyo.webp" alt="광교점 공간" loading="lazy"><figcaption>Gwanggyo · Suite</figcaption></figure>
-      <figure><img src="/join/assets/branches/cheonan.webp" alt="천안점 공간" loading="lazy"><figcaption>Cheonan · Lounge</figcaption></figure>
-    </div>
-  </div>
-</section>
-
-<!-- ───── 07 지원 절차 ───── -->
+<!-- ───── 06 지원 절차 ───── -->
 <section class="sec flow">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div>
-        <p class="k-num">07 — Process</p>
-        <h2 class="sec-h">지원부터 합격까지<br><em>간결하게</em>.</h2>
+        <p class="k-num">06 — 지원 절차</p>
+        <h2 class="sec-h">지원 절차</h2>
       </div>
-      <p class="sec-lede">이력서는 나중에. 지금은 이름·연락처만 있으면 접수됩니다.</p>
+      <p class="sec-lede">이력서 없이 이름 · 연락처만으로 접수 가능합니다. 접수부터 결과 안내까지 평균 3~5영업일.</p>
     </div>
-    <div class="flow-steps">
-      <div class="flow-step"><p class="no">Step 01</p><h3>지원 접수</h3><p>이 페이지에서 1분이면 끝. 번호·지점·경력만.</p><span class="when">1분</span></div>
-      <div class="flow-step"><p class="no">Step 02</p><h3>일정 안내</h3><p>영업일 기준 1~2일 안에 담당자가 연락드려 면접 일정 조율.</p><span class="when">1~2일</span></div>
-      <div class="flow-step"><p class="no">Step 03</p><h3>면접 · 매장 방문</h3><p>희망 지점 또는 압구정 플래그십에서 면접. 공간도 직접 보고 가요.</p><span class="when">30~60분</span></div>
-      <div class="flow-step"><p class="no">Step 04</p><h3>결과 안내</h3><p>면접 직후 또는 1영업일 내 결과. 입사일 조율.</p><span class="when">~1영업일</span></div>
+    <div class="flow-steps rv-stagger">
+      <div class="flow-step"><p class="no">Step 01</p><h3>지원 접수</h3><p>이 페이지에서 1분. 번호·지점·경력만 남겨주시면 돼요.</p><span class="when">1분</span></div>
+      <div class="flow-step"><p class="no">Step 02</p><h3>일정 조율</h3><p>영업일 기준 1~2일 안에 담당자가 전화로 면접 일정 안내.</p><span class="when">1~2일</span></div>
+      <div class="flow-step"><p class="no">Step 03</p><h3>면접 · 매장 방문</h3><p>희망 지점 또는 압구정 플래그십에서 면접. 공간을 직접 보고 결정하세요.</p><span class="when">30~60분</span></div>
+      <div class="flow-step"><p class="no">Step 04</p><h3>결과 · 입사일</h3><p>면접 직후 또는 1영업일 내 결과 안내. 입사일은 서로 조율합니다.</p><span class="when">~1영업일</span></div>
     </div>
   </div>
 </section>
@@ -556,14 +565,14 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
 <!-- ───── FAQ ───── -->
 <section class="sec faq">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div>
-        <p class="k-num">08 — FAQ</p>
+        <p class="k-num">07 — 자주 묻는 질문</p>
         <h2 class="sec-h">자주 묻는 질문</h2>
       </div>
-      <p class="sec-lede">지원 전에 가장 많이 받는 질문을 모았어요. 추가 궁금증은 지원서에 적어주세요.</p>
+      <p class="sec-lede">가장 많이 받는 질문을 모았습니다. 추가 궁금증은 지원서에 적어주셔도 됩니다.</p>
     </div>
-    <div class="faq-list">
+    <div class="faq-list rv-stagger">
       <details><summary>지원 후 언제쯤 연락이 오나요?</summary><div class="faq-a">영업일 기준 1~2일 안에 담당자가 연락드립니다. 밤·주말 접수는 다음 영업일에 연락될 수 있어요.</div></details>
       <details><summary>면접은 어디서 보나요?</summary><div class="faq-a">기본적으로 희망하신 지점에서 봅니다. 압구정로데오(플래그십)에서 통합 면접을 보기도 하니, 통화 시 조율해 드려요.</div></details>
       <details><summary>신입(무경력)도 괜찮나요?</summary><div class="faq-a">네. 입사 초기 7일은 급여를 지급하면서 두피 이론·실기·상담을 가르칩니다. 미용 자격증·관련 경험이 없어도 지원 가능합니다.</div></details>
@@ -578,15 +587,15 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
 <!-- ───── APPLY ───── -->
 <section id="apply" class="sec apply">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div>
-        <p class="eye">Apply</p>
-        <h2 class="sec-h">지원은 <em>1분</em>이면<br>끝납니다.</h2>
+        <p class="eye">지원하기</p>
+        <h2 class="sec-h">지원서 작성</h2>
       </div>
-      <p class="sec-lede">이름과 연락처만 남겨주시면 담당자가 영업일 기준 1~2일 안에 연락드립니다.</p>
+      <p class="sec-lede">이름과 연락처만으로 접수됩니다. 영업일 기준 1~2일 안에 담당자가 전화로 연락드립니다. 이력서는 면접 전에 간단히 요청드릴 수 있습니다.</p>
     </div>
 
-    <form class="form" id="applyForm" autocomplete="on" novalidate>
+    <form class="form rv" id="applyForm" autocomplete="on" novalidate>
       <div class="fld">
         <label for="f-name">이름<span class="req">*</span></label>
         <input id="f-name" name="name" type="text" placeholder="예: 홍길동" required maxlength="20">
@@ -623,7 +632,7 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
         <span>개인정보(이름 · 연락처 · 지원 내용) 수집·이용에 동의합니다. 수집 목적은 채용 전형 진행이며, 미채용 시 즉시 파기합니다.</span>
       </label>
       <div class="submit">
-        <button class="btn" id="submitBtn" type="submit">지원서 보내기 →</button>
+        <button class="btn" id="submitBtn" type="submit"><span id="submitLabel">지원서 보내기</span><span class="ic" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 8h10M8 3l5 5-5 5"/></svg></span></button>
         <span class="msg" id="msg" aria-live="polite"></span>
       </div>
     </form>
@@ -633,10 +642,10 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
 </main>
 
 <footer>
-  <div class="wm"><img src="/join/assets/brand/scalpit-symbol.jpg" alt="Scálpit"></div>
-  <div class="ft-k">Scálpit — Recruit</div>
+  <div class="ft-brand">Scálpit</div>
+  <div class="ft-k">두피 웰니스 브랜드 · 채용</div>
   <div class="ft-a">동탄 · 천안 · 광교 · 압구정로데오</div>
-  <div class="ft-a" style="margin-top:14px;color:#eadfd460">문의 · 각 지점으로 연락 또는 지원서 작성 시 담당자가 연락드립니다</div>
+  <div class="ft-a" style="margin-top:14px;color:#eadfd460">문의 · 지원서 작성 시 담당자가 연락드립니다</div>
 </footer>
 
 <div class="sticky-cta" id="sticky">
@@ -645,21 +654,58 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
 
 <script>
 (function(){
-  // ───── Sticky mobile CTA ─────
+  // ───── Sticky mobile CTA + nav hide-on-scroll-down ─────
   var sticky = document.getElementById('sticky');
+  var topBar = document.getElementById('topBar');
   var hero = document.querySelector('.hero');
   var apply = document.getElementById('apply');
+  var lastY = 0;
   function onScroll(){
-    if(!hero || !apply) return;
     var y = window.scrollY;
-    var heroBottom = hero.getBoundingClientRect().bottom + y;
-    var applyTop = apply.getBoundingClientRect().top + y;
-    var past = y > heroBottom - 100;
-    var inApply = (window.innerHeight + y) > applyTop + 80;
-    sticky.classList.toggle('on', past && !inApply);
+    if(hero && apply && sticky){
+      var heroBottom = hero.getBoundingClientRect().bottom + y;
+      var applyTop = apply.getBoundingClientRect().top + y;
+      var past = y > heroBottom - 100;
+      var inApply = (window.innerHeight + y) > applyTop + 80;
+      sticky.classList.toggle('on', past && !inApply);
+    }
+    if(topBar){
+      var scrollingDown = y > lastY && y > 160;
+      topBar.classList.toggle('hide', scrollingDown);
+    }
+    lastY = y;
   }
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
+
+  // ───── Scroll reveal (IntersectionObserver) ─────
+  function revealEl(el){
+    el.classList.add('in');
+    if(el.classList.contains('rv-stagger')){
+      Array.prototype.forEach.call(el.children, function(child, i){
+        child.style.setProperty('--i', i);
+      });
+    }
+  }
+  if('IntersectionObserver' in window){
+    var vh = window.innerHeight;
+    var all = document.querySelectorAll('.rv, .rv-stagger');
+    all.forEach(function(el){
+      var rect = el.getBoundingClientRect();
+      // Initial viewport pass: anything already visible is revealed immediately
+      if(rect.top < vh * 0.95){ revealEl(el); }
+    });
+    var revealObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ revealEl(e.target); revealObs.unobserve(e.target); }
+      });
+    }, {threshold:0.08, rootMargin:'0px 0px -6% 0px'});
+    all.forEach(function(el){ if(!el.classList.contains('in')) revealObs.observe(el); });
+    // Safety net: reveal everything after 4s if observer never fires (crawlers, screenshot tools)
+    setTimeout(function(){ document.querySelectorAll('.rv:not(.in), .rv-stagger:not(.in)').forEach(revealEl); }, 4000);
+  } else {
+    document.querySelectorAll('.rv, .rv-stagger').forEach(revealEl);
+  }
 
   // ───── Hero brand film control ─────
   var film = document.getElementById('heroFilm');
@@ -726,7 +772,8 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
       if(!career){ msg.textContent = '경력을 선택해 주세요.'; return; }
       if(!consent){ msg.textContent = '개인정보 수집·이용에 동의해 주세요.'; return; }
 
-      btn.disabled = true; btn.textContent = '보내는 중…';
+      btn.disabled = true;
+      var sl = document.getElementById('submitLabel'); if(sl) sl.textContent = '보내는 중…';
       try{
         var r = await fetch('/api/join/application', {
           method:'POST',
@@ -755,7 +802,8 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
       } catch(err){
         msg.textContent = '네트워크 오류입니다. 잠시 후 다시 시도해 주세요.';
       } finally {
-        btn.disabled = false; btn.textContent = '지원서 보내기 →';
+        btn.disabled = false;
+        var sl2 = document.getElementById('submitLabel'); if(sl2) sl2.textContent = '지원서 보내기';
       }
     });
   }
