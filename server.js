@@ -685,63 +685,38 @@ function sendJoinPage(req, res) {
 app.get(['/join', '/join/', '/join/index.html'], sendJoinPage);
 app.get('/join/admin', (req, res) => res.sendFile(path.join(__dirname, 'public/join/admin.html')));
 
-// 이력서 포함 multipart 접수. 실패해도 업로드된 임시파일은 삭제.
-app.post('/api/join/application', (req, res, next) => {
-  resumeUpload.single('resume')(req, res, (err) => {
-    if (err) {
-      const msg = err.code === 'LIMIT_FILE_SIZE'
-        ? '이력서 파일이 너무 큽니다. (최대 10MB)'
-        : (err.message || '파일 업로드 중 오류가 발생했습니다.');
-      return res.status(400).json({ ok: false, message: msg });
-    }
-    next();
-  });
-}, async (req, res) => {
-  const cleanupFile = () => { if (req.file && req.file.path) { try { fs.unlinkSync(req.file.path); } catch {} } };
+app.post('/api/join/application', async (req, res) => {
   try {
     const b = req.body || {};
-    if (b.website) { cleanupFile(); return res.json({ ok: true, id: 0 }); }
-    if (tooMany(clientIp(req))) { cleanupFile(); return res.status(429).json({ ok: false, message: '잠시 후 다시 시도해 주세요.' }); }
-
-    // branches/attr은 multipart에서 문자열로 올 수 있음
-    let branchesIn = b.branches;
-    if (typeof branchesIn === 'string') { try { branchesIn = JSON.parse(branchesIn); } catch { branchesIn = branchesIn.split(',').map(s => s.trim()); } }
-    let attrIn = b.attr;
-    if (typeof attrIn === 'string') { try { attrIn = JSON.parse(attrIn); } catch { attrIn = {}; } }
+    if (b.website) return res.json({ ok: true, id: 0 });
+    if (tooMany(clientIp(req))) return res.status(429).json({ ok: false, message: '잠시 후 다시 시도해 주세요.' });
 
     const name = clip(b.name, 20).trim();
     const phone = String(b.phone || '').replace(/\D/g, '');
-    if (name.length < 2) { cleanupFile(); return res.status(400).json({ ok: false, message: '성함을 입력해 주세요.' }); }
-    if (!/^01[016789]\d{7,8}$/.test(phone)) { cleanupFile(); return res.status(400).json({ ok: false, message: '연락처를 확인해 주세요.' }); }
-    if (b.consent !== true && b.consent !== 'true') { cleanupFile(); return res.status(400).json({ ok: false, message: '개인정보 수집·이용에 동의해 주세요.' }); }
-    const branches = Array.isArray(branchesIn) ? branchesIn.filter(v => JOIN_BRANCHES.includes(v)).slice(0, 5) : [];
-    if (branches.length === 0) { cleanupFile(); return res.status(400).json({ ok: false, message: '희망 지점을 하나 이상 선택해 주세요.' }); }
+    if (name.length < 2) return res.status(400).json({ ok: false, message: '성함을 입력해 주세요.' });
+    if (!/^01[016789]\d{7,8}$/.test(phone)) return res.status(400).json({ ok: false, message: '연락처를 확인해 주세요.' });
+    if (b.consent !== true) return res.status(400).json({ ok: false, message: '개인정보 수집·이용에 동의해 주세요.' });
+    const branches = Array.isArray(b.branches) ? b.branches.filter(v => JOIN_BRANCHES.includes(v)).slice(0, 5) : [];
+    if (branches.length === 0) return res.status(400).json({ ok: false, message: '희망 지점을 하나 이상 선택해 주세요.' });
     const career = JOIN_CAREER.includes(b.career) ? b.career : '';
-    if (!career) { cleanupFile(); return res.status(400).json({ ok: false, message: '경력을 선택해 주세요.' }); }
-    if (!req.file) { return res.status(400).json({ ok: false, message: '이력서 파일을 첨부해 주세요.' }); }
+    if (!career) return res.status(400).json({ ok: false, message: '경력을 선택해 주세요.' });
 
+    const attrIn = b.attr && typeof b.attr === 'object' ? b.attr : {};
     const attr = {};
-    if (attrIn && typeof attrIn === 'object') {
-      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'referrer', 'angle'].forEach(k => {
-        if (attrIn[k]) attr[k] = clip(attrIn[k], 300);
-      });
-    }
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'referrer', 'angle'].forEach(k => {
+      if (attrIn[k]) attr[k] = clip(attrIn[k], 300);
+    });
 
     const application = {
       name, phone, branches, career,
       field: clip(b.field, 100),
       attr, landing: clip(b.landing, 300), ua: clip(req.headers['user-agent'], 300),
       dup: await joinFindByPhone(phone),
-      resumeFilename: path.basename(req.file.filename),
-      resumeOriginal: clip(req.file.originalname, 200),
-      resumeSize: req.file.size,
-      resumeMime: req.file.mimetype || '',
     };
     const id = await joinInsert(application);
     res.json({ ok: true, id, dup: application.dup });
   } catch (e) {
     console.error('join application save failed:', e.message);
-    cleanupFile();
     res.status(500).json({ ok: false, message: '일시적으로 접수가 어렵습니다. 잠시 후 다시 시도해 주세요.' });
   }
 });
