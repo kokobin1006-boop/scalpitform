@@ -781,18 +781,24 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
     document.querySelectorAll('.rv, .rv-stagger').forEach(revealEl);
   }
 
-  // ───── Hero brand film control ─────
+  // ───── Hero brand film control (강화된 autoplay 우회) ─────
   var film = document.getElementById('heroFilm');
   var filmBtn = document.getElementById('filmToggle');
   var pausedByUser = false;
+  var filmPending = false;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   function syncFilm(){
     if(!film) return;
-    if(document.hidden || pausedByUser || reduceMotion.matches){ film.pause(); return; }
-    if(film.paused){
-      film.muted = true; film.playsInline = true;
-      var p = film.play(); if(p && p.catch) p.catch(function(){});
-    }
+    if(document.hidden || pausedByUser || reduceMotion.matches){ if(!film.paused) film.pause(); return; }
+    if(!film.paused || filmPending) return;
+    filmPending = true;
+    film.muted = true; film.defaultMuted = true; film.playsInline = true;
+    film.setAttribute('muted','');
+    film.setAttribute('playsinline','');
+    var p = film.play();
+    if(p && typeof p.then === 'function'){
+      p.then(function(){ filmPending = false; }).catch(function(){ filmPending = false; });
+    } else { filmPending = false; }
   }
   function updateBtnIcon(playing){
     if(!filmBtn) return;
@@ -801,15 +807,31 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
       : '<svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 2 L10 6 L3 10 Z"/></svg>';
     filmBtn.setAttribute('aria-label', playing ? '배경 영상 일시정지' : '배경 영상 재생');
   }
-  if(film && filmBtn){
+  if(film){
     film.addEventListener('playing', function(){ updateBtnIcon(true) });
     film.addEventListener('pause', function(){ updateBtnIcon(false) });
-    filmBtn.addEventListener('click', function(){
-      if(film.paused){ pausedByUser = false; var p = film.play(); if(p && p.catch) p.catch(function(){}); }
-      else { pausedByUser = true; film.pause(); }
+    if(filmBtn){
+      filmBtn.addEventListener('click', function(){
+        if(film.paused){ pausedByUser = false; syncFilm(); }
+        else { pausedByUser = true; film.pause(); }
+      });
+    }
+    // 영상 로딩 단계마다 재생 시도
+    ['loadedmetadata','loadeddata','canplay','canplaythrough'].forEach(function(ev){
+      film.addEventListener(ev, syncFilm);
     });
     document.addEventListener('visibilitychange', syncFilm);
     reduceMotion.addEventListener && reduceMotion.addEventListener('change', syncFilm);
+    // 사용자 첫 상호작용에서 재생 (autoplay 블록 돌파)
+    var onFirstInteract = function(){ syncFilm(); };
+    document.addEventListener('pointerdown', onFirstInteract, {passive:true});
+    document.addEventListener('touchstart', onFirstInteract, {passive:true});
+    document.addEventListener('scroll', onFirstInteract, {passive:true});
+    document.addEventListener('keydown', onFirstInteract);
+    // 지연 재시도 (초기 load 시점 애매할 때 대비)
+    setTimeout(syncFilm, 200);
+    setTimeout(syncFilm, 800);
+    setTimeout(syncFilm, 2000);
     syncFilm();
   }
 
