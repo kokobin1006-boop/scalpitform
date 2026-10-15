@@ -268,6 +268,14 @@ button,input,select,textarea{font:inherit;color:inherit}
 .chips .c{display:inline-block;padding:9px 16px;border:1px solid #faf5ef44;border-radius:999px;font-size:.9rem;transition:all .2s}
 .chips input:checked + .c{background:var(--cream);color:var(--wine);border-color:var(--cream)}
 .chips input:focus-visible + .c{outline:2px solid var(--gold);outline-offset:3px}
+.file-wrap{position:relative}
+.file-wrap input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.file-wrap input[type=file]:focus-visible + .file-btn{outline:2px solid var(--gold);outline-offset:3px}
+.file-btn{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border:1.5px dashed #faf5ef66;border-radius:999px;background:#4d132255;color:#faf5ef;cursor:pointer;font-size:.95rem;font-weight:500;letter-spacing:0;text-transform:none;transition:background .2s var(--ease-out),border-color .2s var(--ease-out)}
+.file-btn:hover{background:#4d1322aa;border-color:var(--gold)}
+.file-btn .file-ic{display:inline-flex;color:var(--gold)}
+.file-btn.has-file{border-style:solid;border-color:var(--gold);background:var(--cream);color:var(--wine)}
+.file-btn.has-file .file-ic{color:var(--wine)}
 .consent{display:flex;align-items:flex-start;gap:12px;padding:16px 18px;border:1px dashed #faf5ef44;background:#4d132299;font-size:.88rem;line-height:1.65;color:#f8f0e8;letter-spacing:0;text-transform:none;font-weight:400;cursor:pointer}
 .consent input{margin-top:3px;transform:scale(1.1);accent-color:var(--gold)}
 .submit{margin-top:36px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
@@ -364,7 +372,7 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
       </li>
       <li>
         <div class="f-n">3<small>개월</small></div>
-        <p class="f-l">입사 3개월, 월 300~400만원<small>실제 매니저 승급 사례</small></p>
+        <p class="f-l">입사 3개월, 실장 승급<small>월 300~400만원 사례</small></p>
       </li>
       <li class="hot">
         <div class="f-n">10<small>개월</small></div>
@@ -396,12 +404,12 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
               <div class="r">300만원~<span class="inc">+ 인센티브</span></div>
             </div>
           </div>
-          <p class="pay-case">💡 실수령 사례 · 입사 3개월 매니저가 기여도에 따라 <b>월 300~400만원 이상</b> 받은 케이스 있음 (채윤 매니저)</p>
+          <p class="pay-case">💡 실수령 사례 · 입사 3개월 매니저가 기여도에 따라 <b>월 300~400만원 이상</b> 받은 케이스 있음 (실제 압구정점 매니저 사례)</p>
         </div>
       </div>
       <div class="terms-row">
         <div class="k">근무 형태</div>
-        <div class="v"><b>정규직</b> · 수습 1~3개월</div>
+        <div class="v">지점 · 직무별 고용 형태는 면접 시 안내 · 수습 1~3개월</div>
       </div>
       <div class="terms-row">
         <div class="k">근무 시간</div>
@@ -413,11 +421,11 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
       </div>
       <div class="terms-row">
         <div class="k">복리후생</div>
-        <div class="v">주 5일 · 4대 보험 · 법정 연차 · 명절 상여 · 교육 기간 급여 지급 · 직원가 구매 · 관리·상담·판매 인센티브</div>
+        <div class="v">주 5일 · 법정 연차 · 명절 상여 · 교육 기간 급여 지급 · 직원가 구매 · 관리·상담·판매 인센티브</div>
       </div>
       <div class="terms-row">
         <div class="k">자격 요건</div>
-        <div class="v"><b>테라피스트</b> · 미용사(피부 또는 일반) 면허 보유 <b>필수</b> (공중위생관리법상 미용 업무를 위해 필요)<br><span style="color:var(--mut)">※ 상담 · 매니저 · 점장은 면허 비필수</span></div>
+        <div class="v"><b>테라피스트</b> · 미용사(피부 또는 일반) 면허 보유 <b>필수</b> (공중위생관리법상 미용 업무를 위해 필요)</div>
       </div>
       <div class="terms-row">
         <div class="k">우대 사항</div>
@@ -446,7 +454,7 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
       </div>
       <div class="grow-row">
         <div class="time">3개월<small>입사 후</small></div>
-        <div class="path">테라피스트 <span>→</span> 매니저 <span>→</span> 실장<br><em class="pay-note-row">기여도에 따라 월 300~400만원 이상 (채윤 매니저 케이스)</em></div>
+        <div class="path">테라피스트 <span>→</span> 매니저 <span>→</span> 실장<br><em class="pay-note-row">기여도에 따라 월 300~400만원 이상 (실제 압구정점 매니저 사례)</em></div>
         <div class="desc">상담·운영을 책임지는 실장 자리까지 3개월. 열심히 하는 만큼 급여도 바로 올라간 실제 케이스입니다.</div>
       </div>
       <div class="grow-row">
@@ -475,7 +483,7 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
         <div class="role-body">
           <h3>테라피스트</h3>
           <p>두피 분석·측정과 1:1 프라이빗 관리. 상담부터 홈케어 안내까지 한 고객을 끝까지 책임집니다. 신입도 입사 초기 7일 교육을 받고 현장에 투입돼요.</p>
-          <div class="role-tasks"><span>두피 분석·측정</span><span>헤드스파 수기</span><span>홈케어 상담</span><span>HMS 측정</span></div>
+          <div class="role-tasks"><span>두피 분석·측정</span><span>헤드스파 수기</span><span>홈케어 상담</span><span>두피 측정 장비(HMS)</span></div>
           <p class="role-must"><b>필수</b> · 미용사(피부 또는 일반) 면허 보유 · 공중위생관리법상 미용 업무를 위해 필요합니다.</p>
         </div>
         <div class="role-meta">
@@ -559,7 +567,7 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
         <p class="k-num">05 — 브랜드 소개</p>
         <h2 class="sec-h">직영 4개점을<br>1년 사이에 열었습니다.</h2>
       </div>
-      <p class="sec-lede">스칼프잇은 가맹 없이 본사가 전 지점을 직접 운영하는 두피 웰니스 브랜드입니다. 어느 지점에서 일해도 같은 시스템과 같은 교육을 받습니다.</p>
+      <p class="sec-lede">스칼프잇은 본사가 전 지점의 교육·운영 시스템을 직접 관리하는 두피 웰니스 브랜드입니다. 어느 지점에서 일해도 같은 시스템과 같은 교육을 받습니다.</p>
     </div>
 
     <div class="about-grid rv-stagger">
@@ -606,10 +614,10 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
         <p class="k-num">06 — 지원 절차</p>
         <h2 class="sec-h">지원 절차</h2>
       </div>
-      <p class="sec-lede">이력서 없이 이름 · 연락처만으로 접수 가능합니다. 접수부터 결과 안내까지 평균 3~5영업일.</p>
+      <p class="sec-lede">이름 · 연락처와 이력서를 제출해 주세요. 접수부터 결과 안내까지 평균 3~5영업일.</p>
     </div>
     <div class="flow-steps rv-stagger">
-      <div class="flow-step"><p class="no">Step 01</p><h3>지원 접수</h3><p>이 페이지에서 1분. 번호·지점·경력만 남겨주시면 돼요.</p><span class="when">1분</span></div>
+      <div class="flow-step"><p class="no">Step 01</p><h3>지원 접수</h3><p>이 페이지에서 바로 접수. 연락처·희망 지점·경력과 이력서를 남겨주세요.</p><span class="when">1분</span></div>
       <div class="flow-step"><p class="no">Step 02</p><h3>일정 조율</h3><p>영업일 기준 1~2일 안에 담당자가 전화로 면접 일정 안내.</p><span class="when">1~2일</span></div>
       <div class="flow-step"><p class="no">Step 03</p><h3>면접 · 매장 방문</h3><p>희망 지점 또는 압구정 플래그십에서 면접. 공간을 직접 보고 결정하세요.</p><span class="when">30~60분</span></div>
       <div class="flow-step"><p class="no">Step 04</p><h3>결과 · 입사일</h3><p>면접 직후 또는 1영업일 내 결과 안내. 입사일은 서로 조율합니다.</p><span class="when">~1영업일</span></div>
@@ -629,11 +637,11 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
     <div class="faq-list rv-stagger">
       <details><summary>지원 후 언제쯤 연락이 오나요?</summary><div class="faq-a">영업일 기준 1~2일 안에 담당자가 연락드립니다. 밤·주말 접수는 다음 영업일에 연락될 수 있어요.</div></details>
       <details><summary>면접은 어디서 보나요?</summary><div class="faq-a">기본적으로 희망하신 지점에서 봅니다. 압구정로데오(플래그십)에서 통합 면접을 보기도 하니, 통화 시 조율해 드려요.</div></details>
-      <details><summary>신입(무경력)도 지원 가능한가요?</summary><div class="faq-a">네, 경력 없어도 지원 가능합니다. 입사 초기 7일은 급여를 지급하면서 두피 이론·실기·상담을 가르칩니다. <b>단, 테라피스트 포지션은 공중위생관리법상 미용사(피부 또는 일반) 면허가 필요합니다.</b> 상담·매니저·점장은 면허 비필수입니다.</div></details>
+      <details><summary>신입(무경력)도 지원 가능한가요?</summary><div class="faq-a">네, 경력 없어도 지원 가능합니다. 입사 초기 7일은 급여를 지급하면서 두피 이론·실기·상담을 가르칩니다. <b>단, 테라피스트 포지션은 공중위생관리법상 미용사(피부 또는 일반) 면허가 필요합니다.</b></div></details>
       <details><summary>수습 기간 급여는요?</summary><div class="faq-a">수습 1~3개월이며, 수습 기간 급여 세부 조건은 면접 시 안내드립니다. 근로계약과 관련 법령을 따릅니다.</div></details>
       <details><summary>지금 몇 명을 뽑고 있나요?</summary><div class="faq-a">지점이 빠르게 늘고 있어 상시 채용 중입니다. 좋은 분이 지원하시면 결정도 빠르게 진행합니다.</div></details>
       <details><summary>복장이나 유니폼은?</summary><div class="faq-a">근무복은 매장에서 제공합니다. 처음부터 사비로 준비하실 필요 없어요.</div></details>
-      <details><summary>이력서를 꼭 보내야 하나요?</summary><div class="faq-a">지금은 이름·연락처만 있으면 접수됩니다. 이력서는 면접 전에 간단히 요청드릴 수 있어요.</div></details>
+      <details><summary>이력서를 꼭 보내야 하나요?</summary><div class="faq-a">네, 지원서와 함께 이력서를 제출해 주세요. 형식은 자유이며 PDF · 워드 · 사진(JPG/PNG) 모두 가능합니다.</div></details>
     </div>
   </div>
 </section>
@@ -645,7 +653,7 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
         <p class="eye">지원하기</p>
         <h2 class="sec-h">지원서 작성</h2>
       </div>
-      <p class="sec-lede">이름과 연락처만으로 접수됩니다. 영업일 기준 1~2일 안에 담당자가 전화로 연락드립니다. 이력서는 면접 전에 간단히 요청드릴 수 있습니다.</p>
+      <p class="sec-lede">이름 · 연락처와 이력서를 제출해 주세요. 영업일 기준 1~2일 안에 담당자가 전화로 연락드립니다.</p>
     </div>
 
     <form class="form rv" id="applyForm" autocomplete="on" novalidate>
@@ -680,9 +688,22 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
         <label for="f-field">두피 · 미용 관련 경력<small>선택</small></label>
         <input id="f-field" name="field" type="text" placeholder="예: 두피관리실 1년 · 피부미용사 자격증" maxlength="100">
       </div>
+
+      <div class="fld">
+        <label for="f-resume">이력서<span class="req">*</span> <small>PDF · DOC · DOCX · HWP · JPG · PNG · 최대 10MB</small></label>
+        <div class="file-wrap">
+          <input id="f-resume" name="resume" type="file" accept=".pdf,.doc,.docx,.hwp,.jpg,.jpeg,.png,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/png" required>
+          <label for="f-resume" class="file-btn">
+            <span class="file-ic" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 3v9m0 0l-3.5-3.5M9 12l3.5-3.5M3 15h12"/></svg>
+            </span>
+            <span class="file-text" id="fileText">파일 선택</span>
+          </label>
+        </div>
+      </div>
       <label class="consent">
         <input id="f-consent" type="checkbox" required>
-        <span><b>개인정보 수집·이용 동의</b><br>· 수집 항목: 이름 · 연락처 · 지원 내용 (희망 지점·경력·관련 경력)<br>· 수집 목적: 채용 전형 진행 및 결과 안내<br>· 보유 기간: 채용 전형 종료 후 즉시 파기 (채용 시 근로계약 기간)<br>· 동의를 거부할 수 있으나, 거부 시 지원이 어렵습니다.</span>
+        <span><b>개인정보 수집·이용 동의</b><br>· 수집 항목: 이름 · 연락처 · 지원 내용 (희망 지점·경력·관련 경력) · 이력서 및 이력서에 기재된 정보<br>· 수집 목적: 채용 전형 진행 및 결과 안내<br>· 보유 기간: 채용 전형 종료 후 즉시 파기 (채용 시 근로계약 기간)<br>· 동의를 거부할 수 있으나, 거부 시 지원이 어렵습니다.</span>
       </label>
       <div class="submit">
         <button class="btn" id="submitBtn" type="submit"><span id="submitLabel">지원서 보내기</span><span class="ic" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 8h10M8 3l5 5-5 5"/></svg></span></button>
@@ -803,7 +824,25 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
     });
   }
 
-  // ───── Form submit ─────
+  // ───── 파일 선택 UX ─────
+  var fileInput = document.getElementById('f-resume');
+  var fileText = document.getElementById('fileText');
+  var fileBtn = document.querySelector('.file-btn');
+  if(fileInput && fileText && fileBtn){
+    fileInput.addEventListener('change', function(){
+      var f = fileInput.files && fileInput.files[0];
+      if(f){
+        var sizeMB = (f.size/1024/1024).toFixed(2);
+        fileText.textContent = f.name + ' (' + sizeMB + 'MB)';
+        fileBtn.classList.add('has-file');
+      } else {
+        fileText.textContent = '파일 선택';
+        fileBtn.classList.remove('has-file');
+      }
+    });
+  }
+
+  // ───── Form submit (multipart/form-data) ─────
   var form = document.getElementById('applyForm');
   var btn = document.getElementById('submitBtn');
   var msg = document.getElementById('msg');
@@ -818,26 +857,31 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
       var career = (form.querySelector('input[name=career]:checked')||{}).value;
       var field = form.field.value.trim();
       var consent = document.getElementById('f-consent').checked;
+      var resumeFile = fileInput && fileInput.files && fileInput.files[0];
 
       if(name.length < 2){ msg.textContent = '성함을 입력해 주세요.'; form.name.focus(); return; }
       if(!/^01[016789]\d{7,8}$/.test(pv)){ msg.textContent = '연락처를 확인해 주세요.'; form.phone.focus(); return; }
       if(branches.length === 0){ msg.textContent = '희망 지점을 하나 이상 선택해 주세요.'; return; }
       if(!career){ msg.textContent = '경력을 선택해 주세요.'; return; }
+      if(!resumeFile){ msg.textContent = '이력서 파일을 첨부해 주세요.'; return; }
+      if(resumeFile.size > 10 * 1024 * 1024){ msg.textContent = '이력서 파일이 너무 큽니다. (최대 10MB)'; return; }
       if(!consent){ msg.textContent = '개인정보 수집·이용에 동의해 주세요.'; return; }
 
       btn.disabled = true;
       var sl = document.getElementById('submitLabel'); if(sl) sl.textContent = '보내는 중…';
       try{
-        var r = await fetch('/api/join/application', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({
-            name:name, phone:pv, branches:branches, career:career, field:field,
-            consent:true,
-            landing: location.pathname + location.search,
-            attr: Object.fromEntries(new URLSearchParams(location.search))
-          })
-        });
+        var fd = new FormData();
+        fd.append('name', name);
+        fd.append('phone', pv);
+        fd.append('career', career);
+        fd.append('field', field);
+        fd.append('branches', JSON.stringify(branches));
+        fd.append('consent', 'true');
+        fd.append('landing', location.pathname + location.search);
+        fd.append('attr', JSON.stringify(Object.fromEntries(new URLSearchParams(location.search))));
+        fd.append('resume', resumeFile);
+
+        var r = await fetch('/api/join/application', { method:'POST', body: fd });
         var d = await r.json();
         if(d.ok){
           msg.className = 'msg ok';
@@ -845,6 +889,8 @@ footer .ft-a{color:#eadfd4a0;margin-top:8px}
             ? '✓ 이미 접수된 번호예요. 담당자가 곧 연락드릴 테니 조금만 기다려 주세요.'
             : '✓ 접수되었습니다. 영업일 기준 1~2일 안에 연락드릴게요.';
           form.reset();
+          if(fileText) fileText.textContent = '파일 선택';
+          if(fileBtn) fileBtn.classList.remove('has-file');
           if(!d.dup){
             if(window.fbq) fbq('track','Lead');
             if(window.gtag) gtag('event','generate_lead');

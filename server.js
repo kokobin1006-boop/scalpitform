@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
+const multer = require('multer');
 const { Pool } = require('pg');
 
 const app = express();
@@ -215,6 +216,11 @@ async function initDB() {
       updated_by TEXT NOT NULL DEFAULT ''
     );
     CREATE INDEX IF NOT EXISTS join_applications_phone_idx ON join_applications (phone);
+    ALTER TABLE join_applications
+      ADD COLUMN IF NOT EXISTS resume_filename TEXT NOT NULL DEFAULT '',
+      ADD COLUMN IF NOT EXISTS resume_original TEXT NOT NULL DEFAULT '',
+      ADD COLUMN IF NOT EXISTS resume_size BIGINT NOT NULL DEFAULT 0,
+      ADD COLUMN IF NOT EXISTS resume_mime TEXT NOT NULL DEFAULT '';
   `);
 }
 
@@ -561,12 +567,43 @@ app.patch('/api/academy/leads/:id', async (req, res) => {
 });
 
 // ───────────────────────────────────────────────────────────────────────────
-// 채용 랜딩 (/join) — 지원서 수집
+// 채용 랜딩 (/join) — 지원서 수집 + 이력서 업로드
 // ───────────────────────────────────────────────────────────────────────────
 const JOIN_STATUS = ['new', 'contacted', 'interview', 'hired', 'rejected', 'cancelled'];
 const JOIN_BRANCHES = ['dongtan', 'cheonan', 'gwanggyo', 'apgujeong', 'any'];
 const JOIN_CAREER = ['none', 'under1', 'under3', '1to3', 'over3'];
 const JOIN_FILE = path.join(DATA_DIR, 'join_applications.json');
+const RESUMES_DIR = path.join(DATA_DIR, 'resumes');
+if (!fs.existsSync(RESUMES_DIR)) fs.mkdirSync(RESUMES_DIR, { recursive: true });
+
+const RESUME_ALLOWED_EXT = ['pdf', 'doc', 'docx', 'hwp', 'jpg', 'jpeg', 'png'];
+const RESUME_ALLOWED_MIME = [
+  'application/pdf',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/x-hwp', 'application/haansofthwp', 'application/vnd.hancom.hwp',
+  'image/jpeg', 'image/jpg', 'image/png',
+];
+
+const resumeUpload = multer({
+  storage: multer.diskStorage({
+    destination: RESUMES_DIR,
+    filename: (req, file, cb) => {
+      const ts = Date.now();
+      const safeExt = (path.extname(file.originalname) || '').toLowerCase().replace(/[^.a-z0-9]/g, '').slice(0, 8);
+      const token = crypto.randomBytes(8).toString('hex');
+      cb(null, `${ts}_${token}${safeExt}`);
+    },
+  }),
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+  fileFilter: (req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase().replace('.', '');
+    const mimeOk = RESUME_ALLOWED_MIME.includes(file.mimetype) || /^application\/.*hwp/i.test(file.mimetype);
+    const extOk = RESUME_ALLOWED_EXT.includes(ext);
+    if (mimeOk || extOk) cb(null, true);
+    else cb(new Error('허용되지 않는 파일 형식입니다. (pdf, doc, docx, hwp, jpg, png)'));
+  },
+});
 
 function readJoinJson() {
   if (!fs.existsSync(JOIN_FILE)) return [];
@@ -581,6 +618,8 @@ function joinRowToApp(r) {
     career: r.career, field: r.field, consentAt: r.consent_at,
     attr: r.attr || {}, landing: r.landing, status: r.status, note: r.note, dup: r.dup,
     updatedAt: r.updated_at || null, updatedBy: r.updated_by || '',
+    resumeFilename: r.resume_filename || '', resumeOriginal: r.resume_original || '',
+    resumeSize: Number(r.resume_size || 0), resumeMime: r.resume_mime || '',
   };
 }
 
@@ -592,9 +631,13 @@ async function joinFindByPhone(phone) {
 async function joinInsert(app) {
   if (pool) {
     const r = await pool.query(
-      `INSERT INTO join_applications (name, phone, branches, career, field, consent_at, attr, landing, ua, dup)
-       VALUES ($1,$2,$3,$4,$5,NOW(),$6,$7,$8,$9) RETURNING id`,
-      [app.name, app.phone, JSON.stringify(app.branches), app.career, app.field, JSON.stringify(app.attr), app.landing, app.ua, app.dup]);
+      `INSERT INTO join_applications
+        (name, phone, branches, career, field, consent_at, attr, landing, ua, dup,
+         resume_filename, resume_original, resume_size, resume_mime)
+       VALUES ($1,$2,$3,$4,$5,NOW(),$6,$7,$8,$9,$10,$11,$12,$13) RETURNING id`,
+      [app.name, app.phone, JSON.stringify(app.branches), app.career, app.field,
+       JSON.stringify(app.attr), app.landing, app.ua, app.dup,
+       app.resumeFilename || '', app.resumeOriginal || '', app.resumeSize || 0, app.resumeMime || '']);
     return Number(r.rows[0].id);
   }
   const list = readJoinJson();
@@ -607,6 +650,12 @@ async function joinInsert(app) {
 async function joinList() {
   if (pool) { const r = await pool.query('SELECT * FROM join_applications ORDER BY id DESC'); return r.rows.map(joinRowToApp); }
   return readJoinJson().slice().reverse();
+}
+
+async function joinGetOne(id) {
+  if (pool) { const r = await pool.query('SELECT * FROM join_applications WHERE id=$1', [id]); return r.rows[0] ? joinRowToApp(r.rows[0]) : null; }
+  const found = readJoinJson().find(a => Number(a.id) === Number(id));
+  return found || null;
 }
 
 async function joinPatch(id, patch, by) {
@@ -636,40 +685,82 @@ function sendJoinPage(req, res) {
 app.get(['/join', '/join/', '/join/index.html'], sendJoinPage);
 app.get('/join/admin', (req, res) => res.sendFile(path.join(__dirname, 'public/join/admin.html')));
 
-app.post('/api/join/application', async (req, res) => {
+// 이력서 포함 multipart 접수. 실패해도 업로드된 임시파일은 삭제.
+app.post('/api/join/application', (req, res, next) => {
+  resumeUpload.single('resume')(req, res, (err) => {
+    if (err) {
+      const msg = err.code === 'LIMIT_FILE_SIZE'
+        ? '이력서 파일이 너무 큽니다. (최대 10MB)'
+        : (err.message || '파일 업로드 중 오류가 발생했습니다.');
+      return res.status(400).json({ ok: false, message: msg });
+    }
+    next();
+  });
+}, async (req, res) => {
+  const cleanupFile = () => { if (req.file && req.file.path) { try { fs.unlinkSync(req.file.path); } catch {} } };
   try {
     const b = req.body || {};
-    if (b.website) return res.json({ ok: true, id: 0 });
-    if (tooMany(clientIp(req))) return res.status(429).json({ ok: false, message: '잠시 후 다시 시도해 주세요.' });
+    if (b.website) { cleanupFile(); return res.json({ ok: true, id: 0 }); }
+    if (tooMany(clientIp(req))) { cleanupFile(); return res.status(429).json({ ok: false, message: '잠시 후 다시 시도해 주세요.' }); }
+
+    // branches/attr은 multipart에서 문자열로 올 수 있음
+    let branchesIn = b.branches;
+    if (typeof branchesIn === 'string') { try { branchesIn = JSON.parse(branchesIn); } catch { branchesIn = branchesIn.split(',').map(s => s.trim()); } }
+    let attrIn = b.attr;
+    if (typeof attrIn === 'string') { try { attrIn = JSON.parse(attrIn); } catch { attrIn = {}; } }
 
     const name = clip(b.name, 20).trim();
     const phone = String(b.phone || '').replace(/\D/g, '');
-    if (name.length < 2) return res.status(400).json({ ok: false, message: '성함을 입력해 주세요.' });
-    if (!/^01[016789]\d{7,8}$/.test(phone)) return res.status(400).json({ ok: false, message: '연락처를 확인해 주세요.' });
-    if (b.consent !== true) return res.status(400).json({ ok: false, message: '개인정보 수집·이용에 동의해 주세요.' });
-    const branches = Array.isArray(b.branches) ? b.branches.filter(v => JOIN_BRANCHES.includes(v)).slice(0, 5) : [];
-    if (branches.length === 0) return res.status(400).json({ ok: false, message: '희망 지점을 하나 이상 선택해 주세요.' });
+    if (name.length < 2) { cleanupFile(); return res.status(400).json({ ok: false, message: '성함을 입력해 주세요.' }); }
+    if (!/^01[016789]\d{7,8}$/.test(phone)) { cleanupFile(); return res.status(400).json({ ok: false, message: '연락처를 확인해 주세요.' }); }
+    if (b.consent !== true && b.consent !== 'true') { cleanupFile(); return res.status(400).json({ ok: false, message: '개인정보 수집·이용에 동의해 주세요.' }); }
+    const branches = Array.isArray(branchesIn) ? branchesIn.filter(v => JOIN_BRANCHES.includes(v)).slice(0, 5) : [];
+    if (branches.length === 0) { cleanupFile(); return res.status(400).json({ ok: false, message: '희망 지점을 하나 이상 선택해 주세요.' }); }
     const career = JOIN_CAREER.includes(b.career) ? b.career : '';
-    if (!career) return res.status(400).json({ ok: false, message: '경력을 선택해 주세요.' });
+    if (!career) { cleanupFile(); return res.status(400).json({ ok: false, message: '경력을 선택해 주세요.' }); }
+    if (!req.file) { return res.status(400).json({ ok: false, message: '이력서 파일을 첨부해 주세요.' }); }
 
-    const attrIn = b.attr && typeof b.attr === 'object' ? b.attr : {};
     const attr = {};
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'referrer', 'angle'].forEach(k => {
-      if (attrIn[k]) attr[k] = clip(attrIn[k], 300);
-    });
+    if (attrIn && typeof attrIn === 'object') {
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'referrer', 'angle'].forEach(k => {
+        if (attrIn[k]) attr[k] = clip(attrIn[k], 300);
+      });
+    }
 
     const application = {
       name, phone, branches, career,
       field: clip(b.field, 100),
       attr, landing: clip(b.landing, 300), ua: clip(req.headers['user-agent'], 300),
       dup: await joinFindByPhone(phone),
+      resumeFilename: path.basename(req.file.filename),
+      resumeOriginal: clip(req.file.originalname, 200),
+      resumeSize: req.file.size,
+      resumeMime: req.file.mimetype || '',
     };
     const id = await joinInsert(application);
     res.json({ ok: true, id, dup: application.dup });
   } catch (e) {
     console.error('join application save failed:', e.message);
+    cleanupFile();
     res.status(500).json({ ok: false, message: '일시적으로 접수가 어렵습니다. 잠시 후 다시 시도해 주세요.' });
   }
+});
+
+// 어드민 전용 이력서 다운로드. <a href>로도 접근 가능하도록 쿼리 비번 지원
+app.get('/api/join/applications/:id/resume', async (req, res) => {
+  const pw = req.query.p;
+  const headerOk = adminOk(req);
+  const queryOk = !!ROOT_PASSWORD && !!pw && safeEqual(String(pw), ROOT_PASSWORD);
+  if (!headerOk && !queryOk) return res.status(401).send('비밀번호가 올바르지 않습니다.');
+  const id = Number(req.params.id);
+  const app = await joinGetOne(id);
+  if (!app || !app.resumeFilename) return res.status(404).send('이력서 파일이 없습니다.');
+  const filePath = path.join(RESUMES_DIR, app.resumeFilename);
+  if (!fs.existsSync(filePath)) return res.status(410).send('파일이 서버에 남아 있지 않습니다 (Railway 재시작으로 유실되었을 수 있음).');
+  const safeOriginal = (app.resumeOriginal || app.resumeFilename).replace(/[^\w.\-가-힣]/g, '_');
+  res.setHeader('Content-Disposition', `attachment; filename*=UTF-8''${encodeURIComponent(safeOriginal)}`);
+  if (app.resumeMime) res.setHeader('Content-Type', app.resumeMime);
+  fs.createReadStream(filePath).pipe(res);
 });
 
 app.get('/api/join/applications', async (req, res) => {

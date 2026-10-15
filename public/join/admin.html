@@ -94,6 +94,9 @@ select.st.hired{color:var(--good)}
 select.st.rejected,select.st.cancelled{color:var(--faint)}
 textarea.note{width:100%;min-height:40px;max-height:120px;background:#0f0b0c;border:1px solid var(--line2);border-radius:8px;padding:6px 10px;font-size:.84rem;resize:vertical}
 .dup-tag{display:inline-block;margin-left:6px;font:700 .68rem var(--mono);background:#2a1a1d;color:var(--rose);padding:1px 7px;border-radius:999px}
+.dl-btn{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;padding:6px 10px;background:#2a1a1d;border:1px solid var(--line2);border-radius:6px;color:var(--rose);font-size:.78rem;font-weight:600;text-decoration:none;transition:background .15s,border-color .15s}
+.dl-btn:hover{background:#3a2228;border-color:var(--rose)}
+.dl-btn small{font-weight:400;font-size:.68rem;color:var(--faint);letter-spacing:.02em}
 
 .empty{padding:60px 20px;text-align:center;color:var(--faint)}
 .err-top{background:#2a0a0f;color:var(--bad);padding:10px 20px;text-align:center;font-size:.85rem}
@@ -169,6 +172,7 @@ textarea.note{width:100%;min-height:40px;max-height:120px;background:#0f0b0c;bor
             <th>희망지점</th>
             <th>경력</th>
             <th>관련 경력</th>
+            <th style="width:110px">이력서</th>
             <th style="width:120px">상태</th>
             <th style="width:220px">메모</th>
           </tr>
@@ -340,6 +344,12 @@ textarea.note{width:100%;min-height:40px;max-height:120px;background:#0f0b0c;bor
     }).join('');
     var opts = ST.map(function(s){return '<option value="'+s+'"'+(s===a.status?' selected':'')+'>'+ST_LABEL[s]+'</option>'}).join('');
     var career = CAREER_LABEL[a.career]||a.career||'—';
+    var resumeCell = '<span style="color:var(--faint)">—</span>';
+    if(a.resumeFilename){
+      var sizeKb = a.resumeSize ? Math.round(a.resumeSize/1024) + 'KB' : '';
+      var origName = esc(a.resumeOriginal || a.resumeFilename);
+      resumeCell = '<a href="/api/join/applications/'+a.id+'/resume?p='+encodeURIComponent(state.pw)+'&w='+encodeURIComponent(state.who)+'" class="dl-btn" download title="'+origName+'">⬇ 다운로드<small>'+sizeKb+'</small></a>';
+    }
     return (
       '<tr>'+
         '<td class="id">#'+a.id+(a.dup?'<span class="dup-tag">중복</span>':'')+'</td>'+
@@ -348,6 +358,7 @@ textarea.note{width:100%;min-height:40px;max-height:120px;background:#0f0b0c;bor
         '<td><div class="b-chips">'+brs+'</div></td>'+
         '<td class="c-txt">'+esc(career)+'</td>'+
         '<td>'+(a.field?esc(a.field):'<span style="color:var(--faint)">—</span>')+'</td>'+
+        '<td>'+resumeCell+'</td>'+
         '<td><select class="st '+a.status+'" data-id="'+a.id+'">'+opts+'</select></td>'+
         '<td><textarea class="note" data-id="'+a.id+'" placeholder="메모">'+esc(a.note||'')+'</textarea></td>'+
       '</tr>'
