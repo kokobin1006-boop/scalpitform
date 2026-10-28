@@ -305,9 +305,9 @@ select.stsel.cancelled{color:var(--faint)}
     <section id="v-list" data-v="list" hidden>
       <div class="filters">
         <input type="search" id="fq" placeholder="이름·연락처·메모 검색" aria-label="검색">
-        <select id="fses" aria-label="희망 날짜"><option value="">희망 날짜 전체</option><option value="1020">10/20</option><option value="1027">10/27</option><option value="both">둘 다 가능</option><option value="waitlist">2기 알림</option></select>
+        <select id="fses" aria-label="희망 날짜"><option value="">희망 날짜 전체</option><option value="1104">11/4</option><option value="1111">11/11</option><option value="1118">11/18</option><option value="1125">11/25</option><option value="both">아무 날짜나</option><option value="waitlist">2기 알림</option><option value="1020">10/20 (지난 회차)</option><option value="1027">10/27 (지난 회차)</option></select>
         <select id="fst" aria-label="상태"><option value="">상태 전체</option></select>
-        <select id="fslot" aria-label="확정 회차"><option value="">확정 회차 전체</option><option value="1020">10/20 확정</option><option value="1027">10/27 확정</option><option value="__none">회차 미지정</option></select>
+        <select id="fslot" aria-label="확정 회차"><option value="">확정 회차 전체</option><option value="1104">11/4 확정</option><option value="1111">11/11 확정</option><option value="1118">11/18 확정</option><option value="1125">11/25 확정</option><option value="__none">회차 미지정</option><option value="1020">10/20 (지난)</option><option value="1027">10/27 (지난)</option></select>
         <select id="fpur" aria-label="목적"><option value="">목적 전체</option><option>기술 습득</option><option>취업</option><option>1인샵 창업</option><option>헤드스파 창업</option><option>아직 모르겠음</option><option value="__none">미응답</option></select>
         <select id="fsrc" aria-label="유입 소재"><option value="">소재 전체</option></select>
         <label class="chk"><input type="checkbox" id="ftoday">오늘만</label>
@@ -338,8 +338,8 @@ select.stsel.cancelled{color:var(--faint)}
   var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
   var ST=[['new','신규','●'],['contacted','연락함','☎'],['paid','결제','₩'],['confirmed','자리 확정','✓'],['cancelled','취소','✕']];
   var STL={},STI={}; ST.forEach(function(s){STL[s[0]]=s[1];STI[s[0]]=s[2]});
-  var SES={'1020':'10/20','1027':'10/27','both':'둘 다','waitlist':'2기 알림'};
-  var SLOT={'1020':'10/20','1027':'10/27'};
+  var SES={'1104':'11/4','1111':'11/11','1118':'11/18','1125':'11/25','both':'아무 날짜','waitlist':'2기 알림','1020':'10/20','1027':'10/27'};
+  var SLOT={'1104':'11/4','1111':'11/11','1118':'11/18','1125':'11/25','1020':'10/20','1027':'10/27'};
   var CAP=6;
   var ANG={money:'매출 공개',career:'취업·실습',startup:'창업 준비'};
   var LEADN={brand:'스칼프잇 헤드라인',person:'대표원장 헤드라인'};
@@ -363,7 +363,7 @@ select.stsel.cancelled{color:var(--faint)}
   function api(path,opt){opt=opt||{};opt.headers=Object.assign({'x-admin-password':pw,'x-admin-name':encodeURIComponent(me),'Content-Type':'application/json'},opt.headers||{});return fetch(path,opt).then(function(r){return r.json().then(function(j){if(!r.ok){var e=new Error('http');e.status=r.status;e.body=j;throw e}return j})})}
   function byId(id){for(var i=0;i<all.length;i++)if(all[i].id===id)return all[i];return null}
   function A(l){return l.attr||{}}
-  function slotOf(l){return l.slot||((l.session==='1020'||l.session==='1027')?l.session:'')}
+  function slotOf(l){return l.slot||(['1104','1111','1118','1125','1020','1027'].indexOf(l.session)>=0?l.session:'')}
   function srcOf(l){var a=A(l);return a.utm_content||a.utm_source||(a.referrer?'추천(ref)':'직접')}
   function dimVal(l,d){var a=A(l);var v=a[d];if(d==='lead')return v?(LEADN[v]||v):'(기록 없음)';if(d==='angle')return v?(ANG[v]||v):'기본 화면';return v||'(미표기)'}
   function isEditing(){var e=document.activeElement;return !!e&&/^(INPUT|SELECT|TEXTAREA)$/.test(e.tagName)&&!!e.closest('#v-list,#drawerRoot')}
@@ -406,7 +406,7 @@ select.stsel.cancelled{color:var(--faint)}
   /* ── 통계 ── */
   function stats(){
     var S={total:all.length,core:0,wait:0,today:0,yday:0,d7:0,st:{new:0,contacted:0,paid:0,confirmed:0,cancelled:0},
-      seat:{'1020':{paid:0,confirmed:0},'1027':{paid:0,confirmed:0},none:0},daily:[],hours:[],lead:{},pur:{}};
+      seat:{'1104':{paid:0,confirmed:0},'1111':{paid:0,confirmed:0},'1118':{paid:0,confirmed:0},'1125':{paid:0,confirmed:0},'1020':{paid:0,confirmed:0},'1027':{paid:0,confirmed:0},none:0},daily:[],hours:[],lead:{},pur:{}};
     var d0=dayShift(0),d1=dayShift(1),days=[],i;
     for(i=13;i>=0;i--)days.push(dayShift(i));
     var dm={};days.forEach(function(d){dm[d]={n:0,c:0}});
@@ -456,21 +456,23 @@ select.stsel.cancelled{color:var(--faint)}
 
   /* ── 대시보드 ── */
   function renderDash(){
-    var S=stats(),dlt=S.today-S.yday,seats=S.seat['1020'].paid+S.seat['1020'].confirmed+S.seat['1027'].paid+S.seat['1027'].confirmed;
+    var S=stats(),dlt=S.today-S.yday;
+    var SEAT_KEYS=['1104','1111','1118','1125'];
+    var seats=SEAT_KEYS.reduce(function(a,k){return a+S.seat[k].paid+S.seat[k].confirmed},0);
     var reach=S.st.paid+S.st.confirmed,conv=S.core?Math.round(reach/S.core*100):0;
     $('#kpis').innerHTML=
       '<div class="kpi hero"><span class="l">전체 신청</span><span class="v">'+S.total+'<small>명</small></span><span class="d">2기 알림 '+S.wait+'명 포함 · 1기 신청 '+S.core+'명</span></div>'+
       '<div class="kpi"><span class="l">오늘</span><span class="v">'+S.today+'<small>명</small></span><span class="d">'+(dlt>0?'<span class="up">▲ 어제보다 '+dlt+'명 많아요</span>':dlt<0?'<span class="down">▼ 어제보다 '+(-dlt)+'명 적어요</span>':'어제와 같아요')+'</span></div>'+
       '<div class="kpi"><span class="l">최근 7일</span><span class="v">'+S.d7+'<small>명</small></span><span class="d">하루 평균 '+(S.d7/7).toFixed(1)+'명</span></div>'+
       '<div class="kpi'+(S.st.new?' act':'')+'"><span class="l">연락 대기(신규)</span><span class="v">'+S.st.new+'<small>명</small></span><span class="d">'+(S.st.new?'처리 보드에서 바로 연락하세요':'모두 처리됐어요')+'</span></div>'+
-      '<div class="kpi"><span class="l">결제·확정</span><span class="v">'+seats+'<small> / '+(CAP*2)+'석</small></span><span class="d">결제 '+S.st.paid+' · 자리 확정 '+S.st.confirmed+'</span></div>'+
+      '<div class="kpi"><span class="l">결제·확정</span><span class="v">'+seats+'<small> / '+(CAP*SEAT_KEYS.length)+'석</small></span><span class="d">결제 '+S.st.paid+' · 자리 확정 '+S.st.confirmed+'</span></div>'+
       '<div class="kpi"><span class="l">결제 전환율</span><span class="v">'+conv+'<small>%</small></span><span class="d">1기 신청 대비 결제 이상 '+reach+'명</span></div>';
 
     var tips=S.daily.map(function(d){return d.day.slice(5).replace('-','/')+'('+dow(d.day)+') · 신청 '+d.n+'명 · 결제·확정 '+d.c+'명'});
     $('#chDaily').innerHTML=columns(S.daily.map(function(d){return d.n}),{tips:tips,labels:S.daily.map(function(d){return d.day.slice(5).replace('-','/')}),every:2,today:13,aria:'최근 14일 일별 신청 수'})+
       '<table class="sr"><caption>일별 신청</caption><tbody>'+S.daily.map(function(d){return '<tr><th>'+d.day+'</th><td>'+d.n+'명</td></tr>'}).join('')+'</tbody></table>';
 
-    $('#seats').innerHTML=['1020','1027'].map(function(k){var s=S.seat[k],c=s.paid+s.confirmed,dots='';for(var i=0;i<CAP;i++)dots+='<i class="'+(i<c?'on':'')+'"></i>';
+    $('#seats').innerHTML=SEAT_KEYS.map(function(k){var s=S.seat[k],c=s.paid+s.confirmed,dots='';for(var i=0;i<CAP;i++)dots+='<i class="'+(i<c?'on':'')+'"></i>';
       return '<div class="seat" data-tip="'+(SLOT[k])+' 결제 '+s.paid+' · 자리 확정 '+s.confirmed+'"><span class="sl">'+SLOT[k]+' TUE</span><span class="sd" aria-hidden="true">'+dots+'</span><span class="sc"><b>'+c+'</b> / '+CAP+(c>CAP?' · <span class="down">정원 초과</span>':c===CAP?' · 마감':'')+'</span></div>'}).join('')+
       (S.seat.none?'<p class="note">확정 회차가 비어 있는 결제·확정이 '+S.seat.none+'명 있어요. 신청자 목록에서 회차를 지정해 주세요.</p>':'<p class="note">좌석은 결제 이상 상태이고 확정 회차를 지정한 사람 기준이에요.</p>');
 

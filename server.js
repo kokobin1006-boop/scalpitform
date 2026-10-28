@@ -383,7 +383,8 @@ app.get('/apply/admin', (req, res) => res.sendFile(path.join(__dirname, 'public/
 // ───────────────────────────────────────────────────────────────────────────
 const ACADEMY_FILE = path.join(DATA_DIR, 'academy_leads.json');
 const LEAD_STATUS = ['new', 'contacted', 'paid', 'confirmed', 'cancelled'];
-const LEAD_SESSIONS = ['1020', '1027', 'both', 'waitlist'];
+// 과거 1~2회차 신청(1020·1027)도 어드민에서 조회될 수 있도록 유지, 신규는 11월 4회차
+const LEAD_SESSIONS = ['1020', '1027', '1104', '1111', '1118', '1125', 'both', 'waitlist'];
 const LEAD_PURPOSES = ['', '기술 습득', '취업', '1인샵 창업', '헤드스파 창업', '아직 모르겠음'];
 
 function readAcademyJson() {
@@ -561,7 +562,7 @@ app.patch('/api/academy/leads/:id', async (req, res) => {
   const b = req.body || {}; const patch = {};
   if (b.status !== undefined) { if (!LEAD_STATUS.includes(b.status)) return res.status(400).json({ success: false }); patch.status = b.status; }
   if (b.note !== undefined) patch.note = clip(b.note, 1000);
-  if (b.slot !== undefined) { if (!['', '1020', '1027'].includes(b.slot)) return res.status(400).json({ success: false }); patch.slot = b.slot; }
+  if (b.slot !== undefined) { if (!['', '1020', '1027', '1104', '1111', '1118', '1125'].includes(b.slot)) return res.status(400).json({ success: false }); patch.slot = b.slot; }
   const lead = await academyPatch(Number(req.params.id), patch, adminName(req));
   res.json({ success: !!lead, lead: lead || undefined });
 });
