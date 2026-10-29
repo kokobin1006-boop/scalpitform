@@ -385,14 +385,15 @@ footer a{color:var(--mut)}
 @media(min-width:720px){.testi-grid{grid-template-columns:repeat(3,1fr);gap:20px}}
 .testi-card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;border-left:3px solid var(--red)}
 .testi-media{position:relative;background:#000}
-.testi-media .revid{display:block;width:100%;aspect-ratio:9/16;object-fit:cover}
-.testi-card.wide .testi-media .revid{aspect-ratio:16/9}
+.testi-media .revid{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:#000}
+.testi-card.wide .testi-media .revid{aspect-ratio:4/5}
 
 /* 커리큘럼 수업 현장 영상 */
 .scene-vids{margin-top:28px}
 .scene-head{font:600 .78rem var(--mono);letter-spacing:.18em;color:var(--rose);text-transform:uppercase;margin-bottom:16px}
-.scene-grid{display:grid;grid-template-columns:1fr;gap:14px}
-@media(min-width:720px){.scene-grid{grid-template-columns:repeat(3,1fr)} .scene-grid.two{grid-template-columns:repeat(2,1fr);max-width:860px}}
+.scene-grid{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:720px){.scene-grid{grid-template-columns:repeat(3,1fr)} .scene-grid.two{grid-template-columns:repeat(2,1fr);max-width:none}}
+.scene-grid .sv-wrap .revid{aspect-ratio:16/9}
 .scene-grid figure{margin:0}
 .scene-grid .sv-wrap{position:relative;background:#000;border-radius:10px;overflow:hidden}
 .scene-grid .sv-wrap .revid{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
@@ -427,9 +428,9 @@ footer a{color:var(--mut)}
 @media(min-width:720px){.nums3{grid-template-columns:repeat(3,1fr)}}
 .nums3 > div{padding:48px 20px;background:linear-gradient(145deg,#1d1416,#2a1a1d);border:1px solid var(--rose);border-radius:14px;text-align:center;position:relative;overflow:hidden;box-shadow:0 10px 32px -12px #d1283f55}
 .nums3 > div::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--rose),transparent)}
-.nums3 b{display:inline-flex;align-items:baseline;justify-content:center;gap:4px;font-family:var(--font);font-weight:900;font-size:clamp(4rem,9vw,7rem);color:#faf5ef;line-height:1;letter-spacing:-.04em;text-shadow:0 2px 24px #d1283f40;white-space:nowrap}
-.nums3 b .cnt{display:inline-block;font-feature-settings:"tnum" 1}
-.nums3 b small{display:inline;font-weight:700;font-size:.26em;color:var(--rose);letter-spacing:0;line-height:1;white-space:nowrap}
+.nums3 b{display:inline-flex;align-items:baseline;justify-content:center;gap:6px;font-family:var(--font);font-weight:900;font-size:clamp(5rem,12vw,9rem);color:#faf5ef;line-height:1;letter-spacing:-.05em;text-shadow:0 3px 28px #d1283f55;white-space:nowrap}
+.nums3 b .cnt{display:inline-block;font-feature-settings:"tnum" 1;font-weight:900;color:#faf5ef}
+.nums3 b small{display:inline;font-weight:600;font-size:.24em;color:var(--rose);letter-spacing:0;line-height:1;white-space:nowrap}
 .nums3 span{display:block;margin-top:22px;color:#f6f0e8;font-size:1.05rem;font-weight:600;letter-spacing:-.01em}
 .proof-open{margin-top:40px}
 .proof-head{font:600 .78rem var(--mono);letter-spacing:.18em;color:var(--rose);text-transform:uppercase;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--line)}
