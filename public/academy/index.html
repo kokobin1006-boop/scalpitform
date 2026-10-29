@@ -99,6 +99,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hstats b small{font:800 .36em var(--font);color:var(--rose);margin-left:4px;letter-spacing:0}
 .hstats span{display:block;margin-top:7px;font-size:clamp(.78rem,1.25vw,.95rem);font-weight:700;color:#eadfd6}
 .hsrc{margin-top:8px;font:500 .7rem var(--mono);color:var(--faint)}
+.hsrc-note{display:inline-block;margin-top:6px;font:500 .82rem var(--font);color:var(--mut);letter-spacing:0;line-height:1.5;opacity:1}
 .pass{grid-area:pass;margin:clamp(22px,3vw,34px) 0 0;display:grid;grid-template-columns:clamp(100px,11vw,128px) 1fr;background:var(--paper) var(--tooth);color:var(--paper-ink);border-radius:14px;overflow:hidden;max-width:430px;transform:rotate(-1.4deg);box-shadow:0 22px 44px #000a;position:relative}
 .pass::before{content:"";position:absolute;right:16px;top:-1px;width:38px;height:9px;border-radius:0 0 9px 9px;background:#0b0909}
 .pass img{width:100%;height:100%;min-height:132px;object-fit:cover;object-position:46% 16%}
@@ -426,8 +427,9 @@ footer a{color:var(--mut)}
 @media(min-width:720px){.nums3{grid-template-columns:repeat(3,1fr)}}
 .nums3 > div{padding:40px 24px;background:linear-gradient(145deg,#1d1416,#2a1a1d);border:1px solid var(--rose);border-radius:14px;text-align:center;position:relative;overflow:hidden;box-shadow:0 10px 32px -12px #d1283f55}
 .nums3 > div::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--rose),transparent)}
-.nums3 b{display:block;font-family:var(--font);font-weight:900;font-size:clamp(3rem,6vw,4.6rem);color:#faf5ef;line-height:1;letter-spacing:-.035em;text-shadow:0 2px 20px #d1283f30}
-.nums3 b small{font-weight:600;font-size:.42em;color:var(--rose);letter-spacing:0;margin-left:4px;vertical-align:baseline}
+.nums3 b{display:inline-flex;align-items:baseline;justify-content:center;gap:6px;font-family:var(--font);font-weight:900;font-size:clamp(3.2rem,6.5vw,5rem);color:#faf5ef;line-height:1;letter-spacing:-.035em;text-shadow:0 2px 20px #d1283f30;white-space:nowrap}
+.nums3 b .cnt{display:inline-block}
+.nums3 b small{display:inline;font-weight:600;font-size:.32em;color:var(--rose);letter-spacing:0;line-height:1;white-space:nowrap}
 .nums3 span{display:block;margin-top:18px;color:#f6f0e8;font-size:1rem;font-weight:600;letter-spacing:-.01em}
 .proof-open{margin-top:40px}
 .proof-head{font:600 .78rem var(--mono);letter-spacing:.18em;color:var(--rose);text-transform:uppercase;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--line)}
@@ -480,7 +482,7 @@ footer a{color:var(--mut)}
         <div role="listitem"><b>16:30<small>~21:30</small></b><span>Q&A 22:00까지</span></div>
         <div role="listitem"><b>8<small>명</small></b><span>회차당 · 압구정로데오</span></div>
       </div>
-      <p class="hsrc">11/3(화) · 10 · 17 · 24 · 압구정로데오 직영점<br><small style="opacity:.7">* 1년만에 누적매출 20억 = 스칼프잇 직영 4개점 자체 집계 기준</small></p>
+      <p class="hsrc">11/3(화) · 10 · 17 · 24 · 압구정로데오 직영점<br><small class="hsrc-note">* 1년만에 누적매출 20억 = 스칼프잇 직영 4개점 자체 집계 기준</small></p>
     </div>
 
     <figure class="pass">
@@ -546,7 +548,7 @@ footer a{color:var(--mut)}
   </div>
   <div class="wrap">
     <dl class="facts">
-      <div><dt>DATE</dt><dd>11/4 · 11/11 · 11/18 · 11/25(화)</dd></div>
+      <div><dt>DATE</dt><dd>11/3 · 11/10 · 11/17 · 11/24(화)</dd></div>
       <div><dt>TIME</dt><dd>16:30–21:30 (Q&A 22:00)</dd></div>
       <div><dt>PLACE</dt><dd>압구정로데오 직영점</dd></div>
       <div><dt>SEATS</dt><dd>회차당 8명 · 소수 정원</dd></div>
@@ -587,19 +589,6 @@ footer a{color:var(--mut)}
           <p class="big">“제가 궁금했던 부분들이<br>다 이 수업 안에 담겨 있었어요.”</p>
           <p class="small">“운영을 체계적으로 들을 수 있었고, 1:1로 제 질문을 너무 잘 받아주셨어요.”</p>
           <cite>1기 수강생 · 샵 운영 중</cite>
-        </blockquote>
-      </article>
-
-      <article class="testi-card" role="listitem">
-        <div class="testi-media">
-          <video class="revid" muted loop playsinline preload="metadata" aria-label="1기 수강생 후기 영상 3">
-            <source src="/academy/img/testimonial-3.mp4" type="video/mp4">
-          </video>
-          <button type="button" class="revid-sound" aria-label="소리 켜기">🔇</button>
-        </div>
-        <blockquote>
-          <p class="big">“진짜 수업이 기대돼요.”</p>
-          <cite>1기 수강생</cite>
         </blockquote>
       </article>
 
