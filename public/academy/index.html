@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>스칼프잇이 처음으로 가르칩니다 | 헤드스파 원데이 클래스 1기</title>
-<meta name="description" content="“스칼프잇이 교육을 한다고?” 네, 처음입니다. 직영 4곳을 키운 이채연 대표원장이 두피 진단·상담·수기·운영을 하루에 직접 가르칩니다. 11/4·11·18·25(화) 회차당 6명.">
+<title>1기 수강생이 '오길 잘했다'고 말한 하루 | 스칼프잇 아카데미 2기</title>
+<meta name="description" content="네이버 플레이스 1위 원장이 실습·마케팅·경영까지 다 알려드립니다. 제품·기기 판매 없음. 11월 매주 화요일 16:30~21:30 (이후 자유 Q&A), 회차당 8명.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="스칼프잇이 처음으로 가르칩니다 · 원데이 클래스 1기">
-<meta property="og:description" content="직영 4곳을 키운 대표원장이 직접 여는 원데이 클래스. 11/4·11·18·25(화), 회차당 6명.">
+<meta property="og:title" content="1기 수강생이 '오길 잘했다'고 말한 하루 · 스칼프잇 아카데미 2기">
+<meta property="og:description" content="네이버 플레이스 1위 원장의 원데이 세미나. 11월 매주 화요일 16:30~21:30, 회차당 8명 · 압구정로데오점.">
 <meta property="og:image" content="/academy/img/og.jpg">
 <meta name="theme-color" content="#0b0909">
 <link rel="icon" href="/scalpit-logo.png">
@@ -374,17 +374,71 @@ footer a{color:var(--mut)}
 /* 세리프 숫자는 라이닝 숫자로 (font 단축 속성이 변형 값을 초기화하므로 마지막에 둔다) */
 .nums b,.cur li>b,.pick b{font-variant-numeric:lining-nums}
 .nums b{font-variant-numeric:lining-nums tabular-nums}
+/* ── 2기 신규 섹션 CSS ─────────────────────────────── */
+.testi{background:var(--bg2);border-block:1px solid var(--line)}
+.quotes{margin-top:36px;display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:720px){.quotes{grid-template-columns:repeat(3,1fr)}}
+.quotes blockquote{margin:0;padding:24px 22px;background:var(--card);border:1px solid var(--line);border-radius:12px;border-left:3px solid var(--red)}
+.quotes blockquote p{margin:0;font-size:1.02rem;line-height:1.7;color:var(--ink);font-weight:500}
+.quotes blockquote cite{display:block;margin-top:14px;font:600 .76rem var(--mono);letter-spacing:.14em;color:var(--rose);font-style:normal;text-transform:uppercase}
+.revids{margin-top:28px;display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:720px){.revids{grid-template-columns:repeat(3,1fr)}}
+.revids figure{margin:0}
+.revids .rv-ph{aspect-ratio:9/16;background:linear-gradient(135deg,#1a1212,#2a1414);border:1px dashed var(--line2);border-radius:12px;display:grid;place-items:center;color:var(--faint);font:500 .9rem var(--font)}
+.revids figcaption{margin-top:8px;font:500 .78rem var(--mono);letter-spacing:.1em;color:var(--faint);text-align:center}
+
+.fit-list{margin-top:36px;display:grid;grid-template-columns:1fr;gap:14px;list-style:none;padding:0}
+@media(min-width:720px){.fit-list{grid-template-columns:repeat(3,1fr)}}
+.fit-list li{padding:22px 20px;background:var(--card);border:1px solid var(--line);border-radius:12px;font-size:1.02rem;line-height:1.5}
+.fit-list li b{color:var(--rose);font-weight:800}
+.fit-list li small{display:block;margin-top:8px;color:var(--mut);font-size:.88rem;font-weight:400}
+
+.diff-cards{margin-top:36px;display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:720px){.diff-cards{grid-template-columns:repeat(3,1fr)}}
+.diff-cards article{padding:28px 24px;background:var(--card);border:1px solid var(--line);border-radius:14px;position:relative}
+.diff-cards article b{display:block;font:800 .9rem var(--mono);color:var(--rose);letter-spacing:.14em;margin-bottom:16px}
+.diff-cards article h3{font-size:1.12rem;font-weight:800;letter-spacing:-.02em;margin-bottom:12px;color:var(--ink)}
+.diff-cards article p{color:var(--mut);font-size:.94rem;line-height:1.7}
+
+.instr{background:var(--bg)}
+.nums3{margin-top:40px;display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:720px){.nums3{grid-template-columns:repeat(3,1fr)}}
+.nums3 > div{padding:24px 20px;background:var(--card);border:1px solid var(--line);border-radius:12px;text-align:center}
+.nums3 b{display:block;font-family:var(--serif);font-weight:600;font-size:clamp(2.4rem,4.4vw,3.6rem);color:var(--rose);line-height:1;letter-spacing:-.02em}
+.nums3 b small{font-weight:500;font-size:.9rem;color:var(--mut);letter-spacing:0;margin-left:3px}
+.nums3 span{display:block;margin-top:10px;color:var(--mut);font-size:.94rem}
+.proof-fold{margin-top:32px}
+.proof-fold > summary{list-style:none;cursor:pointer;padding:14px 20px;background:var(--card);border:1px solid var(--line);border-radius:10px;font:600 .9rem var(--font);color:var(--mut);text-align:center;transition:background .2s}
+.proof-fold > summary::-webkit-details-marker{display:none}
+.proof-fold > summary::after{content:" ▾";color:var(--rose)}
+.proof-fold[open] > summary::after{content:" ▴"}
+.proof-fold > summary:hover{background:var(--card2)}
+.proof-fold > .pos, .proof-fold > .stats2{margin-top:20px}
+.proof-fold .src{margin-top:12px}
+
+.founder{background:linear-gradient(135deg,#1a0a0d,#2a0d12);border-block:1px solid var(--wine);color:var(--ink)}
+.founder .eyebrow{color:var(--gold)}
+.founder .sec-h, .founder .h2{color:var(--ink)}
+.founder-bul{margin-top:28px;padding:0;list-style:none;display:grid;gap:10px;max-width:520px}
+.founder-bul li{padding:14px 18px;background:#0b0909;border:1px solid var(--line);border-radius:8px;font-size:.98rem}
+.founder-bul li b{color:var(--rose);font-weight:800}
+.founder-foot{margin-top:20px;color:var(--mut);font-size:.86rem;font-style:italic}
+
+.flow3{margin-top:20px}
+.flow3 ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:560px){.flow3 ol{grid-template-columns:repeat(3,1fr)}}
+.flow3 li{padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:10px;font-size:.92rem;color:var(--ink);line-height:1.5}
+.flow3 li b{display:inline-block;margin-right:8px;color:var(--rose);font:800 .78rem var(--mono);letter-spacing:.1em}
 </style>
 </head>
 <body>
 <a class="skip" href="#apply">신청서로 바로가기</a>
 
-<!-- 1. 마감 바 -->
-<div class="bar" role="region" aria-label="1기 신청 마감">
+<!-- 0. 상단 띠 (2기) -->
+<div class="bar" role="region" aria-label="2기 신청 안내">
   <div class="bar-in">
-    <b>1기 마감 11/3(월) 23:59 · 회차당 6명</b>
-    <span class="cd" aria-live="off"><span><i data-cd="d">00</i><small>일</small></span><span><i data-cd="h">00</i><small>시간</small></span><span><i data-cd="m">00</i><small>분</small></span><span><i data-cd="s">00</i><small>초</small></span></span>
-    <a class="btn sm" href="#apply" data-track="cta_bar">1기 신청하기</a>
+    <b>11월 원데이 세미나 · 회차당 8명 선착순 마감</b>
+    <a class="btn sm" href="#apply" data-track="cta_bar">11월 회차 신청하기 · 39만 원</a>
   </div>
 </div>
 
@@ -394,20 +448,20 @@ footer a{color:var(--mut)}
   <i class="gr" aria-hidden="true"></i>
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <div class="brand-line"><span class="wm">Scálpit</span><span class="ac">ACADEMY</span><span class="ed">1기 · ONE-DAY CLASS</span></div>
-      <p class="hook" id="heroBadge"><span class="q">“오, 스칼프잇이 교육을 한다고?”</span><b>네. 처음입니다.</b></p>
+      <div class="brand-line"><span class="wm">Scálpit</span><span class="ac">ACADEMY</span><span class="ed">2기 · ONE-DAY SEMINAR</span></div>
+      <p class="hook" id="heroBadge"><span class="q">1기 수강생이 입을 모아 말한 한 마디</span><b>“오길 잘했다.”</b></p>
       <h1 class="hl" id="h1" data-lead="brand">
-        <span class="h-a">스칼프잇이</span>
-        <span class="h-b">처음으로</span>
-        <span class="h-c">가르칩니다.</span>
+        <span class="h-a">1기 수강생이</span>
+        <span class="h-b">‘오길 잘했다’고</span>
+        <span class="h-c">말한 하루.</span>
       </h1>
-      <p class="sub" id="heroSub"><b>직영 4곳을 1년 만에 만든 방식 그대로.</b> 대표원장이 6명에게, 하루 5시간 반, <u>손을 잡고</u> 가르칩니다.</p>
-      <div class="hstats" role="list" aria-label="스칼프잇 직영 4개점 자체 집계">
-        <div role="listitem"><b>4<small>곳</small></b><span>직영점</span></div>
-        <div role="listitem"><b>20<small>억</small></b><span>1년 누적 매출</span></div>
-        <div role="listitem"><b>1,500<small>건</small></b><span>월평균 예약</span></div>
+      <p class="sub" id="heroSub"><b>네이버 플레이스 1위 원장이</b> 실습 · 마케팅 · 경영까지 다 알려드려요. <u>제품·기기 판매는 없어요.</u></p>
+      <div class="hstats" role="list" aria-label="2기 세미나 정보">
+        <div role="listitem"><b>11<small>월</small></b><span>매주 화요일</span></div>
+        <div role="listitem"><b>16:30<small>~21:30</small></b><span>이후 자유 Q&A</span></div>
+        <div role="listitem"><b>8<small>명</small></b><span>회차당 · 압구정로데오</span></div>
       </div>
-      <p class="hsrc">직영 4개점 자체 집계 기준</p>
+      <p class="hsrc">11/3 · 10 · 17 · 24 · 압구정로데오 직영점</p>
     </div>
 
     <figure class="pass">
@@ -422,9 +476,9 @@ footer a{color:var(--mut)}
 
     <div class="card" id="heroCard">
       <div class="t-stub">
-        <div class="t-top"><span>ADMIT ONE</span><span>1기 · 원데이 클래스</span></div>
-        <div class="t-dates">11.4 · 11.11 · 11.18 · 11.25</div>
-        <p class="t-sub">화 16:30–21:30(Q&A 22:00) · 압구정로데오 · 회차당 6명</p>
+        <div class="t-top"><span>ADMIT ONE</span><span>2기 · 원데이 세미나</span></div>
+        <div class="t-dates">11.3 · 11.10 · 11.17 · 11.24</div>
+        <p class="t-sub">16:30–21:30 (이후 자유 Q&A) · 압구정로데오 · 회차당 8명</p>
       </div>
       <div class="t-body">
         <div class="form">
@@ -432,22 +486,22 @@ footer a{color:var(--mut)}
           <form data-lead-form data-origin="hero" novalidate>
             <fieldset class="fld"><legend>희망 날짜</legend>
               <div class="pills">
-                <label class="pill"><input type="radio" name="session" value="1104"><span>11/4(화) 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1111"><span>11/11(화) 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1118"><span>11/18(화) 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1125"><span>11/25(화) 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1103"><span>11/3 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1110"><span>11/10 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1117"><span>11/17 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1124"><span>11/24 16:30</span></label>
                 <label class="pill"><input type="radio" name="session" value="both" checked><span>아무 날짜나 가능</span></label>
-                <label class="pill"><input type="radio" name="session" value="waitlist"><span>일정이 어려워요 · 2기 알림</span></label>
+                <label class="pill"><input type="radio" name="session" value="waitlist"><span>일정이 어려워요 · 다음 기수 알림</span></label>
               </div>
             </fieldset>
             <div class="fld"><label for="h-name">성함</label><input id="h-name" name="name" type="text" autocomplete="name" maxlength="20" placeholder="이름을 입력해 주세요" required></div>
             <div class="fld"><label for="h-phone">연락처</label><input id="h-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="13" placeholder="010-0000-0000" required></div>
             <div class="hp" aria-hidden="true"><label>웹사이트<input name="website" tabindex="-1" autocomplete="off"></label></div>
             <label class="consent"><input type="checkbox" name="consent" required><span>[필수] 신청 확인과 안내 연락을 위한 개인정보 수집·이용에 동의합니다.
-              <span class="more"><details><summary>수집 내용 보기</summary><p>수집 항목: 성함, 연락처, 희망 날짜 · 목적: 원데이 클래스 신청 확인과 안내 연락 · 보관: 1기 교육 종료 후 3개월 뒤 파기. 동의를 거부할 수 있으나 신청이 제한됩니다.</p></details></span></span></label>
+              <span class="more"><details><summary>수집 내용 보기</summary><p>수집 항목: 성함, 연락처, 희망 날짜 · 목적: 원데이 클래스 신청 확인과 안내 연락 · 보관: 세미나 종료 후 3개월 뒤 파기. 동의를 거부할 수 있으나 신청이 제한됩니다.</p></details></span></span></label>
             <label class="consent"><input type="checkbox" name="marketing"><span>[선택] 이후 스칼프잇 교육 일정·소식 안내를 받겠습니다.</span></label>
             <p class="err" role="alert" aria-live="assertive"></p>
-            <button class="btn" type="submit" data-track="submit_hero">1기 신청하기</button>
+            <button class="btn" type="submit" data-track="submit_hero">11월 회차 신청하기</button>
             <p class="reassure">이름·연락처만 1분 · 신청만으로는 결제되지 않아요.</p>
           </form>
         </div>
@@ -481,51 +535,101 @@ footer a{color:var(--mut)}
   </div>
 </section>
 
-<!-- 4. 증명: 영수증 -->
-<section class="sec proof" aria-labelledby="proof-h">
+<!-- 2. 1기 수강생 후기 -->
+<section class="sec testi" aria-labelledby="testi-h">
   <div class="wrap">
-    <span class="eyebrow rv">RECEIPTS</span>
-    <h2 class="h2 rv" id="proof-h">자랑이 아니라,<br><em>영수증</em>입니다.</h2>
-    <p class="lede rv">실제 4개 지점 일 매출입니다.</p>
+    <span class="eyebrow rv">TESTIMONIALS · 1ST CLASS</span>
+    <h2 class="h2 rv" id="testi-h">1기 수강생이<br><em>직접 남긴</em> 말.</h2>
+    <p class="lede rv">1기는 조기 마감됐습니다. 수강생이 수업을 어떻게 느꼈는지, 짧은 영상과 한 줄로 보여드려요.</p>
 
-    <div class="nums rv">
-      <div><b><span class="cnt" data-to="4">4</span><small>곳</small></b><span>직영점 (동탄·천안·광교·압구정로데오)</span></div>
-      <div><b><span class="cnt" data-to="20">20</span><small>억</small></b><span>1년 누적 매출</span></div>
+    <div class="quotes rv" role="list">
+      <blockquote role="listitem"><p>“이론, 실습, 마케팅, 경영까지 알고 계신 모든 걸 알려주셨어요.”</p><cite>1기 수강생</cite></blockquote>
+      <blockquote role="listitem"><p>“제품 판매가 아니라 디테일을 알려주셨어요.”</p><cite>1기 수강생</cite></blockquote>
+      <blockquote role="listitem"><p>“기회가 있다면 다음 클래스도 듣고 싶어요.”</p><cite>1기 수강생</cite></blockquote>
+    </div>
+
+    <div class="revids rv" aria-label="1기 수강생 후기 영상">
+      <figure><div class="rv-ph" aria-hidden="true"><span>후기 영상 1</span></div><figcaption>1기 수강생 · 세로 영상</figcaption></figure>
+      <figure><div class="rv-ph" aria-hidden="true"><span>후기 영상 2</span></div><figcaption>1기 수강생 · 세로 영상</figcaption></figure>
+      <figure><div class="rv-ph" aria-hidden="true"><span>후기 영상 3</span></div><figcaption>1기 수강생 · 세로 영상</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 이런 분께 맞아요 -->
+<section class="sec fit" aria-labelledby="fit-h">
+  <div class="wrap">
+    <span class="eyebrow rv">WHO</span>
+    <h2 class="h2 rv" id="fit-h">이런 분께<br><em>맞는 수업</em>입니다.</h2>
+    <ul class="fit-list rv">
+      <li><b>두피·헤드스파 창업을 고민 중</b>인 분<small>어디서부터 시작할지 막막한 상태</small></li>
+      <li><b>지금 샵 매출을 올리고 싶은</b> 분<small>이미 운영 중인데 성장이 멈춘 상태</small></li>
+      <li><b>완전 초보</b>라도 괜찮습니다<small>이론부터 1:1로 교정합니다</small></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 4. 수강생이 꼽은 스칼프잇 수업의 차이 -->
+<section class="sec diff" aria-labelledby="diff-h">
+  <div class="wrap">
+    <span class="eyebrow rv">WHY SCÁLPIT</span>
+    <h2 class="h2 rv" id="diff-h">수강생이 꼽은<br><em>스칼프잇 수업의 차이</em>.</h2>
+    <div class="diff-cards rv">
+      <article><b>01</b><h3>판매 없는 수업</h3><p>수업 후 제품·기기를 권하지 않습니다. 판매 전환이 아니라 가르침이 목적이에요.</p></article>
+      <article><b>02</b><h3>실습부터 마케팅·경영까지</h3><p>진단·수기·프로토콜 실습뿐 아니라 메뉴·가격·상담·회원권·마케팅까지 하루에 전부.</p></article>
+      <article><b>03</b><h3>다시 듣고 싶은 디테일</h3><p>“알고 계신 모든 걸 알려주셨다”는 1기 수강생들의 공통된 말. 기법만이 아니라 운영의 디테일까지.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- 5. 누가 가르치나 — 숫자 3개 + POS/네이버는 접기 -->
+<section class="sec instr" aria-labelledby="instr-h">
+  <div class="wrap">
+    <span class="eyebrow rv">INSTRUCTOR</span>
+    <h2 class="h2 rv" id="instr-h">네이버 플레이스 <em>1위 원장</em>이<br>직접 가르칩니다.</h2>
+    <p class="lede rv">누적 매출 20억 · 직영 4개점 운영. 조교에게 넘기지 않고 처음부터 끝까지 대표원장이 직접.</p>
+
+    <div class="nums3 rv">
+      <div><b><span class="cnt" data-to="6000">6,000</span><small>명+</small></b><span>누적 관리 고객</span></div>
       <div><b><span class="cnt" data-to="1500">1,500</span><small>건</small></b><span>월평균 예약</span></div>
-      <div><b><span class="cnt" data-to="6000">6,000</span><small>명+</small></b><span>관리 고객</span></div>
+      <div><b><span class="cnt" data-to="20">20</span><small>억</small></b><span>1년 누적 매출</span></div>
     </div>
     <p class="src rv">스칼프잇 직영 4개점 자체 집계 기준.</p>
 
-    <div class="pos" role="list" aria-label="직영점 하루 매출 POS 화면">
-      <div class="rv" style="transition-delay:0s" role="listitem"><button type="button" data-zoom="/academy/img/pos-full-apgujeong.webp" aria-label="압구정로데오점 하루 매출 POS 화면 크게 보기"><img src="/academy/img/pos-full-apgujeong.webp" alt="압구정로데오점 2026.09.21 일 총매출 6,085,000원 POS 화면" loading="lazy" width="1080" height="1161"><span class="zm">크게 보기 ↗</span></button></div>
-      <div class="rv" style="transition-delay:0.1s" role="listitem"><button type="button" data-zoom="/academy/img/pos-full-gwanggyo.webp" aria-label="광교점 하루 매출 POS 화면 크게 보기"><img src="/academy/img/pos-full-gwanggyo.webp" alt="광교점 2026.10.03 일 총매출 5,073,000원 POS 화면" loading="lazy" width="1080" height="1161"><span class="zm">크게 보기 ↗</span></button></div>
-      <div class="rv" style="transition-delay:0s" role="listitem"><button type="button" data-zoom="/academy/img/pos-full-cheonan.webp" aria-label="천안점 하루 매출 POS 화면 크게 보기"><img src="/academy/img/pos-full-cheonan.webp" alt="천안점 2026.01.19 일 총매출 5,074,340원 POS 화면" loading="lazy" width="1080" height="1067"><span class="zm">크게 보기 ↗</span></button></div>
-      <div class="rv" style="transition-delay:0.1s" role="listitem"><button type="button" data-zoom="/academy/img/pos-full-dongtan.webp" aria-label="동탄점 하루 매출 POS 화면 크게 보기"><img src="/academy/img/pos-full-dongtan.webp" alt="동탄점 2025.07.24 일 총매출 9,897,700원 POS 화면" loading="lazy" width="1080" height="1067"><span class="zm">크게 보기 ↗</span></button></div>
-    </div>
-    <p class="src rv">특정 일자의 POS 화면(핸드SOS 매출 캘린더)이며 평균 매출이 아닙니다. 정액권·회원권 판매 금액이 포함된 일 총매출입니다.</p>
-
-    <h3 class="nav-h rv">네이버가 찍은 숫자도 있습니다.</h3>
-    <div class="stats2 rv">
-      <figure><button type="button" data-zoom="/academy/img/stat-place.webp" aria-label="동탄점 네이버 플레이스 통계 크게 보기"><img src="/academy/img/stat-place.webp" alt="동탄점 네이버 플레이스 월 유입 16,691회" loading="lazy" width="900" height="887"></button><figcaption>동탄점 · 월 네이버 플레이스 유입 16,691회<small>실제 네이버 스마트플레이스 통계 · 25년 10월(오픈 4개월 차)</small></figcaption></figure>
-      <figure><button type="button" data-zoom="/academy/img/stat-booking.webp" aria-label="압구정로데오점 네이버 예약 통계 크게 보기"><img src="/academy/img/stat-booking.webp" alt="압구정로데오점 월 예약 신청 457건" loading="lazy" width="823" height="684"></button><figcaption>압구정로데오점 · 월 예약 신청 457건<small>실제 네이버 예약 통계 · 26년 8월(26년 7월 오픈, 한 달 만에)</small></figcaption></figure>
-    </div>
+    <details class="proof-fold rv">
+      <summary>POS 매출·네이버 통계 캡처 펼쳐 보기</summary>
+      <div class="pos" role="list" aria-label="직영점 하루 매출 POS 화면">
+        <div role="listitem"><button type="button" data-zoom="/academy/img/pos-full-apgujeong.webp" aria-label="압구정로데오점 하루 매출 POS 화면 크게 보기"><img src="/academy/img/pos-full-apgujeong.webp" alt="압구정로데오점 2026.09.21 일 총매출 6,085,000원 POS 화면" loading="lazy" width="1080" height="1161"><span class="zm">크게 보기 ↗</span></button></div>
+        <div role="listitem"><button type="button" data-zoom="/academy/img/pos-full-gwanggyo.webp" aria-label="광교점 하루 매출 POS 화면 크게 보기"><img src="/academy/img/pos-full-gwanggyo.webp" alt="광교점 2026.10.03 일 총매출 5,073,000원 POS 화면" loading="lazy" width="1080" height="1161"><span class="zm">크게 보기 ↗</span></button></div>
+        <div role="listitem"><button type="button" data-zoom="/academy/img/pos-full-cheonan.webp" aria-label="천안점 하루 매출 POS 화면 크게 보기"><img src="/academy/img/pos-full-cheonan.webp" alt="천안점 2026.01.19 일 총매출 5,074,340원 POS 화면" loading="lazy" width="1080" height="1067"><span class="zm">크게 보기 ↗</span></button></div>
+        <div role="listitem"><button type="button" data-zoom="/academy/img/pos-full-dongtan.webp" aria-label="동탄점 하루 매출 POS 화면 크게 보기"><img src="/academy/img/pos-full-dongtan.webp" alt="동탄점 2025.07.24 일 총매출 9,897,700원 POS 화면" loading="lazy" width="1080" height="1067"><span class="zm">크게 보기 ↗</span></button></div>
+      </div>
+      <p class="src">특정 일자 POS 화면(핸드SOS 매출 캘린더)이며 평균이 아닙니다. 정액권·회원권 포함 일 총매출.</p>
+      <div class="stats2">
+        <figure><button type="button" data-zoom="/academy/img/stat-place.webp" aria-label="동탄점 네이버 플레이스 통계 크게 보기"><img src="/academy/img/stat-place.webp" alt="동탄점 네이버 플레이스 월 유입 16,691회" loading="lazy" width="900" height="887"></button><figcaption>동탄점 · 월 네이버 플레이스 유입 16,691회<small>실제 네이버 스마트플레이스 통계 · 25년 10월(오픈 4개월 차)</small></figcaption></figure>
+        <figure><button type="button" data-zoom="/academy/img/stat-booking.webp" aria-label="압구정로데오점 네이버 예약 통계 크게 보기"><img src="/academy/img/stat-booking.webp" alt="압구정로데오점 월 예약 신청 457건" loading="lazy" width="823" height="684"></button><figcaption>압구정로데오점 · 월 예약 신청 457건<small>실제 네이버 예약 통계 · 26년 8월(26년 7월 오픈, 한 달 만에)</small></figcaption></figure>
+      </div>
+    </details>
   </div>
 </section>
 
 <!-- 5. 커리큘럼 -->
 <section class="sec" aria-labelledby="cur-h">
   <div class="wrap">
-    <span class="eyebrow rv">CURRICULUM · 16:30 – 22:00</span>
-    <h2 class="h2 rv" id="cur-h">5시간 반 × 4주.<br>끝나면 <em>이렇게</em> 됩니다.</h2>
-    <p class="lede rv">이론 → 진단 → 경혈 → 수기 → 실습 → 운영. 하루에 처음부터 끝까지, 순서대로.</p>
+    <span class="eyebrow rv">CURRICULUM · 16:30 – 21:30 (이후 자유 Q&A)</span>
+    <h2 class="h2 rv" id="cur-h">하루 안에,<br>이론부터 <em>매출 공개</em>까지.</h2>
+    <p class="lede rv">실습뿐 아니라 마케팅·경영·스칼프잇 성장 노하우까지. 수업이 끝나도 자유 Q&A로 창업·매장 운영 질문 시간이 이어집니다.</p>
     <div class="cur">
       <ol class="rv">
         <li><b>01</b><div><span class="m">THEORY · 끝나면 →</span><h3>헤드스파와 두피관리의 차이를, 고객에게 설명할 수 있습니다.</h3><p>헤드스파의 정의와 효과 · 헤드스파 vs 두피관리의 차이 · 두피·모발 구조 기초</p></div></li>
         <li><b>02</b><div><span class="m">DIAGNOSIS · 끝나면 →</span><h3>장비 화면으로 두피 유형을 읽고, 설명할 수 있습니다.</h3><p>두피 측정 장비 사용법 · 정상·지성·건성·지루성·민감성 구분 · 유형별 관리 방향</p></div></li>
         <li><b>03</b><div><span class="m">ACUPOINTS · 끝나면 →</span><h3>주요 혈점의 위치와 누르는 방향을 압니다.</h3><p>두정부(신정·상성·백회) · 측두부(솔곡·각손) · 후두부(뇌호·풍부)</p></div></li>
-        <li><b>04</b><div><span class="m">MANIPULATION · 끝나면 →</span><h3>다섯 가지 수기 기법을, 순서대로 시연할 수 있습니다.</h3><p>혈점의 이해와 누르는 방법 · 경찰법·강찰법·유념법·압박법·고타법 · 두상 혈점 누르기</p></div></li>
-        <li><b>05</b><div><span class="m">PROTOCOL · 끝나면 →</span><h3>스칼프잇 관리 순서를, 처음부터 끝까지 한 번 완주합니다.</h3><p>브러싱 → 스케일링 → 스팀 → 샴푸 → 워터테라피 → 수기 → 마무리 · 손 위치·압·각도·리듬 1:1 교정</p></div></li>
-        <li><b>06</b><div><span class="m">OPERATION · 끝나면 →</span><h3>내 매장(또는 내 계획)의 메뉴·가격·상담 흐름을 잡아 갑니다.</h3><p>프로그램 구성·가격·상담 스크립트 · 회원권·재방문·업셀링 · 스칼프잇 두피 교재 제공</p></div></li>
+        <li><b>04</b><div><span class="m">MANIPULATION · 끝나면 →</span><h3>다섯 가지 수기 기법을, 순서대로 시연할 수 있습니다.</h3><p>경찰법·강찰법·유념법·압박법·고타법 · 혈점의 이해와 누르는 방법</p></div></li>
+        <li><b>05</b><div><span class="m">PROTOCOL · 끝나면 →</span><h3>스칼프잇 관리 프로토콜을 1:1로 교정받고 완주합니다.</h3><p>브러싱 → 스케일링 → 스팀 → 샴푸 → 워터테라피 → 수기 → 마무리 · 손 위치·압·각도·리듬 1:1 교정</p></div></li>
+        <li><b>06</b><div><span class="m">OPERATION · 끝나면 →</span><h3>메뉴·가격·상담·회원권·재예약까지, 운영 흐름을 잡아 갑니다.</h3><p>프로그램 구성·가격 책정 · 상담 스크립트 · 회원권·재예약·업셀링 · 스칼프잇 두피 교재 제공</p></div></li>
+        <li><b>07</b><div><span class="m">MARKETING · 끝나면 →</span><h3>신규 유입과 재방문을 만드는 마케팅의 기본기를 가져갑니다.</h3><p>네이버 플레이스·인스타·블로그 · 콘텐츠 운영 · 광고와 유기 유입의 균형</p></div></li>
+        <li><b>08</b><div><span class="m">GROWTH · 끝나면 →</span><h3>스칼프잇의 성장 노하우와 실제 매출을 공개합니다.</h3><p>1년 만에 4개 지점을 연 방식 · 지점별 매출 공개 · 숫자로 보는 성장 구조</p></div></li>
+        <li><b>Q&A</b><div><span class="m">21:30 ~ · 자유 질문</span><h3>창업·매장 운영에 대한 모든 질문, 끝날 때까지 답해드립니다.</h3><p>수업 외 개인 상황별 질문 · 창업 자본·입지 · 조직·채용 등 운영 현실 Q&A</p></div></li>
       </ol>
       <div class="vid rv">
         <video id="classVideo" src="/academy/img/class.mp4" poster="/academy/img/class-poster.webp" muted loop playsinline preload="none" aria-label="스칼프잇 아카데미 수업 현장 영상"></video>
@@ -565,18 +669,18 @@ footer a{color:var(--mut)}
   </div>
 </section>
 
-<!-- 7. 다른 곳과의 차이 -->
-<section class="sec" aria-labelledby="pick-h">
+<!-- 7. 12월 창업반 OPEN -->
+<section class="sec founder" aria-labelledby="founder-h">
   <div class="wrap">
-    <span class="eyebrow rv">THE DIFFERENCE</span>
-    <h2 class="h2 rv" id="pick-h">어디서 배우든,<br>이 4가지는 <em>꼭</em> 물어보세요.</h2>
-    <p class="lede rv">스칼프잇의 답은 이렇습니다.</p>
-    <ol class="pick">
-      <li class="rv"><b>01</b><div><h3>누가 가르치나요?</h3><p>직영 4곳을 직접 운영하는 대표원장이 5시간 반 내내 가르칩니다. 조교에게 넘기지 않습니다.</p></div></li>
-      <li class="rv"><b>02</b><div><h3>몇 명이 함께 듣나요?</h3><p>회차당 6명. 한 명씩 손을 잡고 교정하려면 이 인원이 한계입니다.</p></div></li>
-      <li class="rv"><b>03</b><div><h3>내 손으로 직접 해보나요?</h3><p>시연을 본 뒤 2인 1조로 직접 관리합니다. 손 위치·압·각도·리듬을 1:1로 잡아드립니다.</p></div></li>
-      <li class="rv"><b>04</b><div><h3>기술만 배우나요, 운영 구조까지 배우나요?</h3><p>진단 → 상담 → 회원권으로 이어지는 흐름과 가격, 상담 스크립트까지 다룹니다.</p></div></li>
-    </ol>
+    <span class="eyebrow rv">COMING · DECEMBER</span>
+    <h2 class="h2 rv" id="founder-h">12월,<br><em>창업반</em>이 열립니다.</h2>
+    <p class="lede rv"><b>10 · 11월 원데이 세미나 수강생에게만 파격 금액으로 열립니다.</b> 메뉴 설계·공간 세팅·오픈 전후 마케팅·초기 운영까지, 창업 전 과정을 밀착으로 함께 만듭니다.</p>
+    <ul class="founder-bul rv">
+      <li>원데이 세미나 수강생 <b>전용 금액</b></li>
+      <li>소수 정원 · 창업 단계별 1:1</li>
+      <li>메뉴·가격·상담·회원권·마케팅까지 밀착 코치</li>
+    </ul>
+    <p class="founder-foot rv">※ 자격 유지: 원데이 세미나 수강 완료자. 창업반 상세 커리큘럼·금액은 11월 중 공지됩니다.</p>
   </div>
 </section>
 
@@ -586,15 +690,15 @@ footer a{color:var(--mut)}
     <span class="eyebrow rv">FAQ</span>
     <h2 class="h2 rv" id="faq-h">신청 전, 가장 많이 묻는 질문</h2>
     <div class="faq rv">
-      <details><summary>비전공자, 완전 초보도 들을 수 있나요?</summary><p>네. 두피 기초 이론부터 시작하고, 6명 소수 정원이라 한 명씩 직접 교정해드립니다.</p></details>
-      <details><summary>다른 두피·헤드스파 교육과 무엇이 다른가요?</summary><p>위의 5가지 기준으로 비교해 보세요. 스칼프잇은 직영 4곳을 운영하는 대표원장이 직접, 6명에게, 손을 잡고 가르칩니다. 기술뿐 아니라 상담·회원권 같은 운영 구조까지 다루고, 수업 후 제품이나 장비를 권하지 않습니다.</p></details>
-      <details><summary>평일 저녁 수업인데, 직장인도 들을 수 있나요?</summary><p>1기는 11/4·11/11·11/18·11/25 매주 화요일 16:30–21:30 (Q&A 22:00), 네 회차로 진행됩니다. 저녁 시간대라 퇴근 후에도 들으실 수 있어요. 일정이 어렵다면 신청서에서 ‘일정이 어려워요 · 2기 알림’을 선택해 주세요. 2기 일정이 정해지면 가장 먼저 알려드립니다.</p></details>
-      <details><summary>하루 만에 다 배울 수 있나요?</summary><p>하루에 모든 기술이 숙달되지는 않습니다. 이 하루는 기준과 순서를 잡고, 틀린 습관을 1:1로 바로잡는 시간입니다. 이후 복습은 교재로 하시면 됩니다.</p></details>
+      <details><summary>비전공자, 완전 초보도 들을 수 있나요?</summary><p>네. 두피 기초 이론부터 시작하고, 회차당 8명 소수 정원이라 한 명씩 직접 교정해드립니다.</p></details>
+      <details><summary>수업은 몇 시 시작인가요?</summary><p>16:30 시작, 정규 수업 21:30 종료. 그 이후부터는 자유 Q&A 시간이라 창업·매장 운영에 대해 끝날 때까지 질문하실 수 있어요.</p></details>
+      <details><summary>회차당 정원이 왜 8명인가요?</summary><p>대표원장이 한 명씩 손을 잡고 교정하려면 이 인원이 한계라고 판단했습니다. 1기는 6명이었고, 2기부터 2명 늘렸습니다.</p></details>
+      <details><summary>결제는 어떻게 되나요?</summary><p>신청서를 남기시면 담당자가 순차적으로 연락드립니다. 연락 후 입금해 주시면 결제 완료 순으로 자리가 확정되고, 확정 문자를 보내드려요. 신청만으로는 결제되지 않습니다.</p></details>
+      <details><summary>환불·취소 규정은요?</summary><p>결제 전 담당자가 환불·취소 규정을 안내드립니다. 세미나 7일 전까지 전액 환불, 이후 일정 비율 공제 등 표준 규정을 따릅니다.</p></details>
+      <details><summary>12월 창업반은 어떻게 신청하나요?</summary><p>10 · 11월 원데이 세미나 수강생에게만 열립니다. 수강 완료 후 담당자가 창업반 상세 커리큘럼·금액을 안내드리고, 관심 있으시면 그때 신청하시면 됩니다.</p></details>
       <details><summary>자격증이 나오나요?</summary><p>스칼프잇 아카데미 수료증이 발급됩니다. 국가자격증 시험을 준비하는 과정은 아닙니다.</p></details>
-      <details><summary>끝나고 제품이나 장비를 사야 하나요?</summary><p>아니요. 제품·장비 판매는 전혀 없습니다.</p></details>
-      <details><summary>샵을 운영 중인데, 바로 적용할 수 있나요?</summary><p>진단·상담 흐름, 스케일링·수기 테크닉, 메뉴 구성까지 다음 날부터 매장에 쓸 수 있는 기준으로 알려드립니다.</p></details>
+      <details><summary>끝나고 제품이나 장비를 사야 하나요?</summary><p>아니요. 수업 중·후 제품·장비 판매는 전혀 없습니다.</p></details>
       <details><summary>준비물이 있나요? 실습은 누구 머리로 하나요?</summary><p>실습 재료와 교재는 모두 제공됩니다. 편한 복장으로 오시면 됩니다. 실습은 2인 1조로 수강생끼리 서로 관리해봅니다. 직접 받아보면 압과 리듬이 훨씬 빨리 잡힙니다.</p></details>
-      <details><summary>결제와 환불은 어떻게 하나요?</summary><p>신청서를 남기시면 담당자가 연락드려 결제 방법과 환불·취소 규정을 결제 전에 안내드립니다. 신청만으로는 결제되지 않으며, 자리는 결제 완료 순으로 확정됩니다.</p></details>
     </div>
   </div>
 </section>
@@ -603,61 +707,60 @@ footer a{color:var(--mut)}
 <section class="sec apply" id="apply" aria-labelledby="apply-h">
   <div class="wrap apply-grid">
     <div class="rv">
-      <span class="eyebrow">1ST CLASS · EARLY BIRD</span>
-      <h2 class="h2" id="apply-h">24자리.<br>왜 6명씩일까요?</h2>
-      <p class="lede">대표원장이 한 명씩 손을 잡고 교정하려면 6명이 한계입니다. 1기는 11/4·11·18·25 네 번, 전체 24자리뿐이고 결제 순으로 마감됩니다.</p>
-      <div class="seats" aria-label="1기 좌석 24석">
-        <div class="srow" data-s="1104"><span class="sl">11.04 TUE</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">6 SEATS</span></div>
-        <div class="srow" data-s="1111"><span class="sl">11.11 TUE</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">6 SEATS</span></div>
-        <div class="srow" data-s="1118"><span class="sl">11.18 TUE</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">6 SEATS</span></div>
-        <div class="srow" data-s="1125"><span class="sl">11.25 TUE</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">6 SEATS</span></div>
+      <span class="eyebrow">2ND CLASS · 11월 선착순</span>
+      <h2 class="h2" id="apply-h">32자리.<br>8명이 차면 그 회차는 마감돼요.</h2>
+      <p class="lede">대표원장이 한 명씩 손을 잡고 교정하려면 8명이 한계입니다. 2기는 11/3·10·17·24 네 번, 전체 32자리이고 결제 순으로 마감됩니다.</p>
+      <div class="seats" aria-label="2기 좌석 32석">
+        <div class="srow" data-s="1103"><span class="sl">11.03</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">8 SEATS</span></div>
+        <div class="srow" data-s="1110"><span class="sl">11.10</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">8 SEATS</span></div>
+        <div class="srow" data-s="1117"><span class="sl">11.17</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">8 SEATS</span></div>
+        <div class="srow" data-s="1124"><span class="sl">11.24</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">8 SEATS</span></div>
       </div>
       <div class="vr-wrap"><div class="vr">
-        <div class="hd"><b>SCÁLPIT ACADEMY</b><span>ONE-DAY CLASS 1기<br>압구정로데오점 · 11/4 · 11 · 18 · 25 16:30–21:30(Q&A 22:00)</span></div>
+        <div class="hd"><b>SCÁLPIT ACADEMY</b><span>ONE-DAY SEMINAR 2기<br>압구정로데오점 · 11/3 · 10 · 17 · 24 · 16:30–21:30 (이후 자유 Q&A)</span></div>
         <i class="dash"></i>
         <ul>
-          <li><span>대표원장 직접 강의 5.5시간</span><i></i><em>포함</em></li>
-          <li><span>소수 정원 (회차당 6명)</span><i></i><em>포함</em></li>
+          <li><span>대표원장 직접 강의 5시간 (+ 자유 Q&A)</span><i></i><em>포함</em></li>
+          <li><span>소수 정원 (회차당 8명)</span><i></i><em>포함</em></li>
           <li><span>2인 1조 실습 · 1:1 교정</span><i></i><em>포함</em></li>
           <li><span>두피 진단 장비 실습</span><i></i><em>포함</em></li>
           <li><span>실습 재료 일체</span><i></i><em>포함</em></li>
           <li><span>워크북 · 체크시트 · 상담 Flow</span><i></i><em>포함</em></li>
           <li><span>당일 1:1 상담</span><i></i><em>포함</em></li>
           <li><span>스칼프잇 수료증</span><i></i><em>포함</em></li>
+          <li><span>12월 창업반 신청 자격</span><i></i><em>포함</em></li>
         </ul>
         <i class="dash"></i>
         <ul>
-          <li class="z"><span>제품·장비 판매</span><i></i><em>0원</em></li>
+          <li class="z"><span>제품·기기 판매</span><i></i><em>0원</em></li>
           <li class="z"><span>추가 결제</span><i></i><em>0원</em></li>
         </ul>
         <i class="dash"></i>
-        <div class="tot"><span>수강료</span><b>290,000원</b></div>
-        <div class="cr"><span>1기 가격 · 2기부터</span><span>390,000원</span></div>
-        <div class="stamp" aria-hidden="true">1기 가격<small>EARLY BIRD</small></div>
+        <div class="tot"><span>수강료</span><b>390,000원</b></div>
         <p class="foot">결제는 담당자 안내 후 진행됩니다.<br>환불·취소 규정은 결제 전에 안내합니다.</p>
         <span class="barc" aria-hidden="true"></span>
       </div></div>
-      <div class="deadline"><span>1기 신청 마감 11/3(월) 23:59까지</span><span class="cd"><span><i data-cd="d">00</i><small>일</small></span><span><i data-cd="h">00</i><small>시간</small></span><span><i data-cd="m">00</i><small>분</small></span><span><i data-cd="s">00</i><small>초</small></span></span></div>
+      <div class="flow3"><ol><li><b>01</b>신청서 접수 → 담당자 순차 연락</li><li><b>02</b>안내 받은 계좌로 입금</li><li><b>03</b>확정 문자 수신 (결제 순 마감)</li></ol></div>
     </div>
 
     <div class="card rv" id="applyCard" style="grid-area:auto">
       <div class="t-stub">
-        <div class="t-top"><span>ADMIT ONE</span><span>1기 · 11.4 / 11 / 18 / 25</span></div>
-        <h2 class="t-h">헤드스파 원데이 클래스 1기 신청</h2>
-        <div class="t-price"><b>29<small>만원</small></b><span><s>2기부터 39만원</s><em>1기 가격 · 결제는 담당자 안내 후</em></span></div>
+        <div class="t-top"><span>ADMIT ONE</span><span>2기 · 11.3 / 10 / 17 / 24</span></div>
+        <h2 class="t-h">헤드스파 원데이 세미나 2기 신청</h2>
+        <div class="t-price"><b>39<small>만원</small></b><span><em>12월 창업반 신청 자격 포함 · 결제는 담당자 안내 후</em></span></div>
       </div>
       <div class="t-body">
         <div class="form">
-          <p class="flow">신청서 → 담당자 연락 → 결제 → 자리 확정</p>
+          <p class="flow">신청서 → 담당자 연락 → 입금 → 확정 문자</p>
           <form data-lead-form data-origin="bottom" novalidate>
             <fieldset class="fld"><legend>희망 날짜</legend>
               <div class="pills">
-                <label class="pill"><input type="radio" name="session" value="1104"><span>11/4(화) 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1111"><span>11/11(화) 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1118"><span>11/18(화) 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1125"><span>11/25(화) 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1103"><span>11/3 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1110"><span>11/10 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1117"><span>11/17 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1124"><span>11/24 16:30</span></label>
                 <label class="pill"><input type="radio" name="session" value="both" checked><span>아무 날짜나 가능</span></label>
-                <label class="pill"><input type="radio" name="session" value="waitlist"><span>일정이 어려워요 · 2기 알림</span></label>
+                <label class="pill"><input type="radio" name="session" value="waitlist"><span>일정이 어려워요 · 다음 기수 알림</span></label>
               </div>
             </fieldset>
             <div class="fld"><label for="b-name">성함</label><input id="b-name" name="name" type="text" autocomplete="name" maxlength="20" placeholder="이름을 입력해 주세요" required></div>
@@ -673,10 +776,10 @@ footer a{color:var(--mut)}
             </fieldset>
             <div class="hp" aria-hidden="true"><label>웹사이트<input name="website" tabindex="-1" autocomplete="off"></label></div>
             <label class="consent"><input type="checkbox" name="consent" required><span>[필수] 신청 확인과 안내 연락을 위한 개인정보 수집·이용에 동의합니다.
-              <span class="more"><details><summary>수집 내용 보기</summary><p>수집 항목: 성함, 연락처, 희망 날짜, 활용 목적(선택) · 목적: 원데이 클래스 신청 확인과 안내 연락 · 보관: 1기 교육 종료 후 3개월 뒤 파기. 동의를 거부할 수 있으나 신청이 제한됩니다.</p></details></span></span></label>
+              <span class="more"><details><summary>수집 내용 보기</summary><p>수집 항목: 성함, 연락처, 희망 날짜, 활용 목적(선택) · 목적: 원데이 클래스 신청 확인과 안내 연락 · 보관: 세미나 종료 후 3개월 뒤 파기. 동의를 거부할 수 있으나 신청이 제한됩니다.</p></details></span></span></label>
             <label class="consent"><input type="checkbox" name="marketing"><span>[선택] 이후 스칼프잇 교육 일정·소식 안내를 받겠습니다. 동의하지 않아도 신청할 수 있습니다.</span></label>
             <p class="err" role="alert" aria-live="assertive"></p>
-            <button class="btn" type="submit" data-track="submit_bottom">1기 29만원 신청하기</button>
+            <button class="btn" type="submit" data-track="submit_bottom">11월 회차 신청하기 · 39만 원</button>
             <p class="reassure">이름·연락처만 1분. 신청만으로는 결제되지 않으며, 환불·취소 규정은 결제 전에 먼저 안내합니다.</p>
           </form>
         </div>
@@ -701,12 +804,12 @@ footer a{color:var(--mut)}
   </div>
 </footer>
 
-<a class="fab" id="fab" href="#apply" data-track="cta_fab" aria-label="1기 신청하러 가기">
+<a class="fab" id="fab" href="#apply" data-track="cta_fab" aria-label="11월 회차 신청하러 가기">
   <span class="fab-ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2.5a2.5 2.5 0 0 0 0 5V17a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2.5a2.5 2.5 0 0 0 0-5z"/><path d="M14.5 6.5v11" stroke-dasharray="1.6 2.6"/></svg></span>
-  <span class="fab-tx"><b>1기 신청하러 가기</b><small>회차당 6명 · 10/17 마감</small></span>
+  <span class="fab-tx"><b>11월 회차 신청하기</b><small>회차당 8명 · 39만 원</small></span>
   <span class="fab-ar" aria-hidden="true">→</span>
 </a>
-<div class="sticky" id="sticky"><small>10/17 마감 · 회차당 6명 · 신청만으로 결제되지 않아요</small><a class="btn" href="#apply" data-track="cta_sticky">1기 신청하기</a></div>
+<div class="sticky" id="sticky"><small>회차당 8명 선착순 · 신청만으로 결제되지 않아요</small><a class="btn" href="#apply" data-track="cta_sticky">11월 회차 신청하기 · 39만 원</a></div>
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="POS 원본 화면"><button type="button" aria-label="닫기" id="modalClose">×</button><img id="modalImg" alt="직영점 하루 매출 POS 원본 화면"></div>
 <!--@TRACKING_BODY-->
 
