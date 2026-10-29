@@ -425,12 +425,12 @@ footer a{color:var(--mut)}
 .instr{background:var(--bg)}
 .nums3{margin-top:40px;display:grid;grid-template-columns:1fr;gap:16px}
 @media(min-width:720px){.nums3{grid-template-columns:repeat(3,1fr)}}
-.nums3 > div{padding:40px 24px;background:linear-gradient(145deg,#1d1416,#2a1a1d);border:1px solid var(--rose);border-radius:14px;text-align:center;position:relative;overflow:hidden;box-shadow:0 10px 32px -12px #d1283f55}
+.nums3 > div{padding:48px 20px;background:linear-gradient(145deg,#1d1416,#2a1a1d);border:1px solid var(--rose);border-radius:14px;text-align:center;position:relative;overflow:hidden;box-shadow:0 10px 32px -12px #d1283f55}
 .nums3 > div::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--rose),transparent)}
-.nums3 b{display:inline-flex;align-items:baseline;justify-content:center;gap:6px;font-family:var(--font);font-weight:900;font-size:clamp(3.2rem,6.5vw,5rem);color:#faf5ef;line-height:1;letter-spacing:-.035em;text-shadow:0 2px 20px #d1283f30;white-space:nowrap}
-.nums3 b .cnt{display:inline-block}
-.nums3 b small{display:inline;font-weight:600;font-size:.32em;color:var(--rose);letter-spacing:0;line-height:1;white-space:nowrap}
-.nums3 span{display:block;margin-top:18px;color:#f6f0e8;font-size:1rem;font-weight:600;letter-spacing:-.01em}
+.nums3 b{display:inline-flex;align-items:baseline;justify-content:center;gap:4px;font-family:var(--font);font-weight:900;font-size:clamp(4rem,9vw,7rem);color:#faf5ef;line-height:1;letter-spacing:-.04em;text-shadow:0 2px 24px #d1283f40;white-space:nowrap}
+.nums3 b .cnt{display:inline-block;font-feature-settings:"tnum" 1}
+.nums3 b small{display:inline;font-weight:700;font-size:.26em;color:var(--rose);letter-spacing:0;line-height:1;white-space:nowrap}
+.nums3 span{display:block;margin-top:22px;color:#f6f0e8;font-size:1.05rem;font-weight:600;letter-spacing:-.01em}
 .proof-open{margin-top:40px}
 .proof-head{font:600 .78rem var(--mono);letter-spacing:.18em;color:var(--rose);text-transform:uppercase;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--line)}
 .proof-open .pos{margin-top:20px}
@@ -592,10 +592,10 @@ footer a{color:var(--mut)}
         </blockquote>
       </article>
 
-      <article class="testi-card" role="listitem">
+      <article class="testi-card wide" role="listitem">
         <div class="testi-media">
           <video class="revid" muted loop playsinline preload="metadata" aria-label="1기 수강생 후기 영상 3">
-            <source src="/academy/img/testimonial-3.mp4" type="video/mp4">
+            <source src="/academy/img/testimonial-7.mp4" type="video/mp4">
           </video>
           <button type="button" class="revid-sound" aria-label="소리 켜기">🔇</button>
         </div>
