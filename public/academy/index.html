@@ -386,6 +386,18 @@ footer a{color:var(--mut)}
 .testi-media{position:relative;background:#000}
 .testi-media .revid{display:block;width:100%;aspect-ratio:9/16;object-fit:cover}
 .testi-card.wide .testi-media .revid{aspect-ratio:16/9}
+
+/* 커리큘럼 수업 현장 영상 */
+.scene-vids{margin-top:28px}
+.scene-head{font:600 .78rem var(--mono);letter-spacing:.18em;color:var(--rose);text-transform:uppercase;margin-bottom:16px}
+.scene-grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:720px){.scene-grid{grid-template-columns:repeat(3,1fr)}}
+.scene-grid figure{margin:0}
+.scene-grid .sv-wrap{position:relative;background:#000;border-radius:10px;overflow:hidden}
+.scene-grid .sv-wrap .revid{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.scene-grid .sv-wrap .revid-sound{position:absolute;right:10px;bottom:10px;width:36px;height:36px;border-radius:50%;background:#000a;border:1px solid #ffffff44;color:#fff;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(6px)}
+.scene-grid .sv-wrap .revid-sound:hover{background:#000d}
+.scene-grid figcaption{margin-top:8px;font:500 .78rem var(--mono);letter-spacing:.1em;color:var(--mut);text-transform:uppercase}
 .testi-media .revid-sound{position:absolute;right:10px;bottom:10px;width:40px;height:40px;border-radius:50%;background:#000a;border:1px solid #ffffff44;color:#fff;font-size:1.15rem;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(6px);transition:background .2s,transform .15s}
 .testi-media .revid-sound:hover{background:#000d}
 .testi-media .revid-sound:active{transform:scale(.9)}
@@ -591,45 +603,6 @@ footer a{color:var(--mut)}
         </blockquote>
       </article>
 
-      <article class="testi-card wide" role="listitem">
-        <div class="testi-media">
-          <video class="revid" muted loop playsinline preload="metadata" aria-label="1기 수강생 후기 영상 4">
-            <source src="/academy/img/testimonial-4.mp4" type="video/mp4">
-          </video>
-          <button type="button" class="revid-sound" aria-label="소리 켜기">🔇</button>
-        </div>
-        <blockquote>
-          <p class="big">“이 수업 안 들었으면 몰랐을 디테일이 많아요.”</p>
-          <cite>1기 수강생</cite>
-        </blockquote>
-      </article>
-
-      <article class="testi-card wide" role="listitem">
-        <div class="testi-media">
-          <video class="revid" muted loop playsinline preload="metadata" aria-label="1기 수강생 후기 영상 5">
-            <source src="/academy/img/testimonial-5.mp4" type="video/mp4">
-          </video>
-          <button type="button" class="revid-sound" aria-label="소리 켜기">🔇</button>
-        </div>
-        <blockquote>
-          <p class="big">“망설이지 말고 꼭 들으세요.”</p>
-          <cite>1기 수강생</cite>
-        </blockquote>
-      </article>
-
-      <article class="testi-card wide" role="listitem">
-        <div class="testi-media">
-          <video class="revid" muted loop playsinline preload="metadata" aria-label="1기 수강생 후기 영상 6">
-            <source src="/academy/img/testimonial-6.mp4" type="video/mp4">
-          </video>
-          <button type="button" class="revid-sound" aria-label="소리 켜기">🔇</button>
-        </div>
-        <blockquote>
-          <p class="big">“알차고 든든한 하루였어요.”</p>
-          <cite>1기 수강생</cite>
-        </blockquote>
-      </article>
-
       <article class="testi-card text-only" role="listitem">
         <blockquote>
           <p class="big">“이론, 실습, 마케팅, 경영까지<br>알고 계신 모든 걸 알려주셨어요.”</p>
@@ -725,6 +698,33 @@ footer a{color:var(--mut)}
       <figure class="f2 rv"><img src="/academy/img/practice.webp" alt="두피 관리 실습 장면" loading="lazy" style="object-position:50% 40%"><figcaption>FIELD 02 · 시연 후 2인 1조 실습, 손 위치·압·각도·리듬을 한 명씩</figcaption></figure>
       <figure class="f3 rv"><img src="/academy/img/scope.webp" alt="두피 측정 장비 화면" loading="lazy" style="object-position:50% 30%"><figcaption>FIELD 03 · 매장 진단 장비로 내 두피부터</figcaption></figure>
       <figure class="f4 rv"><img src="/academy/img/handbook.webp" alt="스칼프잇 두피 교재" loading="lazy" style="object-position:50% 70%"><figcaption>FIELD 04 · 직원들이 보는 교재 그대로</figcaption></figure>
+    </div>
+
+    <div class="scene-vids rv" aria-label="실제 1기 수업 현장 영상">
+      <p class="scene-head">실제 1기 수업 현장</p>
+      <div class="scene-grid">
+        <figure>
+          <div class="sv-wrap">
+            <video class="revid" muted loop playsinline preload="metadata" aria-label="1기 수업 현장 영상 1"><source src="/academy/img/testimonial-4.mp4" type="video/mp4"></video>
+            <button type="button" class="revid-sound" aria-label="소리 켜기">🔇</button>
+          </div>
+          <figcaption>SCENE 01 · 대표원장 직접 강의</figcaption>
+        </figure>
+        <figure>
+          <div class="sv-wrap">
+            <video class="revid" muted loop playsinline preload="metadata" aria-label="1기 수업 현장 영상 2"><source src="/academy/img/testimonial-5.mp4" type="video/mp4"></video>
+            <button type="button" class="revid-sound" aria-label="소리 켜기">🔇</button>
+          </div>
+          <figcaption>SCENE 02 · 1:1 교정 장면</figcaption>
+        </figure>
+        <figure>
+          <div class="sv-wrap">
+            <video class="revid" muted loop playsinline preload="metadata" aria-label="1기 수업 현장 영상 3"><source src="/academy/img/testimonial-6.mp4" type="video/mp4"></video>
+            <button type="button" class="revid-sound" aria-label="소리 켜기">🔇</button>
+          </div>
+          <figcaption>SCENE 03 · 수강생 실습</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
