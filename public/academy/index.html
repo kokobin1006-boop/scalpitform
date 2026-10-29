@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>1기 수강생이 '오길 잘했다'고 말한 하루 | 스칼프잇 아카데미 2기</title>
-<meta name="description" content="네이버 플레이스 1위 원장이 실습·마케팅·경영까지 다 알려드립니다. 제품·기기 판매 없음. 11월 매주 화요일 16:30~21:30 (이후 자유 Q&A), 회차당 8명.">
+<meta name="description" content="네이버 플레이스 1위 원장이 실습·마케팅·경영까지 다 알려드립니다. 제품·기기 판매 없음. 11월 매주 화요일 16:30~21:30 (Q&A 22:00까지), 회차당 8명.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="1기 수강생이 '오길 잘했다'고 말한 하루 · 스칼프잇 아카데미 2기">
-<meta property="og:description" content="네이버 플레이스 1위 원장의 원데이 세미나. 11월 매주 화요일 16:30~21:30, 회차당 8명 · 압구정로데오점.">
+<meta property="og:description" content="네이버 플레이스 1위 원장의 원데이 세미나. 11월 매주 화요일 16:30~21:30 (Q&A 22:00), 회차당 8명 · 압구정로데오점.">
 <meta property="og:image" content="/academy/img/og.jpg">
 <meta name="theme-color" content="#0b0909">
 <link rel="icon" href="/scalpit-logo.png">
@@ -287,6 +287,10 @@ button,input,select,textarea{font:inherit;color:inherit}
 .srow .sd i{width:26px;height:22px;border:2px solid #ffffff55;border-radius:9px 9px 5px 5px;position:relative;transition:border-color .2s,background .2s}
 .srow .sd i::after{content:"";position:absolute;left:3px;right:3px;bottom:-7px;height:3px;border-radius:2px;background:#ffffff33}
 .srow.sel .sd i{border-color:var(--rose);background:#f0657a33}
+.srow .sd i.on{border-color:var(--rose);background:var(--rose)}
+.srow .sd i.on::after{background:#f0657a66}
+.srow.hot{border-color:var(--rose);background:#d1283f14}
+.srow.hot .sc b{color:var(--rose);font-weight:800}
 .srow .sc{font:500 .72rem var(--mono);color:var(--mut)}
 .apply .info{display:grid;gap:0;margin-top:22px;border-top:1px solid #ffffff22}
 .apply .info div{padding:14px 0;border-bottom:1px solid #ffffff22;display:grid;grid-template-columns:72px 1fr;gap:12px}
@@ -437,7 +441,7 @@ footer a{color:var(--mut)}
 <!-- 0. 상단 띠 (2기) -->
 <div class="bar" role="region" aria-label="2기 신청 안내">
   <div class="bar-in">
-    <b>11월 원데이 세미나 · 회차당 8명 선착순 마감</b>
+    <b>🔥 11/3(화) 7자리 마감 · 1자리만 남음</b>
     <a class="btn sm" href="#apply" data-track="cta_bar">11월 회차 신청하기 · 39만 원</a>
   </div>
 </div>
@@ -458,10 +462,10 @@ footer a{color:var(--mut)}
       <p class="sub" id="heroSub"><b>네이버 플레이스 1위 원장이</b> 실습 · 마케팅 · 경영까지 다 알려드려요. <u>제품·기기 판매는 없어요.</u></p>
       <div class="hstats" role="list" aria-label="2기 세미나 정보">
         <div role="listitem"><b>11<small>월</small></b><span>매주 화요일</span></div>
-        <div role="listitem"><b>16:30<small>~21:30</small></b><span>이후 자유 Q&A</span></div>
+        <div role="listitem"><b>16:30<small>~21:30</small></b><span>Q&A 22:00까지</span></div>
         <div role="listitem"><b>8<small>명</small></b><span>회차당 · 압구정로데오</span></div>
       </div>
-      <p class="hsrc">11/3 · 10 · 17 · 24 · 압구정로데오 직영점</p>
+      <p class="hsrc">11/3(화) · 10 · 17 · 24 · 압구정로데오 직영점</p>
     </div>
 
     <figure class="pass">
@@ -478,7 +482,7 @@ footer a{color:var(--mut)}
       <div class="t-stub">
         <div class="t-top"><span>ADMIT ONE</span><span>2기 · 원데이 세미나</span></div>
         <div class="t-dates">11.3 · 11.10 · 11.17 · 11.24</div>
-        <p class="t-sub">16:30–21:30 (이후 자유 Q&A) · 압구정로데오 · 회차당 8명</p>
+        <p class="t-sub">매주 화 · 16:30–21:30 (Q&A 22:00) · 압구정로데오 · 회차당 8명</p>
       </div>
       <div class="t-body">
         <div class="form">
@@ -486,10 +490,10 @@ footer a{color:var(--mut)}
           <form data-lead-form data-origin="hero" novalidate>
             <fieldset class="fld"><legend>희망 날짜</legend>
               <div class="pills">
-                <label class="pill"><input type="radio" name="session" value="1103"><span>11/3 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1110"><span>11/10 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1117"><span>11/17 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1124"><span>11/24 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1103"><span>11/3(화) 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1110"><span>11/10(화) 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1117"><span>11/17(화) 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1124"><span>11/24(화) 16:30</span></label>
                 <label class="pill"><input type="radio" name="session" value="both" checked><span>아무 날짜나 가능</span></label>
                 <label class="pill"><input type="radio" name="session" value="waitlist"><span>일정이 어려워요 · 다음 기수 알림</span></label>
               </div>
@@ -616,7 +620,7 @@ footer a{color:var(--mut)}
 <!-- 5. 커리큘럼 -->
 <section class="sec" aria-labelledby="cur-h">
   <div class="wrap">
-    <span class="eyebrow rv">CURRICULUM · 16:30 – 21:30 (이후 자유 Q&A)</span>
+    <span class="eyebrow rv">CURRICULUM · 16:30 – 21:30 (Q&A 22:00)</span>
     <h2 class="h2 rv" id="cur-h">하루 안에,<br>이론부터 <em>매출 공개</em>까지.</h2>
     <p class="lede rv">실습뿐 아니라 마케팅·경영·스칼프잇 성장 노하우까지. 수업이 끝나도 자유 Q&A로 창업·매장 운영 질문 시간이 이어집니다.</p>
     <div class="cur">
@@ -711,13 +715,13 @@ footer a{color:var(--mut)}
       <h2 class="h2" id="apply-h">32자리.<br>8명이 차면 그 회차는 마감돼요.</h2>
       <p class="lede">대표원장이 한 명씩 손을 잡고 교정하려면 8명이 한계입니다. 2기는 11/3·10·17·24 네 번, 전체 32자리이고 결제 순으로 마감됩니다.</p>
       <div class="seats" aria-label="2기 좌석 32석">
-        <div class="srow" data-s="1103"><span class="sl">11.03</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">8 SEATS</span></div>
-        <div class="srow" data-s="1110"><span class="sl">11.10</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">8 SEATS</span></div>
-        <div class="srow" data-s="1117"><span class="sl">11.17</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">8 SEATS</span></div>
-        <div class="srow" data-s="1124"><span class="sl">11.24</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">8 SEATS</span></div>
+        <div class="srow hot" data-s="1103"><span class="sl">11.03 TUE</span><span class="sd"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span class="sc"><b>1 SEAT</b> 남음</span></div>
+        <div class="srow" data-s="1110"><span class="sl">11.10 TUE</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">8 SEATS</span></div>
+        <div class="srow" data-s="1117"><span class="sl">11.17 TUE</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">8 SEATS</span></div>
+        <div class="srow" data-s="1124"><span class="sl">11.24 TUE</span><span class="sd"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc">8 SEATS</span></div>
       </div>
       <div class="vr-wrap"><div class="vr">
-        <div class="hd"><b>SCÁLPIT ACADEMY</b><span>ONE-DAY SEMINAR 2기<br>압구정로데오점 · 11/3 · 10 · 17 · 24 · 16:30–21:30 (이후 자유 Q&A)</span></div>
+        <div class="hd"><b>SCÁLPIT ACADEMY</b><span>ONE-DAY SEMINAR 2기<br>압구정로데오점 · 매주 화 11/3·10·17·24 · 16:30–21:30 (Q&A 22:00)</span></div>
         <i class="dash"></i>
         <ul>
           <li><span>대표원장 직접 강의 5시간 (+ 자유 Q&A)</span><i></i><em>포함</em></li>
@@ -755,10 +759,10 @@ footer a{color:var(--mut)}
           <form data-lead-form data-origin="bottom" novalidate>
             <fieldset class="fld"><legend>희망 날짜</legend>
               <div class="pills">
-                <label class="pill"><input type="radio" name="session" value="1103"><span>11/3 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1110"><span>11/10 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1117"><span>11/17 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1124"><span>11/24 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1103"><span>11/3(화) 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1110"><span>11/10(화) 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1117"><span>11/17(화) 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1124"><span>11/24(화) 16:30</span></label>
                 <label class="pill"><input type="radio" name="session" value="both" checked><span>아무 날짜나 가능</span></label>
                 <label class="pill"><input type="radio" name="session" value="waitlist"><span>일정이 어려워요 · 다음 기수 알림</span></label>
               </div>
