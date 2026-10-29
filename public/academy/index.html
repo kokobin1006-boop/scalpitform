@@ -385,6 +385,7 @@ footer a{color:var(--mut)}
 .testi-card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;border-left:3px solid var(--red)}
 .testi-media{position:relative;background:#000}
 .testi-media .revid{display:block;width:100%;aspect-ratio:9/16;object-fit:cover}
+.testi-card.wide .testi-media .revid{aspect-ratio:16/9}
 .testi-media .revid-sound{position:absolute;right:10px;bottom:10px;width:40px;height:40px;border-radius:50%;background:#000a;border:1px solid #ffffff44;color:#fff;font-size:1.15rem;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(6px);transition:background .2s,transform .15s}
 .testi-media .revid-sound:hover{background:#000d}
 .testi-media .revid-sound:active{transform:scale(.9)}
@@ -416,14 +417,11 @@ footer a{color:var(--mut)}
 .nums3 b{display:block;font-family:var(--font);font-weight:900;font-size:clamp(3rem,6vw,4.6rem);color:#faf5ef;line-height:1;letter-spacing:-.035em;text-shadow:0 2px 20px #d1283f30}
 .nums3 b small{font-weight:600;font-size:.42em;color:var(--rose);letter-spacing:0;margin-left:4px;vertical-align:baseline}
 .nums3 span{display:block;margin-top:18px;color:#f6f0e8;font-size:1rem;font-weight:600;letter-spacing:-.01em}
-.proof-fold{margin-top:32px}
-.proof-fold > summary{list-style:none;cursor:pointer;padding:14px 20px;background:var(--card);border:1px solid var(--line);border-radius:10px;font:600 .9rem var(--font);color:var(--mut);text-align:center;transition:background .2s}
-.proof-fold > summary::-webkit-details-marker{display:none}
-.proof-fold > summary::after{content:" ▾";color:var(--rose)}
-.proof-fold[open] > summary::after{content:" ▴"}
-.proof-fold > summary:hover{background:var(--card2)}
-.proof-fold > .pos, .proof-fold > .stats2{margin-top:20px}
-.proof-fold .src{margin-top:12px}
+.proof-open{margin-top:40px}
+.proof-head{font:600 .78rem var(--mono);letter-spacing:.18em;color:var(--rose);text-transform:uppercase;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.proof-open .pos{margin-top:20px}
+.proof-open .stats2{margin-top:28px}
+.proof-open .src{margin-top:12px}
 
 .founder{background:linear-gradient(135deg,#1a0a0d,#2a0d12);border-block:1px solid var(--wine);color:var(--ink)}
 .founder .eyebrow{color:var(--gold)}
@@ -580,6 +578,58 @@ footer a{color:var(--mut)}
         </blockquote>
       </article>
 
+      <article class="testi-card" role="listitem">
+        <div class="testi-media">
+          <video class="revid" muted loop playsinline preload="metadata" aria-label="1기 수강생 후기 영상 3">
+            <source src="/academy/img/testimonial-3.mp4" type="video/mp4">
+          </video>
+          <button type="button" class="revid-sound" aria-label="소리 켜기">🔇</button>
+        </div>
+        <blockquote>
+          <p class="big">“진짜 수업이 기대돼요.”</p>
+          <cite>1기 수강생</cite>
+        </blockquote>
+      </article>
+
+      <article class="testi-card wide" role="listitem">
+        <div class="testi-media">
+          <video class="revid" muted loop playsinline preload="metadata" aria-label="1기 수강생 후기 영상 4">
+            <source src="/academy/img/testimonial-4.mp4" type="video/mp4">
+          </video>
+          <button type="button" class="revid-sound" aria-label="소리 켜기">🔇</button>
+        </div>
+        <blockquote>
+          <p class="big">“이 수업 안 들었으면 몰랐을 디테일이 많아요.”</p>
+          <cite>1기 수강생</cite>
+        </blockquote>
+      </article>
+
+      <article class="testi-card wide" role="listitem">
+        <div class="testi-media">
+          <video class="revid" muted loop playsinline preload="metadata" aria-label="1기 수강생 후기 영상 5">
+            <source src="/academy/img/testimonial-5.mp4" type="video/mp4">
+          </video>
+          <button type="button" class="revid-sound" aria-label="소리 켜기">🔇</button>
+        </div>
+        <blockquote>
+          <p class="big">“망설이지 말고 꼭 들으세요.”</p>
+          <cite>1기 수강생</cite>
+        </blockquote>
+      </article>
+
+      <article class="testi-card wide" role="listitem">
+        <div class="testi-media">
+          <video class="revid" muted loop playsinline preload="metadata" aria-label="1기 수강생 후기 영상 6">
+            <source src="/academy/img/testimonial-6.mp4" type="video/mp4">
+          </video>
+          <button type="button" class="revid-sound" aria-label="소리 켜기">🔇</button>
+        </div>
+        <blockquote>
+          <p class="big">“알차고 든든한 하루였어요.”</p>
+          <cite>1기 수강생</cite>
+        </blockquote>
+      </article>
+
       <article class="testi-card text-only" role="listitem">
         <blockquote>
           <p class="big">“이론, 실습, 마케팅, 경영까지<br>알고 계신 모든 걸 알려주셨어요.”</p>
@@ -630,8 +680,8 @@ footer a{color:var(--mut)}
     </div>
     <p class="src rv">스칼프잇 직영 4개점 자체 집계 기준.</p>
 
-    <details class="proof-fold rv">
-      <summary>POS 매출·네이버 통계 캡처 펼쳐 보기</summary>
+    <div class="proof-open rv">
+      <p class="proof-head">POS 매출 · 네이버 통계 캡처</p>
       <div class="pos" role="list" aria-label="직영점 하루 매출 POS 화면">
         <div role="listitem"><button type="button" data-zoom="/academy/img/pos-full-apgujeong.webp" aria-label="압구정로데오점 하루 매출 POS 화면 크게 보기"><img src="/academy/img/pos-full-apgujeong.webp" alt="압구정로데오점 2026.09.21 일 총매출 6,085,000원 POS 화면" loading="lazy" width="1080" height="1161"><span class="zm">크게 보기 ↗</span></button></div>
         <div role="listitem"><button type="button" data-zoom="/academy/img/pos-full-gwanggyo.webp" aria-label="광교점 하루 매출 POS 화면 크게 보기"><img src="/academy/img/pos-full-gwanggyo.webp" alt="광교점 2026.10.03 일 총매출 5,073,000원 POS 화면" loading="lazy" width="1080" height="1161"><span class="zm">크게 보기 ↗</span></button></div>
@@ -643,7 +693,7 @@ footer a{color:var(--mut)}
         <figure><button type="button" data-zoom="/academy/img/stat-place.webp" aria-label="동탄점 네이버 플레이스 통계 크게 보기"><img src="/academy/img/stat-place.webp" alt="동탄점 네이버 플레이스 월 유입 16,691회" loading="lazy" width="900" height="887"></button><figcaption>동탄점 · 월 네이버 플레이스 유입 16,691회<small>실제 네이버 스마트플레이스 통계 · 25년 10월(오픈 4개월 차)</small></figcaption></figure>
         <figure><button type="button" data-zoom="/academy/img/stat-booking.webp" aria-label="압구정로데오점 네이버 예약 통계 크게 보기"><img src="/academy/img/stat-booking.webp" alt="압구정로데오점 월 예약 신청 457건" loading="lazy" width="823" height="684"></button><figcaption>압구정로데오점 · 월 예약 신청 457건<small>실제 네이버 예약 통계 · 26년 8월(26년 7월 오픈, 한 달 만에)</small></figcaption></figure>
       </div>
-    </details>
+    </div>
   </div>
 </section>
 
