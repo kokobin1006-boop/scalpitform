@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>준비 단계에서 들었으면 더 좋았을 텐데 | 스칼프잇 아카데미 2기</title>
-<meta name="description" content="1년만에 누적매출 20억 대표원장이 실습·마케팅·경영까지 하루에 다 알려드려요. 제품·기기 판매는 없어요. 11월 매주 화요일 16:30~21:30 (Q&A 22:00), 회차당 8명.">
+<meta name="description" content="1년만에 누적매출 20억 대표원장이 실습·마케팅·경영까지 하루에 다 알려드려요. 제품·기기 판매는 없어요. 11/3·10·17 전석 마감, 11/24(화) 단 하루 남았습니다. 16:30~21:30 (Q&A 22:00), 회차당 8명.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="준비 단계에서 들었으면 더 좋았을 텐데 · 스칼프잇 아카데미 2기">
-<meta property="og:description" content="창업 준비 중이라면 지금이 그 타이밍. 1년만에 누적매출 20억 대표원장의 원데이 세미나. 11월 매주 화 16:30~21:30 (Q&A 22:00), 회차당 8명 · 압구정로데오.">
+<meta property="og:description" content="창업 준비 중이라면 지금이 그 타이밍. 1년만에 누적매출 20억 대표원장의 원데이 세미나. 11/3·10·17 전석 마감, 11/24(화) 단 하루 남았습니다. 16:30~21:30 (Q&A 22:00), 회차당 8명 · 압구정로데오.">
 <meta property="og:image" content="/academy/img/og.jpg">
 <meta name="theme-color" content="#0b0909">
 <link rel="icon" href="/scalpit-logo.png">
@@ -147,6 +147,9 @@ button,input,select,textarea{font:inherit;color:inherit}
 .pill span{display:inline-flex;align-items:center;min-height:44px;padding:0 15px;border:1.5px solid #cdbfa9;border-radius:999px;background:#fffdf8;font-size:.88rem;font-weight:700;color:#3b312b;transition:all .15s}
 .pill input:checked+span{background:#1a1512;border-color:#1a1512;color:#fff}
 .pill input:focus-visible+span{outline:3px solid var(--rose);outline-offset:2px}
+.pill.sold input{cursor:not-allowed}
+.pill.sold span{background:#f3ece0;border-color:#d9ccb3;color:#9a8b7d;text-decoration:line-through;text-decoration-thickness:1.5px}
+.pill.sold span::after{content:"마감";margin-left:8px;padding:2px 7px;border-radius:999px;background:#9a8b7d;color:#fff;font-size:.7rem;letter-spacing:.04em;text-decoration:none;display:inline-block}
 .consent{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;margin-top:14px;font-size:.8rem;line-height:1.55;color:#4a3f38}
 .consent input{width:20px;height:20px;margin:1px 0 0;accent-color:var(--red-d)}
 .more{margin-top:6px;font-size:.76rem;color:#7a6c62}
@@ -292,6 +295,11 @@ button,input,select,textarea{font:inherit;color:inherit}
 .srow .sd i.on::after{background:#f0657a66}
 .srow.hot{border-color:var(--rose);background:#d1283f14}
 .srow.hot .sc b{color:var(--rose);font-weight:800}
+.srow.closed{border-color:#ffffff22;background:#ffffff05;opacity:.55}
+.srow.closed .sl{text-decoration:line-through;text-decoration-thickness:1.5px}
+.srow.closed .sd i{border-color:#ffffff33;background:#ffffff22}
+.srow.closed .sd i::after{background:#ffffff22}
+.srow.closed .sc b{color:#ffffff99;font-weight:700;letter-spacing:.08em}
 .srow .sc{font:500 .72rem var(--mono);color:var(--mut)}
 .apply .info{display:grid;gap:0;margin-top:22px;border-top:1px solid #ffffff22}
 .apply .info div{padding:14px 0;border-bottom:1px solid #ffffff22;display:grid;grid-template-columns:72px 1fr;gap:12px}
@@ -459,7 +467,7 @@ footer a{color:var(--mut)}
 <!-- 0. 상단 띠 (2기) -->
 <div class="bar" role="region" aria-label="2기 신청 안내">
   <div class="bar-in">
-    <b>🔥 11/3(화) 7자리 마감 · 1자리만 남음</b>
+    <b>🔥 11/3·10·17 전석 마감 · 11/24(화) 단 하루 남음</b>
     <a class="btn sm" href="#apply" data-track="cta_bar">11월 회차 신청하기 · 39만 원</a>
   </div>
 </div>
@@ -508,11 +516,10 @@ footer a{color:var(--mut)}
           <form data-lead-form data-origin="hero" novalidate>
             <fieldset class="fld"><legend>희망 날짜</legend>
               <div class="pills">
-                <label class="pill"><input type="radio" name="session" value="1103"><span>11/3(화) 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1110"><span>11/10(화) 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1117"><span>11/17(화) 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1124"><span>11/24(화) 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="both" checked><span>아무 날짜나 가능</span></label>
+                <label class="pill sold"><input type="radio" name="session" value="1103" disabled><span>11/3(화) 16:30</span></label>
+                <label class="pill sold"><input type="radio" name="session" value="1110" disabled><span>11/10(화) 16:30</span></label>
+                <label class="pill sold"><input type="radio" name="session" value="1117" disabled><span>11/17(화) 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1124" checked><span>11/24(화) 16:30</span></label>
                 <label class="pill"><input type="radio" name="session" value="waitlist"><span>일정이 어려워요 · 다음 기수 알림</span></label>
               </div>
             </fieldset>
@@ -780,14 +787,14 @@ footer a{color:var(--mut)}
 <section class="sec apply" id="apply" aria-labelledby="apply-h">
   <div class="wrap apply-grid">
     <div class="rv">
-      <span class="eyebrow">2ND CLASS · 11월 선착순</span>
-      <h2 class="h2" id="apply-h">11/3,<br><em>1자리</em>밖에 안 남았어요.</h2>
-      <p class="lede">회차당 8명 선착순. <b style="color:var(--ink)">결제 완료 순으로 자리가 바로 확정</b>되고, 다 차면 그 회차는 즉시 마감됩니다. 11/10·17·24도 지금 빠르게 채워지는 중이에요.</p>
-      <div class="seats" aria-label="2기 좌석 32석">
-        <div class="srow hot" data-s="1103"><span class="sl">11.03 TUE</span><span class="sd"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span class="sc"><b>1 SEAT</b> 남음</span></div>
-        <div class="srow" data-s="1110"><span class="sl">11.10 TUE</span><span class="sd"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc"><b>6 SEATS</b> 남음</span></div>
-        <div class="srow" data-s="1117"><span class="sl">11.17 TUE</span><span class="sd"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc"><b>5 SEATS</b> 남음</span></div>
-        <div class="srow" data-s="1124"><span class="sl">11.24 TUE</span><span class="sd"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i></span><span class="sc"><b>5 SEATS</b> 남음</span></div>
+      <span class="eyebrow">2ND CLASS · 11월 마지막 회차</span>
+      <h2 class="h2" id="apply-h">11/24,<br><em>단 하루</em>밖에 안 남았어요.</h2>
+      <p class="lede">회차당 8명 선착순. <b style="color:var(--ink)">11/3·10·17 세 회차는 이미 전석 마감</b>됐고, <b style="color:var(--ink)">11/24(화)가 2기의 마지막 남은 회차</b>입니다. 결제 완료 순으로 자리가 바로 확정되고, 다 차면 즉시 마감됩니다.</p>
+      <div class="seats" aria-label="2기 좌석 현황">
+        <div class="srow closed" data-s="1103"><span class="sl">11.03 TUE</span><span class="sd"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="sc"><b>SOLD OUT</b></span></div>
+        <div class="srow closed" data-s="1110"><span class="sl">11.10 TUE</span><span class="sd"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="sc"><b>SOLD OUT</b></span></div>
+        <div class="srow closed" data-s="1117"><span class="sl">11.17 TUE</span><span class="sd"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="sc"><b>SOLD OUT</b></span></div>
+        <div class="srow hot" data-s="1124"><span class="sl">11.24 TUE</span><span class="sd"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><span class="sc"><b>단 하루 남은 회차</b></span></div>
       </div>
       <div class="vr-wrap"><div class="vr">
         <div class="hd"><b>SCÁLPIT ACADEMY</b><span>ONE-DAY SEMINAR 2기<br>압구정로데오점 · 매주 화 11/3·10·17·24 · 16:30–21:30 (Q&A 22:00)</span></div>
@@ -828,11 +835,10 @@ footer a{color:var(--mut)}
           <form data-lead-form data-origin="bottom" novalidate>
             <fieldset class="fld"><legend>희망 날짜</legend>
               <div class="pills">
-                <label class="pill"><input type="radio" name="session" value="1103"><span>11/3(화) 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1110"><span>11/10(화) 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1117"><span>11/17(화) 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="1124"><span>11/24(화) 16:30</span></label>
-                <label class="pill"><input type="radio" name="session" value="both" checked><span>아무 날짜나 가능</span></label>
+                <label class="pill sold"><input type="radio" name="session" value="1103" disabled><span>11/3(화) 16:30</span></label>
+                <label class="pill sold"><input type="radio" name="session" value="1110" disabled><span>11/10(화) 16:30</span></label>
+                <label class="pill sold"><input type="radio" name="session" value="1117" disabled><span>11/17(화) 16:30</span></label>
+                <label class="pill"><input type="radio" name="session" value="1124" checked><span>11/24(화) 16:30</span></label>
                 <label class="pill"><input type="radio" name="session" value="waitlist"><span>일정이 어려워요 · 다음 기수 알림</span></label>
               </div>
             </fieldset>
